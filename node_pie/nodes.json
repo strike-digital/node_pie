@@ -1,0 +1,75 @@
+{
+    "node_trees": {
+        "GeometryNodeTree": {
+            "FunctionNodeInputVector": {
+                "count": 2
+            },
+            "ShaderNodeMapRange": {
+                "count": 1
+            },
+            "FunctionNodeAlignEulerToVector": {
+                "count": 1
+            },
+            "FunctionNodeFloatToInt": {
+                "count": 1
+            }
+        },
+        "ShaderNodeTree": {
+            "ShaderNodeObjectInfo": {
+                "count": 1
+            },
+            "ShaderNodeBsdfRefraction": {
+                "count": 1
+            },
+            "ShaderNodeBsdfToon": {
+                "count": 1
+            },
+            "ShaderNodeBump": {
+                "count": 1
+            },
+            "ShaderNodeCombineRGB": {
+                "count": 1
+            },
+            "ShaderNodeBsdfHairPrincipled": {
+                "count": 1
+            },
+            "ShaderNodeCameraData": {
+                "count": 1
+            },
+            "ShaderNodeInvert": {
+                "count": 1
+            },
+            "ShaderNodeVectorCurve": {
+                "count": 3
+            },
+            "ShaderNodeNormalMap": {
+                "count": 6
+            },
+            "ShaderNodeDisplacement": {
+                "count": 1
+            },
+            "ShaderNodeNormal": {
+                "count": 1
+            }
+        },
+        "ScriptingNodesTree": {
+            "SN_RoundNode": {
+                "count": 1
+            },
+            "SN_LofiNode": {
+                "count": 1
+            },
+            "SN_NodeIsIdname": {
+                "count": 1
+            },
+            "SN_PrintNode": {
+                "count": 1
+            }
+        }
+    },
+    "version": [
+        0,
+        0,
+        1
+    ]
+}
