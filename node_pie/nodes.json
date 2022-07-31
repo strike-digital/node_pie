@@ -1,75 +1,237 @@
 {
+    "version": [
+        0,
+        0,
+        1
+    ],
     "node_trees": {
         "GeometryNodeTree": {
-            "FunctionNodeInputVector": {
+            "ShaderNodeMath": {
+                "count": 10
+            },
+            "GeometryNodeInputPosition": {
+                "count": 8
+            },
+            "GeometryNodeSetPosition": {
+                "count": 7
+            },
+            "FunctionNodeRandomValue": {
+                "count": 7
+            },
+            "ShaderNodeCombineXYZ": {
+                "count": 7
+            },
+            "FunctionNodeCompare": {
+                "count": 7
+            },
+            "ShaderNodeVectorMath": {
+                "count": 6
+            },
+            "GeometryNodeCaptureAttribute": {
+                "count": 5
+            },
+            "FunctionNodeBooleanMath": {
+                "count": 5
+            },
+            "ShaderNodeFloatCurve": {
+                "count": 5
+            },
+            "GeometryNodeInstanceOnPoints": {
+                "count": 5
+            },
+            "ShaderNodeSeparateXYZ": {
+                "count": 4
+            },
+            "ShaderNodeValue": {
+                "count": 4
+            },
+            "GeometryNodeTransform": {
+                "count": 4
+            },
+            "GeometryNodeSetMaterial": {
+                "count": 4
+            },
+            "GeometryNodeMergeByDistance": {
+                "count": 4
+            },
+            "GeometryNodeExtrudeMesh": {
+                "count": 3
+            },
+            "ShaderNodeTexNoise": {
+                "count": 3
+            },
+            "GeometryNodeDualMesh": {
+                "count": 3
+            },
+            "GeometryNodeInputMeshEdgeNeighbors": {
+                "count": 3
+            },
+            "GeometryNodeInputIndex": {
+                "count": 3
+            },
+            "GeometryNodeCurveToMesh": {
+                "count": 2
+            },
+            "GeometryNodeCurvePrimitiveCircle": {
+                "count": 2
+            },
+            "GeometryNodeSubdivisionSurface": {
+                "count": 2
+            },
+            "GeometryNodeScaleElements": {
+                "count": 2
+            },
+            "GeometryNodeMeshUVSphere": {
+                "count": 2
+            },
+            "GeometryNodeTriangulate": {
+                "count": 2
+            },
+            "GeometryNodeMeshCylinder": {
+                "count": 2
+            },
+            "FunctionNodeAlignEulerToVector": {
+                "count": 2
+            },
+            "GeometryNodeInputNormal": {
                 "count": 2
             },
             "ShaderNodeMapRange": {
+                "count": 2
+            },
+            "FunctionNodeRotateEuler": {
+                "count": 2
+            },
+            "GeometryNodeSetShadeSmooth": {
+                "count": 2
+            },
+            "GeometryNodeInputSceneTime": {
+                "count": 2
+            },
+            "GeometryNodeProximity": {
+                "count": 2
+            },
+            "GeometryNodeInputCurveTilt": {
+                "count": 2
+            },
+            "ShaderNodeMixRGB": {
+                "count": 2
+            },
+            "GeometryNodeStoreNamedAttribute": {
+                "count": 2
+            },
+            "GeometryNodeInstancesToPoints": {
                 "count": 1
             },
-            "FunctionNodeAlignEulerToVector": {
+            "GeometryNodeSubdivideMesh": {
                 "count": 1
             },
-            "FunctionNodeFloatToInt": {
-                "count": 1
-            }
-        },
-        "ShaderNodeTree": {
-            "ShaderNodeObjectInfo": {
+            "GeometryNodeInputMeshVertexNeighbors": {
                 "count": 1
             },
-            "ShaderNodeBsdfRefraction": {
+            "GeometryNodeAccumulateField": {
                 "count": 1
             },
-            "ShaderNodeBsdfToon": {
+            "GeometryNodeInputMeshEdgeAngle": {
                 "count": 1
             },
-            "ShaderNodeBump": {
+            "GeometryNodeMeshToCurve": {
+                "count": 1
+            },
+            "GeometryNodeFilletCurve": {
+                "count": 1
+            },
+            "GeometryNodeCurvePrimitiveLine": {
+                "count": 1
+            },
+            "GeometryNodeResampleCurve": {
+                "count": 1
+            },
+            "GeometryNodeMeshCircle": {
+                "count": 1
+            },
+            "GeometryNodeBoundBox": {
+                "count": 1
+            },
+            "ShaderNodeVectorRotate": {
+                "count": 1
+            },
+            "GeometryNodeInputMeshFaceArea": {
+                "count": 1
+            },
+            "GeometryNodePointsToVolume": {
+                "count": 1
+            },
+            "GeometryNodeMeshLine": {
+                "count": 1
+            },
+            "GeometryNodeDistributePointsOnFaces": {
+                "count": 1
+            },
+            "GeometryNodeMeshToPoints": {
+                "count": 1
+            },
+            "GeometryNodeSeparateGeometry": {
+                "count": 1
+            },
+            "GeometryNodeObjectInfo": {
+                "count": 1
+            },
+            "GeometryNodeSetSplineResolution": {
+                "count": 1
+            },
+            "GeometryNodeSetSplineCyclic": {
                 "count": 1
             },
             "ShaderNodeCombineRGB": {
                 "count": 1
             },
-            "ShaderNodeBsdfHairPrincipled": {
+            "ShaderNodeValToRGB": {
                 "count": 1
             },
-            "ShaderNodeCameraData": {
+            "GeometryNodeInputTangent": {
                 "count": 1
-            },
-            "ShaderNodeInvert": {
-                "count": 1
-            },
-            "ShaderNodeVectorCurve": {
+            }
+        },
+        "ShaderNodeTree": {
+            "ShaderNodeValToRGB": {
                 "count": 3
             },
-            "ShaderNodeNormalMap": {
-                "count": 6
+            "ShaderNodeVectorMath": {
+                "count": 2
             },
-            "ShaderNodeDisplacement": {
+            "ShaderNodeMath": {
+                "count": 2
+            },
+            "ShaderNodeTexVoronoi": {
+                "count": 2
+            },
+            "ShaderNodeMixRGB": {
+                "count": 2
+            },
+            "ShaderNodeAttribute": {
                 "count": 1
             },
-            "ShaderNodeNormal": {
+            "ShaderNodeTexCoord": {
+                "count": 1
+            },
+            "ShaderNodeTexNoise": {
+                "count": 1
+            },
+            "ShaderNodeObjectInfo": {
+                "count": 1
+            },
+            "ShaderNodeRGB": {
+                "count": 1
+            },
+            "ShaderNodeHueSaturation": {
                 "count": 1
             }
         },
         "ScriptingNodesTree": {
-            "SN_RoundNode": {
-                "count": 1
-            },
-            "SN_LofiNode": {
-                "count": 1
-            },
-            "SN_NodeIsIdname": {
-                "count": 1
-            },
-            "SN_PrintNode": {
+            "SN_ReportNode": {
                 "count": 1
             }
         }
-    },
-    "version": [
-        0,
-        0,
-        1
-    ]
+    }
 }

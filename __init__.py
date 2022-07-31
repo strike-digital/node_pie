@@ -11,29 +11,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-# Nodes that have the wrong colour:
-# Separate/combine xyz
-# Value
-# Align euler to vector
-# Field at index
-# Object info
-# Most of the compostior nodes
-
-# I can now better approximate this by using the nodeitems_builtins module
-
-# Ideas:
-# reference images
-# Notes
-# socket aligned snapping for reroutes
-# Addon to recenter the screen when you change node tree type
-
 bl_info = {
-    "name": "Node extras",
+    "name": "Node pie",
     "author": "Andrew Stevenson",
-    "description": "Adds various extra functions to the node editor",
+    "description": "An addon that adds a pie menu containing all nodes for each node editor",
     "blender": (3, 0, 0),
     "version": (1, 0, 0),
-    "location": "Node editor > Header",
+    "location": "Node editor > Shortcut",
     "category": "Node"
 }
 

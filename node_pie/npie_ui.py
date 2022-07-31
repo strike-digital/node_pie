@@ -1,59 +1,137 @@
+from statistics import mean
 import bpy
+import json
 import nodeitems_utils
+from ..shared.functions import get_prefs
+from ..shared.helpers import lerp, inv_lerp
+from pathlib import Path
 from bpy.types import UILayout, Menu
 
 
-class STRIKE_MT_node_pie(Menu):
+def get_all_node_data():
+    with open(Path(__file__).parent / "nodes.json", "r") as f:
+        try:
+            data = json.load(f)
+        except json.decoder.JSONDecodeError:
+            data = {"node_trees": {}}
+    return data
+
+
+class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
     bl_label = "Node pie"
+
+    @classmethod
+    def poll(cls, context):
+        prefs = get_prefs(context)
+        return context.space_data.node_tree and prefs.node_pie_enabled
 
     def draw(self, context):
         layout = self.layout
         pie = layout.menu_pie()
-        if not context.space_data.node_tree:
-            return
+        prefs = get_prefs(context)
+
+        # cols = {
+        #     "RED": "input_node",
+        #     "ORANGE": "texture_node",
+        #     "YELLOW": "color_node",
+        #     "GREEN": "geometry_node",
+        #     "BLUE": "converter_node",
+        #     "PURPLE": "vector_node",
+        #     "PINK": "input_node",
+        #     "BROWN": "input_node",
+        #     "GREY": "input_node",
+        # }
+        cols = {
+            "RED": "SEQUENCE_COLOR_01",
+            "ORANGE": "SEQUENCE_COLOR_02",
+            "YELLOW": "SEQUENCE_COLOR_03",
+            "GREEN": "SEQUENCE_COLOR_04",
+            "BLUE": "SEQUENCE_COLOR_05",
+            "PURPLE": "SEQUENCE_COLOR_06",
+            "PINK": "SEQUENCE_COLOR_07",
+            "BROWN": "SEQUENCE_COLOR_08",
+            "GREY": "SEQUENCE_COLOR_09",
+        }
+
         tree_type = context.space_data.node_tree.bl_rna.identifier
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
             icons = {
-                "CONVERTOR": "SEQUENCE_COLOR_05",
-                "INPUT": "SEQUENCE_COLOR_01",
-                "OP_COLOR": "SEQUENCE_COLOR_03",
-                "OP_VECTOR": "SEQUENCE_COLOR_06",
-                "OUTPUT": "SEQUENCE_COLOR_08",
-                "SHADER": "SEQUENCE_COLOR_04",
-                "TEXTURE": "SEQUENCE_COLOR_02",
-                "GROUP": "SEQUENCE_COLOR_07",
+                "CONVERTOR": cols["BLUE"],
+                "INPUT": cols["RED"],
+                "OP_COLOR": cols["YELLOW"],
+                "OP_VECTOR": cols["PURPLE"],
+                "OUTPUT": cols["BROWN"],
+                "SHADER": cols["GREEN"],
+                "TEXTURE": cols["ORANGE"],
+                "GROUP": cols["PINK"],
             }
             overrides = {"ShaderNodeVectorMath": "OP_VECTOR"}
             icon_overrides = {}
             exclude = {"ShaderNodeSubsurfaceScattering"}
-            parent_type = bpy.types.ShaderNode
 
         elif tree_type == "GeometryNodeTree":
             menu_prefix = "NODE_MT_category_GEO_"
             icons = {
-                "ATTRIBUTE": "SEQUENCE_COLOR_09",
-                "COLOR": "SEQUENCE_COLOR_03",
-                "CURVE": "SEQUENCE_COLOR_04",
-                "GEOMETRY": "SEQUENCE_COLOR_04",
-                "INPUT": "SEQUENCE_COLOR_01",
-                "INSTANCE": "SEQUENCE_COLOR_04",
-                "MATERIAL": "SEQUENCE_COLOR_04",
-                "MESH": "SEQUENCE_COLOR_04",
-                "POINT": "SEQUENCE_COLOR_04",
-                "PRIMITIVES_CURVE": "SEQUENCE_COLOR_04",
-                "PRIMITIVES_MESH": "SEQUENCE_COLOR_04",
-                "TEXT": "SEQUENCE_COLOR_04",
-                "TEXTURE": "SEQUENCE_COLOR_02",
-                "UTILITIES": "SEQUENCE_COLOR_05",
-                "VECTOR": "SEQUENCE_COLOR_06",
-                "VOLUME": "SEQUENCE_COLOR_04",
+                "ATTRIBUTE": "attribute_node",
+                "COLOR": "color_node",
+                "CURVE": "geometry_node",
+                "GEOMETRY": "geometry_node",
+                "INPUT": "input_node",
+                "INSTANCE": "geometry_node",
+                "MATERIAL": "geometry_node",
+                "MESH": "geometry_node",
+                "POINT": "geometry_node",
+                "PRIMITIVES_CURVE": "geometry_node",
+                "PRIMITIVES_MESH": "geometry_node",
+                "TEXT": "geometry_node",
+                "TEXTURE": "texture_node",
+                "UTILITIES": "converter_node",
+                "VECTOR": "vector_node",
+                "VOLUME": "geometry_node",
             }
+            # icons = {
+            #     "ATTRIBUTE": cols["GREY"],
+            #     "COLOR": cols["YELLOW"],
+            #     "CURVE": cols["GREEN"],
+            #     "GEOMETRY": cols["GREEN"],
+            #     "INPUT": cols["RED"],
+            #     "INSTANCE": cols["GREEN"],
+            #     "MATERIAL": cols["GREEN"],
+            #     "MESH": cols["GREEN"],
+            #     "POINT": cols["GREEN"],
+            #     "PRIMITIVES_CURVE": cols["GREEN"],
+            #     "PRIMITIVES_MESH": cols["GREEN"],
+            #     "TEXT": cols["GREEN"],
+            #     "TEXTURE": cols["ORANGE"],
+            #     "UTILITIES": cols["BLUE"],
+            #     "VECTOR": cols["PURPLE"],
+            #     "VOLUME": cols["GREEN"],
+            # }
             overrides = {}
-            icon_overrides = {"FunctionNode": "SEQUENCE_COLOR_05", "Input": "SEQUENCE_COLOR_01"}
+            icon_overrides = {
+                "Input": "input_node",
+                "FunctionNode": "converter_node",
+            }
             exclude = set()
             parent_type = bpy.types.GeometryNode
+
+        elif tree_type == "CompositorNodeTree":
+            menu_prefix = "NODE_MT_category_CMP_"
+            icons = {
+                "CONVERTOR": cols["BLUE"],
+                "DISTORT": cols["GREEN"],
+                "INPUT": cols["RED"],
+                "MATTE": cols["BROWN"],
+                "OP_COLOR": cols["YELLOW"],
+                "OP_FILTER": cols["PURPLE"],
+                "OP_VECTOR": cols["PURPLE"],
+                "OUTPUT": cols["RED"],
+            }
+            overrides = {}
+            icon_overrides = {}
+            exclude = set()
 
         else:
             menu_prefix = ""
@@ -61,7 +139,6 @@ class STRIKE_MT_node_pie(Menu):
             overrides = {}
             icon_overrides = {}
             exclude = set()
-            parent_type = bpy.types.Node
 
         try:
             menu_prefix
@@ -69,11 +146,39 @@ class STRIKE_MT_node_pie(Menu):
             print(e)
             return
         submenus = {d: getattr(bpy.types, d) for d in dir(bpy.types) if d.startswith(menu_prefix)}
-        all_nodes = {n.bl_rna.identifier: n for n in parent_type.__subclasses__()}
+        all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
+        node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
+        all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
+        average_count = mean(all_node_counts.values())
 
-        def draw_op(layout: UILayout, text: str, icon: str, identifier: str):
+        def get_node_count(identifier):
+            data = get_all_node_data()
+            trees = data["node_trees"]
+            nodes = trees.get(tree_type, {})
+            node = nodes.get(identifier, {})
+            count = node.get("count", 0)
+            return count
+
+        def draw_op(layout: UILayout, text: str, colour_prop: str, identifier: str, average: float = .0):
             """Draw the add node operator"""
-            op = layout.operator("node_pie.add_node", text=text, icon=icon)
+            count = all_node_counts[identifier]
+
+            row = layout.row(align=True)
+            # draw the operator larger if the node is used more often
+            if prefs.npie_variable_sizes:
+                # lerp between the min and max sizes based on how used each node is compared to the most used one.
+                max_count = max(*all_node_counts.values(), 1)
+                row.scale_y = lerp(inv_lerp(count, 0, max_count), prefs.npie_normal_size, prefs.npie_max_size)
+
+            # Draw the colour bar to the side
+            split = row.split(factor=.02, align=True)
+
+            sub = split.row(align=True)
+            sub.prop(context.preferences.themes[0].node_editor, colour_prop, text="")
+            sub.scale_x = .01
+
+            # draw the button
+            op = split.operator("node_pie.add_node", text=text)
             op.type = identifier
             op.use_transform = True
 
@@ -88,8 +193,8 @@ class STRIKE_MT_node_pie(Menu):
             """Returns whether the node should be overriden"""
             for override in icon_overrides:
                 if override in identifier and override.lower() not in node_category.lower():
-                    return True
-            return False
+                    return len(icon_overrides[override])
+            return 0
 
         def draw_header(layout: UILayout, text: str):
             """Draw the header of a node category"""
@@ -100,10 +205,11 @@ class STRIKE_MT_node_pie(Menu):
         def draw_category(layout: UILayout, cat: str, remove: str = ""):
             """Draw all node items in this category"""
             col = layout.column(align=True)
-            draw_header(col, cat)
+            label = getattr(bpy.types, menu_prefix + cat).bl_label
+            draw_header(col, label)
 
             if cat == "GROUP":
-                node_groups = [ng for ng in bpy.data.node_groups if ng.type == tree_type]
+                node_groups = [ng for ng in bpy.data.node_groups if ng.bl_rna.identifier == tree_type]
                 for ng in node_groups:
                     op = layout.operator("node.add_group", text=ng.name, icon=icon)
                     op.name = ng.name
@@ -129,6 +235,10 @@ class STRIKE_MT_node_pie(Menu):
                 subgroup = sorted(subgroup, key=lambda node: sort_item(node.nodetype, cat))
                 if i != 0:
                     col.separator()
+
+                if not subgroup:
+                    continue
+                average_count = mean([all_node_counts[n.nodetype] for n in subgroup])
                 for node in subgroup:
                     # Don't draw these nodes
                     if node.nodetype in exclude:
@@ -137,13 +247,16 @@ class STRIKE_MT_node_pie(Menu):
                     # Check that the node category has not been overriden to something different
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
-                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype)
+                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype, average_count)
 
                 # Draw nodes whose category has been overriden.
                 for node_id, node_cat in overrides.items():
                     if node_cat == cat:
                         icon = get_icon(node_id, node_cat)
-                        draw_op(col, all_nodes[node_id].bl_rna.name.replace(remove, ""), icon, node_id)
+                        draw_op(col, all_nodes[node_id].label.replace(remove, ""), icon, node_id, average_count)
+
+        def draw_search(layout: UILayout):
+            layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
 
         if tree_type == "ShaderNodeTree":
             # left
@@ -157,12 +270,15 @@ class STRIKE_MT_node_pie(Menu):
             draw_category(row.box(), "SHADER", remove=" BSDF")
 
             # bottom
-            box = pie.box().row()
-            draw_category(box, "OP_VECTOR")
+            col = pie.column()
+            draw_search(col.box())
+            col.separator(factor=.4)
+            box = col.box().row()
+            draw_category(box, "OP_COLOR")
 
             # top
             box = pie.column(align=True).box()
-            draw_category(box, "OP_COLOR")
+            draw_category(box, "OP_VECTOR")
 
         elif tree_type == "GeometryNodeTree":
             # left
@@ -201,6 +317,7 @@ class STRIKE_MT_node_pie(Menu):
             # bottom
             row = pie.row()
             col = row.column(align=False)
+            draw_search(col.box())
             col.separator(factor=.4)
             draw_category(col.box(), "INSTANCE")
             col.separator(factor=.4)
@@ -209,6 +326,34 @@ class STRIKE_MT_node_pie(Menu):
             # top
             col = pie.column(align=True)
             draw_category(col.box(), "GEOMETRY")
+
+        elif tree_type == "CompositorNodeTree":
+            # left
+            row = pie.row(align=False)
+            draw_category(row.box(), "CONVERTOR")
+            col = row.column(align=True)
+            draw_category(col.box(), "DISTORT", remove=" Texture")
+            col.separator(factor=.4)
+            draw_category(col.box(), "OP_VECTOR")
+
+            # right
+            row = pie.row(align=False)
+            col = row.column(align=True)
+            draw_category(col.box(), "INPUT")
+            col.separator(factor=.4)
+            draw_category(col.box(), "OUTPUT")
+            draw_category(row.box(), "OP_FILTER")
+
+            # bottom
+            col = pie.column()
+            draw_search(col.box())
+            col.separator(factor=.4)
+            row = col.row()
+            draw_category(row.box(), "MATTE", remove=" BSDF")
+
+            # top
+            box = pie.column(align=True).box()
+            draw_category(box, "OP_COLOR")
 
         else:
             # Automatically draw all node items as space efficiently as possible.
@@ -234,10 +379,10 @@ class STRIKE_MT_node_pie(Menu):
             # [[small_category, small_category], big_category]
             # and each sublist is equivalent to a column in the pie.
 
-            def add_categories(orig_cats: list, i: int):
+            def add_categories(orig_cats: list, i: int, max_height: int):
                 """
                 Add the given categories to the given area.
-                The categories are packed according to their height relative to the tallest category.
+                The categories are packed according to their height relative to the provided max size.
                 """
 
                 for j, cat in enumerate(orig_cats):
@@ -248,34 +393,43 @@ class STRIKE_MT_node_pie(Menu):
                         areas[i].append(categories.pop(idx))
                         continue
 
-                    # Get the length of all items in the previous column
                     size = len(list(cat.items(context)))
-                    prev_items = areas[i][-1]
-                    if not isinstance(prev_items, list):
-                        prev_items = [areas[i][-1]]
-                    prev_item_size = sum(len(list(c.items(context))) for c in prev_items)
+                    columns = areas[i]
 
-                    # Add an extra item to account for the heading of each category
-                    prev_item_size += len(prev_items)
+                    # Loop over all columns and if current category fits in one, add it, else create a new column
+                    for column in columns:
+                        # Get the length of all items in the column
+                        prev_items = column
+                        if not isinstance(prev_items, list):
+                            prev_items = [column]
+                        prev_item_size = sum(len(list(c.items(context))) for c in prev_items)
 
-                    # Decide whether to add the category to the current column or a new one
-                    if prev_item_size + size < biggest:
-                        areas[i][-1] = prev_items + [cat]
+                        # Add an extra item to account for the heading of each category
+                        prev_item_size += len(prev_items)
+
+                        # Decide whether to add the category to the current column or a new one
+                        if prev_item_size + size < max_height:
+                            areas[i][areas[i].index(column)] = prev_items + [categories.pop(idx)]
+                            break
                     else:
                         areas[i].append(categories.pop(idx))
 
+                if i:
+                    areas[i] = areas[i][::-1]
+
             # Add half the categories
+            big_on_inside = True
             biggest = len(list(categories[-1].items(context)))
             orig_cats = categories.copy()
-            add_categories(orig_cats[::-2], 0)
+            add_categories(orig_cats[::2 * -1 if big_on_inside else 1], 0, biggest)
 
             # Add the other half, which is now just the rest of them
-            biggest = len(list(categories[-1].items(context)))
+            # biggest = len(list(categories[-1].items(context)))
             orig_cats = categories.copy()
-            add_categories(orig_cats, 1)
+            add_categories(orig_cats[::1 * -1 if big_on_inside else 1], 1, biggest)
 
             # Draw all of the areas
-            for area in areas:
+            for i, area in enumerate(areas):
                 row = pie.row()
                 # Use this to control whether the big nodes are at the center or at the edges
                 area = area[::-1]
@@ -283,6 +437,12 @@ class STRIKE_MT_node_pie(Menu):
                 for node_cats in area:
                     # Add the parent column
                     bigcol = row.column(align=False)
+
+                    # Draw search button at top of the bottom column
+                    if i == 2:
+                        draw_search(bigcol.box())
+                        bigcol.separator(factor=.4)
+
                     if not isinstance(node_cats, list):
                         node_cats = [node_cats]
 
@@ -291,11 +451,13 @@ class STRIKE_MT_node_pie(Menu):
                         col = bigcol.box().column(align=True)
                         draw_header(col, node_cat.name)
 
+                        average_count = mean([all_node_counts[n.nodetype] for n in node_cat.items(context)])
+
                         for nodeitem in node_cat.items(context):
                             if not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_op(col, nodeitem.label, "SEQUENCE_COLOR_01", nodeitem.nodetype)
+                            draw_op(col, nodeitem.label, cols["RED"], nodeitem.nodetype, average_count)
 
                         bigcol.separator(factor=.4)
 
@@ -315,7 +477,7 @@ def register():
             value='PRESS',
             ctrl=True,
         )
-        kmi.properties.name = "STRIKE_MT_node_pie"
+        kmi.properties.name = NPIE_MT_node_pie.__name__
         addon_keymaps.append((km, kmi))
         kmi = km.keymap_items.new(
             "wm.call_menu_pie",
@@ -323,7 +485,7 @@ def register():
             value='PRESS',
             ctrl=True,
         )
-        kmi.properties.name = "STRIKE_MT_node_pie"
+        kmi.properties.name = NPIE_MT_node_pie.__name__
         addon_keymaps.append((km, kmi))
 
 
