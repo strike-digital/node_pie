@@ -7,10 +7,13 @@
     "node_trees": {
         "GeometryNodeTree": {
             "ShaderNodeMath": {
-                "count": 10
+                "count": 14
             },
             "GeometryNodeInputPosition": {
-                "count": 8
+                "count": 9
+            },
+            "ShaderNodeVectorMath": {
+                "count": 9
             },
             "GeometryNodeSetPosition": {
                 "count": 7
@@ -24,8 +27,8 @@
             "FunctionNodeCompare": {
                 "count": 7
             },
-            "ShaderNodeVectorMath": {
-                "count": 6
+            "GeometryNodeInstanceOnPoints": {
+                "count": 7
             },
             "GeometryNodeCaptureAttribute": {
                 "count": 5
@@ -34,9 +37,6 @@
                 "count": 5
             },
             "ShaderNodeFloatCurve": {
-                "count": 5
-            },
-            "GeometryNodeInstanceOnPoints": {
                 "count": 5
             },
             "ShaderNodeSeparateXYZ": {
@@ -69,6 +69,15 @@
             "GeometryNodeInputIndex": {
                 "count": 3
             },
+            "GeometryNodeDistributePointsOnFaces": {
+                "count": 3
+            },
+            "GeometryNodeObjectInfo": {
+                "count": 3
+            },
+            "FunctionNodeAlignEulerToVector": {
+                "count": 3
+            },
             "GeometryNodeCurveToMesh": {
                 "count": 2
             },
@@ -88,9 +97,6 @@
                 "count": 2
             },
             "GeometryNodeMeshCylinder": {
-                "count": 2
-            },
-            "FunctionNodeAlignEulerToVector": {
                 "count": 2
             },
             "GeometryNodeInputNormal": {
@@ -118,6 +124,9 @@
                 "count": 2
             },
             "GeometryNodeStoreNamedAttribute": {
+                "count": 2
+            },
+            "GeometryNodeInputTangent": {
                 "count": 2
             },
             "GeometryNodeInstancesToPoints": {
@@ -165,16 +174,10 @@
             "GeometryNodeMeshLine": {
                 "count": 1
             },
-            "GeometryNodeDistributePointsOnFaces": {
-                "count": 1
-            },
             "GeometryNodeMeshToPoints": {
                 "count": 1
             },
             "GeometryNodeSeparateGeometry": {
-                "count": 1
-            },
-            "GeometryNodeObjectInfo": {
                 "count": 1
             },
             "GeometryNodeSetSplineResolution": {
@@ -189,47 +192,124 @@
             "ShaderNodeValToRGB": {
                 "count": 1
             },
-            "GeometryNodeInputTangent": {
+            "GeometryNodeInputCurveHandlePositions": {
+                "count": 1
+            },
+            "GeometryNodeInputSplineResolution": {
+                "count": 1
+            },
+            "GeometryNodeAttributeStatistic": {
+                "count": 1
+            },
+            "FunctionNodeInputVector": {
+                "count": 1
+            },
+            "GeometryNodeScaleInstances": {
+                "count": 1
+            },
+            "GeometryNodeRotateInstances": {
                 "count": 1
             }
         },
         "ShaderNodeTree": {
+            "ShaderNodeMath": {
+                "count": 6
+            },
             "ShaderNodeValToRGB": {
-                "count": 3
+                "count": 5
+            },
+            "ShaderNodeMixRGB": {
+                "count": 4
             },
             "ShaderNodeVectorMath": {
-                "count": 2
+                "count": 3
             },
-            "ShaderNodeMath": {
-                "count": 2
+            "ShaderNodeLightPath": {
+                "count": 3
+            },
+            "ShaderNodeMixShader": {
+                "count": 3
+            },
+            "ShaderNodeBsdfTransparent": {
+                "count": 3
             },
             "ShaderNodeTexVoronoi": {
                 "count": 2
             },
-            "ShaderNodeMixRGB": {
+            "ShaderNodeTexNoise": {
+                "count": 2
+            },
+            "ShaderNodeHueSaturation": {
+                "count": 2
+            },
+            "ShaderNodeObjectInfo": {
+                "count": 2
+            },
+            "ShaderNodeTexCoord": {
+                "count": 2
+            },
+            "ShaderNodeSeparateXYZ": {
                 "count": 2
             },
             "ShaderNodeAttribute": {
                 "count": 1
             },
-            "ShaderNodeTexCoord": {
-                "count": 1
-            },
-            "ShaderNodeTexNoise": {
-                "count": 1
-            },
-            "ShaderNodeObjectInfo": {
-                "count": 1
-            },
             "ShaderNodeRGB": {
                 "count": 1
             },
-            "ShaderNodeHueSaturation": {
+            "ShaderNodeTexSky": {
+                "count": 1
+            },
+            "ShaderNodeRGBCurve": {
+                "count": 1
+            },
+            "ShaderNodeCombineXYZ": {
+                "count": 1
+            },
+            "ShaderNodeInvert": {
+                "count": 1
+            },
+            "ShaderNodeMapRange": {
+                "count": 1
+            },
+            "ShaderNodeBsdfDiffuse": {
+                "count": 1
+            },
+            "ShaderNodeEmission": {
+                "count": 1
+            },
+            "ShaderNodeSeparateHSV": {
+                "count": 1
+            },
+            "ShaderNodeCombineHSV": {
+                "count": 1
+            },
+            "ShaderNodeValue": {
                 "count": 1
             }
         },
         "ScriptingNodesTree": {
             "SN_ReportNode": {
+                "count": 1
+            },
+            "SN_GreasePencilsBlendDataNode": {
+                "count": 1
+            },
+            "SN_InterfaceFunctionNode": {
+                "count": 1
+            },
+            "SN_PreferencesNode": {
+                "count": 1
+            },
+            "SN_JoinPathNode": {
+                "count": 1
+            }
+        },
+        "CompositorNodeTree": {
+            "CompositorNodeDenoise": {
+                "count": 1
+            },
+            "CompositorNodeMapValue": {
                 "count": 1
             }
         }

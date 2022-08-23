@@ -86,3 +86,8 @@ class NPIE_OT_reset_popularity(Operator):
             pass
         self.report({"INFO"}, "Node popularity successfully reset")
         return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_new_keymap_item(Operator):
+    """Reset the popularity of all nodes back to zero"""

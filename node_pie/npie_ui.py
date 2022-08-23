@@ -31,41 +31,18 @@ class NPIE_MT_node_pie(Menu):
         pie = layout.menu_pie()
         prefs = get_prefs(context)
 
-        # cols = {
-        #     "RED": "input_node",
-        #     "ORANGE": "texture_node",
-        #     "YELLOW": "color_node",
-        #     "GREEN": "geometry_node",
-        #     "BLUE": "converter_node",
-        #     "PURPLE": "vector_node",
-        #     "PINK": "input_node",
-        #     "BROWN": "input_node",
-        #     "GREY": "input_node",
-        # }
-        cols = {
-            "RED": "SEQUENCE_COLOR_01",
-            "ORANGE": "SEQUENCE_COLOR_02",
-            "YELLOW": "SEQUENCE_COLOR_03",
-            "GREEN": "SEQUENCE_COLOR_04",
-            "BLUE": "SEQUENCE_COLOR_05",
-            "PURPLE": "SEQUENCE_COLOR_06",
-            "PINK": "SEQUENCE_COLOR_07",
-            "BROWN": "SEQUENCE_COLOR_08",
-            "GREY": "SEQUENCE_COLOR_09",
-        }
-
         tree_type = context.space_data.node_tree.bl_rna.identifier
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
             icons = {
-                "CONVERTOR": cols["BLUE"],
-                "INPUT": cols["RED"],
-                "OP_COLOR": cols["YELLOW"],
-                "OP_VECTOR": cols["PURPLE"],
-                "OUTPUT": cols["BROWN"],
-                "SHADER": cols["GREEN"],
-                "TEXTURE": cols["ORANGE"],
-                "GROUP": cols["PINK"],
+                "CONVERTOR": "converter",
+                "INPUT": "input",
+                "OP_COLOR": "color",
+                "OP_VECTOR": "vector",
+                "OUTPUT": "output",
+                "SHADER": "shader",
+                "TEXTURE": "texture",
+                "GROUP": "group",
             }
             overrides = {"ShaderNodeVectorMath": "OP_VECTOR"}
             icon_overrides = {}
@@ -74,60 +51,41 @@ class NPIE_MT_node_pie(Menu):
         elif tree_type == "GeometryNodeTree":
             menu_prefix = "NODE_MT_category_GEO_"
             icons = {
-                "ATTRIBUTE": "attribute_node",
-                "COLOR": "color_node",
-                "CURVE": "geometry_node",
-                "GEOMETRY": "geometry_node",
-                "INPUT": "input_node",
-                "INSTANCE": "geometry_node",
-                "MATERIAL": "geometry_node",
-                "MESH": "geometry_node",
-                "POINT": "geometry_node",
-                "PRIMITIVES_CURVE": "geometry_node",
-                "PRIMITIVES_MESH": "geometry_node",
-                "TEXT": "geometry_node",
-                "TEXTURE": "texture_node",
-                "UTILITIES": "converter_node",
-                "VECTOR": "vector_node",
-                "VOLUME": "geometry_node",
+                "ATTRIBUTE": "attribute",
+                "COLOR": "color",
+                "CURVE": "geometry",
+                "GEOMETRY": "geometry",
+                "INPUT": "input",
+                "INSTANCE": "geometry",
+                "MATERIAL": "geometry",
+                "MESH": "geometry",
+                "POINT": "geometry",
+                "PRIMITIVES_CURVE": "geometry",
+                "PRIMITIVES_MESH": "geometry",
+                "TEXT": "geometry",
+                "TEXTURE": "texture",
+                "UTILITIES": "converter",
+                "VECTOR": "vector",
+                "VOLUME": "geometry",
             }
-            # icons = {
-            #     "ATTRIBUTE": cols["GREY"],
-            #     "COLOR": cols["YELLOW"],
-            #     "CURVE": cols["GREEN"],
-            #     "GEOMETRY": cols["GREEN"],
-            #     "INPUT": cols["RED"],
-            #     "INSTANCE": cols["GREEN"],
-            #     "MATERIAL": cols["GREEN"],
-            #     "MESH": cols["GREEN"],
-            #     "POINT": cols["GREEN"],
-            #     "PRIMITIVES_CURVE": cols["GREEN"],
-            #     "PRIMITIVES_MESH": cols["GREEN"],
-            #     "TEXT": cols["GREEN"],
-            #     "TEXTURE": cols["ORANGE"],
-            #     "UTILITIES": cols["BLUE"],
-            #     "VECTOR": cols["PURPLE"],
-            #     "VOLUME": cols["GREEN"],
-            # }
             overrides = {}
             icon_overrides = {
-                "Input": "input_node",
-                "FunctionNode": "converter_node",
+                "Input": "input",
+                "FunctionNode": "converter",
             }
             exclude = set()
-            parent_type = bpy.types.GeometryNode
 
         elif tree_type == "CompositorNodeTree":
             menu_prefix = "NODE_MT_category_CMP_"
             icons = {
-                "CONVERTOR": cols["BLUE"],
-                "DISTORT": cols["GREEN"],
-                "INPUT": cols["RED"],
-                "MATTE": cols["BROWN"],
-                "OP_COLOR": cols["YELLOW"],
-                "OP_FILTER": cols["PURPLE"],
-                "OP_VECTOR": cols["PURPLE"],
-                "OUTPUT": cols["RED"],
+                "CONVERTOR": "converter",
+                "DISTORT": "distor",
+                "INPUT": "input",
+                "MATTE": "matte",
+                "OP_COLOR": "color",
+                "OP_FILTER": "filter",
+                "OP_VECTOR": "vector",
+                "OUTPUT": "output",
             }
             overrides = {}
             icon_overrides = {}
@@ -159,7 +117,7 @@ class NPIE_MT_node_pie(Menu):
             count = node.get("count", 0)
             return count
 
-        def draw_op(layout: UILayout, text: str, colour_prop: str, identifier: str, average: float = .0):
+        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str, average: float = .0):
             """Draw the add node operator"""
             count = all_node_counts[identifier]
 
@@ -174,7 +132,7 @@ class NPIE_MT_node_pie(Menu):
             split = row.split(factor=.02, align=True)
 
             sub = split.row(align=True)
-            sub.prop(context.preferences.themes[0].node_editor, colour_prop, text="")
+            sub.prop(context.preferences.themes[0].node_editor, category_name + "_node", text="")
             sub.scale_x = .01
 
             # draw the button
@@ -457,39 +415,6 @@ class NPIE_MT_node_pie(Menu):
                             if not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_op(col, nodeitem.label, cols["RED"], nodeitem.nodetype, average_count)
+                            draw_op(col, nodeitem.label, "input", nodeitem.nodetype, average_count)
 
                         bigcol.separator(factor=.4)
-
-
-addon_keymaps = []
-
-
-def register():
-    wm = bpy.context.window_manager
-    kc = wm.keyconfigs.addon
-    if kc:
-        km = kc.keymaps.new(name='Node Editor', space_type='NODE_EDITOR')
-
-        kmi = km.keymap_items.new(
-            "wm.call_menu_pie",
-            type='LEFTMOUSE',
-            value='PRESS',
-            ctrl=True,
-        )
-        kmi.properties.name = NPIE_MT_node_pie.__name__
-        addon_keymaps.append((km, kmi))
-        kmi = km.keymap_items.new(
-            "wm.call_menu_pie",
-            type='A',
-            value='PRESS',
-            ctrl=True,
-        )
-        kmi.properties.name = NPIE_MT_node_pie.__name__
-        addon_keymaps.append((km, kmi))
-
-
-def unregister():
-    for km, kmi in addon_keymaps:
-        km.keymap_items.remove(kmi)
-    addon_keymaps.clear()

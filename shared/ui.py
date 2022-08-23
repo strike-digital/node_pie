@@ -63,7 +63,6 @@ def draw_section(layout: UILayout, title: str, show_data=None, show_prop: str = 
 
     box = main_col.box()
     col = box.column()
-    main_col.separator()
     return col
 
 
@@ -76,6 +75,7 @@ def draw_inline_prop(
     invert=False,
     factor=0.48,
     alignment="RIGHT",
+    full_event=False,
 ) -> UILayout:
     """Draw a property with the label to the left of the value"""
     row = layout.row()
@@ -87,8 +87,8 @@ def draw_inline_prop(
         text = data.bl_rna.properties[data_name].name
     left.label(text=text)
     col = split.column(align=True)
-    col.prop(data, data_name, text=prop_text, invert_checkbox=invert)
-    return col
+    col.prop(data, data_name, text=prop_text, invert_checkbox=invert, full_event=full_event)
+    return row
 
 
 def draw_enabled_button(layout: UILayout, data, prop: str) -> UILayout:
