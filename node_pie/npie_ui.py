@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from statistics import mean
 import bpy
 import json
@@ -107,6 +108,7 @@ class NPIE_MT_node_pie(Menu):
         all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
+        all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
         average_count = mean(all_node_counts.values())
 
         def get_node_count(identifier):
@@ -125,8 +127,12 @@ class NPIE_MT_node_pie(Menu):
             # draw the operator larger if the node is used more often
             if prefs.npie_variable_sizes:
                 # lerp between the min and max sizes based on how used each node is compared to the most used one.
-                max_count = max(*all_node_counts.values(), 1)
-                row.scale_y = lerp(inv_lerp(count, 0, max_count), prefs.npie_normal_size, prefs.npie_max_size)
+                # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
+                counts = list(dict.fromkeys(all_node_counts.values()))
+                fac = inv_lerp(counts.index(count), 0, len(counts) - 1)
+                row.scale_y = lerp(fac, prefs.npie_normal_size, prefs.npie_max_size)
+                # max_count = max(*all_node_counts.values(), 1)
+                # row.scale_y = lerp(inv_lerp(count, 0, max_count), prefs.npie_normal_size, prefs.npie_max_size)
 
             # Draw the colour bar to the side
             split = row.split(factor=.02, align=True)
