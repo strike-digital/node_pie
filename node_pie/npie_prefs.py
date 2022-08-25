@@ -35,7 +35,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     def draw(self, context):
         layout = self.layout
-        layout = draw_enabled_button(layout, self, "node_pie_enabled")
+        # layout = draw_enabled_button(layout, self, "node_pie_enabled")
         prefs = get_prefs(context)
         layout = layout.grid_flow(row_major=True, even_columns=True)
 
