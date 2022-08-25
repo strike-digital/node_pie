@@ -16,7 +16,7 @@ bl_info = {
     "author": "Andrew Stevenson",
     "description": "An addon that adds a pie menu containing all nodes for each node editor",
     "blender": (3, 0, 0),
-    "version": (1, 0, 0),
+    "version": (1, 0, 2),
     "location": "Node editor > Shortcut",
     "category": "Node"
 }
