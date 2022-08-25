@@ -129,7 +129,7 @@ class NPIE_MT_node_pie(Menu):
                 # lerp between the min and max sizes based on how used each node is compared to the most used one.
                 # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
                 counts = list(dict.fromkeys(all_node_counts.values()))
-                fac = inv_lerp(counts.index(count), 0, len(counts) - 1)
+                fac = inv_lerp(counts.index(count), 0, max(len(counts) - 1, 1))
                 row.scale_y = lerp(fac, prefs.npie_normal_size, prefs.npie_max_size)
                 # max_count = max(*all_node_counts.values(), 1)
                 # row.scale_y = lerp(inv_lerp(count, 0, max_count), prefs.npie_normal_size, prefs.npie_max_size)
