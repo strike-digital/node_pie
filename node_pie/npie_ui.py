@@ -35,7 +35,7 @@ class NPIE_MT_node_pie(Menu):
         tree_type = context.space_data.node_tree.bl_rna.identifier
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
-            icons = {
+            colours = {
                 "CONVERTOR": "converter",
                 "INPUT": "input",
                 "OP_COLOR": "color",
@@ -51,7 +51,7 @@ class NPIE_MT_node_pie(Menu):
 
         elif tree_type == "GeometryNodeTree":
             menu_prefix = "NODE_MT_category_GEO_"
-            icons = {
+            colours = {
                 "ATTRIBUTE": "attribute",
                 "COLOR": "color",
                 "CURVE": "geometry",
@@ -78,9 +78,9 @@ class NPIE_MT_node_pie(Menu):
 
         elif tree_type == "CompositorNodeTree":
             menu_prefix = "NODE_MT_category_CMP_"
-            icons = {
+            colours = {
                 "CONVERTOR": "converter",
-                "DISTORT": "distor",
+                "DISTORT": "distor",  # Blender has a typo in the preferences name lol
                 "INPUT": "input",
                 "MATTE": "matte",
                 "OP_COLOR": "color",
@@ -94,7 +94,7 @@ class NPIE_MT_node_pie(Menu):
 
         else:
             menu_prefix = ""
-            icons = {}
+            colours = {}
             overrides = {}
             icon_overrides = {}
             exclude = set()
@@ -135,11 +135,11 @@ class NPIE_MT_node_pie(Menu):
                 # row.scale_y = lerp(inv_lerp(count, 0, max_count), prefs.npie_normal_size, prefs.npie_max_size)
 
             # Draw the colour bar to the side
-            split = row.split(factor=.02, align=True)
+            split = row.split(factor=prefs.npie_color_size, align=True)
 
             sub = split.row(align=True)
             sub.prop(context.preferences.themes[0].node_editor, category_name + "_node", text="")
-            sub.scale_x = .01
+            sub.scale_x = .03
 
             # draw the button
             op = split.operator("node_pie.add_node", text=text)
@@ -151,7 +151,7 @@ class NPIE_MT_node_pie(Menu):
             for override in icon_overrides:
                 if override in identifier:
                     return icon_overrides[override]
-            return icons[node_category]
+            return colours[node_category]
 
         def sort_item(identifier: str, node_category: str):
             """Returns whether the node should be overriden"""

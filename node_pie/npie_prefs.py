@@ -16,6 +16,15 @@ class NodePiePrefs():
     npie_normal_size: FloatProperty(name="Normal size", default=1)
     npie_max_size: FloatProperty(name="Max size", default=2.5)
 
+    npie_color_size: FloatProperty(
+        name="Color bar size",
+        default=.02,
+        description="Having this value too low can cause the colors to disapear.",
+        subtype="FACTOR",
+        min=0,
+        max=1,
+    )
+
     npie_freeze_popularity: BoolProperty(
         name="Freeze popularity",
         default=False,
@@ -31,6 +40,7 @@ class NodePiePrefs():
         col = draw_section(layout, "Node Popularity")
         fac = .515
         draw_inline_prop(col, prefs, "npie_variable_sizes", factor=fac)
+        draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
         draw_inline_prop(col, prefs, "npie_normal_size", factor=fac)
         draw_inline_prop(col, prefs, "npie_max_size", factor=fac)
 
