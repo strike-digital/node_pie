@@ -18,6 +18,8 @@ bl_info = {
     "blender": (3, 0, 0),
     "version": (1, 0, 1),
     "location": "Node editor > Shortcut",
+    "doc_url": "https://github.com/strike-digital/node_pie/wiki",
+    "tracker_url": "https://github.com/strike-digital/node_pie/issues",
     "category": "Node"
 }
 
