@@ -2,7 +2,7 @@ import bpy
 import json
 from bpy.types import Operator, UILayout
 from collections import OrderedDict
-from ..shared.helpers import Op
+from .npie_helpers import Op
 from .npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
 
 

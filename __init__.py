@@ -21,7 +21,7 @@ bl_info = {
     "category": "Node"
 }
 
-from .shared import auto_load
+from . import auto_load
 auto_load.init()
 
 

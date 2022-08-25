@@ -4,7 +4,6 @@ import inspect
 import pkgutil
 import importlib
 from pathlib import Path
-from . import icons
 
 __all__ = (
     "init",
@@ -15,7 +14,7 @@ __all__ = (
 blender_version = bpy.app.version
 
 # Icons needs to register first so that they are available to other modules when they're imported
-manual_modules_pre_classes = [icons]
+manual_modules_pre_classes = []
 manual_modules_post_classes = []
 modules = None
 ordered_classes = None
@@ -30,7 +29,7 @@ def init():
     global modules
     global ordered_classes
 
-    modules = get_all_submodules(Path(__file__).parent.parent)
+    modules = get_all_submodules(Path(__file__).parent)
     ordered_classes = get_ordered_classes_to_register(modules)
 
 

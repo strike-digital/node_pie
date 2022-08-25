@@ -1,13 +1,15 @@
 import bpy
 from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
-from ..shared.functions import get_prefs
-from ..shared.ui import draw_enabled_button, draw_section, draw_inline_prop
+from .npie_helpers import get_prefs
+from .npie_ui import draw_enabled_button, draw_section, draw_inline_prop
 from .npie_ui import NPIE_MT_node_pie
 
 
-class NodePiePrefs():
+class NodePiePrefs(bpy.types.AddonPreferences):
     """Node pie"""
+
+    bl_idname: str = __package__.split(".")[0]
 
     layout: UILayout
     node_pie_enabled: BoolProperty(name="Enable node pie", default=True)
