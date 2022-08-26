@@ -143,6 +143,7 @@ class NPIE_MT_node_pie(Menu):
 
     def draw(self, context):
         layout = self.layout
+
         pie = layout.menu_pie()
         prefs = get_prefs(context)
 
@@ -233,13 +234,13 @@ class NPIE_MT_node_pie(Menu):
             count = node.get("count", 0)
             return count
 
-        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str, average: float = .0):
+        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name=""):
             """Draw the add node operator"""
             count = all_node_counts[identifier]
 
             row = layout.row(align=True)
             # draw the operator larger if the node is used more often
-            if prefs.npie_variable_sizes:
+            if prefs.npie_variable_sizes and not group_name:
                 # lerp between the min and max sizes based on how used each node is compared to the most used one.
                 # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
                 counts = list(dict.fromkeys(all_node_counts.values()))
@@ -257,6 +258,7 @@ class NPIE_MT_node_pie(Menu):
 
             # draw the button
             op = split.operator("node_pie.add_node", text=text)
+            op.group_name = group_name
             op.type = identifier
             op.use_transform = True
 
@@ -279,6 +281,22 @@ class NPIE_MT_node_pie(Menu):
             row = layout.row(align=True)
             row.alignment = "CENTER"
             row.label(text=text.capitalize().replace("_", " "))
+
+        def draw_node_groups(layout: UILayout):
+            node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
+            if not node_groups:
+                return
+            col = layout.box().column(align=True)
+            draw_header(col, "Groups")
+            for ng in node_groups:
+                if ng.bl_idname == tree_type:
+                    draw_op(
+                        col,
+                        ng.name,
+                        category_name="group",
+                        identifier=tree_type.replace("Tree", "Group"),
+                        group_name=ng.name,
+                    )
 
         def draw_category(layout: UILayout, cat: str, remove: str = ""):
             """Draw all node items in this category"""
@@ -325,13 +343,13 @@ class NPIE_MT_node_pie(Menu):
                     # Check that the node category has not been overriden to something different
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
-                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype, average_count)
+                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype)
 
                 # Draw nodes whose category has been overriden.
                 for node_id, node_cat in overrides.items():
                     if node_cat == cat:
                         icon = get_icon(node_id, node_cat)
-                        draw_op(col, all_nodes[node_id].label.replace(remove, ""), icon, node_id, average_count)
+                        draw_op(col, all_nodes[node_id].label.replace(remove, ""), icon, node_id)
 
         def draw_search(layout: UILayout):
             layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
@@ -349,14 +367,15 @@ class NPIE_MT_node_pie(Menu):
 
             # bottom
             col = pie.column()
-            draw_search(col.box())
+            draw_category(col.box(), "OP_COLOR")
             col.separator(factor=.4)
-            box = col.box().row()
-            draw_category(box, "OP_COLOR")
+            draw_node_groups(col)
 
             # top
-            box = pie.column(align=True).box()
-            draw_category(box, "OP_VECTOR")
+            col = pie.column()
+            draw_category(col.box(), "OP_VECTOR")
+            col.separator(factor=.4)
+            draw_search(col.box())
 
         elif tree_type == "GeometryNodeTree":
             # left
@@ -395,15 +414,17 @@ class NPIE_MT_node_pie(Menu):
             # bottom
             row = pie.row()
             col = row.column(align=False)
-            draw_search(col.box())
+            draw_node_groups(col)
             col.separator(factor=.4)
             draw_category(col.box(), "INSTANCE")
             col.separator(factor=.4)
             draw_category(col.box(), "VOLUME")
 
             # top
-            col = pie.column(align=True)
+            col = pie.column()
             draw_category(col.box(), "GEOMETRY")
+            col.separator(factor=.4)
+            draw_search(col.box())
 
         elif tree_type == "CompositorNodeTree":
             # left
@@ -424,6 +445,7 @@ class NPIE_MT_node_pie(Menu):
 
             # bottom
             col = pie.column()
+            draw_node_groups(col)
             draw_search(col.box())
             col.separator(factor=.4)
             row = col.row()
@@ -535,6 +557,6 @@ class NPIE_MT_node_pie(Menu):
                             if not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_op(col, nodeitem.label, "input", nodeitem.nodetype, average_count)
+                            draw_op(col, nodeitem.label, "input", nodeitem.nodetype)
 
                         bigcol.separator(factor=.4)

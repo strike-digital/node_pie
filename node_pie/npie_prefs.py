@@ -2,8 +2,7 @@ import bpy
 from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
 from .npie_helpers import get_prefs
-from .npie_ui import draw_enabled_button, draw_section, draw_inline_prop
-from .npie_ui import NPIE_MT_node_pie
+from .npie_ui import NPIE_MT_node_pie, draw_section, draw_inline_prop
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):

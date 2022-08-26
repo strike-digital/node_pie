@@ -11,6 +11,7 @@ class NPIE_OT_node_pie_add_node(Operator):
     """Add a node to the node tree, and increase its polularity by 1"""
 
     type: bpy.props.StringProperty(name="Type", description="Node type to add", default="FunctionNodeInputVector")
+    group_name: bpy.props.StringProperty(name="Group name", description="The name of the node group to add")
     use_transform: bpy.props.BoolProperty(default=True)
 
     def execute(self, context):
@@ -20,6 +21,9 @@ class NPIE_OT_node_pie_add_node(Operator):
             self.report({"ERROR"}, str(e))
             return {'CANCELLED'}
 
+        if self.group_name:
+            node = context.space_data.node_tree.nodes.active
+            node.node_tree = bpy.data.node_groups[self.group_name]
         node_tree = context.space_data.node_tree
         with open(POPULARITY_FILE, "r") as f:
             if text := f.read():
