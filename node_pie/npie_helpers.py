@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from bpy.types import Operator
-import bpy
+from bpy.types import Operator, AddonPreferences
 
 
-def get_prefs(context) -> bpy.types.AddonPreferences:
+def get_prefs(context) -> AddonPreferences:
     """Return the addon preferences"""
     return context.preferences.addons[__package__.split(".")[0]].preferences
 

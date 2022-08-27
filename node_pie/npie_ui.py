@@ -284,7 +284,7 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_node_groups(layout: UILayout):
             node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
-            if not node_groups:
+            if not node_groups or not prefs.npie_show_node_groups:
                 return
             col = layout.box().column(align=True)
             draw_header(col, "Groups")
@@ -367,9 +367,9 @@ class NPIE_MT_node_pie(Menu):
 
             # bottom
             col = pie.column()
-            draw_category(col.box(), "OP_COLOR")
-            col.separator(factor=.4)
             draw_node_groups(col)
+            col.separator(factor=.4)
+            draw_category(col.box(), "OP_COLOR")
 
             # top
             col = pie.column()
@@ -446,14 +446,15 @@ class NPIE_MT_node_pie(Menu):
             # bottom
             col = pie.column()
             draw_node_groups(col)
-            draw_search(col.box())
             col.separator(factor=.4)
             row = col.row()
             draw_category(row.box(), "MATTE", remove=" BSDF")
 
             # top
-            box = pie.column(align=True).box()
-            draw_category(box, "OP_COLOR")
+            col = pie.column(align=True)
+            draw_category(col.box(), "OP_COLOR")
+            col.separator(factor=.4)
+            draw_search(col.box())
 
         else:
             # Automatically draw all node items as space efficiently as possible.
