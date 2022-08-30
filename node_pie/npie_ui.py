@@ -162,7 +162,7 @@ class NPIE_MT_node_pie(Menu):
             }
             overrides = {"ShaderNodeVectorMath": "OP_VECTOR"}
             icon_overrides = {}
-            exclude = {"ShaderNodeSubsurfaceScattering"}
+            exclude = set()
 
         elif tree_type == "GeometryNodeTree":
             menu_prefix = "NODE_MT_category_GEO_"
@@ -188,6 +188,7 @@ class NPIE_MT_node_pie(Menu):
             icon_overrides = {
                 "Input": "input",
                 "FunctionNode": "converter",
+                "GeometryNodeStringJoin": "converter",
             }
             exclude = set()
 

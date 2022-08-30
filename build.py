@@ -50,7 +50,7 @@ def main():
 
     path = Path(__file__).parent
     files = [Path(f.decode("utf8")) for f in subprocess.check_output("git ls-files", shell=True).splitlines()]
-    files = [f for f in files if not any(i in str(f) for i in ["images\\", "README"])]
+    files = [f for f in files if not any(i in str(f) for i in ["images\\", "README", ".gitignore", "build.py"])]
 
     # version
     if args.version:
