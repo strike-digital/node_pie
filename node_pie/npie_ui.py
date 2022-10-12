@@ -189,6 +189,13 @@ class NPIE_MT_node_pie(Menu):
                 "Input": "input",
                 "FunctionNode": "converter",
                 "GeometryNodeStringJoin": "converter",
+                "ShaderNodeValToRGB": "converter",
+                "ShaderNodeCombineXYZ": "converter",
+                "ShaderNodeSeparateXYZ": "converter",
+                "GeometryNodeSplineParameter": "input",
+                "GeometryNodeSplineLength": "input",
+                "GeometryNodeCurveHandleTypeSelection": "input",
+                "GeometryNodeCurveEndpointSelection": "input",
             }
             exclude = set()
 
@@ -221,6 +228,7 @@ class NPIE_MT_node_pie(Menu):
             print(e)
             return
         submenus = {d: getattr(bpy.types, d) for d in dir(bpy.types) if d.startswith(menu_prefix)}
+        # print(list(nodeitems_utils.node_items_iter(context)))
         all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}

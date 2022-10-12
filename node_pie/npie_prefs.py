@@ -111,7 +111,14 @@ def register():
             ctrl=True,
         )
         kmi.properties.name = NPIE_MT_node_pie.__name__
-        addon_keymaps.append((km, kmi))
+        # addon_keymaps.append((km, kmi))
+        # kmi = km.keymap_items.new(
+        #     "wm.call_menu_pie",
+        #     type='RIGHTMOUSE',
+        #     value='CLICK_DRAG',
+        # )
+        # kmi.properties.name = NPIE_MT_node_pie.__name__
+        # addon_keymaps.append((km, kmi))
 
 
 def unregister():
