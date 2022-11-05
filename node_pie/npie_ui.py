@@ -279,7 +279,7 @@ class NPIE_MT_node_pie(Menu):
             sub.scale_x = .03
 
             # draw the button
-            op = split.operator("node_pie.add_node", text=text)
+            op = split.operator("node_pie.add_node", text=bpy.app.translations.pgettext(text))
             op.group_name = group_name
             op.type = identifier
             op.use_transform = True
@@ -329,7 +329,8 @@ class NPIE_MT_node_pie(Menu):
             if cat == "Group":
                 node_groups = [ng for ng in bpy.data.node_groups if ng.bl_rna.identifier == tree_type]
                 for ng in node_groups:
-                    op = layout.operator("node.add_group", text=ng.name, icon=icon)
+                    text = bpy.app.translations.pgettext(ng.name)
+                    op = layout.operator("node.add_group", text=text, icon=icon)
                     op.name = ng.name
                 return
 
