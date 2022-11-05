@@ -21,10 +21,12 @@ class NPIE_OT_node_pie_add_node(Operator):
             self.report({"ERROR"}, str(e))
             return {'CANCELLED'}
 
+        node_tree = context.area.spaces.active.path[-1].node_tree
         if self.group_name:
-            node = context.space_data.node_tree.nodes.active
+            print(node_tree)
+            node = node_tree.nodes.active
             node.node_tree = bpy.data.node_groups[self.group_name]
-        node_tree = context.space_data.node_tree
+        # node_tree = context.space_data.node_tree
         with open(POPULARITY_FILE, "r") as f:
             if text := f.read():
                 try:

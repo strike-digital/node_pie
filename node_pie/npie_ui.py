@@ -4,6 +4,7 @@ import bpy
 import json
 import nodeitems_utils
 from .npie_helpers import get_prefs, lerp, inv_lerp
+from .geo_nodes_categories import geo_nodes_categories, NodeItem
 from pathlib import Path
 from bpy.types import UILayout, Menu
 
@@ -151,39 +152,42 @@ class NPIE_MT_node_pie(Menu):
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
             colours = {
-                "CONVERTOR": "converter",
-                "INPUT": "input",
-                "OP_COLOR": "color",
-                "OP_VECTOR": "vector",
-                "OUTPUT": "output",
-                "SHADER": "shader",
-                "TEXTURE": "texture",
-                "GROUP": "group",
+                "Converter": "converter",
+                "Input": "input",
+                "Color": "color",
+                "Vector": "vector",
+                "Output": "output",
+                "Shader": "shader",
+                "Texture": "texture",
+                "Group": "group",
             }
-            overrides = {"ShaderNodeVectorMath": "OP_VECTOR"}
+            overrides = {"ShaderNodeVectorMath": "Vector"}
             icon_overrides = {}
             exclude = set()
 
         elif tree_type == "GeometryNodeTree":
             menu_prefix = "NODE_MT_category_GEO_"
             colours = {
-                "ATTRIBUTE": "attribute",
-                "COLOR": "color",
-                "CURVE": "geometry",
-                "GEOMETRY": "geometry",
-                "INPUT": "input",
-                "INSTANCE": "geometry",
-                "MATERIAL": "geometry",
-                "MESH": "geometry",
-                "POINT": "geometry",
-                "PRIMITIVES_CURVE": "geometry",
-                "PRIMITIVES_MESH": "geometry",
-                "TEXT": "geometry",
-                "TEXTURE": "texture",
-                "UTILITIES": "converter",
-                "VECTOR": "vector",
-                "VOLUME": "geometry",
+                "Attribute": "attribute",
+                "Color": "color",
+                "Curve": "geometry",
+                "Geometry": "geometry",
+                "Input": "input",
+                "Instances": "geometry",
+                "Material": "geometry",
+                "Mesh": "geometry",
+                "Point": "geometry",
+                "Curve Primitives": "geometry",
+                "Mesh Primitives": "geometry",
+                "Text": "geometry",
+                "Texture": "texture",
+                "Utilities": "converter",
+                "Vector": "vector",
+                "Volume": "geometry",
             }
+            if bpy.app.version >= (3, 4, 0):
+                colours |= {"Mesh Topology": "input", "Curve Topology": "input"}
+                print(colours)
             overrides = {}
             icon_overrides = {
                 "Input": "input",
@@ -202,14 +206,14 @@ class NPIE_MT_node_pie(Menu):
         elif tree_type == "CompositorNodeTree":
             menu_prefix = "NODE_MT_category_CMP_"
             colours = {
-                "CONVERTOR": "converter",
-                "DISTORT": "distor",  # Blender has a typo in the preferences name lol
-                "INPUT": "input",
-                "MATTE": "matte",
-                "OP_COLOR": "color",
-                "OP_FILTER": "filter",
-                "OP_VECTOR": "vector",
-                "OUTPUT": "output",
+                "Converter": "converter",
+                "Distort": "distor",  # Blender has a typo in the preferences name lol
+                "Input": "input",
+                "Matte": "matte",
+                "Color": "color",
+                "Filter": "filter",
+                "Vector": "vector",
+                "Output": "output",
             }
             overrides = {}
             icon_overrides = {}
@@ -227,13 +231,22 @@ class NPIE_MT_node_pie(Menu):
         except NameError as e:
             print(e)
             return
-        submenus = {d: getattr(bpy.types, d) for d in dir(bpy.types) if d.startswith(menu_prefix)}
+
+        if tree_type == "GeometryNodeTree" and bpy.app.version >= (3, 4, 0):
+            categories = geo_nodes_categories
+            all_nodes = {n.nodetype: n for c in geo_nodes_categories.values() for n in c.nodeitems}
+            all_nodes["GeometryNodeGroup"] = NodeItem("Group", "GeometryNodeGroup")
+        else:
+            categories = {
+                getattr(bpy.types, d).bl_label: getattr(bpy.types, d).category
+                for d in dir(bpy.types)
+                if d.startswith(menu_prefix) and hasattr(getattr(bpy.types, d), "category")
+            }
+            all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
         # print(list(nodeitems_utils.node_items_iter(context)))
-        all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
-        average_count = mean(all_node_counts.values())
 
         def get_node_count(identifier):
             data = get_all_node_data()
@@ -310,10 +323,10 @@ class NPIE_MT_node_pie(Menu):
         def draw_category(layout: UILayout, cat: str, remove: str = ""):
             """Draw all node items in this category"""
             col = layout.column(align=True)
-            label = getattr(bpy.types, menu_prefix + cat).bl_label
+            label = categories[cat].name
             draw_header(col, label)
 
-            if cat == "GROUP":
+            if cat == "Group":
                 node_groups = [ng for ng in bpy.data.node_groups if ng.bl_rna.identifier == tree_type]
                 for ng in node_groups:
                     op = layout.operator("node.add_group", text=ng.name, icon=icon)
@@ -322,7 +335,7 @@ class NPIE_MT_node_pie(Menu):
 
             # Split the node items into sub categories depending on the location of blank node items.
             # This is then used to sort the node items inside each of the sub categories.
-            nodeitems = submenus[menu_prefix + cat].category.items(bpy.context)
+            nodeitems = categories[cat].items(context)
             subgroups = []
             temp = []
             for node in nodeitems:
@@ -366,102 +379,107 @@ class NPIE_MT_node_pie(Menu):
         if tree_type == "ShaderNodeTree":
             # left
             row = pie.row(align=False)
-            draw_category(row.box(), "TEXTURE", remove=" Texture")
-            draw_category(row.box(), "CONVERTOR")
+            draw_category(row.box(), "Texture", remove=" Texture")
+            draw_category(row.box(), "Converter")
 
             # right
             row = pie.row(align=False)
-            draw_category(row.box(), "INPUT")
-            draw_category(row.box(), "SHADER", remove=" BSDF")
+            draw_category(row.box(), "Input")
+            draw_category(row.box(), "Shader", remove=" BSDF")
 
             # bottom
             col = pie.column()
-            draw_node_groups(col)
+            draw_category(col.box(), "Color")
             col.separator(factor=.4)
-            draw_category(col.box(), "OP_COLOR")
+            draw_node_groups(col)
 
             # top
             col = pie.column()
-            draw_category(col.box(), "OP_VECTOR")
+            draw_category(col.box(), "Vector")
             col.separator(factor=.4)
             draw_search(col.box())
 
         elif tree_type == "GeometryNodeTree":
             # left
             row = pie.row(align=False)
-            draw_category(row.box(), "INPUT")
+            draw_category(row.box(), "Input")
             col = row.column(align=False)
-            draw_category(col.box(), "ATTRIBUTE")
+            draw_category(col.box(), "Attribute")
             col.separator(factor=.4)
-            draw_category(col.box(), "TEXTURE")
+            draw_category(col.box(), "Texture")
             col.separator(factor=.4)
-            draw_category(col.box(), "COLOR")
+            draw_category(col.box(), "Color")
             col.separator(factor=.4)
             col = row.column(align=False)
-            draw_category(col.box(), "VECTOR")
+            draw_category(col.box(), "Vector")
             col.separator(factor=.4)
-            draw_category(col.box(), "UTILITIES")
+            draw_category(col.box(), "Utilities")
 
             # right
             row = pie.row(align=False)
             col = row.column(align=False)
-            draw_category(col.box(), "CURVE")
+            draw_category(col.box(), "Curve")
             col.separator(factor=.4)
-            draw_category(col.box(), "POINT")
+            draw_category(col.box(), "Point")
             col = row.column(align=False)
-            draw_category(col.box(), "MESH")
+            draw_category(col.box(), "Mesh")
             col.separator(factor=.4)
-            draw_category(col.box(), "MATERIAL")
+            draw_category(col.box(), "Material")
 
             col = row.column(align=False)
-            draw_category(col.box(), "PRIMITIVES_MESH")
+            draw_category(col.box(), "Mesh Primitives")
             col.separator(factor=.4)
-            draw_category(col.box(), "PRIMITIVES_CURVE")
+            draw_category(col.box(), "Curve Primitives")
             col.separator(factor=.4)
-            draw_category(col.box(), "TEXT")
+            if bpy.app.version >= (3, 4, 0):
+                draw_category(col.box(), "Mesh Topology")
+                col.separator(factor=.4)
+                draw_category(col.box(), "Curve Topology")
+            col.separator(factor=.4)
+            draw_category(col.box(), "Text")
 
             # bottom
             row = pie.row()
             col = row.column(align=False)
+            draw_category(col.box(), "Instances")
+            col.separator(factor=.4)
+            draw_category(col.box(), "Volume")
+            col.separator(factor=.4)
             draw_node_groups(col)
-            col.separator(factor=.4)
-            draw_category(col.box(), "INSTANCE")
-            col.separator(factor=.4)
-            draw_category(col.box(), "VOLUME")
 
             # top
             col = pie.column()
-            draw_category(col.box(), "GEOMETRY")
+            draw_category(col.box(), "Geometry")
             col.separator(factor=.4)
             draw_search(col.box())
 
         elif tree_type == "CompositorNodeTree":
             # left
             row = pie.row(align=False)
-            draw_category(row.box(), "CONVERTOR")
+            draw_category(row.box(), "Converter")
             col = row.column(align=True)
-            draw_category(col.box(), "DISTORT", remove=" Texture")
+            draw_category(col.box(), "Distort", remove=" Texture")
             col.separator(factor=.4)
-            draw_category(col.box(), "OP_VECTOR")
+            draw_category(col.box(), "Vector")
 
             # right
             row = pie.row(align=False)
             col = row.column(align=True)
-            draw_category(col.box(), "INPUT")
+            draw_category(col.box(), "Input")
             col.separator(factor=.4)
-            draw_category(col.box(), "OUTPUT")
-            draw_category(row.box(), "OP_FILTER")
+            draw_category(col.box(), "Output")
+            draw_category(row.box(), "Filter")
 
             # bottom
             col = pie.column()
-            draw_node_groups(col)
-            col.separator(factor=.4)
             row = col.row()
-            draw_category(row.box(), "MATTE", remove=" BSDF")
+            draw_category(row.box(), "Matte", remove=" BSDF")
+            col.separator(factor=.4)
+            draw_node_groups(col)
 
             # top
             col = pie.column(align=True)
-            draw_category(col.box(), "OP_COLOR")
+            draw_category(col.box(), "Color")
             col.separator(factor=.4)
             draw_search(col.box())
 
