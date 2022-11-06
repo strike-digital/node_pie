@@ -1,4 +1,3 @@
-from pprint import pprint
 import bpy
 from dataclasses import dataclass
 from pathlib import Path
@@ -59,8 +58,6 @@ def main():
             label = getattr(bpy.types, node_idname).bl_rna.name
             cat.nodeitems.append(NodeItem(label, node_idname))
             geo_nodes_categories[category] = cat
-
-    pprint(geo_nodes_categories.keys())
 
 
 if bpy.app.version >= (3, 4, 0):
