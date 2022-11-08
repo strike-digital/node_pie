@@ -2,3 +2,4 @@ shared/__pycache__
 *.pyc
 **/*.json
 *.zip
+tokens.txt

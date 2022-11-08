@@ -4,6 +4,8 @@ import argparse
 from zipfile import ZipFile
 from pathlib import Path
 import webbrowser
+from github import Github
+import tkinter
 import re
 
 
@@ -36,8 +38,54 @@ def update_constants_file(constants_file, value):
         file.write(text)
 
 
-def main():
+def multi_input(prompt=""):
+    """Get user input over multiple lines. Exit with Ctrl-Z"""
+    print(prompt)
+    contents = []
+    while True:
+        try:
+            line = input()
+        except EOFError:
+            break
+        contents.append(line)
+    return "\n".join(contents)
 
+
+def multi_line_input(prompt):
+    dark = "#26242f"
+    win = tkinter.Tk()
+    win.geometry("750x750")
+    win.config(bg=dark)
+
+    # label = tkinter.Label(win, "Release message:", )
+    # label.pack()
+
+    def confirm():
+        confirm.final_text = text.get("1.0", tkinter.END)
+        win.quit()
+
+    label = tkinter.Label(win, text=prompt)
+    label.configure(bg=dark, fg="white")
+    label.pack()
+
+    button = tkinter.Button(win, text="Confirm", width=20, command=confirm)
+    button.pack(side=tkinter.BOTTOM)
+    button.configure(bg=dark, fg="white")
+
+    text = tkinter.Text(win,)
+    scroll = tkinter.Scrollbar(win)
+    text.configure(yscrollcommand=scroll.set, bg=dark, fg="white")
+    text.focus_set()
+    text.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+
+    scroll.config(command=text.yview)
+    scroll.pack(side=tkinter.RIGHT, fill=tkinter.BOTH)
+
+    win.mainloop()
+    return confirm.final_text
+
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "-v",
@@ -74,9 +122,37 @@ def main():
             print(file)
             # z.write(file, arcname=str(file).replace("asset_bridge", f"asset_bridge_{file_version}"))
             z.write(file, arcname=str(f"node_pie_{file_version}" / file))
-    # update_constants_file(constants_file, True)
 
-    webbrowser.open(out_path.parent)
+    try:
+        with open("tokens.txt", "r") as f:
+            token = f.readlines()[0]
+    except Exception:
+        webbrowser.open(out_path.parent)
+        return
+
+    create_release = input("Do you want to create a release on github? (y/n) ")
+
+    if create_release == "y":
+        gh = Github(token)
+        repo = gh.get_repo("strike-digital/node_pie")
+        version = file_version.replace("_", ".")
+        commit = repo.get_commits()[0]
+        # commit = repo.get_commit("hoho")
+        # commit.url
+
+        # message = multi_input(" (Ctrl-Z on newline to confirm): ")
+        message = multi_line_input("Release message:")
+        release = repo.create_git_tag_and_release(tag=version,
+                                                  release_name="v" + version,
+                                                  release_message=message,
+                                                  tag_message=version,
+                                                  object=commit.sha,
+                                                  type="")
+        release.upload_asset(str(out_path))
+        webbrowser.open(release.html_url)
+
+    else:
+        webbrowser.open(out_path.parent)
 
 
 if __name__ == "__main__":
