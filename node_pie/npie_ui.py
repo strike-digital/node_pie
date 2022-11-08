@@ -279,10 +279,13 @@ class NPIE_MT_node_pie(Menu):
             sub.scale_x = .03
 
             # draw the button
-            op = split.operator("node_pie.add_node", text=bpy.app.translations.pgettext(text))
+            row = split.row(align=True)
+            op = row.operator("node_pie.add_node", text=bpy.app.translations.pgettext(text))
             op.group_name = group_name
             op.type = identifier
             op.use_transform = True
+            op = row.operator("node_pie.show_node_docs", text="", icon="HELP")
+            op.type = identifier
 
         def get_icon(identifier: str, node_category: str):
             """Get the icon name for this node"""

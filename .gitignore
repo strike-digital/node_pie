@@ -3,3 +3,4 @@ shared/__pycache__
 **/*.json
 *.zip
 tokens.txt
+builds/

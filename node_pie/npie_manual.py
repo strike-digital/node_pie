@@ -1,4 +1,7 @@
+import webbrowser
 import bpy
+from .npie_helpers import Op
+from bpy.types import Operator
 """Modified from the blender python source wm.py file
 Gets the documentation source .rst file for the selected node"""
 
@@ -95,7 +98,7 @@ def _lookup_rna_url(rna_id, full_url=False):
             return url
 
 
-def get_docs_url(doc_id):
+def get_docs_source_url(doc_id):
     rna_id = _wm_doc_get_id(doc_id, do_url=False)
     if rna_id is None:
         return ""
@@ -107,3 +110,16 @@ def get_docs_url(doc_id):
         return ""
     else:
         return url
+
+
+@Op("node_pie")
+class NPIE_OT_show_node_docs(Operator):
+    """Show the documentation for this node"""
+
+    type: bpy.props.StringProperty()
+
+    def execute(self, context):
+        url = get_docs_source_url(self.type)
+        print(url)
+        # webbrowser.open(url)
+        return {"FINISHED"}

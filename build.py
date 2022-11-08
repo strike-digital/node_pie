@@ -123,7 +123,7 @@ if __name__ == "__main__":
         update_init_file(path / "__init__.py", tuple(int(f) for f in file_version.split("_")))
         # update_constants_file(constants_file, False)
 
-        out_path = path / f"node_pie_{file_version}.zip"
+        out_path = path / "builds" / f"node_pie_{file_version}.zip"
 
         with ZipFile(out_path, 'w') as z:
             # writing each file one by one

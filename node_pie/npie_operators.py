@@ -3,7 +3,7 @@ import json
 from bpy.types import Operator, UILayout
 from collections import OrderedDict
 from .npie_keymap import addon_keymaps, draw_kmi
-from .npie_manual import get_docs_url
+from .npie_manual import get_docs_source_url
 from .npie_helpers import Op
 from .npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
 
