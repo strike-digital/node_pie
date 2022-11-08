@@ -2,7 +2,9 @@ import bpy
 from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
 from .npie_helpers import get_prefs
-from .npie_ui import NPIE_MT_node_pie, draw_section, draw_inline_prop
+from .npie_ui import draw_section, draw_inline_prop
+from .npie_keymap import addon_keymaps
+import rna_keymap_ui
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):
@@ -73,9 +75,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 
         col = draw_section(layout, "Keymap")
-        global addon_keymaps
+        kc = bpy.context.window_manager.keyconfigs.addon
         for km, kmi in addon_keymaps:
             row = col.row(align=True)
+            # rna_keymap_ui.draw_kmi([], kc, km, kmi, row, 0)
+            # continue
             row.active = kmi.active
             sub = row.row(align=True)
             sub.prop(kmi, "active", text="")
@@ -85,43 +89,3 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             sub = row.row(align=True)
             sub.enabled = True
             sub.operator("preferences.keyitem_restore", text="", icon="X").item_id = kmi.id
-
-
-addon_keymaps = []
-
-
-def register():
-    wm = bpy.context.window_manager
-    kc = wm.keyconfigs.addon
-    if kc:
-        km = kc.keymaps.new(name='Node Editor', space_type='NODE_EDITOR')
-
-        kmi = km.keymap_items.new(
-            "wm.call_menu_pie",
-            type='LEFTMOUSE',
-            value='PRESS',
-            ctrl=True,
-        )
-        kmi.properties.name = NPIE_MT_node_pie.__name__
-        addon_keymaps.append((km, kmi))
-        kmi = km.keymap_items.new(
-            "wm.call_menu_pie",
-            type='A',
-            value='PRESS',
-            ctrl=True,
-        )
-        kmi.properties.name = NPIE_MT_node_pie.__name__
-        # addon_keymaps.append((km, kmi))
-        # kmi = km.keymap_items.new(
-        #     "wm.call_menu_pie",
-        #     type='RIGHTMOUSE',
-        #     value='CLICK_DRAG',
-        # )
-        # kmi.properties.name = NPIE_MT_node_pie.__name__
-        # addon_keymaps.append((km, kmi))
-
-
-def unregister():
-    for km, kmi in addon_keymaps:
-        km.keymap_items.remove(kmi)
-    addon_keymaps.clear()
