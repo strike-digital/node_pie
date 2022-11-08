@@ -1,9 +1,8 @@
-import webbrowser
 import bpy
 import json
 from bpy.types import Operator, UILayout
 from collections import OrderedDict
-
+from .npie_keymap import addon_keymaps, draw_kmi
 from .npie_manual import get_docs_url
 from .npie_helpers import Op
 from .npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
@@ -64,9 +63,9 @@ class NPIE_OT_node_pie_add_node(Operator):
 
         # from pprint import pprint
         # pprint(list(bpy.utils.manual_map()))
-        url = get_docs_url(self.type)
-        print(get_docs_url(self.type))
-        webbrowser.open(url)
+        # url = get_docs_url(self.type)
+        # print(get_docs_url(self.type))
+        # webbrowser.open(url)
         return {'PASS_THROUGH'}
 
 
@@ -101,8 +100,3 @@ class NPIE_OT_reset_popularity(Operator):
             pass
         self.report({"INFO"}, "Node popularity successfully reset")
         return {"FINISHED"}
-
-
-@Op("node_pie")
-class NPIE_OT_new_keymap_item(Operator):
-    """Reset the popularity of all nodes back to zero"""

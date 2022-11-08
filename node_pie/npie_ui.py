@@ -258,7 +258,7 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name=""):
             """Draw the add node operator"""
-            count = all_node_counts[identifier]
+            count = all_node_counts.get(identifier, 1)
 
             row = layout.row(align=True)
             # draw the operator larger if the node is used more often

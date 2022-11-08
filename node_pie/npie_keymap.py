@@ -1,11 +1,14 @@
 import json
 from pathlib import Path
 import bpy
+from bpy.types import Operator
+from .npie_helpers import Op
 from .npie_ui import NPIE_MT_node_pie
 """For some reason, blender doesn't save modified keymaps when the addon is reloaded, so this stores the keymaps in a
 config file in the presets directory. There is almost certainly a better way to do this, but I couldn't find it"""
 
-addon_keymaps = []
+addon_keymaps: list[tuple[bpy.types.KeyMap, bpy.types.KeyMapItem]] = []
+KEYMAP: bpy.types.KeyMap = None
 
 DEFAULT_CONFIG = [
     {
@@ -20,11 +23,15 @@ DEFAULT_CONFIG = [
     },
 ]
 
-POSSIBLE_VALUES = {"type", "value", "shift", "ctrl", "alt", "oskey", "any", "key_modifier", "direction", "repeat"}
+POSSIBLE_VALUES = ["type", "value", "shift", "ctrl", "alt", "oskey", "any", "key_modifier", "direction", "repeat"]
 
 
 def kmi_from_config(config: dict, km: bpy.types.KeyMap):
+    # kmi.active = config.get("active", True)
+
+    active = config.pop("active", True)
     kmi = km.keymap_items.new("wm.call_menu_pie", **config)
+    kmi.active = active
     kmi.properties.name = NPIE_MT_node_pie.__name__
     addon_keymaps.append((km, kmi))
 
@@ -33,6 +40,7 @@ def config_from_kmi(kmi):
     config = {}
     for key in POSSIBLE_VALUES:
         config[key] = getattr(kmi, key)
+    config["active"] = kmi.active
     return config
 
 
@@ -49,7 +57,7 @@ def register():
     # Read saved keymap, or save and load the default one if not present
     if not KEYMAP_FILE.exists():
         with open(KEYMAP_FILE, "w") as f:
-            json.dump(DEFAULT_CONFIG, f)
+            json.dump(DEFAULT_CONFIG, f, indent=2)
 
     with open(KEYMAP_FILE, "r") as f:
         try:
@@ -61,6 +69,8 @@ def register():
     kc = wm.keyconfigs.addon
     if kc:
         km = kc.keymaps.new(name='Node Editor', space_type='NODE_EDITOR')
+        global KEYMAP
+        KEYMAP = km
 
         for config in keymap_config:
             kmi_from_config(config, km)
@@ -75,4 +85,87 @@ def unregister():
 
     # Save keymap to presets directory file
     with open(KEYMAP_FILE, "w") as f:
-        json.dump(configs, f)
+        json.dump(configs, f, indent=2)
+
+
+def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):
+    row = layout.row(align=True)
+    map_type = kmi.map_type
+    row.prop(kmi, "map_type", text="")
+    if map_type == 'KEYBOARD':
+        row.prop(kmi, "type", text="", full_event=True)
+    elif map_type == 'MOUSE':
+        row.prop(kmi, "type", text="", full_event=True)
+    elif map_type == 'NDOF':
+        row.prop(kmi, "type", text="", full_event=True)
+    elif map_type == 'TWEAK':
+        subrow = row.row()
+        subrow.prop(kmi, "type", text="")
+        subrow.prop(kmi, "value", text="")
+    elif map_type == 'TIMER':
+        row.prop(kmi, "type", text="")
+    else:
+        row.label()
+
+    box = layout
+
+    if map_type not in {'TEXTINPUT', 'TIMER'}:
+        sub = box.column()
+        subrow = sub.row(align=True)
+
+        if map_type == 'KEYBOARD':
+            subrow.prop(kmi, "type", text="", event=True)
+            subrow.prop(kmi, "value", text="")
+            subrow_repeat = subrow.row(align=True)
+            subrow_repeat.active = kmi.value in {'ANY', 'PRESS'}
+            subrow_repeat.prop(kmi, "repeat", text="", icon="FILE_REFRESH")
+        elif map_type in {'MOUSE', 'NDOF'}:
+            subrow.prop(kmi, "type", text="")
+            subrow.prop(kmi, "value", text="")
+
+        subrow = sub.row(align=True)
+        subrow.scale_x = 0.75
+        subrow.prop(kmi, "any", toggle=True)
+        subrow.prop(kmi, "shift_ui", toggle=True)
+        subrow.prop(kmi, "ctrl_ui", toggle=True)
+        subrow.prop(kmi, "alt_ui", toggle=True)
+        subrow.prop(kmi, "oskey_ui", text="Cmd", toggle=True)
+        subrow.prop(kmi, "key_modifier", text="", event=True)
+
+
+@Op("node_pie")
+class NPIE_OT_edit_keymap_item(Operator):
+
+    index: bpy.props.IntProperty()
+
+    def invoke(self, context: bpy.types.Context, event: bpy.types.Event):
+        return context.window_manager.invoke_props_dialog(self, width=400)
+
+    def draw(self, context):
+        layout = self.layout
+        layout.scale_y = 1.2
+        km, kmi = addon_keymaps[self.index]
+        draw_kmi(kmi, layout)
+
+    def execute(self, context):
+        return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_remove_keymap_item(Operator):
+
+    index: bpy.props.IntProperty()
+
+    def execute(self, context):
+        km, kmi = addon_keymaps.pop(self.index)
+        km.keymap_items.remove(kmi)
+        return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_new_keymap_item(Operator):
+    """Add a new keymap item for calling the node pie menu"""
+
+    def execute(self, context):
+        kmi_from_config(DEFAULT_CONFIG[0], KEYMAP)
+        return {"FINISHED"}

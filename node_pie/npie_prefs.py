@@ -76,7 +76,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
         col = draw_section(layout, "Keymap")
         kc = bpy.context.window_manager.keyconfigs.addon
-        for km, kmi in addon_keymaps:
+        for i, (km, kmi) in enumerate(addon_keymaps):
             row = col.row(align=True)
             # rna_keymap_ui.draw_kmi([], kc, km, kmi, row, 0)
             # continue
@@ -88,4 +88,9 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             sub.prop(kmi, "type", full_event=True, text="")
             sub = row.row(align=True)
             sub.enabled = True
-            sub.operator("preferences.keyitem_restore", text="", icon="X").item_id = kmi.id
+            # sub.operator("preferences.keyitem_restore", text="", icon="X").item_id = kmi.id
+            op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
+            op.index = i
+            op = sub.operator("node_pie.remove_keymap_item", text="", icon="X")
+            op.index = i
+        col.operator("node_pie.new_keymap_item", text="", icon="ADD")
