@@ -57,12 +57,17 @@ def register():
     # Read saved keymap, or save and load the default one if not present
     if not KEYMAP_FILE.exists():
         with open(KEYMAP_FILE, "w") as f:
+            print("*****Node Pie Debug*****")
+            print(f"file {KEYMAP_FILE} doesn't exist")
             json.dump(DEFAULT_CONFIG, f, indent=2)
 
     with open(KEYMAP_FILE, "r") as f:
         try:
             keymap_config = json.load(f)
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            print("*****Node Pie Debug*****")
+            print("could not decode json")
+            print(e)
             keymap_config = DEFAULT_CONFIG
 
     wm = bpy.context.window_manager

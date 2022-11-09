@@ -1,5 +1,10 @@
-import webbrowser
+from pathlib import Path
 import bpy
+import gpu
+import blf
+from gpu_extras.batch import batch_for_shader
+from mathutils import Vector as V
+from ..vendor import requests
 from .npie_helpers import Op
 from bpy.types import Operator
 """Modified from the blender python source wm.py file
@@ -112,14 +117,132 @@ def get_docs_source_url(doc_id):
         return url
 
 
+def draw_rst(layout: bpy.types.UILayout, rst: str):
+    layout.scale_y = .5
+    for line in rst.splitlines():
+        layout.label(text=line)
+
+
+handlers = []
+
+# @Op("node_pie")
+# class NPIE_OT_show_node_docs(Operator):
+#     """Show the documentation for this node"""
+
+#     type: bpy.props.StringProperty()
+
+#     def invoke(self, context, event):
+#         url = get_docs_source_url(self.type)
+#         self.rst_source = requests.get(url).content.decode("utf-8").replace("\\n", "\n")
+#         print(self.rst_source)
+#         self._handle = bpy.types.SpaceView3D.draw_handler_add(self.draw_callback_px, args, "WINDOW", "POST_PIXEL")
+#         context.window_manager.modal_handler_add(self)
+#         return context.window_manager.invoke_popup(self, width=500)
+
+#     def draw(self, context):
+#         layout = self.layout
+#         draw_rst(layout, self.rst_source)
+
+#     def execute(self, context):
+#         return {"FINISHED"}
+
+
 @Op("node_pie")
 class NPIE_OT_show_node_docs(Operator):
     """Show the documentation for this node"""
 
     type: bpy.props.StringProperty()
 
-    def execute(self, context):
+    def invoke(self, context, event):
+        args = ()
+        self._handle = bpy.types.SpaceNodeEditor.draw_handler_add(
+            self.draw_callback_px,
+            args,
+            "WINDOW",
+            "POST_PIXEL",
+        )
+        handlers.append(self._handle)
+        path = Path(__file__).parent / "fonts"
+        # print((path / "DefaVuSansMono.ttf").exists())
+        self.fonts = {
+            "default": blf.load(str(path / "DejaVuSansMono.ttf")),
+            "bold": blf.load(str(path / "DejaVuSansMono-Bold.ttf")),
+            "italic": blf.load(str(path / "DejaVuSansMono-Oblique.ttf")),
+            "bolditalic": blf.load(str(path / "DejaVuSansMono-BoldOblique.ttf")),
+        }
+
         url = get_docs_source_url(self.type)
-        print(url)
-        # webbrowser.open(url)
+        self.rst_source: str = requests.get(url).content.decode("utf-8").replace("\\n", "\n")
+        self.mouse_pos = V((event.mouse_x, event.mouse_y))
+        # print(self.rst_source)
+        context.window_manager.modal_handler_add(self)
+        context.area.tag_redraw()
+        return {"RUNNING_MODAL"}
+
+    def modal(self, context, event):
+
+        if event.type == "LEFTMOUSE":
+            return self.finish()
+
+        if event.type in {"RIGHTMOUSE", "ESC"}:
+            return self.finish()
+
+        return {"PASS_THROUGH"}
+
+    def finish(self):
+        bpy.types.SpaceNodeEditor.draw_handler_remove(self._handle, "WINDOW")
+        handlers.remove(self._handle)
+        bpy.context.area.tag_redraw()
+        print("finished")
         return {"FINISHED"}
+
+    def draw_callback_px(self):
+        print("hahahahahha")
+        print("hahahahahha")
+
+        pos = self.mouse_pos.copy()
+
+        size = 100
+        size_x = 1
+        size_y = 2
+        vertices = ((-size, -size), (size, -size), (-size, size), (size, size))
+        vertices = [V((p[0] * size_x, p[1] * size_y)) for p in vertices]
+        vertices = [pos + p for p in vertices]
+
+        font_id = self.fonts["default"]
+        # font_id = 0
+        size = 15
+        col = .85
+        # blf.enable(font_id, blf.WORD_WRAP)
+        # blf.word_wrap(font_id)
+        blf.color(font_id, col, col, col, 1)
+        lines = self.rst_source.splitlines()
+        for i, line in enumerate(lines):
+            blf.size(font_id, size, 72)
+            padding = 2.5
+            if line.startswith("="):
+                continue
+            if lines[min(i + 1, len(lines) - 1)].startswith("="):
+                blf.size(font_id, size * 1.5, 72)
+                padding = size / 2
+
+            pos.y -= padding
+            blf.position(font_id, pos.x, pos.y, 0)
+            pos.y -= blf.dimensions(0, line)[1] + padding
+            blf.draw(font_id, line)
+
+        blf.disable(font_id, blf.WORD_WRAP)
+        indices = ((0, 1, 2), (2, 1, 3))
+
+        # shader = gpu.shader.from_builtin('2D_UNIFORM_COLOR')
+        # batch = batch_for_shader(shader, 'TRIS', {"pos": vertices}, indices=indices)
+
+        # shader.bind()
+        # shader.uniform_float("color", (1, 0, 0, .8))
+        # batch.draw(shader)
+        pass
+
+
+def unregister():
+    for handler in handlers:
+        bpy.types.SpaceNodeEditor.draw_handler_remove(handler, "WINDOW")
