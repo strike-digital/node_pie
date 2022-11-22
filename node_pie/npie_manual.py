@@ -1,4 +1,5 @@
 from pathlib import Path
+from random import randint
 import bpy
 import gpu
 import blf
@@ -123,6 +124,16 @@ def draw_rst(layout: bpy.types.UILayout, rst: str):
         layout.label(text=line)
 
 
+def listget(list, idx, default="last_element"):
+    if default == "last_element":
+        return list[min(idx, len(list) - 1)]
+    else:
+        try:
+            return list[idx]
+        except IndexError:
+            return default
+
+
 handlers = []
 
 # @Op("node_pie")
@@ -153,6 +164,10 @@ class NPIE_OT_show_node_docs(Operator):
 
     type: bpy.props.StringProperty()
 
+    link: bpy.props.StringProperty()
+
+    pos: bpy.props.IntVectorProperty(size=2)
+
     def invoke(self, context, event):
         args = ()
         self._handle = bpy.types.SpaceNodeEditor.draw_handler_add(
@@ -165,82 +180,271 @@ class NPIE_OT_show_node_docs(Operator):
         path = Path(__file__).parent / "fonts"
         # print((path / "DefaVuSansMono.ttf").exists())
         self.fonts = {
-            "default": blf.load(str(path / "DejaVuSansMono.ttf")),
-            "bold": blf.load(str(path / "DejaVuSansMono-Bold.ttf")),
-            "italic": blf.load(str(path / "DejaVuSansMono-Oblique.ttf")),
-            "bolditalic": blf.load(str(path / "DejaVuSansMono-BoldOblique.ttf")),
+            "default": blf.load(str(path / "Lato-Regular.ttf")),
+            "header": blf.load(str(path / "RobotoSlab-Bold.ttf")),
+            "bold": blf.load(str(path / "Lato-Bold.ttf")),
+            "italic": blf.load(str(path / "Italic-Oblique.ttf")),
+            "bolditalic": blf.load(str(path / "Lato-BoldItalic.ttf")),
+            "code": blf.load(str(path / "DejaVuSanMono.ttf")),
         }
 
-        url = get_docs_source_url(self.type)
+        if self.link:
+            url = f"https://svn.blender.org/svnroot/bf-manual/trunk/blender_docs/manual/{self.link}.rst"
+        else:
+            url = get_docs_source_url(self.type)
         self.rst_source: str = requests.get(url).content.decode("utf-8").replace("\\n", "\n")
-        self.mouse_pos = V((event.mouse_x, event.mouse_y))
-        # print(self.rst_source)
+        if tuple(self.pos) != (0, 0):
+            self.view_location = V(self.pos)
+        else:
+            self.view_location = V((event.mouse_region_x, event.mouse_region_y))
+
+        self.sections: list[dict] = []
+        self.doclink = ""
+        self.dragging = False
+        self.prev_mouse_pos = self.view_location
+        self.press_pos = V((0, 0))
+        self.bounding_box = V((0, 0), (0, 0))
         context.window_manager.modal_handler_add(self)
         context.area.tag_redraw()
         return {"RUNNING_MODAL"}
 
     def modal(self, context, event):
-
-        if event.type == "LEFTMOUSE":
-            return self.finish()
-
         if event.type in {"RIGHTMOUSE", "ESC"}:
             return self.finish()
 
-        return {"PASS_THROUGH"}
+        mouse_pos = V((event.mouse_region_x, event.mouse_region_y))
+
+        if event.type == "LEFTMOUSE":
+            if event.value == "PRESS":
+                if
+                self.dragging = True
+                self.press_pos = mouse_pos.copy()
+
+            elif event.value == "RELEASE":
+                # if self.doclink and mouse_pos == self.prev_mouse_pos:
+                if self.doclink and self.press_pos == mouse_pos:
+                    bpy.ops.node_pie.show_node_docs(
+                        "INVOKE_DEFAULT",
+                        link=self.doclink,
+                        pos=tuple(int(i) for i in self.view_location),
+                    )
+                    print(self.doclink)
+                    return self.finish()
+                self.dragging = False
+            # return self.finish()
+
+        if self.dragging:
+            self.view_location += mouse_pos - self.prev_mouse_pos
+            context.area.tag_redraw()
+
+        for section in self.sections:
+            if section.get("doclink"):
+                mouse = V((event.mouse_region_x, event.mouse_region_y))
+                min_pos = section["pos"]
+                max_pos = min_pos + section["dimensions"]
+                if min_pos.y < mouse.y < max_pos.y and min_pos.x < mouse.x < max_pos.x:
+                    context.window.cursor_modal_set("HAND")
+                    self.doclink = section.get("doclink")
+                    break
+                context.window.cursor_modal_restore()
+        else:
+            self.doclink = ""
+        self.prev_mouse_pos = mouse_pos
+
+        return {"RUNNING_MODAL"}
 
     def finish(self):
         bpy.types.SpaceNodeEditor.draw_handler_remove(self._handle, "WINDOW")
         handlers.remove(self._handle)
+        bpy.context.window.cursor_modal_restore()
         bpy.context.area.tag_redraw()
         print("finished")
         return {"FINISHED"}
 
     def draw_callback_px(self):
-        print("hahahahahha")
-        print("hahahahahha")
 
-        pos = self.mouse_pos.copy()
+        self.sections = []
+        pos = self.view_location.copy()
+        orig_size = 15
+        is_chapter = False
 
-        size = 100
-        size_x = 1
-        size_y = 2
-        vertices = ((-size, -size), (size, -size), (-size, size), (size, size))
-        vertices = [V((p[0] * size_x, p[1] * size_y)) for p in vertices]
-        vertices = [pos + p for p in vertices]
-
-        font_id = self.fonts["default"]
-        # font_id = 0
-        size = 15
-        col = .85
-        # blf.enable(font_id, blf.WORD_WRAP)
-        # blf.word_wrap(font_id)
-        blf.color(font_id, col, col, col, 1)
         lines = self.rst_source.splitlines()
         for i, line in enumerate(lines):
-            blf.size(font_id, size, 72)
+            font_id = self.fonts["default"]
             padding = 2.5
+            size = orig_size
+            sections: list[dict]
+            sections = [{"text": line.replace(" ", "  "), "size": 1}]
+
+            # Chapters
+            if is_chapter:
+                sections[0]["size"] = 2
+                sections[0]["font_id"] = self.fonts["header"]
+                padding = orig_size / 2
+            is_chapter_header = set(line) == {"*"}
+            is_chapter = is_chapter_header and set(listget(lines, i + 2)) == {"*"}
+            if is_chapter_header:
+                continue
+
+            # Headers
             if line.startswith("="):
                 continue
-            if lines[min(i + 1, len(lines) - 1)].startswith("="):
-                blf.size(font_id, size * 1.5, 72)
+            if listget(lines, i + 1).startswith("="):
+                sections[0]["size"] = 1.5
+                sections[0]["font_id"] = self.fonts["header"]
                 padding = size / 2
 
+            def highlight_surrounded_section(surrounder: str, attr: str, sections: list[dict]):
+                """Split the provided sections into further sections based on the provided surrounder,
+                and give them the provided attribute"""
+                new_sections = []
+                for section in sections:
+                    text: str = section["text"]
+                    parts = text.split(surrounder)
+                    parts = [s for s in parts if s]
+                    odd = text.startswith(surrounder)
+                    for i, text in enumerate(parts):
+                        is_surrounded = not bool(i % 2) if odd else bool(i % 2)
+                        new_section = section.copy()
+                        new_section["text"] = text
+                        new_section[attr] = is_surrounded
+                        new_sections.append(new_section)
+                return new_sections
+
+            # Bold
+            sections = highlight_surrounded_section("**", "bold", sections)
+            sections = highlight_surrounded_section("*", "italic", sections)
+            sections = highlight_surrounded_section("``", "code", sections)
+
+            def highlight_section(
+                sections: list[dict],
+                prefix: str,
+                attr: str,
+                suffix: str = "",
+                surrounding_suffix=False,
+                set_attr_to_inside_suffix=False,
+            ):
+                new_sections = []
+                for section in sections:
+                    text: str = section["text"]
+                    parts = text.split(prefix)
+                    parts = [s for s in parts if s]
+                    odd = text.startswith(prefix)
+                    for i, text in enumerate(parts):
+                        is_after_prefix = not bool(i % 2) if odd else bool(i % 2)
+                        new_section = section.copy()
+                        if is_after_prefix:
+                            result = text.split(suffix)[1 if surrounding_suffix else 0]
+                            if set_attr_to_inside_suffix:
+                                new_section[attr] = result
+                            else:
+                                new_section[attr] = True
+                        else:
+                            result = text
+                        new_section["text"] = result
+                        new_sections.append(new_section)
+                return new_sections
+
+            sections = highlight_section(
+                sections,
+                ":doc:",
+                "doclink",
+                suffix="`",
+                surrounding_suffix=True,
+                set_attr_to_inside_suffix=True,
+            )
+
+            # bold = line.split("**")
+            # bold = [s for s in bold if s]
+            # odd = line.startswith("**")
+            # sections = []
+            # for i, section in enumerate(bold):
+            #     is_bold = not bool(i % 2) if odd else bool(i % 2)
+            #     sections.append({"text": section, "bold": is_bold})
+
+            # Italics
+            # new_sections = []
+            # for section in sections:
+            #     text: str = section["text"]
+            #     italic = text.split("*")
+            #     italic = [s for s in italic if s]
+            #     odd = text.startswith("*")
+            #     for i, text in enumerate(italic):
+            #         is_italic = not bool(i % 2) if odd else bool(i % 2)
+            #         new_sections.append({"text": text, "bold": section["bold"], "italic": is_italic})
+            # sections = new_sections
+            # if "*" in line:
+            #     font_id = self.fonts["italic"]
+            #     pass
+
+            # Draw
             pos.y -= padding
-            blf.position(font_id, pos.x, pos.y, 0)
-            pos.y -= blf.dimensions(0, line)[1] + padding
-            blf.draw(font_id, line)
+            for font_id in self.fonts.values():
+                blf.size(font_id, size, 72)
+            x = pos.x
+            val = .8
+            for section in sections:
+                font_id = self.fonts["default"]
+                color = (val, val, val, .8)
 
-        blf.disable(font_id, blf.WORD_WRAP)
+                if section.get("bold") and section.get("italic"):
+                    font_id = self.fonts["bolditalic"]
+                elif section.get("bold"):
+                    font_id = self.fonts["bold"]
+                elif section.get("italic"):
+                    font_id = self.fonts["italic"]
+                elif section.get("code"):
+                    font_id = self.fonts["code"]
+
+                if section.get("doclink"):
+                    color = (.0, .4, 1, 1)
+                    try:
+                        section["text"] = section["text"].split(" ")[1]
+                        section["doclink"] = section["doclink"].split(" ")[1]
+                    except IndexError:
+                        section["text"] = section["text"].split("/")[-1]
+
+                dims = blf.dimensions(font_id, section["text"])
+                if not section.get("font_id"):
+                    section["font_id"] = font_id
+                section["color"] = color
+                section["pos"] = V((x, pos.y))
+                section["size"]
+                section["dimensions"] = V(dims)
+
+                x += dims[0]
+            pos.y -= blf.dimensions(font_id, "".join([s["text"] for s in sections]))[1] + padding
+
+            self.sections += sections
+
+        # Draw background
         indices = ((0, 1, 2), (2, 1, 3))
+        padding = 15
 
-        # shader = gpu.shader.from_builtin('2D_UNIFORM_COLOR')
-        # batch = batch_for_shader(shader, 'TRIS', {"pos": vertices}, indices=indices)
+        min_pos = self.view_location + V((0, orig_size)) - V((padding, -padding))
+        max_pos = V((0, 0))
+        max_pos.x = max([s["pos"].x + s["dimensions"].x for s in self.sections])
+        max_pos.y = self.sections[-1]["pos"].y - self.sections[-1]["dimensions"].y
+        max_pos += V((padding, -padding))
+        self.bounding_box = (min_pos, max_pos)
+        vertices = (min_pos, (max_pos.x, min_pos.y), (min_pos.x, max_pos.y), max_pos)
 
-        # shader.bind()
-        # shader.uniform_float("color", (1, 0, 0, .8))
-        # batch.draw(shader)
-        pass
+        shader = gpu.shader.from_builtin('2D_UNIFORM_COLOR')
+        gpu.state.blend_set("ALPHA")
+        batch = batch_for_shader(shader, 'TRIS', {"pos": vertices}, indices=indices)
+
+        shader.bind()
+        col = .09
+        shader.uniform_float("color", (col, col, col, .9))
+        batch.draw(shader)
+
+        # Draw text
+        for sect in self.sections:
+            font_id = sect["font_id"]
+            blf.color(font_id, *sect["color"])
+            blf.size(font_id, sect["size"] * orig_size, 72)
+            blf.position(font_id, *sect["pos"], 0)
+            blf.draw(font_id, sect["text"])
 
 
 def unregister():

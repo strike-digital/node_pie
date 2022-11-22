@@ -296,8 +296,9 @@ class NPIE_MT_node_pie(Menu):
             op.group_name = group_name
             op.type = identifier
             op.use_transform = True
-            # op = row.operator("node_pie.show_node_docs", text="", icon="HELP")
-            # op.type = identifier
+            op = row.operator("node_pie.show_node_docs", text="", icon="HELP")
+            op.type = identifier
+            op.link = ""
 
         def get_icon(identifier: str, node_category: str):
             """Get the icon name for this node"""
