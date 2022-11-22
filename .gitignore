@@ -4,3 +4,5 @@ shared/__pycache__
 *.zip
 tokens.txt
 builds/
+.vscode
+.venv

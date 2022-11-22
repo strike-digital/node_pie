@@ -45,10 +45,7 @@ def config_from_kmi(kmi):
 
 
 PRESETS_PATH = Path(bpy.utils.resource_path("USER")) / "scripts" / "presets" / "node_pie"
-try:
-    PRESETS_PATH.mkdir()
-except FileExistsError:
-    pass
+PRESETS_PATH.mkdir(parents=True, exist_ok=True)
 
 KEYMAP_FILE = PRESETS_PATH / "keymap.json"
 
@@ -69,6 +66,8 @@ def register():
             print("could not decode json")
             print(e)
             keymap_config = DEFAULT_CONFIG
+
+    keymap_config = DEFAULT_CONFIG
 
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon

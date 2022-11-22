@@ -256,7 +256,7 @@ class NPIE_MT_node_pie(Menu):
             count = node.get("count", 0)
             return count
 
-        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name=""):
+        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name="", max_len=200):
             """Draw the add node operator"""
             count = all_node_counts.get(identifier, 1)
 
@@ -280,7 +280,19 @@ class NPIE_MT_node_pie(Menu):
 
             # draw the button
             row = split.row(align=True)
-            op = row.operator("node_pie.add_node", text=bpy.app.translations.pgettext(text))
+            text = bpy.app.translations.pgettext(text)
+            # import blf
+            # length = blf.dimensions(0, text)[0]
+            # max_length = blf.dimensions(0, "a" * 12)[0]
+            # # print(max_length, length)
+            # if length > max_length:
+            #     text = text[:int(length / max_length * len(text))]
+            #     print(int(length / max_length * len(text)), int(length), int(max_length), len(text), text)
+            # print(text)
+            if len(text) > max_len:
+                text = text[:max_len] + "..."
+
+            op = row.operator("node_pie.add_node", text=text)
             op.group_name = group_name
             op.type = identifier
             op.use_transform = True
@@ -321,6 +333,7 @@ class NPIE_MT_node_pie(Menu):
                         category_name="group",
                         identifier=tree_type.replace("Tree", "Group"),
                         group_name=ng.name,
+                        max_len=18,
                     )
 
         def draw_category(layout: UILayout, cat: str, remove: str = ""):

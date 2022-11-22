@@ -6,9 +6,10 @@ if __name__ == "__main__":
     from pathlib import Path
     import webbrowser
     from github import Github
-    import tkinter
+    import github
+    github
+    import customtkinter as ctk
     import re
-
 
     def update_init_file(init_file: Path, version: tuple):
         with open(init_file, "r") as file:
@@ -26,7 +27,6 @@ if __name__ == "__main__":
         with open(init_file, "w") as file:
             file.write(text)
 
-
     def update_constants_file(constants_file, value):
         with open(constants_file, "r") as file:
             text = file.read()
@@ -37,7 +37,6 @@ if __name__ == "__main__":
 
         with open(constants_file, "w") as file:
             file.write(text)
-
 
     def multi_input(prompt=""):
         """Get user input over multiple lines. Exit with Ctrl-Z"""
@@ -51,48 +50,92 @@ if __name__ == "__main__":
             contents.append(line)
         return "\n".join(contents)
 
+    # def multi_line_input(prompt):
+    #     dark = "#26242f"
+    #     win = tkinter.Tk()
+
+    #     w = h = 750
+
+    #     # get screen width and height
+    #     ws = win.winfo_screenwidth() # width of the screen
+    #     hs = win.winfo_screenheight() # height of the screen
+
+    #     # calculate x and y coordinates for the Tk root window
+    #     x = int((ws/2) - (w/2))
+    #     y = int((hs/2) - (h/2))
+
+    #     win.geometry(f"{w}x{h}+{x}+{y}")
+    #     win.config(bg=dark)
+
+    #     def confirm():
+    #         confirm.final_text = text.get("1.0", tkinter.END)
+    #         win.quit()
+
+    #     label = tkinter.Label(win, text=prompt)
+    #     label.configure(bg=dark, fg="white")
+    #     label.pack()
+
+    #     button = tkinter.Button(win, text="Confirm", width=20, command=confirm)
+    #     button.pack(side=tkinter.BOTTOM)
+    #     button.configure(bg=dark, fg="white")
+
+    #     text = tkinter.Text(win,)
+    #     scroll = tkinter.Scrollbar(win)
+    #     text.configure(yscrollcommand=scroll.set, bg=dark, fg="white")
+    #     text.focus_set()
+    #     text.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+
+    #     scroll.config(command=text.yview)
+    #     scroll.pack(side=tkinter.RIGHT, fill=tkinter.BOTH)
+
+    #     win.mainloop()
+    #     return confirm.final_text
 
     def multi_line_input(prompt):
-        dark = "#26242f"
-        win = tkinter.Tk()
+        ctk.set_appearance_mode("dark")
+        ctk.set_default_color_theme("dark-blue")
+        win = ctk.CTk()
 
         w = h = 750
-            
+
         # get screen width and height
-        ws = win.winfo_screenwidth() # width of the screen
-        hs = win.winfo_screenheight() # height of the screen
+        ws = win.winfo_screenwidth()  # width of the screen
+        hs = win.winfo_screenheight()  # height of the screen
 
         # calculate x and y coordinates for the Tk root window
-        x = int((ws/2) - (w/2))
-        y = int((hs/2) - (h/2))
+        x = int((ws / 2) - (w / 2))
+        y = int((hs / 2) - (h / 2))
 
         win.geometry(f"{w}x{h}+{x}+{y}")
-        win.config(bg=dark)
+
+        # win.config(bg=dark)
 
         def confirm():
-            confirm.final_text = text.get("1.0", tkinter.END)
+            confirm.final_text = textbox.textbox.get("1.0", ctk.END)
             win.quit()
 
-        label = tkinter.Label(win, text=prompt)
-        label.configure(bg=dark, fg="white")
+        label = ctk.CTkLabel(win, text=prompt)
         label.pack()
 
-        button = tkinter.Button(win, text="Confirm", width=20, command=confirm)
-        button.pack(side=tkinter.BOTTOM)
-        button.configure(bg=dark, fg="white")
+        button = ctk.CTkButton(win, text="Confirm", width=20, command=confirm)
+        button.pack(side=ctk.BOTTOM)
+        # button.configure(bg=dark, fg="white")
 
-        text = tkinter.Text(win,)
-        scroll = tkinter.Scrollbar(win)
-        text.configure(yscrollcommand=scroll.set, bg=dark, fg="white")
-        text.focus_set()
-        text.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+        textbox = ctk.CTkTextbox(win)
+        textbox.focus_set()
+        textbox.pack(fill=ctk.BOTH, side=ctk.LEFT)
+        # scroll = ctk.CTkScrollbar(win)
 
-        scroll.config(command=text.yview)
-        scroll.pack(side=tkinter.RIGHT, fill=tkinter.BOTH)
+        # textbox.configure(width=w - scroll.winfo_width() * 20)
+        textbox.configure(width=w)
+
+        # textbox.configure(yscrollcommand=scroll.set)
+
+        # scroll.configure(command=textbox.yview)
+        # scroll.pack(side=ctk.RIGHT, fill=ctk.BOTH)
 
         win.mainloop()
         return confirm.final_text
-
 
     def main():
         parser = argparse.ArgumentParser()
@@ -125,12 +168,14 @@ if __name__ == "__main__":
 
         out_path = path / "builds" / f"node_pie_{file_version}.zip"
 
+        print(f"Zipping {len(files)} files")
         with ZipFile(out_path, 'w') as z:
             # writing each file one by one
             for file in files:
-                print(file)
+                # print(file)
                 # z.write(file, arcname=str(file).replace("asset_bridge", f"asset_bridge_{file_version}"))
                 z.write(file, arcname=str(f"node_pie_{file_version}" / file))
+        print(f"Zipped: {out_path}")
 
         try:
             with open("tokens.txt", "r") as f:
