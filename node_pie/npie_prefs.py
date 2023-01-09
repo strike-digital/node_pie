@@ -3,8 +3,7 @@ from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
 from .npie_helpers import get_prefs
 from .npie_ui import draw_section, draw_inline_prop
-from .npie_keymap import addon_keymaps
-import rna_keymap_ui
+from .npie_keymap import addon_keymaps, get_user_kmi_from_addon_kmi
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):
@@ -75,11 +74,16 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 
         col = draw_section(layout, "Keymap")
-        kc = bpy.context.window_manager.keyconfigs.addon
-        for i, (km, kmi) in enumerate(addon_keymaps):
+        kc = bpy.context.window_manager.keyconfigs.user
+        for i, (km, addon_kmi) in enumerate(addon_keymaps):
+            try:
+                # We need to get the user version of the keymap item so that they can be modified by the user.
+                # I spent far too much time pulling my hair out over this. It really needs to be better on Blenders end.
+                kmi = get_user_kmi_from_addon_kmi("Window", addon_kmi.idname, addon_kmi.properties.name)
+            except AttributeError:
+                # the properties for the user keymap items are not created instantly on load, account for that.
+                return
             row = col.row(align=True)
-            # rna_keymap_ui.draw_kmi([], kc, km, kmi, row, 0)
-            # continue
             row.active = kmi.active
             sub = row.row(align=True)
             sub.prop(kmi, "active", text="")
@@ -88,9 +92,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             sub.prop(kmi, "type", full_event=True, text="")
             sub = row.row(align=True)
             sub.enabled = True
-            # sub.operator("preferences.keyitem_restore", text="", icon="X").item_id = kmi.id
             op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
             op.index = i
+            if kmi.is_user_modified:
+                op = sub.operator("preferences.keyitem_restore", text="", icon="BACK")
+                op.item_id = kmi.id
             op = sub.operator("node_pie.remove_keymap_item", text="", icon="X")
             op.index = i
         col.operator("node_pie.new_keymap_item", text="", icon="ADD")

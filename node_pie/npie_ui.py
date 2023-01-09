@@ -7,6 +7,7 @@ from .npie_helpers import get_prefs, lerp, inv_lerp
 from .geo_nodes_categories import geo_nodes_categories, NodeItem
 from pathlib import Path
 from bpy.types import UILayout, Menu
+from .npie_manual import NPIE_OT_show_node_docs
 
 
 class DummyUI():
@@ -160,6 +161,7 @@ class NPIE_MT_node_pie(Menu):
                 "Shader": "shader",
                 "Texture": "texture",
                 "Group": "group",
+                "Layout": "layout",
             }
             overrides = {"ShaderNodeVectorMath": "Vector"}
             icon_overrides = {}
@@ -184,10 +186,12 @@ class NPIE_MT_node_pie(Menu):
                 "Utilities": "converter",
                 "Vector": "vector",
                 "Volume": "geometry",
+                "Layout": "layout",
+                # 3.4+
+                "Mesh Topology": "input",
+                "Curve Topology": "input",
+                "UV": "converter",
             }
-            if bpy.app.version >= (3, 4, 0):
-                colours |= {"Mesh Topology": "input", "Curve Topology": "input"}
-                print(colours)
             overrides = {}
             icon_overrides = {
                 "Input": "input",
@@ -214,6 +218,7 @@ class NPIE_MT_node_pie(Menu):
                 "Filter": "filter",
                 "Vector": "vector",
                 "Output": "output",
+                "Layout": "layout",
             }
             overrides = {}
             icon_overrides = {}
@@ -296,16 +301,20 @@ class NPIE_MT_node_pie(Menu):
             op.group_name = group_name
             op.type = identifier
             op.use_transform = True
-            op = row.operator("node_pie.show_node_docs", text="", icon="HELP")
-            op.type = identifier
-            op.link = ""
+            # op: NPIE_OT_show_node_docs = row.operator("node_pie.show_node_docs", text="", icon="HELP")
+            # op.type = identifier
+            # op.link = ""
+            # op.prev_pages = ""
 
         def get_icon(identifier: str, node_category: str):
             """Get the icon name for this node"""
             for override in icon_overrides:
                 if override in identifier:
                     return icon_overrides[override]
-            return colours[node_category]
+            try:
+                return colours[node_category]
+            except KeyError:
+                return "geometry"
 
         def sort_item(identifier: str, node_category: str):
             """Returns whether the node should be overriden"""
@@ -314,11 +323,12 @@ class NPIE_MT_node_pie(Menu):
                     return len(icon_overrides[override])
             return 0
 
-        def draw_header(layout: UILayout, text: str):
+        def draw_header(layout: UILayout, text: str, keep_text=False):
             """Draw the header of a node category"""
             row = layout.row(align=True)
             row.alignment = "CENTER"
-            row.label(text=text.capitalize().replace("_", " "))
+            text = text if keep_text else text.capitalize().replace("_", " ")
+            row.label(text=text)
 
         def draw_node_groups(layout: UILayout):
             node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
@@ -337,11 +347,11 @@ class NPIE_MT_node_pie(Menu):
                         max_len=18,
                     )
 
-        def draw_category(layout: UILayout, cat: str, remove: str = ""):
+        def draw_category(layout: UILayout, cat: str, header="", remove: str = ""):
             """Draw all node items in this category"""
             col = layout.column(align=True)
             label = categories[cat].name
-            draw_header(col, label)
+            draw_header(col, header or label, keep_text=header)
 
             if cat == "Group":
                 node_groups = [ng for ng in bpy.data.node_groups if ng.bl_rna.identifier == tree_type]
@@ -395,32 +405,38 @@ class NPIE_MT_node_pie(Menu):
             layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
 
         if tree_type == "ShaderNodeTree":
-            # left
+            # LEFT
             row = pie.row(align=False)
             draw_category(row.box(), "Texture", remove=" Texture")
             draw_category(row.box(), "Converter")
 
-            # right
+            # RIGHT
             row = pie.row(align=False)
             draw_category(row.box(), "Input")
             draw_category(row.box(), "Shader", remove=" BSDF")
 
-            # bottom
+            # BOTTOM
             col = pie.column()
             draw_category(col.box(), "Color")
             col.separator(factor=.4)
             draw_node_groups(col)
 
-            # top
+            # TOP
             col = pie.column()
             draw_category(col.box(), "Vector")
             col.separator(factor=.4)
             draw_search(col.box())
 
         elif tree_type == "GeometryNodeTree":
+            # LEFT
             # left
             row = pie.row(align=False)
-            draw_category(row.box(), "Input")
+            col = row.column(align=False)
+            draw_category(col.box(), "Input")
+            col.separator(factor=.4)
+            draw_category(col.box(), "Layout")
+
+            # middle
             col = row.column(align=False)
             draw_category(col.box(), "Attribute")
             col.separator(factor=.4)
@@ -428,22 +444,30 @@ class NPIE_MT_node_pie(Menu):
             col.separator(factor=.4)
             draw_category(col.box(), "Color")
             col.separator(factor=.4)
+            if bpy.app.version >= (3, 4, 0):
+                draw_category(col.box(), "UV", header="UV")
+
+            # right
             col = row.column(align=False)
             draw_category(col.box(), "Vector")
             col.separator(factor=.4)
             draw_category(col.box(), "Utilities")
 
-            # right
+            # RIGHT
+            # left
             row = pie.row(align=False)
             col = row.column(align=False)
             draw_category(col.box(), "Curve")
             col.separator(factor=.4)
             draw_category(col.box(), "Point")
+
+            # middle
             col = row.column(align=False)
             draw_category(col.box(), "Mesh")
             col.separator(factor=.4)
             draw_category(col.box(), "Material")
 
+            # right
             col = row.column(align=False)
             draw_category(col.box(), "Mesh Primitives")
             col.separator(factor=.4)
@@ -456,7 +480,7 @@ class NPIE_MT_node_pie(Menu):
             col.separator(factor=.4)
             draw_category(col.box(), "Text")
 
-            # bottom
+            # BOTTOM
             row = pie.row()
             col = row.column(align=False)
             draw_category(col.box(), "Instances")
@@ -465,14 +489,14 @@ class NPIE_MT_node_pie(Menu):
             col.separator(factor=.4)
             draw_node_groups(col)
 
-            # top
+            # TOP
             col = pie.column()
             draw_category(col.box(), "Geometry")
             col.separator(factor=.4)
             draw_search(col.box())
 
         elif tree_type == "CompositorNodeTree":
-            # left
+            # LEFT
             row = pie.row(align=False)
             draw_category(row.box(), "Converter")
             col = row.column(align=True)
@@ -480,7 +504,7 @@ class NPIE_MT_node_pie(Menu):
             col.separator(factor=.4)
             draw_category(col.box(), "Vector")
 
-            # right
+            # RIGHT
             row = pie.row(align=False)
             col = row.column(align=True)
             draw_category(col.box(), "Input")
@@ -488,14 +512,14 @@ class NPIE_MT_node_pie(Menu):
             draw_category(col.box(), "Output")
             draw_category(row.box(), "Filter")
 
-            # bottom
+            # BOTTOM
             col = pie.column()
             row = col.row()
             draw_category(row.box(), "Matte", remove=" BSDF")
             col.separator(factor=.4)
             draw_node_groups(col)
 
-            # top
+            # TOP
             col = pie.column(align=True)
             draw_category(col.box(), "Color")
             col.separator(factor=.4)

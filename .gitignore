@@ -6,3 +6,4 @@ tokens.txt
 builds/
 .vscode
 .venv
+/node_pie/images

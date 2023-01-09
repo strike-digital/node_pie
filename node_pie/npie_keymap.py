@@ -26,13 +26,13 @@ DEFAULT_CONFIG = [
 POSSIBLE_VALUES = ["type", "value", "shift", "ctrl", "alt", "oskey", "any", "key_modifier", "direction", "repeat"]
 
 
-def kmi_from_config(config: dict, km: bpy.types.KeyMap):
+def kmi_from_config(config: dict, km: bpy.types.KeyMap, id: int):
     # kmi.active = config.get("active", True)
 
     active = config.pop("active", True)
-    kmi = km.keymap_items.new("wm.call_menu_pie", **config)
+    kmi = km.keymap_items.new("node_pie.call_node_pie", **config)
     kmi.active = active
-    kmi.properties.name = NPIE_MT_node_pie.__name__
+    kmi.properties.name = id
     addon_keymaps.append((km, kmi))
 
 
@@ -44,40 +44,54 @@ def config_from_kmi(kmi):
     return config
 
 
+def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
+    '''
+    returns hotkey of specific type, with specific properties.name (keymap is not a dict, so referencing by keys is not enough
+    if there are multiple hotkeys!),
+    That can actually be edited by the user (not possible with)
+    '''
+    user_keymap = bpy.context.window_manager.keyconfigs.user.keymaps[km_name]
+    for i, km_item in enumerate(user_keymap.keymap_items):
+        if user_keymap.keymap_items.keys()[i] == kmi_idname:
+            if user_keymap.keymap_items[i].properties.name == prop_name:
+                return km_item
+    return None  # not needed, since no return means None, but keeping for readability
+
+
 PRESETS_PATH = Path(bpy.utils.resource_path("USER")) / "scripts" / "presets" / "node_pie"
-PRESETS_PATH.mkdir(parents=True, exist_ok=True)
+# PRESETS_PATH.mkdir(parents=True, exist_ok=True)
 
 KEYMAP_FILE = PRESETS_PATH / "keymap.json"
 
 
 def register():
     # Read saved keymap, or save and load the default one if not present
-    if not KEYMAP_FILE.exists():
-        with open(KEYMAP_FILE, "w") as f:
-            print("*****Node Pie Debug*****")
-            print(f"file {KEYMAP_FILE} doesn't exist")
-            json.dump(DEFAULT_CONFIG, f, indent=2)
+    # if not KEYMAP_FILE.exists():
+    #     with open(KEYMAP_FILE, "w") as f:
+    #         print("*****Node Pie Debug*****")
+    #         print(f"file {KEYMAP_FILE} doesn't exist")
+    #         json.dump(DEFAULT_CONFIG, f, indent=2)
 
-    with open(KEYMAP_FILE, "r") as f:
-        try:
-            keymap_config = json.load(f)
-        except json.JSONDecodeError as e:
-            print("*****Node Pie Debug*****")
-            print("could not decode json")
-            print(e)
-            keymap_config = DEFAULT_CONFIG
+    # with open(KEYMAP_FILE, "r") as f:
+    #     try:
+    #         keymap_config = json.load(f)
+    #     except json.JSONDecodeError as e:
+    #         print("*****Node Pie Debug*****")
+    #         print("could not decode json")
+    #         print(e)
+    #         keymap_config = DEFAULT_CONFIG
 
     keymap_config = DEFAULT_CONFIG
 
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='Node Editor', space_type='NODE_EDITOR')
+        km = kc.keymaps.new(name='Window')
         global KEYMAP
         KEYMAP = km
 
-        for config in keymap_config:
-            kmi_from_config(config, km)
+        for i, config in enumerate(keymap_config):
+            kmi_from_config(config, km, i)
 
 
 def unregister():
@@ -88,8 +102,8 @@ def unregister():
     addon_keymaps.clear()
 
     # Save keymap to presets directory file
-    with open(KEYMAP_FILE, "w") as f:
-        json.dump(configs, f, indent=2)
+    # with open(KEYMAP_FILE, "w") as f:
+    #     json.dump(configs, f, indent=2)
 
 
 def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):
@@ -171,5 +185,5 @@ class NPIE_OT_new_keymap_item(Operator):
     """Add a new keymap item for calling the node pie menu"""
 
     def execute(self, context):
-        kmi_from_config(DEFAULT_CONFIG[0], KEYMAP)
+        kmi_from_config(DEFAULT_CONFIG[0], KEYMAP, len(addon_keymaps) - 1)
         return {"FINISHED"}

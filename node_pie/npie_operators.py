@@ -2,6 +2,8 @@ import bpy
 import json
 from bpy.types import Operator, UILayout
 from collections import OrderedDict
+
+from .npie_ui import NPIE_MT_node_pie
 from .npie_keymap import addon_keymaps, draw_kmi
 from .npie_manual import get_docs_source_url
 from .npie_helpers import Op
@@ -99,4 +101,16 @@ class NPIE_OT_reset_popularity(Operator):
         with open(POPULARITY_FILE, "w"):
             pass
         self.report({"INFO"}, "Node popularity successfully reset")
+        return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_call_node_pie(Operator):
+    """Call the node pie menu"""
+
+    name: bpy.props.IntProperty()
+
+    def execute(self, context):
+        print("ho")
+        bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
         return {"FINISHED"}

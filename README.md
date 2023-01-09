@@ -13,7 +13,7 @@ As well as that, the size of the buttons will change depending on how frequently
 <!-- ![The node pie](images/Node%20Pie%20shader.jpg) -->
 
 <br>
-It addon works in all Blender Node editors, and even in custom node editors created by python addons:
+It also works in all Blender Node editors, and even in custom node editors created by python addons:
 <br>
 <br>
 
