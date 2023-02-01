@@ -239,6 +239,7 @@ class NPIE_MT_node_pie(Menu):
 
         if tree_type == "GeometryNodeTree" and bpy.app.version >= (3, 4, 0):
             categories = geo_nodes_categories
+            print(categories.keys())
             all_nodes = {n.nodetype: n for c in geo_nodes_categories.values() for n in c.nodeitems}
             all_nodes["GeometryNodeGroup"] = NodeItem("Group", "GeometryNodeGroup")
         else:

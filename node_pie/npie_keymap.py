@@ -86,7 +86,7 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='Window')
+        km = kc.keymaps.new(name='Node Editor')
         global KEYMAP
         KEYMAP = km
 
