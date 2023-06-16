@@ -92,6 +92,8 @@ def register():
 
         for i, config in enumerate(keymap_config):
             kmi_from_config(config, km, i)
+    for km, kmi in addon_keymaps:
+        print(kmi.ctrl)
 
 
 def unregister():

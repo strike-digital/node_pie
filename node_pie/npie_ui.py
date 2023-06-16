@@ -1,13 +1,15 @@
-from collections import OrderedDict
-from statistics import mean
-import bpy
+from pprint import pprint
 import json
-import nodeitems_utils
-from .npie_helpers import get_prefs, lerp, inv_lerp
-from .geo_nodes_categories import geo_nodes_categories, NodeItem
 from pathlib import Path
-from bpy.types import UILayout, Menu
-from .npie_manual import NPIE_OT_show_node_docs
+from statistics import mean
+from collections import OrderedDict
+
+import bpy
+import nodeitems_utils
+from bpy.types import Menu, UILayout
+
+from .npie_helpers import lerp, inv_lerp, get_prefs
+from .geo_nodes_categories import (NodeItem, NodeCategory, all_geo_nodes, geo_nodes_menus, geo_nodes_categories)
 
 
 class DummyUI():
@@ -145,11 +147,14 @@ class NPIE_MT_node_pie(Menu):
 
     def draw(self, context):
         layout = self.layout
+        print("ho")
 
         pie = layout.menu_pie()
         prefs = get_prefs(context)
 
         tree_type = context.space_data.node_tree.bl_rna.identifier
+        is_geo_nodes = tree_type == "GeometryNodeTree"
+
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
             colours = {
@@ -160,7 +165,7 @@ class NPIE_MT_node_pie(Menu):
                 "Output": "output",
                 "Shader": "shader",
                 "Texture": "texture",
-                "Group": "group",
+                "NodeGroups": "group",
                 "Layout": "layout",
             }
             overrides = {"ShaderNodeVectorMath": "Vector"}
@@ -237,11 +242,18 @@ class NPIE_MT_node_pie(Menu):
             print(e)
             return
 
+        categories: dict[str, NodeCategory]
+
         if tree_type == "GeometryNodeTree" and bpy.app.version >= (3, 4, 0):
             categories = geo_nodes_categories
-            print(categories.keys())
-            all_nodes = {n.nodetype: n for c in geo_nodes_categories.values() for n in c.nodeitems}
-            all_nodes["GeometryNodeGroup"] = NodeItem("Group", "GeometryNodeGroup")
+            if bpy.app.version >= (3, 5, 0):
+                menus = geo_nodes_menus
+                all_nodes = all_geo_nodes
+
+            elif bpy.app.version >= (3, 4, 0):
+                all_nodes = {n.nodetype: n for c in geo_nodes_categories.values() for n in c.nodeitems}
+                all_nodes["GeometryNodeGroup"] = NodeItem("NodeGroups", "GeometryNodeGroup")
+
         else:
             categories = {
                 getattr(bpy.types, d).bl_label: getattr(bpy.types, d).category
@@ -253,14 +265,6 @@ class NPIE_MT_node_pie(Menu):
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
-
-        def get_node_count(identifier):
-            data = get_all_node_data()
-            trees = data["node_trees"]
-            nodes = trees.get(tree_type, {})
-            node = nodes.get(identifier, {})
-            count = node.get("count", 0)
-            return count
 
         def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name="", max_len=200):
             """Draw the add node operator"""
@@ -350,11 +354,9 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_category(layout: UILayout, cat: str, header="", remove: str = ""):
             """Draw all node items in this category"""
-            col = layout.column(align=True)
-            label = categories[cat].name
-            draw_header(col, header or label, keep_text=header)
 
-            if cat == "Group":
+            # Draw the special category for node groups Groups
+            if cat == "NodeGroups":
                 node_groups = [ng for ng in bpy.data.node_groups if ng.bl_rna.identifier == tree_type]
                 for ng in node_groups:
                     text = bpy.app.translations.pgettext(ng.name)
@@ -362,9 +364,27 @@ class NPIE_MT_node_pie(Menu):
                     op.name = ng.name
                 return
 
+            category = categories[cat]
+            label = category.name
+            nodeitems = list(category.items(context))
+
+            col = layout.box().column(align=True)
+            draw_header(col, header or label, keep_text=header)
+
+            if hasattr(category, "children") and category.children:
+
+                # col = layout.box().column(align=True)
+                # draw_header(col, header or label, keep_text=header)
+                for child in category.children:
+                    # pprint
+                    # pprint((category.name, child.name))
+                    draw_category(col, child.name, f"{child.name}")
+
+            if len(nodeitems) == 0:
+                return
+
             # Split the node items into sub categories depending on the location of blank node items.
             # This is then used to sort the node items inside each of the sub categories.
-            nodeitems = categories[cat].items(context)
             subgroups = []
             temp = []
             for node in nodeitems:
@@ -372,11 +392,13 @@ class NPIE_MT_node_pie(Menu):
                     subgroups.append(temp)
                     temp = []
                     continue
+                # print(node)
                 temp.append(node)
             subgroups.append(temp)
 
             # Draw each of the subgroups with a separator in between each one.
             for i, subgroup in enumerate(subgroups):
+                # print(subgroup)
                 # Sort each item in the subgroup based on whether its icon has been overriden or not.
                 # This is used to group nodes with the same icon together inside the subgroups.
                 subgroup = sorted(subgroup, key=lambda node: sort_item(node.nodetype, cat))
@@ -385,12 +407,13 @@ class NPIE_MT_node_pie(Menu):
 
                 if not subgroup:
                     continue
-                average_count = mean([all_node_counts[n.nodetype] for n in subgroup])
+                # average_count = mean([all_node_counts[n.nodetype] for n in subgroup])
                 for node in subgroup:
                     # Don't draw these nodes
                     if node.nodetype in exclude:
                         continue
 
+                    # print(node)
                     # Check that the node category has not been overriden to something different
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
@@ -433,68 +456,68 @@ class NPIE_MT_node_pie(Menu):
             # left
             row = pie.row(align=False)
             col = row.column(align=False)
-            draw_category(col.box(), "Input")
+            draw_category(col, "Input")
             col.separator(factor=.4)
-            draw_category(col.box(), "Layout")
+            draw_category(col, "Layout")
 
             # middle
             col = row.column(align=False)
-            draw_category(col.box(), "Attribute")
+            draw_category(col, "Attribute")
             col.separator(factor=.4)
-            draw_category(col.box(), "Texture")
+            draw_category(col, "Texture")
             col.separator(factor=.4)
-            draw_category(col.box(), "Color")
+            draw_category(col, "Color")
             col.separator(factor=.4)
             if bpy.app.version >= (3, 4, 0):
-                draw_category(col.box(), "UV", header="UV")
+                draw_category(col, "UV", header="UV")
 
             # right
             col = row.column(align=False)
-            draw_category(col.box(), "Vector")
+            draw_category(col, "Vector")
             col.separator(factor=.4)
-            draw_category(col.box(), "Utilities")
+            draw_category(col, "Utilities")
 
             # RIGHT
             # left
             row = pie.row(align=False)
             col = row.column(align=False)
-            draw_category(col.box(), "Curve")
+            draw_category(col, "Curve")
             col.separator(factor=.4)
-            draw_category(col.box(), "Point")
+            draw_category(col, "Point")
 
             # middle
             col = row.column(align=False)
-            draw_category(col.box(), "Mesh")
+            draw_category(col, "Mesh")
             col.separator(factor=.4)
-            draw_category(col.box(), "Material")
+            draw_category(col, "Material")
 
             # right
             col = row.column(align=False)
-            draw_category(col.box(), "Mesh Primitives")
+            draw_category(col, "Mesh Primitives")
             col.separator(factor=.4)
-            draw_category(col.box(), "Curve Primitives")
+            draw_category(col, "Curve Primitives")
             col.separator(factor=.4)
             if bpy.app.version >= (3, 4, 0):
-                draw_category(col.box(), "Mesh Topology")
+                draw_category(col, "Mesh Topology")
                 col.separator(factor=.4)
-                draw_category(col.box(), "Curve Topology")
+                draw_category(col, "Curve Topology")
             col.separator(factor=.4)
-            draw_category(col.box(), "Text")
+            draw_category(col, "Text")
 
             # BOTTOM
             row = pie.row()
             col = row.column(align=False)
-            draw_category(col.box(), "Instances")
+            draw_category(col, "Instances")
             col.separator(factor=.4)
-            draw_category(col.box(), "Volume")
+            draw_category(col, "Volume")
             col.separator(factor=.4)
             draw_node_groups(col)
 
             # TOP
             col = pie.column()
-            draw_category(col.box(), "Geometry")
+            draw_category(col, "Geometry")
             col.separator(factor=.4)
-            draw_search(col.box())
+            draw_search(col)
 
         elif tree_type == "CompositorNodeTree":
             # LEFT

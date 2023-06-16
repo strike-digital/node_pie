@@ -1,72 +1,72 @@
-import bpy
-import gpu
-import gpu_extras
-from mathutils import Vector as V
+# import bpy
+# import gpu
+# import gpu_extras
+# from mathutils import Vector as V
 
-started = False
+# started = False
 
-shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
-
-
-def dpifac():
-    prefs = bpy.context.preferences.system
-    return prefs.dpi * prefs.pixel_size / 72
+# shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
 
 
-def draw_rect(shader, x, y, width, height, color=(1, 1, 1, 1)):
-    points = [(x, y), (x, y + height), (x + width, y + height), (x + width, y)]
-    coords = [points[0], points[1], points[2], points[2], points[3], points[0]]
-
-    batch = gpu_extras.batch.batch_for_shader(shader, "TRIS", content={"pos": coords})
-    shader.bind()
-    shader.uniform_float("color", color)
-    batch.draw(shader)
+# def dpifac():
+#     prefs = bpy.context.preferences.system
+#     return prefs.dpi * prefs.pixel_size / 72
 
 
-def my_draw():
-    """This is some testing for detecting when the user clicks on a socket.
-    Uncomment the register functions to see it."""
-    context = bpy.context
-    node_tree = context.space_data.node_tree
+# def draw_rect(shader, x, y, width, height, color=(1, 1, 1, 1)):
+#     points = [(x, y), (x, y + height), (x + width, y + height), (x + width, y)]
+#     coords = [points[0], points[1], points[2], points[2], points[3], points[0]]
 
-    node = node_tree.nodes.active
-    if not node:
-        return
+#     batch = gpu_extras.batch.batch_for_shader(shader, "TRIS", content={"pos": coords})
+#     shader.bind()
+#     shader.uniform_float("color", color)
+#     batch.draw(shader)
 
-    location = node.location.copy()
-    location *= dpifac()
-    bottom = V((location.x, location.y - node.dimensions.y))
-    print(node.dimensions.y, node.location.y)
-    # socket_positions = [bottom]
-    socket_positions = []
-    # draw_rect(shader, location.x, location.y, node.dimensions.x, -node.dimensions.y)
-    for i, input in enumerate(list(node.inputs)[::-1]):
-        if not input.enabled:
-            continue
 
-        pos = bottom.copy()
-        if i == 0:
-            pos.y -= 12 * dpifac()
-        if input.type == "VECTOR":
-            pos.y += 82 * dpifac()
-        else:
-            pos.y += 22 * dpifac()
-        bottom = pos
-        socket_positions.append(pos)
+# def my_draw():
+#     """This is some testing for detecting when the user clicks on a socket.
+#     Uncomment the register functions to see it."""
+#     context = bpy.context
+#     node_tree = context.space_data.node_tree
 
-    # socket_positions = [(0, 0), (100, 100), (0, 100)]
-    for pos in socket_positions:
-        width = 10 * dpifac()
-        draw_rect(shader, pos[0] - width / 2, pos[1], width, width, (1, 0, 0, 1))
-    # draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
-    # draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
-    # verts = [(0, 0), (0, 100), (100, 100), (100, 0)]
-    # verts = [verts[0], verts[1], verts[2], verts[2], verts[3], verts[0]]
+#     node = node_tree.nodes.active
+#     if not node:
+#         return
 
-    # batch = gpu_extras.batch.batch_for_shader(shader, "TRIS", content={"pos": verts})
-    # shader.bind()
-    # shader.uniform_float("color", (1, 1, 1, 1))
-    # batch.draw(shader)
+#     location = node.location.copy()
+#     location *= dpifac()
+#     bottom = V((location.x, location.y - node.dimensions.y))
+#     print(node.dimensions.y, node.location.y)
+#     # socket_positions = [bottom]
+#     socket_positions = []
+#     # draw_rect(shader, location.x, location.y, node.dimensions.x, -node.dimensions.y)
+#     for i, input in enumerate(list(node.inputs)[::-1]):
+#         if not input.enabled:
+#             continue
+
+#         pos = bottom.copy()
+#         if i == 0:
+#             pos.y -= 12 * dpifac()
+#         if input.type == "VECTOR":
+#             pos.y += 82 * dpifac()
+#         else:
+#             pos.y += 22 * dpifac()
+#         bottom = pos
+#         socket_positions.append(pos)
+
+#     # socket_positions = [(0, 0), (100, 100), (0, 100)]
+#     for pos in socket_positions:
+#         width = 10 * dpifac()
+#         draw_rect(shader, pos[0] - width / 2, pos[1], width, width, (1, 0, 0, 1))
+#     draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
+#     draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
+#     verts = [(0, 0), (0, 100), (100, 100), (100, 0)]
+#     verts = [verts[0], verts[1], verts[2], verts[2], verts[3], verts[0]]
+
+#     batch = gpu_extras.batch.batch_for_shader(shader, "TRIS", content={"pos": verts})
+#     shader.bind()
+#     shader.uniform_float("color", (1, 1, 1, 1))
+#     batch.draw(shader)
 
 
 # handler = None
