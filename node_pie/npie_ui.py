@@ -197,6 +197,14 @@ class NPIE_MT_node_pie(Menu):
             }
             overrides = {}
             icon_overrides = {
+                "FunctionNodeInputBool": "input",
+                "FunctionNodeInputImage": "input",
+                "FunctionNodeInputInt": "input",
+                "FunctionNodeInputColor": "input",
+                "FunctionNodeInputVector": "input",
+                "FunctionNodeInputString": "input",
+                "GeometryNodeEdgesToFaceGroups": "input",
+                "GeometryNodeMeshFaceSetBoundaries": "input",
                 "GeometryNodeSimulationInput": "layout",
                 "GeometryNodeStringJoin": "converter",
                 "ShaderNodeValToRGB": "converter",
@@ -386,11 +394,7 @@ class NPIE_MT_node_pie(Menu):
 
             if hasattr(category, "children") and category.children:
 
-                # col = layout.box().column(align=True)
-                # draw_header(col, header or label, keep_text=header)
                 for child in category.children:
-                    # pprint
-                    # pprint((category.name, child.name))
                     draw_category(col, child.name, f"{child.name}")
 
             if len(nodeitems) == 0:
@@ -405,18 +409,16 @@ class NPIE_MT_node_pie(Menu):
                     subgroups.append(temp)
                     temp = []
                     continue
-                # print(node)
                 temp.append(node)
             subgroups.append(temp)
 
             # Draw each of the subgroups with a separator in between each one.
             for i, subgroup in enumerate(subgroups):
-                # print(subgroup)
                 # Sort each item in the subgroup based on whether its icon has been overriden or not.
                 # This is used to group nodes with the same icon together inside the subgroups.
-                subgroup = sorted(subgroup, key=lambda node: sort_item(node.nodetype, cat))
+                # subgroup = sorted(subgroup, key=lambda node: sort_item(node.nodetype, cat))
                 if i != 0:
-                    col.separator()
+                    col.separator(factor=.5)
 
                 if not subgroup:
                     continue
@@ -426,7 +428,6 @@ class NPIE_MT_node_pie(Menu):
                     if node.nodetype in exclude:
                         continue
 
-                    # print(node)
                     # Check that the node category has not been overriden to something different
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
@@ -446,23 +447,23 @@ class NPIE_MT_node_pie(Menu):
         if tree_type == "ShaderNodeTree":
             # LEFT
             row = pie.row(align=False)
-            draw_category(row.box(), "Texture", remove=" Texture")
-            draw_category(row.box(), "Converter")
+            draw_category(row, "Texture", remove=" Texture")
+            draw_category(row, "Converter")
 
             # RIGHT
             row = pie.row(align=False)
-            draw_category(row.box(), "Input")
-            draw_category(row.box(), "Shader", remove=" BSDF")
+            draw_category(row, "Input")
+            draw_category(row, "Shader", remove=" BSDF")
 
             # BOTTOM
             col = pie.column()
-            draw_category(col.box(), "Color")
+            draw_category(col, "Color")
             col.separator(factor=.4)
             draw_node_groups(col)
 
             # TOP
             col = pie.column()
-            draw_category(col.box(), "Vector")
+            draw_category(col, "Vector")
             col.separator(factor=.4)
             draw_search(col.box())
 
@@ -537,35 +538,35 @@ class NPIE_MT_node_pie(Menu):
             col = pie.column()
             draw_category(col, "Geometry")
             col.separator(factor=.4)
-            draw_search(col)
+            draw_search(col.box())
 
         elif tree_type == "CompositorNodeTree":
             # LEFT
             row = pie.row(align=False)
-            draw_category(row.box(), "Converter")
+            draw_category(row, "Converter")
             col = row.column(align=True)
-            draw_category(col.box(), "Distort", remove=" Texture")
+            draw_category(col, "Distort", remove=" Texture")
             col.separator(factor=.4)
-            draw_category(col.box(), "Vector")
+            draw_category(col, "Vector")
 
             # RIGHT
             row = pie.row(align=False)
             col = row.column(align=True)
-            draw_category(col.box(), "Input")
+            draw_category(col, "Input")
             col.separator(factor=.4)
-            draw_category(col.box(), "Output")
-            draw_category(row.box(), "Filter")
+            draw_category(col, "Output")
+            draw_category(row, "Filter")
 
             # BOTTOM
             col = pie.column()
             row = col.row()
-            draw_category(row.box(), "Matte", remove=" BSDF")
+            draw_category(row, "Matte", remove=" BSDF")
             col.separator(factor=.4)
             draw_node_groups(col)
 
             # TOP
             col = pie.column(align=True)
-            draw_category(col.box(), "Color")
+            draw_category(col, "Color")
             col.separator(factor=.4)
             draw_search(col.box())
 

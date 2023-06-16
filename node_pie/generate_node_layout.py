@@ -2,6 +2,8 @@ import json
 import bpy
 import nodeitems_utils
 
+# File used to generate the initial node def file, doesn't actually do anything in the addon currently
+
 colours = {
     "Attribute": "attribute",
     "Color": "color",
@@ -83,4 +85,4 @@ def main():
 
 
 # Uncomment to call main function
-# bpy.app.timers.register(main)
+bpy.app.timers.register(main)

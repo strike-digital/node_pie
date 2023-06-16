@@ -33,6 +33,10 @@ class NodeItem():
     settings: list = field(default_factory=list)
 
 
+class Separator():
+    pass
+
+
 def main():
     """Due to a change in the way geometry nodes generates the add menu in 3.4, the old method of using
     noditems_utils to get the node categories and items will no longer work
@@ -81,6 +85,9 @@ def main():
         for cat_idname, cat in data.items():
             items = []
             for nodeitem in cat["items"]:
+                if nodeitem["name"] == "sep":
+                    items.append(Separator())
+                    continue
                 item = NodeItem(nodeitem["name"], nodeitem["identifier"])
                 if settings := nodeitem.get("settings"):
                     item.settings = settings

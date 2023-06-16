@@ -57,10 +57,6 @@ def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
     return None  # not needed, since no return means None, but keeping for readability
 
 
-# PRESETS_PATH = Path(bpy.utils.resource_path("USER")) / "scripts" / "presets" / "node_pie"
-# PRESETS_PATH.mkdir(parents=True, exist_ok=True)
-
-# KEYMAP_FILE = PRESETS_PATH / "keymap.json"
 KEYMAP_FILE = Path(__file__).parent / "keymap.json"
 
 
@@ -75,12 +71,10 @@ def register():
     # Read saved keymap, or save and load the default one if not present
     if not KEYMAP_FILE.exists():
         with open(KEYMAP_FILE, "w") as f:
-            print("*****Node Pie Debug*****")
-            print(f"file {KEYMAP_FILE} doesn't exist, creating default")
+            # print("*****Node Pie Debug*****")
+            # print(f"file {KEYMAP_FILE} doesn't exist, creating default")
             json.dump(DEFAULT_CONFIG, f, indent=2)
     
-    print(KEYMAP_FILE.exists())
-
     with open(KEYMAP_FILE, "r") as f:
         try:
             keymap_config = json.load(f)
@@ -101,8 +95,6 @@ def register():
 
         for i, config in enumerate(keymap_config):
             kmi_from_config(config, km, i)
-    for km, kmi in addon_keymaps:
-        print(kmi.ctrl)
 
 
 def unregister():
@@ -112,7 +104,6 @@ def unregister():
         km.keymap_items.remove(kmi)
     addon_keymaps.clear()
 
-    print(configs)
     # Save keymap to presets directory file
     with open(KEYMAP_FILE, "w") as f:
         json.dump(configs, f, indent=2)

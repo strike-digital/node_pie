@@ -1,6 +1,7 @@
 shared/__pycache__
 *.pyc
 **/*.json
+!**/node_def_files/*.json
 *.zip
 tokens.txt
 builds/
