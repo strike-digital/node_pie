@@ -1,5 +1,4 @@
 import json
-from pathlib import Path
 import bpy
 import nodeitems_utils
 
@@ -46,7 +45,6 @@ data = {}
 def main():
 
     for area in bpy.context.window.screen.areas:
-        print(area.type)
         if area.type == "NODE_EDITOR":
             with bpy.context.temp_override(area=area):
                 cats = list(nodeitems_utils.node_categories_iter(bpy.context))
@@ -73,8 +71,10 @@ def main():
                     items.append(data_item)
                 print(json.dumps(items, indent=2))
 
+    # Uncomment to write out the initial file from an old version that still has a working NodeItems api.
+    # Shouldn't need to be used now.
     # if data:
-    #     fpath = Path(__file__).parent / "node_layout2.json"
+    #     fpath = Path(__file__).parent / "node_def_files" / "node_def2.json"
     #     with open(fpath, "w") as f:
     #         json.dump(data, f, indent=2)
 
@@ -82,4 +82,5 @@ def main():
     # print(data)
 
 
+# Uncomment to call main function
 # bpy.app.timers.register(main)

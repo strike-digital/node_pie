@@ -3,7 +3,7 @@ import ast
 import json
 from pprint import pprint
 import bpy
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 import re
 
@@ -30,6 +30,7 @@ class NodeItem():
 
     label: str
     nodetype: str
+    settings: list = field(default_factory=list)
 
 
 def main():
@@ -40,7 +41,11 @@ def main():
     https://devtalk.blender.org/t/nodeitems-utils-module-deprecated-in-3-4-with-no-obvious-alternative.
     So as a kinda shitty workaround, this parses the python file that defines the menu,
     and extracts the node items and categories. This isn't ideal, as it's likely to be broken if the file is changed,
-    but it's the best solution I have :("""
+    but it's the best solution I have :(
+        
+    Update: I have given up trying to parse the files, as it keeps changing each time making things more difficult.
+    Instead this now just uses a config file to store the layout of the pie menu. This is stable, but has the downside
+    of needing to be updated manually to include new nodes with every blender version. Oh well, can't say I didn't try."""
 
     scripts_path = bpy.utils.resource_path("LOCAL")
     script_path = Path(scripts_path) / "scripts" / "startup" / "bl_ui" / "node_add_menu_geometry.py"
@@ -48,31 +53,60 @@ def main():
     with open(script_path, "r") as f:
         text = f.readlines()
 
-    if bpy.app.version >= (3, 5, 0):
-        layout_path = Path(__file__).parent / "node_layout.json"
+    bl_version = bpy.app.version
 
-        with open(layout_path, "r") as f:
+    if bl_version >= (3, 5, 0):
+
+        # Load config file
+        files = {}
+        for file in (Path(__file__).parent / "node_def_files").iterdir():
+            if file.is_file() and file.suffix == ".json" and file.name.startswith("node_def_"):
+                files[file.stem.split("_")[-1]] = file
+
+        # Load the latest version
+        version = int(f"{bl_version[0]}{bl_version[1]}")
+        while True:
+            try:
+                def_path = files[str(version)]
+                break
+            except KeyError:
+                version -= 1
+                if version < 0:
+                    break
+                continue
+
+        with open(def_path, "r") as f:
             data = json.load(f)
 
         for cat_idname, cat in data.items():
             items = []
             for nodeitem in cat["items"]:
                 item = NodeItem(nodeitem["name"], nodeitem["identifier"])
+                if settings := nodeitem.get("settings"):
+                    item.settings = settings
                 items.append(item)
                 all_geo_nodes[nodeitem["identifier"]] = item
             category = NodeCategory(cat["name"], items)
 
             geo_nodes_categories[cat["name"]] = category
 
+        # Check to see if there are any new nodes not in pie menu. NOT FOOLPROOF!
         excluded = {"GeometryNodeViewer", "GeometryNodeGroup", "GeometryNodeCustomGroup"}
 
         available_nodes = {node.bl_rna.identifier for node in bpy.types.GeometryNode.__subclasses__()}
+        available_nodes |= {node.bl_rna.identifier for node in bpy.types.FunctionNode.__subclasses__()}
         missing_nodes = available_nodes - set(all_geo_nodes.keys()) - excluded
         if missing_nodes:
-            print(f"Node Pie Warning! There are {len(missing_nodes)} new nodes available that are not displayed in the Node Pie Menu:")
+            print()
+            print(
+                f"Node Pie Warning! There are {len(missing_nodes)} new nodes available that are not displayed in the Node Pie Menu:"
+            )
             pprint(missing_nodes)
+            print()
 
     elif False:
+        # Horrible code to try and parse the menu definition file.
+        # Keeping it around just in case
 
         menus = {}
 
@@ -189,4 +223,5 @@ def main():
 
 
 if bpy.app.version >= (3, 4, 0):
-    main()
+    bpy.app.timers.register(main)
+    # main()

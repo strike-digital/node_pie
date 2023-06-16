@@ -1,4 +1,3 @@
-from pprint import pprint
 import json
 from pathlib import Path
 from statistics import mean
@@ -9,7 +8,7 @@ import nodeitems_utils
 from bpy.types import Menu, UILayout
 
 from .npie_helpers import lerp, inv_lerp, get_prefs
-from .geo_nodes_categories import (NodeItem, NodeCategory, all_geo_nodes, geo_nodes_menus, geo_nodes_categories)
+from .geo_nodes_categories import (NodeItem, NodeCategory, all_geo_nodes, geo_nodes_categories)
 
 
 class DummyUI():
@@ -147,13 +146,11 @@ class NPIE_MT_node_pie(Menu):
 
     def draw(self, context):
         layout = self.layout
-        print("ho")
 
         pie = layout.menu_pie()
         prefs = get_prefs(context)
 
         tree_type = context.space_data.node_tree.bl_rna.identifier
-        is_geo_nodes = tree_type == "GeometryNodeTree"
 
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
@@ -196,11 +193,11 @@ class NPIE_MT_node_pie(Menu):
                 "Mesh Topology": "input",
                 "Curve Topology": "input",
                 "UV": "converter",
+                "Simulation": "layout"
             }
             overrides = {}
             icon_overrides = {
-                "Input": "input",
-                "FunctionNode": "converter",
+                "GeometryNodeSimulationInput": "layout",
                 "GeometryNodeStringJoin": "converter",
                 "ShaderNodeValToRGB": "converter",
                 "ShaderNodeCombineXYZ": "converter",
@@ -209,6 +206,8 @@ class NPIE_MT_node_pie(Menu):
                 "GeometryNodeSplineLength": "input",
                 "GeometryNodeCurveHandleTypeSelection": "input",
                 "GeometryNodeCurveEndpointSelection": "input",
+                "FunctionNode": "converter",
+                "Input": "input",
             }
             exclude = set()
 
@@ -247,7 +246,6 @@ class NPIE_MT_node_pie(Menu):
         if tree_type == "GeometryNodeTree" and bpy.app.version >= (3, 4, 0):
             categories = geo_nodes_categories
             if bpy.app.version >= (3, 5, 0):
-                menus = geo_nodes_menus
                 all_nodes = all_geo_nodes
 
             elif bpy.app.version >= (3, 4, 0):
@@ -266,7 +264,16 @@ class NPIE_MT_node_pie(Menu):
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
 
-        def draw_op(layout: UILayout, text: str, category_name: str, identifier: str = "", group_name="", max_len=200):
+        def draw_op(
+            layout: UILayout,
+            text: str,
+            category_name: str,
+            identifier: str = "",
+            group_name="",
+            max_len=200,
+            op="",
+            params={},
+        ):
             """Draw the add node operator"""
             count = all_node_counts.get(identifier, 1)
 
@@ -302,10 +309,15 @@ class NPIE_MT_node_pie(Menu):
             if len(text) > max_len:
                 text = text[:max_len] + "..."
 
-            op = row.operator("node_pie.add_node", text=text)
-            op.group_name = group_name
-            op.type = identifier
-            op.use_transform = True
+            if op:
+                op = row.operator(op, text=text)
+            else:
+                op = row.operator("node_pie.add_node", text=text)
+                op.group_name = group_name
+                op.type = identifier
+                op.use_transform = True
+            for name, value in params.items():
+                setattr(op, name, value)
             # op: NPIE_OT_show_node_docs = row.operator("node_pie.show_node_docs", text="", icon="HELP")
             # op.type = identifier
             # op.link = ""
@@ -313,6 +325,7 @@ class NPIE_MT_node_pie(Menu):
 
         def get_icon(identifier: str, node_category: str):
             """Get the icon name for this node"""
+            # print(icon_overrides)
             for override in icon_overrides:
                 if override in identifier:
                     return icon_overrides[override]
@@ -417,7 +430,9 @@ class NPIE_MT_node_pie(Menu):
                     # Check that the node category has not been overriden to something different
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
-                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype)
+                        settings = getattr(node, "settings", [])
+                        params = {"settings": str(settings)}
+                        draw_op(col, node.label.replace(remove, ""), icon, node.nodetype, params=params)
 
                 # Draw nodes whose category has been overriden.
                 for node_id, node_cat in overrides.items():
@@ -459,6 +474,11 @@ class NPIE_MT_node_pie(Menu):
             draw_category(col, "Input")
             col.separator(factor=.4)
             draw_category(col, "Layout")
+            if bpy.app.version >= (4, 0, 0):
+                col.separator(factor=.4)
+                col = col.box().column(align=True)
+                draw_header(col, "Simulation")
+                draw_op(col, "Simulation Zone", colours["Layout"], op="node.add_simulation_zone")
 
             # middle
             col = row.column(align=False)

@@ -3,7 +3,6 @@ from pathlib import Path
 import bpy
 from bpy.types import Operator
 from .npie_helpers import Op
-from .npie_ui import NPIE_MT_node_pie
 """For some reason, blender doesn't save modified keymaps when the addon is reloaded, so this stores the keymaps in a
 config file in the presets directory. There is almost certainly a better way to do this, but I couldn't find it"""
 
@@ -58,30 +57,40 @@ def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
     return None  # not needed, since no return means None, but keeping for readability
 
 
-PRESETS_PATH = Path(bpy.utils.resource_path("USER")) / "scripts" / "presets" / "node_pie"
+# PRESETS_PATH = Path(bpy.utils.resource_path("USER")) / "scripts" / "presets" / "node_pie"
 # PRESETS_PATH.mkdir(parents=True, exist_ok=True)
 
-KEYMAP_FILE = PRESETS_PATH / "keymap.json"
+# KEYMAP_FILE = PRESETS_PATH / "keymap.json"
+KEYMAP_FILE = Path(__file__).parent / "keymap.json"
+
+
+# commands = ["command1", "command2", "command3", "command4"]
+# map_themes = ["map_theme"]
+
+# for command, map_theme in zip(commands, map_themes):
+#     exec()
 
 
 def register():
     # Read saved keymap, or save and load the default one if not present
-    # if not KEYMAP_FILE.exists():
-    #     with open(KEYMAP_FILE, "w") as f:
-    #         print("*****Node Pie Debug*****")
-    #         print(f"file {KEYMAP_FILE} doesn't exist")
-    #         json.dump(DEFAULT_CONFIG, f, indent=2)
+    if not KEYMAP_FILE.exists():
+        with open(KEYMAP_FILE, "w") as f:
+            print("*****Node Pie Debug*****")
+            print(f"file {KEYMAP_FILE} doesn't exist, creating default")
+            json.dump(DEFAULT_CONFIG, f, indent=2)
+    
+    print(KEYMAP_FILE.exists())
 
-    # with open(KEYMAP_FILE, "r") as f:
-    #     try:
-    #         keymap_config = json.load(f)
-    #     except json.JSONDecodeError as e:
-    #         print("*****Node Pie Debug*****")
-    #         print("could not decode json")
-    #         print(e)
-    #         keymap_config = DEFAULT_CONFIG
+    with open(KEYMAP_FILE, "r") as f:
+        try:
+            keymap_config = json.load(f)
+        except json.JSONDecodeError as e:
+            print("*****Node Pie Debug*****")
+            print("could not decode json")
+            print(e)
+            keymap_config = DEFAULT_CONFIG
 
-    keymap_config = DEFAULT_CONFIG
+    # keymap_config = DEFAULT_CONFIG
 
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
@@ -103,9 +112,10 @@ def unregister():
         km.keymap_items.remove(kmi)
     addon_keymaps.clear()
 
+    print(configs)
     # Save keymap to presets directory file
-    # with open(KEYMAP_FILE, "w") as f:
-    #     json.dump(configs, f, indent=2)
+    with open(KEYMAP_FILE, "w") as f:
+        json.dump(configs, f, indent=2)
 
 
 def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):

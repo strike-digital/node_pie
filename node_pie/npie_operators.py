@@ -1,13 +1,21 @@
-import bpy
 import json
-from bpy.types import Operator, UILayout
 from collections import OrderedDict
 
+import bpy
+from bpy.types import Operator, UILayout
+
 from .npie_ui import NPIE_MT_node_pie
-from .npie_keymap import addon_keymaps, draw_kmi
-from .npie_manual import get_docs_source_url
 from .npie_helpers import Op
 from .npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
+
+
+class NodeSetting(bpy.types.PropertyGroup):
+    value: bpy.props.StringProperty(
+        name="Value",
+        description="Python expression to be evaluated "
+        "as the initial node setting",
+        default="",
+    )
 
 
 @Op("node_pie", idname="add_node", undo=True)
@@ -18,16 +26,29 @@ class NPIE_OT_node_pie_add_node(Operator):
     group_name: bpy.props.StringProperty(name="Group name", description="The name of the node group to add")
     use_transform: bpy.props.BoolProperty(default=True)
 
+    settings: bpy.props.StringProperty(
+        name="Settings",
+        description="Settings to be applied on the newly created node",
+        default="[]",
+        options={'SKIP_SAVE'},
+    )
+
     def execute(self, context):
+        settings = eval(self.settings)
         try:
-            bpy.ops.node.add_node("INVOKE_DEFAULT", False, type=self.type, use_transform=self.use_transform)
+            bpy.ops.node.add_node(
+                "INVOKE_DEFAULT",
+                False,
+                type=self.type,
+                use_transform=self.use_transform,
+                settings=settings,
+            )
         except RuntimeError as e:
             self.report({"ERROR"}, str(e))
             return {'CANCELLED'}
 
         node_tree = context.area.spaces.active.path[-1].node_tree
         if self.group_name:
-            print(node_tree)
             node = node_tree.nodes.active
             node.node_tree = bpy.data.node_groups[self.group_name]
         # node_tree = context.space_data.node_tree
@@ -111,6 +132,5 @@ class NPIE_OT_call_node_pie(Operator):
     name: bpy.props.IntProperty()
 
     def execute(self, context):
-        print("ho")
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
         return {"FINISHED"}
