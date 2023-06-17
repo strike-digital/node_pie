@@ -113,6 +113,7 @@
         "name": "Interpolate Curves",
         "identifier": "GeometryNodeInterpolateCurves"
       },
+      { "name": "sep" },
       {
         "name": "Curve Handle Positions",
         "identifier": "GeometryNodeInputCurveHandlePositions"
@@ -153,6 +154,7 @@
         "name": "Spline Resolution",
         "identifier": "GeometryNodeInputSplineResolution"
       },
+      { "name": "sep" },
       {
         "name": "Set Curve Radius",
         "identifier": "GeometryNodeSetCurveRadius"

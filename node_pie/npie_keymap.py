@@ -50,6 +50,7 @@ def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
     That can actually be edited by the user (not possible with)
     '''
     user_keymap = bpy.context.window_manager.keyconfigs.user.keymaps[km_name]
+    print(km_name, kmi_idname, prop_name)
     for i, km_item in enumerate(user_keymap.keymap_items):
         if user_keymap.keymap_items.keys()[i] == kmi_idname:
             if user_keymap.keymap_items[i].properties.name == prop_name:
@@ -58,7 +59,6 @@ def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
 
 
 KEYMAP_FILE = Path(__file__).parent / "keymap.json"
-
 
 # commands = ["command1", "command2", "command3", "command4"]
 # map_themes = ["map_theme"]
@@ -69,22 +69,22 @@ KEYMAP_FILE = Path(__file__).parent / "keymap.json"
 
 def register():
     # Read saved keymap, or save and load the default one if not present
-    if not KEYMAP_FILE.exists():
-        with open(KEYMAP_FILE, "w") as f:
-            # print("*****Node Pie Debug*****")
-            # print(f"file {KEYMAP_FILE} doesn't exist, creating default")
-            json.dump(DEFAULT_CONFIG, f, indent=2)
-    
-    with open(KEYMAP_FILE, "r") as f:
-        try:
-            keymap_config = json.load(f)
-        except json.JSONDecodeError as e:
-            print("*****Node Pie Debug*****")
-            print("could not decode json")
-            print(e)
-            keymap_config = DEFAULT_CONFIG
+    # if not KEYMAP_FILE.exists():
+    #     with open(KEYMAP_FILE, "w") as f:
+    #         # print("*****Node Pie Debug*****")
+    #         # print(f"file {KEYMAP_FILE} doesn't exist, creating default")
+    #         json.dump(DEFAULT_CONFIG, f, indent=2)
 
-    # keymap_config = DEFAULT_CONFIG
+    # with open(KEYMAP_FILE, "r") as f:
+    #     try:
+    #         keymap_config = json.load(f)
+    #     except json.JSONDecodeError as e:
+    #         print("*****Node Pie Debug*****")
+    #         print("could not decode json")
+    #         print(e)
+    #         keymap_config = DEFAULT_CONFIG
+
+    keymap_config = DEFAULT_CONFIG
 
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
@@ -104,9 +104,9 @@ def unregister():
         km.keymap_items.remove(kmi)
     addon_keymaps.clear()
 
-    # Save keymap to presets directory file
-    with open(KEYMAP_FILE, "w") as f:
-        json.dump(configs, f, indent=2)
+    # # Save keymap to presets directory file
+    # with open(KEYMAP_FILE, "w") as f:
+    #     json.dump(configs, f, indent=2)
 
 
 def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):

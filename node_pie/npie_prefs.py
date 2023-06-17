@@ -3,7 +3,7 @@ from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
 from .npie_helpers import get_prefs
 from .npie_ui import draw_section, draw_inline_prop
-from .npie_keymap import addon_keymaps
+from .npie_keymap import addon_keymaps, get_user_kmi_from_addon_kmi
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):
@@ -77,13 +77,14 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         kc = bpy.context.window_manager.keyconfigs.user
         for i, (km, addon_kmi) in enumerate(addon_keymaps):
             kmi = addon_kmi
-            # try:
-            #     # We need to get the user version of the keymap item so that they can be modified by the user.
-            #     # I spent far too much time pulling my hair out over this. It really needs to be better on Blenders end.
-            #     kmi = get_user_kmi_from_addon_kmi("Window", addon_kmi.idname, addon_kmi.properties.name)
-            # except AttributeError:
-            #     # the properties for the user keymap items are not created instantly on load, account for that.
-            #     return
+            try:
+                # We need to get the user version of the keymap item so that they can be modified by the user.
+                # I spent far too much time pulling my hair out over this. It really needs to be better on Blenders end.
+                kmi = get_user_kmi_from_addon_kmi("Node Editor", addon_kmi.idname, addon_kmi.properties.name)
+            except AttributeError:
+                # the properties for the user keymap items are not created instantly on load, account for that.
+                return
+            print(kmi)
             row = col.row(align=True)
             row.active = kmi.active
             sub = row.row(align=True)

@@ -432,6 +432,15 @@ class NPIE_MT_node_pie(Menu):
                     if not (overriden := overrides.get(node.nodetype)) or overriden == cat:
                         icon = get_icon(node.nodetype, cat)
                         settings = getattr(node, "settings", [])
+                        settings = settings or []
+                        
+                        # Non geo nodes settings have a different format
+                        if isinstance(settings, dict):
+                            formatted_settings = []
+                            for name, setting in settings.items():
+                                formatted_settings.append({"name": name, "value": setting})
+                            settings = formatted_settings
+
                         params = {"settings": str(settings)}
                         draw_op(col, node.label.replace(remove, ""), icon, node.nodetype, params=params)
 
