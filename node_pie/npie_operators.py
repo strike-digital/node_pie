@@ -131,6 +131,12 @@ class NPIE_OT_call_node_pie(Operator):
 
     name: bpy.props.IntProperty()
 
+    @classmethod
+    def poll(cls, context):
+        if not context.space_data or context.area.type != "NODE_EDITOR":
+            return False
+        return True
+
     def execute(self, context):
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
         return {"FINISHED"}

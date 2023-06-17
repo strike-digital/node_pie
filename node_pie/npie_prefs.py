@@ -80,11 +80,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             try:
                 # We need to get the user version of the keymap item so that they can be modified by the user.
                 # I spent far too much time pulling my hair out over this. It really needs to be better on Blenders end.
-                kmi = get_user_kmi_from_addon_kmi("Node Editor", addon_kmi.idname, addon_kmi.properties.name)
+                kmi = get_user_kmi_from_addon_kmi("View2D", addon_kmi.idname, addon_kmi.properties.name)
             except AttributeError:
                 # the properties for the user keymap items are not created instantly on load, account for that.
                 return
-            print(kmi)
+
             row = col.row(align=True)
             row.active = kmi.active
             sub = row.row(align=True)
@@ -96,9 +96,9 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             sub.enabled = True
             op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
             op.index = i
-            if kmi.is_user_modified:
-                op = sub.operator("preferences.keyitem_restore", text="", icon="BACK")
-                op.item_id = kmi.id
+            # if kmi.is_user_modified:
+            #     op = sub.operator("preferences.keyitem_restore", text="", icon="BACK")
+            #     op.item_id = kmi.id
             op = sub.operator("node_pie.remove_keymap_item", text="", icon="X")
             op.index = i
         col.operator("node_pie.new_keymap_item", text="", icon="ADD")

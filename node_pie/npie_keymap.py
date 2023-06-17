@@ -89,7 +89,7 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='Node Editor')
+        km = kc.keymaps.new(name='View2D')
         global KEYMAP
         KEYMAP = km
 
