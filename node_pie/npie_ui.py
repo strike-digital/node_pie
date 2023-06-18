@@ -207,6 +207,7 @@ class NPIE_MT_node_pie(Menu):
                 "GeometryNodeMeshFaceSetBoundaries": "input",
                 "GeometryNodeSimulationInput": "layout",
                 "GeometryNodeStringJoin": "converter",
+                "GeometryNodeSampleVolume": "converter",
                 "ShaderNodeValToRGB": "converter",
                 "ShaderNodeCombineXYZ": "converter",
                 "ShaderNodeSeparateXYZ": "converter",
@@ -363,7 +364,7 @@ class NPIE_MT_node_pie(Menu):
             col = layout.box().column(align=True)
             draw_header(col, "Groups")
             for ng in node_groups:
-                if ng.bl_idname == tree_type:
+                if ng.bl_idname == tree_type and not ng.name.startswith("."):
                     draw_op(
                         col,
                         ng.name,
@@ -433,7 +434,7 @@ class NPIE_MT_node_pie(Menu):
                         icon = get_icon(node.nodetype, cat)
                         settings = getattr(node, "settings", [])
                         settings = settings or []
-                        
+
                         # Non geo nodes settings have a different format
                         if isinstance(settings, dict):
                             formatted_settings = []
@@ -585,6 +586,14 @@ class NPIE_MT_node_pie(Menu):
             # Get all categories for the current context, and sort them based on the number of nodes they contain.
             categories = list(nodeitems_utils.node_categories_iter(context))
             categories.sort(key=lambda cat: len(list(cat.items(context))))
+
+            if not categories:
+                pie.separator()
+                pie.separator()
+                box = pie.box().column(align=True)
+                box.label(
+                    text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api.")
+                return
 
             # Remove the layout category, all of it's entries can be accessed with shortcuts
             for i, cat in enumerate(categories[:]):

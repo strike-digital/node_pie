@@ -1,8 +1,9 @@
 import json
 from collections import OrderedDict
+import typing
 
 import bpy
-from bpy.types import Operator, UILayout
+from bpy.types import Context, Event, Operator, UILayout
 
 from .npie_ui import NPIE_MT_node_pie
 from .npie_helpers import Op

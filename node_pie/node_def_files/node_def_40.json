@@ -480,16 +480,28 @@
     "colour": "geometry",
     "items": [
       {
+        "name": "Corners of Vertex",
+        "identifier": "GeometryNodeCornersOfVertex"
+      },
+      {
+        "name": "Corners of Edge",
+        "identifier": "GeometryNodeCornersOfEdge"
+      },
+      {
         "name": "Corners of Face",
         "identifier": "GeometryNodeCornersOfFace"
+      },
+      {
+        "name": "Offset Corner in Face",
+        "identifier": "GeometryNodeOffsetCornerInFace"
       },
       {
         "name": "Vertex of Corner",
         "identifier": "GeometryNodeVertexOfCorner"
       },
       {
-        "name": "Offset Corner in Face",
-        "identifier": "GeometryNodeOffsetCornerInFace"
+        "name": "Edges of Corner",
+        "identifier": "GeometryNodeEdgesOfCorner"
       },
       {
         "name": "Face of Corner",
@@ -498,14 +510,6 @@
       {
         "name": "Edges of Vertex",
         "identifier": "GeometryNodeEdgesOfVertex"
-      },
-      {
-        "name": "Edges of Corner",
-        "identifier": "GeometryNodeEdgesOfCorner"
-      },
-      {
-        "name": "Corners of Vertex",
-        "identifier": "GeometryNodeCornersOfVertex"
       }
     ]
   },
@@ -548,6 +552,10 @@
       {
         "name": "Mesh to Volume",
         "identifier": "GeometryNodeMeshToVolume"
+      },
+      {
+        "name": "Mesh to SDF Volume",
+        "identifier": "GeometryNodeMeshToSDFVolume"
       },
       {
         "name": "Scale Elements",
@@ -694,6 +702,10 @@
       {
         "name": "Points to Volume",
         "identifier": "GeometryNodePointsToVolume"
+      },
+      {
+        "name": "Points to SDF Volume",
+        "identifier": "GeometryNodePointsToSDFVolume"
       },
       {
         "name": "Set Point Radius",
@@ -918,6 +930,27 @@
       {
         "name": "Volume to Mesh",
         "identifier": "GeometryNodeVolumeToMesh"
+      },
+      { "name": "sep" },
+      {
+        "name": "Signed Distance",
+        "identifier": "GeometryNodeInputSignedDistance"
+      },
+      {
+        "name": "Sample Volume",
+        "identifier": "GeometryNodeSampleVolume"
+      },
+      {
+        "name": "SDF Volume Sphere",
+        "identifier": "GeometryNodeSDFVolumeSphere"
+      },
+      {
+        "name": "Offset SDF Volume",
+        "identifier": "GeometryNodeOffsetSDFVolume"
+      },
+      {
+        "name": "Mean Filter SDF Volume",
+        "identifier": "GeometryNodeMeanFilterSDFVolume"
       }
     ]
   },
