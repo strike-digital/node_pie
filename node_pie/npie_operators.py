@@ -1,13 +1,15 @@
 import json
 from collections import OrderedDict
-import typing
+import shutil
+import webbrowser
 
 import bpy
-from bpy.types import Context, Event, Operator, UILayout
+from bpy.props import BoolProperty
+from bpy.types import Operator, UILayout
 
 from .npie_ui import NPIE_MT_node_pie
 from .npie_helpers import Op
-from .npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
+from .npie_constants import NODE_DEF_BASE_FILE, NODE_DEF_DIR, NODE_DEF_EXAMPLE_FILE, POPULARITY_FILE, POPULARITY_FILE_VERSION
 
 
 class NodeSetting(bpy.types.PropertyGroup):
@@ -140,4 +142,56 @@ class NPIE_OT_call_node_pie(Operator):
 
     def execute(self, context):
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
+        return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_open_definition_file(Operator):
+    """Open the node pie definition file for this node tree"""
+
+    example: BoolProperty()
+
+    @classmethod
+    def poll(cls, context):
+        if not context.space_data or context.area.type != "NODE_EDITOR":
+            return False
+        return True
+
+    def execute(self, context):
+        if self.example:
+            file = NODE_DEF_EXAMPLE_FILE
+        else:
+            file = NODE_DEF_DIR / f"{context.space_data.tree_type}.jsonc"
+            if not file.exists():
+                shutil.copyfile(NODE_DEF_BASE_FILE, file)
+
+        webbrowser.open(file)
+        return {"FINISHED"}
+
+
+@Op("node_pie")
+class NPIE_OT_copy_nodes_as_json(Operator):
+    """Copy the selected nodes in the correct format to be pasted into the node pie definition file."""
+
+    @classmethod
+    def poll(cls, context):
+        if not context.space_data or context.area.type != "NODE_EDITOR":
+            return False
+        if not context.selected_nodes:
+            return False
+        return True
+
+    def execute(self, context):
+        items = []
+        for node in context.selected_nodes:
+            data_item = {"label": node.bl_label, "identifier": node.bl_idname}
+            items.append(json.dumps(data_item, indent=2))
+        items = ",\n".join(items)
+        context.window_manager.clipboard = items
+        print()
+        print("Nodes to copy:")
+        print(items)
+        print()
+        num = len(context.selected_nodes)
+        self.report({"INFO"}, message=f"Copied {num} node{'' if num == 1 else 's'}")
         return {"FINISHED"}

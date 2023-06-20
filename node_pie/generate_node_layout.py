@@ -85,4 +85,4 @@ def main():
 
 
 # Uncomment to call main function
-bpy.app.timers.register(main)
+# bpy.app.timers.register(main)

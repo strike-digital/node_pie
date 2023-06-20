@@ -1,0 +1,24 @@
+// For more info about how to use this file, use the "Open Example File" operator in the right click menu of the node editor
+// You'll need Node Pie developer extras to be enabled in the preferences to see it.
+
+{
+  "layout": {
+    "left": [["CATEGORY_NAME"]],
+    "right": [],
+    "top": [],
+    "bottom": []
+  },
+  "categories": {
+    "CATEGORY_NAME": {
+      "label": "Category name",
+      "color": "converter", 
+      "nodes": [
+        {
+          "label": "Node label",
+          "identifier": "Node identifier"
+        },
+        {"label": "sep"}
+      ]
+    }
+  }
+}

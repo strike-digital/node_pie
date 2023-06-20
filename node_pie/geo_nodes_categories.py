@@ -7,6 +7,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 import re
 
+from .npie_constants import NODE_DEF_DIR
+
 geo_nodes_categories = {}
 geo_nodes_menus = {}
 all_geo_nodes = {}
@@ -66,7 +68,7 @@ def main():
 
         # Load config file
         files = {}
-        for file in (Path(__file__).parent / "node_def_files").iterdir():
+        for file in (NODE_DEF_DIR).iterdir():
             if file.is_file() and file.suffix == ".jsonc" and file.name.startswith("GeometryNodeTree_"):
                 files[file.stem.split("_")[-1]] = file
 

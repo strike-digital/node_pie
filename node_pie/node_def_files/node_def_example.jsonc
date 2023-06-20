@@ -1,0 +1,56 @@
+// This example shows how to structure a node pie definition file
+// For the best experience it is recommended to edit this using a code editor
+// with syntax highlighting such as vscode or notepad++.
+{
+  // This defines how each category is placed in the pie menu
+  // The menu id divided into four sections, each containing a list of columns,
+  // which in turn contain a list of categories to draw (the categories are defined below).
+  "layout": {
+    "left": [["DEBUG"]],
+    "right": [],
+    "top": [],
+    "bottom": []
+  },
+  // Categories are the different visual groups of nodes in the node tree.
+  // It doesn't matter what order they are defined in here, as they are laid out above
+  "categories": {
+    // The identifier of the category doesn't matter, just as long as it is unique
+    "DEBUG": {
+      "label": "Debug", // The name that is displayed at the top of the category
+      // The color to draw at the side of the node.
+      // This is defined by the name of that node category color in the Blender theme preferences.
+      // The possible values, and their default colors are:
+      // "converter": light blue
+      // "color": yellow
+      // "group": dark green
+      // "layout": grey
+      // "matte": rust
+      // "distor": grey-blue   This should be distort, but there is a typo in the blender code
+      // "input": red
+      // "output": dark red
+      // "filter": deep purple
+      // "vector": light purple
+      // "texture": orange
+      // "shader": green
+      // "script": dark greeny blue
+      // "geometry": light green
+      // "attribute": dark blue
+      "color": "converter", 
+      // A list of the nodes in this category
+      "nodes": [
+        {
+          // The display name of the node
+          "label": "Trigger",
+          // The internal blender name of the node
+          "identifier": "SN_TriggerNode"
+        },
+        // Define a separator like this
+        {"label": "sep"},
+        {
+          "label": "Timestamp",
+          "identifier": "SN_TimestampNode"
+        }
+      ]
+    }
+  }
+}

@@ -1,14 +1,13 @@
 import json
-from pathlib import Path
 
 import bpy
+from .npie_constants import NODE_DEF_DIR
 from .npie_helpers import JSONWithCommentsDecoder
 
 from .geo_nodes_categories import NodeCategory, NodeItem, Separator
 
 
 def load_custom_nodes_info(tree_identifier: str):
-    print(tree_identifier)
     bl_version = bpy.app.version
     all_nodes = {}
     categories = {}
@@ -16,7 +15,7 @@ def load_custom_nodes_info(tree_identifier: str):
 
     # Load config file
     files = {}
-    for file in (Path(__file__).parent / "node_def_files").iterdir():
+    for file in (NODE_DEF_DIR).iterdir():
         if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
             files[file.stem.split("_")[-1]] = file
 

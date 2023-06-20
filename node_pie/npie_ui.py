@@ -168,6 +168,7 @@ class NPIE_MT_node_pie(Menu):
                 "Layout": "layout",
             }
             overrides = {"ShaderNodeVectorMath": "Vector"}
+            icon_overrides_general = {}
             icon_overrides = {}
             exclude = set()
 
@@ -198,6 +199,7 @@ class NPIE_MT_node_pie(Menu):
                 "Simulation": "layout"
             }
             overrides = {}
+            icon_overrides_general = {"FunctionNode": "converter", "Input": "input"}
             icon_overrides = {
                 "FunctionNodeInputBool": "input",
                 "FunctionNodeInputImage": "input",
@@ -217,8 +219,6 @@ class NPIE_MT_node_pie(Menu):
                 "GeometryNodeSplineLength": "input",
                 "GeometryNodeCurveHandleTypeSelection": "input",
                 "GeometryNodeCurveEndpointSelection": "input",
-                "FunctionNode": "converter",
-                "Input": "input",
             }
             exclude = set()
 
@@ -236,6 +236,7 @@ class NPIE_MT_node_pie(Menu):
                 "Layout": "layout",
             }
             overrides = {}
+            icon_overrides_general = {}
             icon_overrides = {}
             exclude = set()
 
@@ -248,9 +249,13 @@ class NPIE_MT_node_pie(Menu):
                 is_node_file = True
 
             colours = {c.idname: c.color if c.color else "input" for c in categories.values()}
+            icon_overrides_general = {}
+            icon_overrides = {}
+            for idname, node in all_nodes.items():
+                if node.color:
+                    icon_overrides[idname] = node.color
             menu_prefix = "  "
             overrides = {}
-            icon_overrides = {}
             exclude = set()
 
         categories: dict[str, NodeCategory]
@@ -340,8 +345,11 @@ class NPIE_MT_node_pie(Menu):
             """Get the icon name for this node"""
             # print(icon_overrides)
             for override in icon_overrides:
-                if override in identifier:
+                if override == identifier:
                     return icon_overrides[override]
+            for override in icon_overrides_general:
+                if override in identifier:
+                    return icon_overrides_general[override]
             try:
                 return colours[node_category]
             except KeyError:

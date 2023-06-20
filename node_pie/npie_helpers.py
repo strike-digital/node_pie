@@ -1,10 +1,15 @@
 from dataclasses import dataclass
 import json
+from typing import TYPE_CHECKING
 from bpy.types import Operator, AddonPreferences
 from mathutils import Vector as V
+if TYPE_CHECKING:
+    from .npie_prefs import NodePiePrefs
+else:
+    NodePiePrefs = AddonPreferences
 
 
-def get_prefs(context) -> AddonPreferences:
+def get_prefs(context) -> NodePiePrefs:
     """Return the addon preferences"""
     return context.preferences.addons[__package__.split(".")[0]].preferences
 
@@ -109,13 +114,13 @@ class Op():
         """This takes the decorated class and populate's the bl_ attributes with either the supplied values,
         or a best guess based on the other values"""
 
-        cls_name_end = cls.__name__.split("OT_")[-1]
+        cls_name_end: str = cls.__name__.split("OT_")[-1]
         idname = self.category + "." + (self.idname if self.idname else cls_name_end)
 
         if self.label:
             label = self.label
         else:
-            label = cls_name_end.replace("_", " ").title()
+            label = cls_name_end.capitalize().replace("_", " ")
 
         if self.description:
             description = self.description

@@ -53,6 +53,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Prevent new changes the popularity of nodes.",
     )
 
+    npie_dev_extras: BoolProperty(
+        name="Show dev extras",
+        default=False,
+        description="Show some operators in the right click menu to make creating custom definition files easier.",
+    )
+
     def draw(self, context):
         layout = self.layout
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
@@ -72,6 +78,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         col = draw_section(layout, "General")
         draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
+        draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
 
         col = draw_section(layout, "Keymap")
         kc = bpy.context.window_manager.keyconfigs.user

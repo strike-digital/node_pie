@@ -50,7 +50,6 @@ def get_user_kmi_from_addon_kmi(km_name, kmi_idname, prop_name):
     That can actually be edited by the user (not possible with)
     '''
     user_keymap = bpy.context.window_manager.keyconfigs.user.keymaps[km_name]
-    print(km_name, kmi_idname, prop_name)
     for i, km_item in enumerate(user_keymap.keymap_items):
         if user_keymap.keymap_items.keys()[i] == kmi_idname:
             if user_keymap.keymap_items[i].properties.name == prop_name:
