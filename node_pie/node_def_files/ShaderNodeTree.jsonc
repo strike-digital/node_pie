@@ -1,0 +1,430 @@
+{
+  "layout": {
+    "left": [["TEXTURE"], ["CONVERTOR"]],
+    "right": [["INPUT"], ["SHADER"]],
+    "top": [["VECTOR"]],
+    "bottom": [["COLOR"]]
+  },
+  "categories": {
+    "INPUT": {
+      "label": "Input",
+      "color": "input",
+      "nodes": [
+        {
+          "label": "Ambient Occlusion",
+          "identifier": "ShaderNodeAmbientOcclusion"
+        },
+        {
+          "label": "Attribute",
+          "identifier": "ShaderNodeAttribute"
+        },
+        {
+          "label": "Bevel",
+          "identifier": "ShaderNodeBevel"
+        },
+        {
+          "label": "Camera Data",
+          "identifier": "ShaderNodeCameraData"
+        },
+        {
+          "label": "Color Attribute",
+          "identifier": "ShaderNodeVertexColor"
+        },
+        {
+          "label": "Curves Info",
+          "identifier": "ShaderNodeHairInfo"
+        },
+        {
+          "label": "Fresnel",
+          "identifier": "ShaderNodeFresnel"
+        },
+        {
+          "label": "Geometry",
+          "identifier": "ShaderNodeNewGeometry"
+        },
+        {
+          "label": "Layer Weight",
+          "identifier": "ShaderNodeLayerWeight"
+        },
+        {
+          "label": "Light Path",
+          "identifier": "ShaderNodeLightPath"
+        },
+        {
+          "label": "Object Info",
+          "identifier": "ShaderNodeObjectInfo"
+        },
+        {
+          "label": "Particle Info",
+          "identifier": "ShaderNodeParticleInfo"
+        },
+        {
+          "label": "Point Info",
+          "identifier": "ShaderNodePointInfo"
+        },
+        {
+          "label": "RGB",
+          "identifier": "ShaderNodeRGB"
+        },
+        {
+          "label": "Tangent",
+          "identifier": "ShaderNodeTangent"
+        },
+        {
+          "label": "Texture Coordinate",
+          "identifier": "ShaderNodeTexCoord"
+        },
+        {
+          "label": "UV Map",
+          "identifier": "ShaderNodeUVMap"
+        },
+        {
+          "label": "Value",
+          "identifier": "ShaderNodeValue"
+        },
+        {
+          "label": "Volume Info",
+          "identifier": "ShaderNodeVolumeInfo"
+        },
+        {
+          "label": "Wireframe",
+          "identifier": "ShaderNodeWireframe"
+        }
+      ]
+    },
+    "OUTPUT": {
+      "label": "Output",
+      "color": "output",
+      "nodes": [
+        {
+          "label": "AOV Output",
+          "identifier": "ShaderNodeOutputAOV"
+        },
+        {
+          "label": "Light Output",
+          "identifier": "ShaderNodeOutputLight"
+        },
+        {
+          "label": "Material Output",
+          "identifier": "ShaderNodeOutputMaterial"
+        }
+      ]
+    },
+    "SHADER": {
+      "label": "Shader",
+      "color": "shader",
+      "nodes": [
+        {
+          "label": "Add Shader",
+          "identifier": "ShaderNodeAddShader"
+        },
+        {
+          "label": "Anisotropic BSDF",
+          "identifier": "ShaderNodeBsdfAnisotropic"
+        },
+        {
+          "label": "Diffuse BSDF",
+          "identifier": "ShaderNodeBsdfDiffuse"
+        },
+        {
+          "label": "Emission",
+          "identifier": "ShaderNodeEmission"
+        },
+        {
+          "label": "Glass BSDF",
+          "identifier": "ShaderNodeBsdfGlass"
+        },
+        {
+          "label": "Glossy BSDF",
+          "identifier": "ShaderNodeBsdfGlossy"
+        },
+        {
+          "label": "Hair BSDF",
+          "identifier": "ShaderNodeBsdfHair"
+        },
+        {
+          "label": "Holdout",
+          "identifier": "ShaderNodeHoldout"
+        },
+        {
+          "label": "Mix Shader",
+          "identifier": "ShaderNodeMixShader"
+        },
+        {
+          "label": "Principled BSDF",
+          "identifier": "ShaderNodeBsdfPrincipled"
+        },
+        {
+          "label": "Principled Hair BSDF",
+          "identifier": "ShaderNodeBsdfHairPrincipled"
+        },
+        {
+          "label": "Principled Volume",
+          "identifier": "ShaderNodeVolumePrincipled"
+        },
+        {
+          "label": "Refraction BSDF",
+          "identifier": "ShaderNodeBsdfRefraction"
+        },
+        {
+          "label": "Subsurface Scattering",
+          "identifier": "ShaderNodeSubsurfaceScattering"
+        },
+        {
+          "label": "Toon BSDF",
+          "identifier": "ShaderNodeBsdfToon"
+        },
+        {
+          "label": "Translucent BSDF",
+          "identifier": "ShaderNodeBsdfTranslucent"
+        },
+        {
+          "label": "Transparent BSDF",
+          "identifier": "ShaderNodeBsdfTransparent"
+        },
+        {
+          "label": "Velvet BSDF",
+          "identifier": "ShaderNodeBsdfVelvet"
+        },
+        {
+          "label": "Volume Absorption",
+          "identifier": "ShaderNodeVolumeAbsorption"
+        },
+        {
+          "label": "Volume Scatter",
+          "identifier": "ShaderNodeVolumeScatter"
+        }
+      ]
+    },
+    "TEXTURE": {
+      "label": "Texture",
+      "color": "texture",
+      "nodes": [
+        {
+          "label": "Brick Texture",
+          "identifier": "ShaderNodeTexBrick"
+        },
+        {
+          "label": "Checker Texture",
+          "identifier": "ShaderNodeTexChecker"
+        },
+        {
+          "label": "Environment Texture",
+          "identifier": "ShaderNodeTexEnvironment"
+        },
+        {
+          "label": "Gradient Texture",
+          "identifier": "ShaderNodeTexGradient"
+        },
+        {
+          "label": "IES Texture",
+          "identifier": "ShaderNodeTexIES"
+        },
+        {
+          "label": "Image Texture",
+          "identifier": "ShaderNodeTexImage"
+        },
+        {
+          "label": "Magic Texture",
+          "identifier": "ShaderNodeTexMagic"
+        },
+        {
+          "label": "Musgrave Texture",
+          "identifier": "ShaderNodeTexMusgrave"
+        },
+        {
+          "label": "Noise Texture",
+          "identifier": "ShaderNodeTexNoise"
+        },
+        {
+          "label": "Point Density",
+          "identifier": "ShaderNodeTexPointDensity"
+        },
+        {
+          "label": "Sky Texture",
+          "identifier": "ShaderNodeTexSky"
+        },
+        {
+          "label": "Voronoi Texture",
+          "identifier": "ShaderNodeTexVoronoi"
+        },
+        {
+          "label": "Wave Texture",
+          "identifier": "ShaderNodeTexWave"
+        },
+        {
+          "label": "White Noise Texture",
+          "identifier": "ShaderNodeTexWhiteNoise"
+        }
+      ]
+    },
+    "COLOR": {
+      "label": "Color",
+      "color": "color",
+      "nodes": [
+        {
+          "label": "Bright Contrast",
+          "identifier": "ShaderNodeBrightContrast"
+        },
+        {
+          "label": "Gamma",
+          "identifier": "ShaderNodeGamma"
+        },
+        {
+          "label": "Hue Saturation Value",
+          "identifier": "ShaderNodeHueSaturation"
+        },
+        {
+          "label": "Invert",
+          "identifier": "ShaderNodeInvert"
+        },
+        {
+          "label": "Light Falloff",
+          "identifier": "ShaderNodeLightFalloff"
+        },
+        {
+          "label": "Mix Color",
+          "identifier": "ShaderNodeMix",
+          "settings": {
+            "data_type": "'RGBA'"
+          }
+        },
+        {
+          "label": "RGB Curves",
+          "identifier": "ShaderNodeRGBCurve"
+        }
+      ]
+    },
+    "VECTOR": {
+      "label": "Vector",
+      "color": "vector",
+      "nodes": [
+        {
+          "label": "Bump",
+          "identifier": "ShaderNodeBump"
+        },
+        {
+          "label": "Displacement",
+          "identifier": "ShaderNodeDisplacement"
+        },
+        {
+          "label": "Mapping",
+          "identifier": "ShaderNodeMapping"
+        },
+        {
+          "label": "Normal",
+          "identifier": "ShaderNodeNormal"
+        },
+        {
+          "label": "Normal Map",
+          "identifier": "ShaderNodeNormalMap"
+        },
+        {
+          "label": "Vector Curves",
+          "identifier": "ShaderNodeVectorCurve"
+        },
+        {
+          "label": "Vector Displacement",
+          "identifier": "ShaderNodeVectorDisplacement"
+        },
+        {
+          "label": "Vector Rotate",
+          "identifier": "ShaderNodeVectorRotate"
+        },
+        {
+          "label": "Vector Transform",
+          "identifier": "ShaderNodeVectorTransform"
+        }
+      ]
+    },
+    "CONVERTOR": {
+      "label": "Converter",
+      "color": "converter",
+      "nodes": [
+        {
+          "label": "Blackbody",
+          "identifier": "ShaderNodeBlackbody"
+        },
+        {
+          "label": "Clamp",
+          "identifier": "ShaderNodeClamp"
+        },
+        {
+          "label": "ColorRamp",
+          "identifier": "ShaderNodeValToRGB",
+          "color": "converter"
+        },
+        {
+          "label": "Combine Color",
+          "identifier": "ShaderNodeCombineColor"
+        },
+        {
+          "label": "Combine XYZ",
+          "identifier": "ShaderNodeCombineXYZ",
+          "color": "converter"
+        },
+        {
+          "label": "Float Curve",
+          "identifier": "ShaderNodeFloatCurve"
+        },
+        {
+          "label": "Map Range",
+          "identifier": "ShaderNodeMapRange"
+        },
+        {
+          "label": "Math",
+          "identifier": "ShaderNodeMath"
+        },
+        {
+          "label": "Mix",
+          "identifier": "ShaderNodeMix"
+        },
+        {
+          "label": "RGB to BW",
+          "identifier": "ShaderNodeRGBToBW"
+        },
+        {
+          "label": "Separate Color",
+          "identifier": "ShaderNodeSeparateColor"
+        },
+        {
+          "label": "Separate XYZ",
+          "identifier": "ShaderNodeSeparateXYZ",
+          "color": "converter"
+        },
+        {
+          "label": "Vector Math",
+          "identifier": "ShaderNodeVectorMath"
+        },
+        {
+          "label": "Wavelength",
+          "identifier": "ShaderNodeWavelength"
+        }
+      ]
+    },
+    "SCRIPT": {
+      "label": "Script",
+      "color": "script",
+      "nodes": [
+        {
+          "label": "Script",
+          "identifier": "ShaderNodeScript"
+        }
+      ]
+    },
+    "LAYOUT": {
+      "label": "Layout",
+      "color": "layout",
+      "nodes": [
+        {
+          "label": "Frame",
+          "identifier": "NodeFrame"
+        },
+        {
+          "label": "Reroute",
+          "identifier": "NodeReroute"
+        }
+      ]
+    }
+  }
+}

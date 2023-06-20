@@ -1,5 +1,6 @@
 import json
 import bpy
+from .npie_constants import NODE_DEF_DIR
 import nodeitems_utils
 
 # File used to generate the initial node def file, doesn't actually do anything in the addon currently
@@ -51,8 +52,8 @@ def main():
             with bpy.context.temp_override(area=area):
                 cats = list(nodeitems_utils.node_categories_iter(bpy.context))
                 for cat in cats:
-                    if cat.name not in colours.keys():
-                        continue
+                    # if cat.name not in colours.keys():
+                    #     continue
                     items = []
                     for item in cat.items(bpy.context):
                         if not isinstance(item, nodeitems_utils.NodeItem):
@@ -62,25 +63,24 @@ def main():
                         if settings:
                             data_item["settings"] = settings
                         if item.nodetype in color_overrides:
-                            data_item["colour"] = color_overrides[item.nodetype]
+                            data_item["color"] = color_overrides[item.nodetype]
                         items.append(data_item)
-                    data[cat.identifier] = {"label": cat.name, "colour": colours[cat.name], "items": items}
+                    data[cat.identifier] = {"label": cat.name, "color": "input", "nodes": items}
 
                 selected_nodes = bpy.context.selected_nodes
                 items = []
                 for node in selected_nodes:
                     data_item = {"label": node.bl_label, "identifier": node.bl_idname}
                     items.append(data_item)
-                print(json.dumps(items, indent=2))
 
     # Uncomment to write out the initial file from an old version that still has a working NodeItems api.
     # Shouldn't need to be used now.
-    # if data:
-    #     fpath = Path(__file__).parent / "node_def_files" / "node_def2.json"
-    #     with open(fpath, "w") as f:
-    #         json.dump(data, f, indent=2)
+    if data:
+        fpath = NODE_DEF_DIR / "CompositorNodeTree2.jsonc"
+        with open(fpath, "w") as f:
+            json.dump(data, f, indent=2)
 
-    #     print("Dumped!")
+        print("Dumped!")
     # print(data)
 
 
