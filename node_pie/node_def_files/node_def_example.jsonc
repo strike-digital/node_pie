@@ -3,7 +3,7 @@
 // with syntax highlighting such as vscode or notepad++.
 {
   // This defines how each category is placed in the pie menu
-  // The menu id divided into four sections, each containing a list of columns,
+  // The menu is divided into four sections, each containing a list of columns,
   // which in turn contain a list of categories to draw (the categories are defined below).
   "layout": {
     "left": [["DEBUG"]],
@@ -35,7 +35,7 @@
       // "script": dark greeny blue
       // "geometry": light green
       // "attribute": dark blue
-      "color": "converter", 
+      "color": "converter",
       // A list of the nodes in this category
       "nodes": [
         {
@@ -45,7 +45,7 @@
           "identifier": "SN_TriggerNode"
         },
         // Define a separator like this
-        {"label": "sep"},
+        { "label": "sep" },
         {
           "label": "Timestamp",
           "identifier": "SN_TimestampNode"

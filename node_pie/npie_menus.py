@@ -1,5 +1,6 @@
 import bpy
 from bpy.types import UILayout
+from .npie_constants import NODE_DEF_DIR
 from .npie_helpers import get_prefs
 
 
@@ -12,8 +13,10 @@ def context_menu_draw(self, context):
     layout.label(text="Node Pie Utiltities:", icon="NODE")
     op = layout.operator("node_pie.open_definition_file", text="Open example definition file")
     op.example = True
-    if context.space_data.tree_type not in {"ShaderNodeTree", "CompositorNodeTree"}:
-        op = layout.operator("node_pie.open_definition_file", text="Open definition file for this node tree type")
+
+    file = NODE_DEF_DIR / f"{context.space_data.tree_type}.jsonc"
+    word = "Open" if file.exists() else "Create"
+    op = layout.operator("node_pie.open_definition_file", text=f"{word} definition file for this node tree type")
     op.example = False
     layout.operator("node_pie.copy_nodes_as_json")
 

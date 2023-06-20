@@ -315,8 +315,14 @@ class NPIE_MT_node_pie(Menu):
                 pie.separator()
                 pie.separator()
                 box = pie.box().column(align=True)
+                box.alignment = "CENTER"
                 box.label(
                     text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api.")
+                box.label(text="You can define the pie menu for this node tree manually by enabling developer extras")
+                box.label(text="in the preferences, and choosing 'Create definition file for this node tree type'")
+                box.label(text="from the right click menu in this node editor")
+                box.label(
+                    text="Be aware that this could require a lot of work, depending on the number of nodes required")
                 return
 
             # Remove the layout category, all of it's entries can be accessed with shortcuts
