@@ -23,7 +23,7 @@ _codes = {100: ('continue',), 101: ('switching_protocols',), 102: ('processing',
 codes = LookupDict(name='status_codes')
 
 def _init():
-    for (code, titles) in _codes.items():
+    for code, titles in _codes.items():
         for title in titles:
             setattr(codes, title, code)
             if not title.startswith(('\\', '/')):

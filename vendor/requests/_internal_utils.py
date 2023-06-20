@@ -12,7 +12,9 @@ _VALID_HEADER_NAME_RE_BYTE = re.compile(b'^[^:\\s][^:\\r\\n]*$')
 _VALID_HEADER_NAME_RE_STR = re.compile('^[^:\\s][^:\\r\\n]*$')
 _VALID_HEADER_VALUE_RE_BYTE = re.compile(b'^\\S[^\\r\\n]*$|^$')
 _VALID_HEADER_VALUE_RE_STR = re.compile('^\\S[^\\r\\n]*$|^$')
-HEADER_VALIDATORS = {bytes: (_VALID_HEADER_NAME_RE_BYTE, _VALID_HEADER_VALUE_RE_BYTE), str: (_VALID_HEADER_NAME_RE_STR, _VALID_HEADER_VALUE_RE_STR)}
+_HEADER_VALIDATORS_STR = (_VALID_HEADER_NAME_RE_STR, _VALID_HEADER_VALUE_RE_STR)
+_HEADER_VALIDATORS_BYTE = (_VALID_HEADER_NAME_RE_BYTE, _VALID_HEADER_VALUE_RE_BYTE)
+HEADER_VALIDATORS = {bytes: _HEADER_VALIDATORS_BYTE, str: _HEADER_VALIDATORS_STR}
 
 def to_native_string(string, encoding='ascii'):
     """Given a string object, regardless of type, returns a representation of

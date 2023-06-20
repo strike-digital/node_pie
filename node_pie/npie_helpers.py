@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import json
 from bpy.types import Operator, AddonPreferences
 from mathutils import Vector as V
 
@@ -37,6 +38,16 @@ def map_range(val, from_min=0, from_max=1, to_min=0, to_max=2):
     """Map a value from one input range to another. Works in the same way as the map range node in blender.
     succinct formula from: https://stackoverflow.com/a/45389903"""
     return (val - from_min) / (from_max - from_min) * (to_max - to_min) + to_min
+
+
+class JSONWithCommentsDecoder(json.JSONDecoder):
+
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
+    def decode(self, s: str):
+        s = '\n'.join(l if not l.lstrip().startswith('//') else '' for l in s.split('\n'))
+        return super().decode(s)
 
 
 @dataclass

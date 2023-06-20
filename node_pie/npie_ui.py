@@ -4,6 +4,7 @@ from statistics import mean
 from collections import OrderedDict
 
 import bpy
+from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
 from bpy.types import Menu, UILayout
 
@@ -151,6 +152,7 @@ class NPIE_MT_node_pie(Menu):
         prefs = get_prefs(context)
 
         tree_type = context.space_data.node_tree.bl_rna.identifier
+        need_new_categories = True
 
         if tree_type == "ShaderNodeTree":
             menu_prefix = "NODE_MT_category_SH_NEW_"
@@ -238,17 +240,18 @@ class NPIE_MT_node_pie(Menu):
             exclude = set()
 
         else:
-            menu_prefix = ""
-            colours = {}
+            need_new_categories = False
+            categories, layout = load_custom_nodes_info(context.area.spaces.active.tree_type)
+            all_nodes = {n.nodetype: n for c in categories.values() for n in c.nodeitems if isinstance(n, NodeItem)}
+            is_node_file = False
+            if categories:
+                is_node_file = True
+
+            colours = {c.idname: c.color if c.color else "input" for c in categories.values()}
+            menu_prefix = "  "
             overrides = {}
             icon_overrides = {}
             exclude = set()
-
-        try:
-            menu_prefix
-        except NameError as e:
-            print(e)
-            return
 
         categories: dict[str, NodeCategory]
 
@@ -261,13 +264,14 @@ class NPIE_MT_node_pie(Menu):
                 all_nodes = {n.nodetype: n for c in geo_nodes_categories.values() for n in c.nodeitems}
                 all_nodes["GeometryNodeGroup"] = NodeItem("NodeGroups", "GeometryNodeGroup")
 
-        else:
+        elif need_new_categories:
             categories = {
                 getattr(bpy.types, d).bl_label: getattr(bpy.types, d).category
                 for d in dir(bpy.types)
                 if d.startswith(menu_prefix) and hasattr(getattr(bpy.types, d), "category")
             }
             all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
+
         # print(list(nodeitems_utils.node_items_iter(context)))
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
         all_node_counts = {n: node_count_data.get(n, {}).get("count", 0) for n in all_nodes}
@@ -581,115 +585,134 @@ class NPIE_MT_node_pie(Menu):
             draw_search(col.box())
 
         else:
-            # Automatically draw all node items as space efficiently as possible.
+            if is_node_file:
 
-            # Get all categories for the current context, and sort them based on the number of nodes they contain.
-            categories = list(nodeitems_utils.node_categories_iter(context))
-            categories.sort(key=lambda cat: len(list(cat.items(context))))
+                def draw_area(area: list):
+                    row = pie.row()
+                    if not area:
+                        return row.column()
+                    for col in area:
+                        column = row.column()
+                        for cat in col:
+                            draw_category(column, cat)
+                    return column
 
-            if not categories:
-                pie.separator()
-                pie.separator()
-                box = pie.box().column(align=True)
-                box.label(
-                    text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api.")
-                return
+                draw_area(layout["left"])
+                draw_area(layout["right"])
+                draw_area(layout["bottom"])
+                col = draw_area(layout["top"])
+                draw_search(col.box())
+                pass
+            else:
+                # Automatically draw all node items as space efficiently as possible.
 
-            # Remove the layout category, all of it's entries can be accessed with shortcuts
-            for i, cat in enumerate(categories[:]):
-                if cat.name == "Layout":
-                    categories.pop(i)
+                # Get all categories for the current context, and sort them based on the number of nodes they contain.
+                categories = list(nodeitems_utils.node_categories_iter(context))
+                categories.sort(key=lambda cat: len(list(cat.items(context))))
 
-            # Pick two categories from the middle of the list, and draw them in the top and bottom of the pie.
-            # From the middle so that they aren't too big and aren't too small.
-            areas = [[], [], [], []]
-            areas[2] = [categories.pop(len(categories) // 2)]
-            areas[3] = [categories.pop(len(categories) // 2 - 1)]
+                if not categories:
+                    pie.separator()
+                    pie.separator()
+                    box = pie.box().column(align=True)
+                    box.label(
+                        text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api.")
+                    return
 
-            # The structure of areas is:
-            # [left, right, top, bottom]
-            # where each item can be:
-            # [[small_category, small_category], big_category]
-            # and each sublist is equivalent to a column in the pie.
+                # Remove the layout category, all of it's entries can be accessed with shortcuts
+                for i, cat in enumerate(categories[:]):
+                    if cat.name == "Layout":
+                        categories.pop(i)
 
-            def add_categories(orig_cats: list, i: int, max_height: int):
-                """
-                Add the given categories to the given area.
-                The categories are packed according to their height relative to the provided max size.
-                """
+                # Pick two categories from the middle of the list, and draw them in the top and bottom of the pie.
+                # From the middle so that they aren't too big and aren't too small.
+                areas = [[], [], [], []]
+                areas[2] = [categories.pop(len(categories) // 2)]
+                areas[3] = [categories.pop(len(categories) // 2 - 1)]
 
-                for j, cat in enumerate(orig_cats):
-                    idx = categories.index(cat)
+                # The structure of areas is:
+                # [left, right, top, bottom]
+                # where each item can be:
+                # [[small_category, small_category], big_category]
+                # and each sublist is equivalent to a column in the pie.
 
-                    # If first category, add it and continue
-                    if j == 0:
-                        areas[i].append(categories.pop(idx))
-                        continue
+                def add_categories(orig_cats: list, i: int, max_height: int):
+                    """
+                    Add the given categories to the given area.
+                    The categories are packed according to their height relative to the provided max size.
+                    """
 
-                    size = len(list(cat.items(context)))
-                    columns = areas[i]
+                    for j, cat in enumerate(orig_cats):
+                        idx = categories.index(cat)
 
-                    # Loop over all columns and if current category fits in one, add it, else create a new column
-                    for column in columns:
-                        # Get the length of all items in the column
-                        prev_items = column
-                        if not isinstance(prev_items, list):
-                            prev_items = [column]
-                        prev_item_size = sum(len(list(c.items(context))) for c in prev_items)
+                        # If first category, add it and continue
+                        if j == 0:
+                            areas[i].append(categories.pop(idx))
+                            continue
 
-                        # Add an extra item to account for the heading of each category
-                        prev_item_size += len(prev_items)
+                        size = len(list(cat.items(context)))
+                        columns = areas[i]
 
-                        # Decide whether to add the category to the current column or a new one
-                        if prev_item_size + size < max_height:
-                            areas[i][areas[i].index(column)] = prev_items + [categories.pop(idx)]
-                            break
-                    else:
-                        areas[i].append(categories.pop(idx))
+                        # Loop over all columns and if current category fits in one, add it, else create a new column
+                        for column in columns:
+                            # Get the length of all items in the column
+                            prev_items = column
+                            if not isinstance(prev_items, list):
+                                prev_items = [column]
+                            prev_item_size = sum(len(list(c.items(context))) for c in prev_items)
 
-                if i:
-                    areas[i] = areas[i][::-1]
+                            # Add an extra item to account for the heading of each category
+                            prev_item_size += len(prev_items)
 
-            # Add half the categories
-            big_on_inside = True
-            biggest = len(list(categories[-1].items(context)))
-            orig_cats = categories.copy()
-            add_categories(orig_cats[::2 * -1 if big_on_inside else 1], 0, biggest)
+                            # Decide whether to add the category to the current column or a new one
+                            if prev_item_size + size < max_height:
+                                areas[i][areas[i].index(column)] = prev_items + [categories.pop(idx)]
+                                break
+                        else:
+                            areas[i].append(categories.pop(idx))
 
-            # Add the other half, which is now just the rest of them
-            # biggest = len(list(categories[-1].items(context)))
-            orig_cats = categories.copy()
-            add_categories(orig_cats[::1 * -1 if big_on_inside else 1], 1, biggest)
+                    if i:
+                        areas[i] = areas[i][::-1]
 
-            # Draw all of the areas
-            for i, area in enumerate(areas):
-                row = pie.row()
-                # Use this to control whether the big nodes are at the center or at the edges
-                area = area[::-1]
-                # Draw the columns inside the area
-                for node_cats in area:
-                    # Add the parent column
-                    bigcol = row.column(align=False)
+                # Add half the categories
+                big_on_inside = True
+                biggest = len(list(categories[-1].items(context)))
+                orig_cats = categories.copy()
+                add_categories(orig_cats[::2 * -1 if big_on_inside else 1], 0, biggest)
 
-                    # Draw search button at top of the bottom column
-                    if i == 2:
-                        draw_search(bigcol.box())
-                        bigcol.separator(factor=.4)
+                # Add the other half, which is now just the rest of them
+                # biggest = len(list(categories[-1].items(context)))
+                orig_cats = categories.copy()
+                add_categories(orig_cats[::1 * -1 if big_on_inside else 1], 1, biggest)
 
-                    if not isinstance(node_cats, list):
-                        node_cats = [node_cats]
+                # Draw all of the areas
+                for i, area in enumerate(areas):
+                    row = pie.row()
+                    # Use this to control whether the big nodes are at the center or at the edges
+                    area = area[::-1]
+                    # Draw the columns inside the area
+                    for node_cats in area:
+                        # Add the parent column
+                        bigcol = row.column(align=False)
 
-                    # Draw all of the categories in this column
-                    for node_cat in node_cats:
-                        col = bigcol.box().column(align=True)
-                        draw_header(col, node_cat.name)
+                        # Draw search button at top of the bottom column
+                        if i == 2:
+                            draw_search(bigcol.box())
+                            bigcol.separator(factor=.4)
 
-                        average_count = mean([all_node_counts[n.nodetype] for n in node_cat.items(context)])
+                        if not isinstance(node_cats, list):
+                            node_cats = [node_cats]
 
-                        for nodeitem in node_cat.items(context):
-                            if not hasattr(nodeitem, "label"):
-                                col.separator(factor=.4)
-                                continue
-                            draw_op(col, nodeitem.label, "input", nodeitem.nodetype)
+                        # Draw all of the categories in this column
+                        for node_cat in node_cats:
+                            col = bigcol.box().column(align=True)
+                            draw_header(col, node_cat.name)
 
-                        bigcol.separator(factor=.4)
+                            average_count = mean([all_node_counts[n.nodetype] for n in node_cat.items(context)])
+
+                            for nodeitem in node_cat.items(context):
+                                if not hasattr(nodeitem, "label"):
+                                    col.separator(factor=.4)
+                                    continue
+                                draw_op(col, nodeitem.label, "input", nodeitem.nodetype)
+
+                            bigcol.separator(factor=.4)

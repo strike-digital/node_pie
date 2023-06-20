@@ -19,6 +19,8 @@ class NodeCategory():
     name: str
     nodeitems: list
     children: list[NodeCategory] = None
+    idname: str = ""
+    color: str = ""
 
     def items(self, context):
         return self.nodeitems
@@ -31,6 +33,7 @@ class NodeItem():
     label: str
     nodetype: str
     settings: list = field(default_factory=list)
+    color: str = ""
 
 
 class Separator():
@@ -64,7 +67,7 @@ def main():
         # Load config file
         files = {}
         for file in (Path(__file__).parent / "node_def_files").iterdir():
-            if file.is_file() and file.suffix == ".json" and file.name.startswith("node_def_"):
+            if file.is_file() and file.suffix == ".jsonc" and file.name.startswith("GeometryNodeTree_"):
                 files[file.stem.split("_")[-1]] = file
 
         # Load the latest version

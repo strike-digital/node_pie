@@ -138,7 +138,7 @@ def remove_cookie_by_name(cookiejar, name, domain=None, path=None):
         if path is not None and path != cookie.path:
             continue
         clearables.append((cookie.domain, cookie.path, cookie.name))
-    for (domain, path, name) in clearables:
+    for domain, path, name in clearables:
         cookiejar.clear(domain, path, name)
 
 class CookieConflictError(RuntimeError):

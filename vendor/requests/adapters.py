@@ -16,7 +16,6 @@ from urllib3.exceptions import ProxyError as _ProxyError
 from urllib3.exceptions import ReadTimeoutError, ResponseError
 from urllib3.exceptions import SSLError as _SSLError
 from urllib3.poolmanager import PoolManager, proxy_from_url
-from urllib3.response import HTTPResponse
 from urllib3.util import Timeout as TimeoutSauce
 from urllib3.util import parse_url
 from urllib3.util.retry import Retry
@@ -112,7 +111,7 @@ class HTTPAdapter(BaseAdapter):
     def __setstate__(self, state):
         self.proxy_manager = {}
         self.config = {}
-        for (attr, value) in state.items():
+        for attr, value in state.items():
             setattr(self, attr, value)
         self.init_poolmanager(self._pool_connections, self._pool_maxsize, block=self._pool_block)
 
@@ -131,7 +130,7 @@ class HTTPAdapter(BaseAdapter):
         self._pool_connections = connections
         self._pool_maxsize = maxsize
         self._pool_block = block
-        self.poolmanager = PoolManager(num_pools=connections, maxsize=maxsize, block=block, strict=True, **pool_kwargs)
+        self.poolmanager = PoolManager(num_pools=connections, maxsize=maxsize, block=block, **pool_kwargs)
 
     def proxy_manager_for(self, proxy, **proxy_kwargs):
         """Return urllib3 ProxyManager for the given proxy.
@@ -148,7 +147,7 @@ class HTTPAdapter(BaseAdapter):
         if proxy in self.proxy_manager:
             manager = self.proxy_manager[proxy]
         elif proxy.lower().startswith('socks'):
-            (username, password) = get_auth_from_url(proxy)
+            username, password = get_auth_from_url(proxy)
             manager = self.proxy_manager[proxy] = SOCKSProxyManager(proxy, username=username, password=password, num_pools=self._pool_connections, maxsize=self._pool_maxsize, block=self._pool_block, **proxy_kwargs)
         else:
             proxy_headers = self.proxy_headers(proxy)
@@ -308,7 +307,7 @@ class HTTPAdapter(BaseAdapter):
         :rtype: dict
         """
         headers = {}
-        (username, password) = get_auth_from_url(proxy)
+        username, password = get_auth_from_url(proxy)
         if username:
             headers['Proxy-Authorization'] = _basic_auth_str(username, password)
         return headers
@@ -339,7 +338,7 @@ class HTTPAdapter(BaseAdapter):
         chunked = not (request.body is None or 'Content-Length' in request.headers)
         if isinstance(timeout, tuple):
             try:
-                (connect, read) = timeout
+                connect, read = timeout
                 timeout = TimeoutSauce(connect=connect, read=read)
             except ValueError:
                 raise ValueError(f'Invalid timeout {timeout}. Pass a (connect, read) timeout tuple, or a single float to set both timeouts to the same value.')
@@ -348,29 +347,7 @@ class HTTPAdapter(BaseAdapter):
         else:
             timeout = TimeoutSauce(connect=timeout, read=timeout)
         try:
-            if not chunked:
-                resp = conn.urlopen(method=request.method, url=url, body=request.body, headers=request.headers, redirect=False, assert_same_host=False, preload_content=False, decode_content=False, retries=self.max_retries, timeout=timeout)
-            else:
-                if hasattr(conn, 'proxy_pool'):
-                    conn = conn.proxy_pool
-                low_conn = conn._get_conn(timeout=DEFAULT_POOL_TIMEOUT)
-                try:
-                    skip_host = 'Host' in request.headers
-                    low_conn.putrequest(request.method, url, skip_accept_encoding=True, skip_host=skip_host)
-                    for (header, value) in request.headers.items():
-                        low_conn.putheader(header, value)
-                    low_conn.endheaders()
-                    for i in request.body:
-                        low_conn.send(hex(len(i))[2:].encode('utf-8'))
-                        low_conn.send(b'\r\n')
-                        low_conn.send(i)
-                        low_conn.send(b'\r\n')
-                    low_conn.send(b'0\r\n\r\n')
-                    r = low_conn.getresponse()
-                    resp = HTTPResponse.from_httplib(r, pool=conn, connection=low_conn, preload_content=False, decode_content=False)
-                except Exception:
-                    low_conn.close()
-                    raise
+            resp = conn.urlopen(method=request.method, url=url, body=request.body, headers=request.headers, redirect=False, assert_same_host=False, preload_content=False, decode_content=False, retries=self.max_retries, timeout=timeout, chunked=chunked)
         except (ProtocolError, OSError) as err:
             raise ConnectionError(err, request=request)
         except MaxRetryError as e:

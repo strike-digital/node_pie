@@ -1,0 +1,56 @@
+{
+  "categories": {
+    "DEBUG": {
+      "label": "Debug",
+      "color": "converter",
+      "nodes": [
+        {
+          "label": "Trigger",
+          "identifier": "SN_TriggerNode"
+        },
+        {
+          "label": "Timestamp",
+          "identifier": "SN_TimestampNode"
+        },
+        {
+          "label": "Sleep",
+          "identifier": "SN_SleepNode"
+        },
+        {
+          "label": "Print",
+          "identifier": "SN_PrintNode"
+        }
+      ]
+    },
+    "LAYOUT": {
+      "label": "Layout",
+      "color": "layout",
+      "nodes": [
+        {
+          "label": "Portal",
+          "identifier": "SN_PortalNode"
+        },
+        { "label": "sep" },
+        {
+          "label": "Reroute",
+          "identifier": "NodeReroute"
+        },
+        {
+          "label": "Frame",
+          "identifier": "NodeFrame"
+        }
+      ]
+    }
+  },
+  "layout": {
+    "left": [
+      ["DEBUG"],
+      ["LAYOUT"],
+      ["LAYOUT", "DEBUG", "LAYOUT", "DEBUG"],
+      ["DEBUG"]
+    ],
+    "right": [["LAYOUT", "DEBUG"]],
+    "top": [],
+    "bottom": []
+  }
+}

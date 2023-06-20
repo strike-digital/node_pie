@@ -50,19 +50,19 @@ def check_compatibility(urllib3_version, chardet_version, charset_normalizer_ver
     assert urllib3_version != ['dev']
     if len(urllib3_version) == 2:
         urllib3_version.append('0')
-    (major, minor, patch) = urllib3_version
-    (major, minor, patch) = (int(major), int(minor), int(patch))
-    assert major == 1
-    assert minor >= 21
-    assert minor <= 26
+    major, minor, patch = urllib3_version
+    major, minor, patch = (int(major), int(minor), int(patch))
+    assert major >= 1
+    if major == 1:
+        assert minor >= 21
     if chardet_version:
-        (major, minor, patch) = chardet_version.split('.')[:3]
-        (major, minor, patch) = (int(major), int(minor), int(patch))
+        major, minor, patch = chardet_version.split('.')[:3]
+        major, minor, patch = (int(major), int(minor), int(patch))
         assert (3, 0, 2) <= (major, minor, patch) < (6, 0, 0)
     elif charset_normalizer_version:
-        (major, minor, patch) = charset_normalizer_version.split('.')[:3]
-        (major, minor, patch) = (int(major), int(minor), int(patch))
-        assert (2, 0, 0) <= (major, minor, patch) < (3, 0, 0)
+        major, minor, patch = charset_normalizer_version.split('.')[:3]
+        major, minor, patch = (int(major), int(minor), int(patch))
+        assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)
     else:
         raise Exception('You need either charset_normalizer or chardet installed')
 

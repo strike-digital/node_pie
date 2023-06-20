@@ -21,7 +21,7 @@ from collections import OrderedDict
 from urllib3.util import make_headers, parse_url
 from . import certs
 from .__version__ import __version__
-from ._internal_utils import HEADER_VALIDATORS, to_native_string
+from ._internal_utils import _HEADER_VALIDATORS_BYTE, _HEADER_VALIDATORS_STR, HEADER_VALIDATORS, to_native_string
 from .compat import Mapping, basestring, bytes, getproxies, getproxies_environment, integer_types
 from .compat import parse_http_list as _parse_list_header
 from .compat import proxy_bypass, proxy_bypass_environment, quote, str, unquote, urlparse, urlunparse
@@ -159,9 +159,9 @@ def extract_zipped_paths(path):
     """
     if os.path.exists(path):
         return path
-    (archive, member) = os.path.split(path)
+    archive, member = os.path.split(path)
     while archive and (not os.path.exists(archive)):
-        (archive, prefix) = os.path.split(archive)
+        archive, prefix = os.path.split(archive)
         if not prefix:
             break
         member = '/'.join([prefix, member])
@@ -180,7 +180,7 @@ def extract_zipped_paths(path):
 @contextlib.contextmanager
 def atomic_open(filename):
     """Write a file to the disk in an atomic fashion"""
-    (tmp_descriptor, tmp_name) = tempfile.mkstemp(dir=os.path.dirname(filename))
+    tmp_descriptor, tmp_name = tempfile.mkstemp(dir=os.path.dirname(filename))
     try:
         with os.fdopen(tmp_descriptor, 'wb') as tmp_handler:
             yield tmp_handler
@@ -295,7 +295,7 @@ def parse_dict_header(value):
         if '=' not in item:
             result[item] = None
             continue
-        (name, value) = item.split('=', 1)
+        name, value = item.split('=', 1)
         if value[:1] == value[-1:] == '"':
             value = unquote_header_value(value[1:-1])
         result[name] = value
@@ -354,13 +354,13 @@ def _parse_content_type_header(header):
          parameters
     """
     tokens = header.split(';')
-    (content_type, params) = (tokens[0].strip(), tokens[1:])
+    content_type, params = (tokens[0].strip(), tokens[1:])
     params_dict = {}
     items_to_strip = '"\' '
     for param in params:
         param = param.strip()
         if param:
-            (key, value) = (param, True)
+            key, value = (param, True)
             index_of_equals = param.find('=')
             if index_of_equals != -1:
                 key = param[:index_of_equals].strip(items_to_strip)
@@ -377,7 +377,7 @@ def get_encoding_from_headers(headers):
     content_type = headers.get('content-type')
     if not content_type:
         return None
-    (content_type, params) = _parse_content_type_header(content_type)
+    content_type, params = _parse_content_type_header(content_type)
     if 'charset' in params:
         return params['charset'].strip('\'"')
     if 'text' in content_type:
@@ -480,7 +480,7 @@ def address_in_network(ip, net):
     :rtype: bool
     """
     ipaddr = struct.unpack('=L', socket.inet_aton(ip))[0]
-    (netaddr, bits) = net.split('/')
+    netaddr, bits = net.split('/')
     netmask = struct.unpack('=L', socket.inet_aton(dotted_netmask(int(bits))))[0]
     network = struct.unpack('=L', socket.inet_aton(netaddr))[0] & netmask
     return ipaddr & netmask == network & netmask
@@ -667,13 +667,13 @@ def parse_header_links(value):
         return links
     for val in re.split(', *<', value):
         try:
-            (url, params) = val.split(';', 1)
+            url, params = val.split(';', 1)
         except ValueError:
-            (url, params) = (val, '')
+            url, params = (val, '')
         link = {'url': url.strip('<> \'"')}
         for param in params.split(';'):
             try:
-                (key, value) = param.split('=')
+                key, value = param.split('=')
             except ValueError:
                 break
             link[key.strip(replace_chars)] = value.strip(replace_chars)
@@ -716,10 +716,10 @@ def prepend_scheme_if_needed(url, new_scheme):
     :rtype: str
     """
     parsed = parse_url(url)
-    (scheme, auth, host, port, path, query, fragment) = parsed
+    scheme, auth, host, port, path, query, fragment = parsed
     netloc = parsed.netloc
     if not netloc:
-        (netloc, path) = (path, netloc)
+        netloc, path = (path, netloc)
     if auth:
         netloc = '@'.join([auth, netloc])
     if scheme is None:
@@ -747,15 +747,19 @@ def check_header_validity(header):
 
     :param header: tuple, in the format (name, value).
     """
-    (name, value) = header
-    for part in header:
-        if type(part) not in HEADER_VALIDATORS:
-            raise InvalidHeader(f'Header part ({part!r}) from {{{name!r}: {value!r}}} must be of type str or bytes, not {type(part)}')
-    _validate_header_part(name, 'name', HEADER_VALIDATORS[type(name)][0])
-    _validate_header_part(value, 'value', HEADER_VALIDATORS[type(value)][1])
+    name, value = header
+    _validate_header_part(header, name, 0)
+    _validate_header_part(header, value, 1)
 
-def _validate_header_part(header_part, header_kind, validator):
+def _validate_header_part(header, header_part, header_validator_index):
+    if isinstance(header_part, str):
+        validator = _HEADER_VALIDATORS_STR[header_validator_index]
+    elif isinstance(header_part, bytes):
+        validator = _HEADER_VALIDATORS_BYTE[header_validator_index]
+    else:
+        raise InvalidHeader(f'Header part ({header_part!r}) from {header} must be of type str or bytes, not {type(header_part)}')
     if not validator.match(header_part):
+        header_kind = 'name' if header_validator_index == 0 else 'value'
         raise InvalidHeader(f'Invalid leading whitespace, reserved character(s), or returncharacter(s) in header {header_kind}: {header_part!r}')
 
 def urldefragauth(url):
@@ -764,9 +768,9 @@ def urldefragauth(url):
 
     :rtype: str
     """
-    (scheme, netloc, path, params, query, fragment) = urlparse(url)
+    scheme, netloc, path, params, query, fragment = urlparse(url)
     if not netloc:
-        (netloc, path) = (path, netloc)
+        netloc, path = (path, netloc)
     netloc = netloc.rsplit('@', 1)[-1]
     return urlunparse((scheme, netloc, path, params, query, ''))
 

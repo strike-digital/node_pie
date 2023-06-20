@@ -40,7 +40,7 @@ def merge_setting(request_setting, session_setting, dict_class=OrderedDict):
         return request_setting
     merged_setting = dict_class(to_key_val_list(session_setting))
     merged_setting.update(to_key_val_list(request_setting))
-    none_keys = [k for (k, v) in merged_setting.items() if v is None]
+    none_keys = [k for k, v in merged_setting.items() if v is None]
     for key in none_keys:
         del merged_setting[key]
     return merged_setting
@@ -168,10 +168,10 @@ class SessionRedirectMixin:
         if 'Proxy-Authorization' in headers:
             del headers['Proxy-Authorization']
         try:
-            (username, password) = get_auth_from_url(new_proxies[scheme])
+            username, password = get_auth_from_url(new_proxies[scheme])
         except KeyError:
-            (username, password) = (None, None)
-        if username and password:
+            username, password = (None, None)
+        if not scheme.startswith('https') and username and password:
             headers['Proxy-Authorization'] = _basic_auth_str(username, password)
         return new_proxies
 
@@ -427,7 +427,7 @@ class Session(SessionRedirectMixin):
         if self.trust_env:
             no_proxy = proxies.get('no_proxy') if proxies is not None else None
             env_proxies = get_environ_proxies(url, no_proxy=no_proxy)
-            for (k, v) in env_proxies.items():
+            for k, v in env_proxies.items():
                 proxies.setdefault(k, v)
             if verify is True or verify is None:
                 verify = os.environ.get('REQUESTS_CA_BUNDLE') or os.environ.get('CURL_CA_BUNDLE') or verify
@@ -443,7 +443,7 @@ class Session(SessionRedirectMixin):
 
         :rtype: requests.adapters.BaseAdapter
         """
-        for (prefix, adapter) in self.adapters.items():
+        for prefix, adapter in self.adapters.items():
             if url.lower().startswith(prefix.lower()):
                 return adapter
         raise InvalidSchema(f'No connection adapters were found for {url!r}')
@@ -468,7 +468,7 @@ class Session(SessionRedirectMixin):
         return state
 
     def __setstate__(self, state):
-        for (attr, value) in state.items():
+        for attr, value in state.items():
             setattr(self, attr, value)
 
 def session():

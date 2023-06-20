@@ -63,7 +63,7 @@ class RequestEncodingMixin:
             return data
         elif hasattr(data, '__iter__'):
             result = []
-            for (k, vs) in to_key_val_list(data):
+            for k, vs in to_key_val_list(data):
                 if isinstance(vs, basestring) or not hasattr(vs, '__iter__'):
                     vs = [vs]
                 for v in vs:
@@ -90,7 +90,7 @@ class RequestEncodingMixin:
         new_fields = []
         fields = to_key_val_list(data or {})
         files = to_key_val_list(files or {})
-        for (field, val) in fields:
+        for field, val in fields:
             if isinstance(val, basestring) or not hasattr(val, '__iter__'):
                 val = [val]
             for v in val:
@@ -98,16 +98,16 @@ class RequestEncodingMixin:
                     if not isinstance(v, bytes):
                         v = str(v)
                     new_fields.append((field.decode('utf-8') if isinstance(field, bytes) else field, v.encode('utf-8') if isinstance(v, str) else v))
-        for (k, v) in files:
+        for k, v in files:
             ft = None
             fh = None
             if isinstance(v, (tuple, list)):
                 if len(v) == 2:
-                    (fn, fp) = v
+                    fn, fp = v
                 elif len(v) == 3:
-                    (fn, fp, ft) = v
+                    fn, fp, ft = v
                 else:
-                    (fn, fp, ft, fh) = v
+                    fn, fp, ft, fh = v
             else:
                 fn = guess_filename(v) or k
                 fp = v
@@ -122,7 +122,7 @@ class RequestEncodingMixin:
             rf = RequestField(name=k, data=fdata, filename=fn, headers=fh)
             rf.make_multipart(content_type=ft)
             new_fields.append(rf)
-        (body, content_type) = encode_multipart_formdata(new_fields)
+        body, content_type = encode_multipart_formdata(new_fields)
         return (body, content_type)
 
 class RequestHooksMixin:
@@ -181,7 +181,7 @@ class Request(RequestHooksMixin):
         params = {} if params is None else params
         hooks = {} if hooks is None else hooks
         self.hooks = default_hooks()
-        for (k, v) in list(hooks.items()):
+        for k, v in list(hooks.items()):
             self.register_hook(event=k, hook=v)
         self.method = method
         self.url = url
@@ -282,11 +282,11 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             self.url = url
             return
         try:
-            (scheme, auth, host, port, path, query, fragment) = parse_url(url)
+            scheme, auth, host, port, path, query, fragment = parse_url(url)
         except LocationParseError as e:
             raise InvalidURL(*e.args)
         if not scheme:
-            raise MissingSchema(f'Invalid URL {url!r}: No scheme supplied. Perhaps you meant http://{url}?')
+            raise MissingSchema(f'Invalid URL {url!r}: No scheme supplied. Perhaps you meant https://{url}?')
         if not host:
             raise InvalidURL(f'Invalid URL {url!r}: No host supplied')
         if not unicode_is_ascii(host):
@@ -321,7 +321,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         if headers:
             for header in headers.items():
                 check_header_validity(header)
-                (name, value) = header
+                name, value = header
                 self.headers[to_native_string(name)] = value
 
     def prepare_body(self, data, files, json=None):
@@ -356,7 +356,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                 self.headers['Transfer-Encoding'] = 'chunked'
         else:
             if files:
-                (body, content_type) = self._encode_files(files, data)
+                body, content_type = self._encode_files(files, data)
             elif data:
                 body = self._encode_params(data)
                 if isinstance(data, basestring) or hasattr(data, 'read'):
@@ -447,7 +447,7 @@ class Response:
         return {attr: getattr(self, attr, None) for attr in self.__attrs__}
 
     def __setstate__(self, state):
-        for (name, value) in state.items():
+        for name, value in state.items():
             setattr(self, name, value)
         setattr(self, '_content_consumed', True)
         setattr(self, 'raw', None)
