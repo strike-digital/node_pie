@@ -6,11 +6,11 @@
 // just make sure to save the file after making a change for it to be shown.
 {
   // This defines how each category is placed in the pie menu
-  // The menu is divided into four sections (left, right, etc.).
+  // The menu is divided into four sections (left, right, etc.)
   // Each section then contains a list of columns (the first set of brackets)
   // Then each column contains a list of rows (the second set of brackets)
   // Each row is just defined by the category identifier (defined below)
-  // The layout below will create a pie menu with one column, containing two rows, on the left hand side.
+  // The layout below will create a pie menu with one column, containing two rows, on the left hand side
   "layout": {
     "left": [["DEBUG", "DEBUG"]],
     "right": [],
@@ -18,7 +18,7 @@
     "bottom": []
   },
   // Categories are the different visual groups of nodes in the node tree.
-  // It doesn't matter what order they are defined in here, as they are laid out above
+  // It doesn't matter what order they are defined in here, since they are laid out above
   "categories": {
     // The identifier of the category doesn't matter, just as long as it is unique
     "DEBUG": {

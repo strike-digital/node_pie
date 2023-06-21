@@ -13,9 +13,10 @@
       "label": "Category name",
       "color": "converter", 
       "nodes": [
+        // Use the "Copy nodes as json" operator for this
         {
           "label": "Node label",
-          "identifier": "Node identifier"
+          "identifier": "NodeIdentifier"
         },
         {"label": "sep"}
       ]
