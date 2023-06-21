@@ -1,6 +1,6 @@
 {
   "layout": {
-    "left": [["TEXTURE"], ["CONVERTOR"]],
+    "left": [["TEXTURE", "SCRIPT", "LAYOUT"], ["CONVERTOR"]],
     "right": [["INPUT"], ["SHADER"]],
     "top": [["VECTOR"]],
     "bottom": [["COLOR"]]
@@ -285,9 +285,7 @@
         {
           "label": "Mix Color",
           "identifier": "ShaderNodeMix",
-          "settings": {
-            "data_type": "'RGBA'"
-          }
+          "settings": [{ "name": "data_type", "value": "'RGBA'" }]
         },
         {
           "label": "RGB Curves",

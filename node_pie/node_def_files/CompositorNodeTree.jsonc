@@ -1,6 +1,9 @@
 {
   "layout": {
-    "left": [["CONVERTOR"], ["DISTORT", "VECTOR"]],
+    "left": [
+      ["CONVERTOR", "LAYOUT"],
+      ["DISTORT", "VECTOR"]
+    ],
     "right": [["INPUT", "OUTPUT"], ["FILTER"]],
     "top": [["COLOR"]],
     "bottom": [["MATTE"]]

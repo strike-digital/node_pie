@@ -1,6 +1,9 @@
 // This example shows how to structure a node pie definition file (This one is for the Serpens addon)
 // For the best experience it is recommended to edit this using a code editor
 // with syntax highlighting such as vscode or notepad++.
+
+// The definition file will be reloaded automatically each time the pie men is called,
+// just make sure to save the file after making a change for it to be shown.
 {
   // This defines how each category is placed in the pie menu
   // The menu is divided into four sections, each containing a list of columns,
@@ -38,6 +41,7 @@
       "color": "converter",
       // A list of the nodes in this category
       "nodes": [
+        // IMPORTANT: You can auto generate this from the selected nodes with the 'Copy nodes as json' operator
         {
           // The display name of the node
           "label": "Trigger",

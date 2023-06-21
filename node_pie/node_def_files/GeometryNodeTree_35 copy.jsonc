@@ -139,15 +139,18 @@
         { "label": "sep" },
         {
           "label": "Curve Handle Positions",
-          "identifier": "GeometryNodeInputCurveHandlePositions"
+          "identifier": "GeometryNodeInputCurveHandlePositions",
+          "color": "input"
         },
         {
           "label": "Curve Tangent",
-          "identifier": "GeometryNodeInputTangent"
+          "identifier": "GeometryNodeInputTangent",
+          "color": "input"
         },
         {
           "label": "Curve Tilt",
-          "identifier": "GeometryNodeInputCurveTilt"
+          "identifier": "GeometryNodeInputCurveTilt",
+          "color": "input"
         },
         {
           "label": "Endpoint Selection",
@@ -161,7 +164,8 @@
         },
         {
           "label": "Is Spline Cyclic",
-          "identifier": "GeometryNodeInputSplineCyclic"
+          "identifier": "GeometryNodeInputSplineCyclic",
+          "color": "input"
         },
         {
           "label": "Spline Length",
@@ -175,7 +179,8 @@
         },
         {
           "label": "Spline Resolution",
-          "identifier": "GeometryNodeInputSplineResolution"
+          "identifier": "GeometryNodeInputSplineResolution",
+          "color": "input"
         },
         { "label": "sep" },
         {
@@ -214,7 +219,7 @@
     },
     "CURVE_TOPOLOGY": {
       "label": "Curve Topology",
-      "color": "geometry",
+      "color": "input",
       "nodes": [
         {
           "label": "Points of Curve",
@@ -459,11 +464,13 @@
         { "label": "sep" },
         {
           "label": "Instance Rotation",
-          "identifier": "GeometryNodeInputInstanceRotation"
+          "identifier": "GeometryNodeInputInstanceRotation",
+          "color": "input"
         },
         {
           "label": "Instance Scale",
-          "identifier": "GeometryNodeInputInstanceScale"
+          "identifier": "GeometryNodeInputInstanceScale",
+          "color": "input"
         }
       ]
     },
@@ -489,13 +496,14 @@
         },
         {
           "label": "Material Index",
-          "identifier": "GeometryNodeInputMaterialIndex"
+          "identifier": "GeometryNodeInputMaterialIndex",
+          "color": "input"
         }
       ]
     },
     "MESH_TOPOLOGY": {
       "label": "Mesh Topology",
-      "color": "geometry",
+      "color": "input",
       "nodes": [
         {
           "label": "Corners of Face",
@@ -598,51 +606,63 @@
         { "label": "sep" },
         {
           "label": "Edge Angle",
-          "identifier": "GeometryNodeInputMeshEdgeAngle"
+          "identifier": "GeometryNodeInputMeshEdgeAngle",
+          "color": "input"
         },
         {
           "label": "Edge Neighbors",
-          "identifier": "GeometryNodeInputMeshEdgeNeighbors"
+          "identifier": "GeometryNodeInputMeshEdgeNeighbors",
+          "color": "input"
         },
         {
           "label": "Edge Vertices",
-          "identifier": "GeometryNodeInputMeshEdgeVertices"
+          "identifier": "GeometryNodeInputMeshEdgeVertices",
+          "color": "input"
         },
         {
           "label": "Face Group Boundaries",
-          "identifier": "GeometryNodeMeshFaceSetBoundaries"
+          "identifier": "GeometryNodeMeshFaceSetBoundaries",
+          "color": "input"
         },
         {
           "label": "Edges to Face Groups",
-          "identifier": "GeometryNodeEdgesToFaceGroups"
+          "identifier": "GeometryNodeEdgesToFaceGroups",
+          "color": "input"
         },
         {
           "label": "Face Area",
-          "identifier": "GeometryNodeInputMeshFaceArea"
+          "identifier": "GeometryNodeInputMeshFaceArea",
+          "color": "input"
         },
         {
           "label": "Face Neighbors",
-          "identifier": "GeometryNodeInputMeshFaceNeighbors"
+          "identifier": "GeometryNodeInputMeshFaceNeighbors",
+          "color": "input"
         },
         {
           "label": "Is Face Planar",
-          "identifier": "GeometryNodeInputMeshFaceIsPlanar"
+          "identifier": "GeometryNodeInputMeshFaceIsPlanar",
+          "color": "input"
         },
         {
           "label": "Is Shade Smooth",
-          "identifier": "GeometryNodeInputShadeSmooth"
+          "identifier": "GeometryNodeInputShadeSmooth",
+          "color": "input"
         },
         {
           "label": "Mesh Island",
-          "identifier": "GeometryNodeInputMeshIsland"
+          "identifier": "GeometryNodeInputMeshIsland",
+          "color": "input"
         },
         {
           "label": "Shortest Edge Paths",
-          "identifier": "GeometryNodeInputShortestEdgePaths"
+          "identifier": "GeometryNodeInputShortestEdgePaths",
+          "color": "input"
         },
         {
           "label": "Vertex Neighbors",
-          "identifier": "GeometryNodeInputMeshVertexNeighbors"
+          "identifier": "GeometryNodeInputMeshVertexNeighbors",
+          "color": "input"
         },
         { "label": "sep" },
         {
@@ -721,11 +741,12 @@
     },
     "TEXT": {
       "label": "Text",
-      "color": "geometry",
+      "color": "converter",
       "nodes": [
         {
           "label": "String to Curves",
-          "identifier": "GeometryNodeStringToCurves"
+          "identifier": "GeometryNodeStringToCurves",
+          "color": "geometry"
         },
         { "label": "sep" },
         {
