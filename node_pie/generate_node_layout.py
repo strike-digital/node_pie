@@ -1,7 +1,5 @@
 import json
-import bpy
 from .npie_constants import NODE_DEF_DIR
-import nodeitems_utils
 
 # File used to generate the initial node def file, doesn't actually do anything in the addon currently
 

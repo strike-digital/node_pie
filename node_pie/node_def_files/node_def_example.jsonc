@@ -6,10 +6,13 @@
 // just make sure to save the file after making a change for it to be shown.
 {
   // This defines how each category is placed in the pie menu
-  // The menu is divided into four sections, each containing a list of columns,
-  // which in turn contain a list of categories to draw (the categories are defined below).
+  // The menu is divided into four sections (left, right, etc.).
+  // Each section then contains a list of columns (the first set of brackets)
+  // Then each column contains a list of rows (the second set of brackets)
+  // Each row is just defined by the category identifier (defined below)
+  // The layout below will create a pie menu with one column, containing two rows, on the left hand side.
   "layout": {
-    "left": [["DEBUG"]],
+    "left": [["DEBUG", "DEBUG"]],
     "right": [],
     "top": [],
     "bottom": []

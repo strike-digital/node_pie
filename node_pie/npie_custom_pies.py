@@ -1,5 +1,4 @@
 from collections import OrderedDict
-import collections
 from dataclasses import dataclass, field
 import json
 
@@ -70,6 +69,7 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
     with open(list(files.values())[0], "r") as f:
         data = json.load(f, cls=JSONWithCommentsDecoder)
 
+    # Merge in nodes from newer versions
     for file in list(files.values())[1:]:
         with open(file, "r") as f:
             new_data = json.load(f, cls=JSONWithCommentsDecoder)
