@@ -59,6 +59,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Show some operators in the right click menu to make creating custom definition files easier.",
     )
 
+    npie_separator_headings: BoolProperty(
+        name="Subcategory labels",
+        default=False,
+        description="Draw the headings of subcategories or just a gap",
+    )
+
     def draw(self, context):
         layout = self.layout
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
@@ -78,6 +84,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         col = draw_section(layout, "General")
         draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
+        draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
 
         col = draw_section(layout, "Keymap")

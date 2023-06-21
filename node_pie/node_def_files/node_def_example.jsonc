@@ -52,7 +52,7 @@
           "identifier": "SN_TriggerNode"
         },
         // Define a separator like this
-        { "label": "sep" },
+        {"separator": true},
         {
           "label": "Timestamp",
           "identifier": "SN_TimestampNode"

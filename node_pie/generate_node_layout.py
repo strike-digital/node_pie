@@ -98,7 +98,7 @@ def main():
         nodes = []
         for node in new_cat["nodes"]:
             if node.get("identifier") not in {n.get("identifier") for n in orig_cat["nodes"]}:
-                if node["label"] != "sep":
+                if node.get("separator"):
                     nodes.append(node)
         if nodes:
             data[orig_name] = {"nodes": nodes}

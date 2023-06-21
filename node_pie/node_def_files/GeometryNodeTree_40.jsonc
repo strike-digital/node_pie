@@ -42,7 +42,7 @@
       },
       "VOLUME": {
         "nodes": [
-          { "label": "sep" },
+          {"separator": true},
           {
             "label": "Signed Distance",
             "identifier": "GeometryNodeInputSignedDistance"

@@ -31,8 +31,10 @@ class NodeItem():
     color: str = ""
 
 
+@dataclass
 class Separator():
-    pass
+
+    label: str = ""
 
 
 def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory], dict]:
@@ -123,8 +125,8 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
     for idname, cat in data["categories"].items():
         items = []
         for node in cat["nodes"]:
-            if node["label"] == "sep":
-                items.append(Separator())
+            if node.get("separator"):
+                items.append(Separator(label=node.get("label", "")))
                 continue
             item = NodeItem(node["label"], node["identifier"], color=node.get("color", ""))
             item.settings = node.get("settings", [])

@@ -255,31 +255,26 @@ class NPIE_MT_node_pie(Menu):
             if len(nodeitems) == 0:
                 return
 
-            # Split the node items into sub categories depending on the location of blank node items.
-            # This is then used to sort the node items inside each of the sub categories.
-            subgroups = []
-            temp = []
-            for node in nodeitems:
+            for i, node in enumerate(nodeitems):
+                # Draw separators
                 if isinstance(node, Separator):
-                    subgroups.append(temp)
-                    temp = []
-                    continue
-                temp.append(node)
-            subgroups.append(temp)
-
-            # Draw each of the subgroups with a separator in between each one.
-            for i, subgroup in enumerate(subgroups):
-                if i != 0:
-                    col.separator(factor=.5)
-
-                if not subgroup:
+                    if node.label and prefs.npie_separator_headings:
+                        if i:
+                            col.separator(factor=.5)
+                        # row = col.box().row(align=True)
+                        row = col.row(align=True)
+                        # row.scale_y = .5
+                        row.scale_y = .8
+                        draw_header(row, node.label)
+                    elif i:
+                        col.separator(factor=.5)
                     continue
 
-                for node in subgroup:
-                    icon = get_color_name(category, node)
-                    settings = getattr(node, "settings", [])
-                    params = {"settings": str(settings)}
-                    draw_add_operator(col, node.label.replace(remove, ""), icon, node.idname, params=params)
+                # Draw node items
+                color = get_color_name(category, node)
+                settings = getattr(node, "settings", [])
+                params = {"settings": str(settings)}
+                draw_add_operator(col, node.label.replace(remove, ""), color, node.idname, params=params)
 
         def draw_search(layout: UILayout):
             layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True

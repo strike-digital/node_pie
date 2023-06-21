@@ -18,7 +18,7 @@
           "label": "Node label",
           "identifier": "NodeIdentifier"
         },
-        {"label": "sep"}
+        {"separator": true}
       ]
     }
   }
