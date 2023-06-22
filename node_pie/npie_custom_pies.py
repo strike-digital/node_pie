@@ -92,18 +92,22 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     categories = {}
     layout = {}
 
+    all_files = []
+    for file in NODE_DEF_DIR.rglob("*"):
+        if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
+            all_files.append(file)
+
     # Different render engines can use different nodes in the default shader editor, account for that.
     if tree_identifier == "ShaderNodeTree":
-        for file in NODE_DEF_DIR.iterdir():
-            if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
-                with open(file, 'r') as f:
-                    data = json.load(f, cls=JSONWithCommentsDecoder)
-                if data.get("render_engine") == context.scene.render.engine:
-                    tree_identifier = file.name
+        for file in all_files:
+            with open(file, 'r') as f:
+                data = json.load(f, cls=JSONWithCommentsDecoder)
+            if data.get("render_engine") == context.scene.render.engine:
+                tree_identifier = file.name
 
     # Get files
     files = []
-    for file in NODE_DEF_DIR.iterdir():
+    for file in NODE_DEF_DIR.rglob("*"):
         if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
             files.append(file)
 
@@ -124,12 +128,17 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     # Merge in imports
     if imports := data.get("imports"):
         for import_name in imports:
-            with open(NODE_DEF_DIR / f"{import_name}.jsonc", "r") as f:
-                new_data = json.load(f, cls=JSONWithCommentsDecoder)
-            merge_configs(data, new_data)
+            for file in all_files:
+                if file.stem == import_name:
+                    with open(file, "r") as f:
+                        new_data = json.load(f, cls=JSONWithCommentsDecoder)
+                    merge_configs(data, new_data)
+                    break
+            else:
+                raise ValueError(f"file {import_name}.jsonc not found")
 
     # Merge in nodes from newer versions
-    for file in list(files):
+    for file in files:
         with open(file, "r") as f:
             new_data = json.load(f, cls=JSONWithCommentsDecoder)
 

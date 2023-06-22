@@ -1,6 +1,8 @@
 // For more info about how to use this file, use the "Open Example File" operator in the right click menu of the node editor
 // You'll need Node Pie developer extras to be enabled in the preferences to see it.
 
+// The config for the Serpens node editor
+
 {
   "layout": {
     "left": [

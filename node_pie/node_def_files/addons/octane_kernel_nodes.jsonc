@@ -2,7 +2,7 @@
 // You'll need Node Pie developer extras to be enabled in the preferences to see it.
 
 {
-  "render_engine": "octane",
+  // "render_engine": "octane",
   "layout": {
     "left": [["CATEGORY_NAME"]],
     "right": [],
