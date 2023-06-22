@@ -61,7 +61,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     npie_separator_headings: BoolProperty(
         name="Subcategory labels",
-        default=False,
+        default=True,
         description="Draw the headings of subcategories or just a gap",
     )
 

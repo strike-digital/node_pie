@@ -1,5 +1,6 @@
 // This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
 {
+  "blender_version": [4, 0, 0],
   "additions": {
     "layout": {
       "left": [["SIMULATION"]]
@@ -8,33 +9,37 @@
       "GEOMETRY": {
         "nodes": [
           {
-            "label": "Index of Nearest",
+  
             "identifier": "GeometryNodeIndexOfNearest",
             "after_node": "GeometryNodeSampleIndex"
           }
         ]
       },
-      "MESH_TOPOLOGY": {
-        "nodes": [
-          {
-            "label": "Corners of Edge",
-            "identifier": "GeometryNodeCornersOfEdge"
-          }
-        ]
-      },
+      // "MESH_TOPOLOGY": {
+      //   "nodes": [
+      //     {
+      //       "label": "Corners of Edge",
+      //       "identifier": "GeometryNodeCornersOfEdge"
+      //     }
+      //   ]
+      // },
       "MESH": {
         "nodes": [
           {
-            "label": "Mesh to SDF Volume",
+  
             "identifier": "GeometryNodeMeshToSDFVolume",
             "after_node": "GeometryNodeMeshToVolume"
+          },
+          {
+  
+            "identifier": "GeometryNodeCornersOfEdge"
           }
         ]
       },
       "POINT": {
         "nodes": [
           {
-            "label": "Points to SDF Volume",
+  
             "identifier": "GeometryNodePointsToSDFVolume",
             "after_node": "GeometryNodePointsToVolume"
           }
@@ -44,23 +49,23 @@
         "nodes": [
           {"separator": true},
           {
-            "label": "Signed Distance",
+  
             "identifier": "GeometryNodeInputSignedDistance"
           },
           {
-            "label": "Sample Volume",
+  
             "identifier": "GeometryNodeSampleVolume"
           },
           {
-            "label": "SDF Volume Sphere",
+  
             "identifier": "GeometryNodeSDFVolumeSphere"
           },
           {
-            "label": "Offset SDF Volume",
+  
             "identifier": "GeometryNodeOffsetSDFVolume"
           },
           {
-            "label": "Mean Filter SDF Volume",
+  
             "identifier": "GeometryNodeMeanFilterSDFVolume"
           }
         ]
@@ -70,11 +75,11 @@
         "color": "layout",
         "nodes": [
           {
-            "label": "Simulation Input",
+  
             "identifier": "GeometryNodeSimulationInput"
           },
           {
-            "label": "Simulation Output",
+  
             "identifier": "GeometryNodeSimulationOutput"
           }
         ]

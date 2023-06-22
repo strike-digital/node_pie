@@ -184,8 +184,9 @@ class NPIE_OT_copy_nodes_as_json(Operator):
     def execute(self, context):
         items = []
         for node in context.selected_nodes:
-            data_item = {"label": node.bl_label, "identifier": node.bl_idname}
-            items.append(json.dumps(data_item, indent=2))
+            data_item = {"identifier": node.bl_idname}
+            items.append(str(data_item))
+            # items.append(json.dumps(data_item, indent=2))
         items = ",\n".join(items)
         context.window_manager.clipboard = items
         print()

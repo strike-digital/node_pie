@@ -14,47 +14,47 @@
       "color": "input",
       "nodes": [
         {
-          "label": "Bokeh Image",
+
           "identifier": "CompositorNodeBokehImage"
         },
         {
-          "label": "Image",
+
           "identifier": "CompositorNodeImage"
         },
         {
-          "label": "Mask",
+
           "identifier": "CompositorNodeMask"
         },
         {
-          "label": "Movie Clip",
+
           "identifier": "CompositorNodeMovieClip"
         },
         {
-          "label": "Render Layers",
+
           "identifier": "CompositorNodeRLayers"
         },
         {
-          "label": "RGB",
+
           "identifier": "CompositorNodeRGB"
         },
         {
-          "label": "Scene Time",
+
           "identifier": "CompositorNodeSceneTime"
         },
         {
-          "label": "Texture",
+
           "identifier": "CompositorNodeTexture"
         },
         {
-          "label": "Time Curve",
+
           "identifier": "CompositorNodeTime"
         },
         {
-          "label": "Track Position",
+
           "identifier": "CompositorNodeTrackPos"
         },
         {
-          "label": "Value",
+
           "identifier": "CompositorNodeValue"
         }
       ]
@@ -64,23 +64,23 @@
       "color": "output",
       "nodes": [
         {
-          "label": "Composite",
+
           "identifier": "CompositorNodeComposite"
         },
         {
-          "label": "File Output",
+
           "identifier": "CompositorNodeOutputFile"
         },
         {
-          "label": "Levels",
+
           "identifier": "CompositorNodeLevels"
         },
         {
-          "label": "Split Viewer",
+
           "identifier": "CompositorNodeSplitViewer"
         },
         {
-          "label": "Viewer",
+
           "identifier": "CompositorNodeViewer"
         }
       ]
@@ -90,59 +90,59 @@
       "color": "color",
       "nodes": [
         {
-          "label": "Alpha Over",
+
           "identifier": "CompositorNodeAlphaOver"
         },
         {
-          "label": "Bright/Contrast",
+
           "identifier": "CompositorNodeBrightContrast"
         },
         {
-          "label": "Color Balance",
+
           "identifier": "CompositorNodeColorBalance"
         },
         {
-          "label": "Color Correction",
+
           "identifier": "CompositorNodeColorCorrection"
         },
         {
-          "label": "Exposure",
+
           "identifier": "CompositorNodeExposure"
         },
         {
-          "label": "Gamma",
+
           "identifier": "CompositorNodeGamma"
         },
         {
-          "label": "Hue Correct",
+
           "identifier": "CompositorNodeHueCorrect"
         },
         {
-          "label": "Hue Saturation Value",
+
           "identifier": "CompositorNodeHueSat"
         },
         {
-          "label": "Invert",
+
           "identifier": "CompositorNodeInvert"
         },
         {
-          "label": "Mix",
+
           "identifier": "CompositorNodeMixRGB"
         },
         {
-          "label": "Posterize",
+
           "identifier": "CompositorNodePosterize"
         },
         {
-          "label": "RGB Curves",
+
           "identifier": "CompositorNodeCurveRGB"
         },
         {
-          "label": "Tonemap",
+
           "identifier": "CompositorNodeTonemap"
         },
         {
-          "label": "Z Combine",
+
           "identifier": "CompositorNodeZcombine"
         }
       ]
@@ -152,51 +152,51 @@
       "color": "converter",
       "nodes": [
         {
-          "label": "Alpha Convert",
+
           "identifier": "CompositorNodePremulKey"
         },
         {
-          "label": "Color Space",
+
           "identifier": "CompositorNodeConvertColorSpace"
         },
         {
-          "label": "ColorRamp",
+
           "identifier": "CompositorNodeValToRGB"
         },
         {
-          "label": "Combine Color",
+
           "identifier": "CompositorNodeCombineColor"
         },
         {
-          "label": "Combine XYZ",
+
           "identifier": "CompositorNodeCombineXYZ"
         },
         {
-          "label": "ID Mask",
+
           "identifier": "CompositorNodeIDMask"
         },
         {
-          "label": "Math",
+
           "identifier": "CompositorNodeMath"
         },
         {
-          "label": "RGB to BW",
+
           "identifier": "CompositorNodeRGBToBW"
         },
         {
-          "label": "Separate Color",
+
           "identifier": "CompositorNodeSeparateColor"
         },
         {
-          "label": "Separate XYZ",
+
           "identifier": "CompositorNodeSeparateXYZ"
         },
         {
-          "label": "Set Alpha",
+
           "identifier": "CompositorNodeSetAlpha"
         },
         {
-          "label": "Switch View",
+
           "identifier": "CompositorNodeSwitchView"
         }
       ]
@@ -206,63 +206,63 @@
       "color": "filter",
       "nodes": [
         {
-          "label": "Anti-Aliasing",
+
           "identifier": "CompositorNodeAntiAliasing"
         },
         {
-          "label": "Bilateral Blur",
+
           "identifier": "CompositorNodeBilateralblur"
         },
         {
-          "label": "Blur",
+
           "identifier": "CompositorNodeBlur"
         },
         {
-          "label": "Bokeh Blur",
+
           "identifier": "CompositorNodeBokehBlur"
         },
         {
-          "label": "Defocus",
+
           "identifier": "CompositorNodeDefocus"
         },
         {
-          "label": "Denoise",
+
           "identifier": "CompositorNodeDenoise"
         },
         {
-          "label": "Despeckle",
+
           "identifier": "CompositorNodeDespeckle"
         },
         {
-          "label": "Dilate/Erode",
+
           "identifier": "CompositorNodeDilateErode"
         },
         {
-          "label": "Directional Blur",
+
           "identifier": "CompositorNodeDBlur"
         },
         {
-          "label": "Filter",
+
           "identifier": "CompositorNodeFilter"
         },
         {
-          "label": "Glare",
+
           "identifier": "CompositorNodeGlare"
         },
         {
-          "label": "Inpaint",
+
           "identifier": "CompositorNodeInpaint"
         },
         {
-          "label": "Pixelate",
+
           "identifier": "CompositorNodePixelate"
         },
         {
-          "label": "Sun Beams",
+
           "identifier": "CompositorNodeSunBeams"
         },
         {
-          "label": "Vector Blur",
+
           "identifier": "CompositorNodeVecBlur"
         }
       ]
@@ -272,23 +272,23 @@
       "color": "vector",
       "nodes": [
         {
-          "label": "Map Range",
+
           "identifier": "CompositorNodeMapRange"
         },
         {
-          "label": "Map Value",
+
           "identifier": "CompositorNodeMapValue"
         },
         {
-          "label": "Normal",
+
           "identifier": "CompositorNodeNormal"
         },
         {
-          "label": "Normalize",
+
           "identifier": "CompositorNodeNormalize"
         },
         {
-          "label": "Vector Curves",
+
           "identifier": "CompositorNodeCurveVec"
         }
       ]
@@ -298,59 +298,59 @@
       "color": "matte",
       "nodes": [
         {
-          "label": "Box Mask",
+
           "identifier": "CompositorNodeBoxMask"
         },
         {
-          "label": "Channel Key",
+
           "identifier": "CompositorNodeChannelMatte"
         },
         {
-          "label": "Chroma Key",
+
           "identifier": "CompositorNodeChromaMatte"
         },
         {
-          "label": "Color Key",
+
           "identifier": "CompositorNodeColorMatte"
         },
         {
-          "label": "Color Spill",
+
           "identifier": "CompositorNodeColorSpill"
         },
         {
-          "label": "Cryptomatte",
+
           "identifier": "CompositorNodeCryptomatteV2"
         },
         {
-          "label": "Cryptomatte (Legacy)",
+
           "identifier": "CompositorNodeCryptomatte"
         },
         {
-          "label": "Difference Key",
+
           "identifier": "CompositorNodeDiffMatte"
         },
         {
-          "label": "Distance Key",
+
           "identifier": "CompositorNodeDistanceMatte"
         },
         {
-          "label": "Double Edge Mask",
+
           "identifier": "CompositorNodeDoubleEdgeMask"
         },
         {
-          "label": "Ellipse Mask",
+
           "identifier": "CompositorNodeEllipseMask"
         },
         {
-          "label": "Keying",
+
           "identifier": "CompositorNodeKeying"
         },
         {
-          "label": "Keying Screen",
+
           "identifier": "CompositorNodeKeyingScreen"
         },
         {
-          "label": "Luminance Key",
+
           "identifier": "CompositorNodeLumaMatte"
         }
       ]
@@ -360,55 +360,55 @@
       "color": "distor",
       "nodes": [
         {
-          "label": "Corner Pin",
+
           "identifier": "CompositorNodeCornerPin"
         },
         {
-          "label": "Crop",
+
           "identifier": "CompositorNodeCrop"
         },
         {
-          "label": "Displace",
+
           "identifier": "CompositorNodeDisplace"
         },
         {
-          "label": "Flip",
+
           "identifier": "CompositorNodeFlip"
         },
         {
-          "label": "Lens Distortion",
+
           "identifier": "CompositorNodeLensdist"
         },
         {
-          "label": "Map UV",
+
           "identifier": "CompositorNodeMapUV"
         },
         {
-          "label": "Movie Distortion",
+
           "identifier": "CompositorNodeMovieDistortion"
         },
         {
-          "label": "Plane Track Deform",
+
           "identifier": "CompositorNodePlaneTrackDeform"
         },
         {
-          "label": "Rotate",
+
           "identifier": "CompositorNodeRotate"
         },
         {
-          "label": "Scale",
+
           "identifier": "CompositorNodeScale"
         },
         {
-          "label": "Stabilize 2D",
+
           "identifier": "CompositorNodeStabilize"
         },
         {
-          "label": "Transform",
+
           "identifier": "CompositorNodeTransform"
         },
         {
-          "label": "Translate",
+
           "identifier": "CompositorNodeTranslate"
         }
       ]
@@ -418,15 +418,15 @@
       "color": "layout",
       "nodes": [
         {
-          "label": "Frame",
+
           "identifier": "NodeFrame"
         },
         {
-          "label": "Reroute",
+
           "identifier": "NodeReroute"
         },
         {
-          "label": "Switch",
+
           "identifier": "CompositorNodeSwitch"
         }
       ]

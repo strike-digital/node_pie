@@ -1,6 +1,8 @@
 from collections import OrderedDict
 from dataclasses import dataclass, field
+from inspect import isclass
 import json
+from pprint import pprint
 
 import bpy
 from .npie_constants import NODE_DEF_DIR
@@ -43,38 +45,46 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
     layout = {}
 
     # Load config file
-    files = {}
+    # files = {}
+    # for file in (NODE_DEF_DIR).iterdir():
+    #     if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
+    #         files[file.stem.split("_")[-1]] = file
+
+    # for file in files.copy():
+    #     if file != tree_identifier:
+    #         try:
+    #             int(file)
+    #         except ValueError:
+    #             del files[file]
+    #             continue
+    #         if int(file) > int(f"{bl_version[0]}{bl_version[1]}"):
+    #             del files[file]
+
+    files = []
     for file in (NODE_DEF_DIR).iterdir():
         if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
-            files[file.stem.split("_")[-1]] = file
-
-    for file in files.copy():
-        if file != tree_identifier:
-            try:
-                int(file)
-            except ValueError:
-                del files[file]
-                continue
-            if int(file) > int(f"{bl_version[0]}{bl_version[1]}"):
-                del files[file]
+            files.append(file)
 
     if not files:
         return {}, {}
 
     def sort(f):
-        if f[0] != tree_identifier:
-            return int(f[0])
-        return 0
+        with open(f, "r") as file:
+            fdata = json.load(file, cls=JSONWithCommentsDecoder)
+            return fdata.get("blender_version", [0, 0, 0])
 
-    files = OrderedDict(sorted(list(files.items()), key=sort))
+    files.sort(key=sort)
 
-    with open(list(files.values())[0], "r") as f:
+    with open(files[0], "r") as f:
         data = json.load(f, cls=JSONWithCommentsDecoder)
 
     # Merge in nodes from newer versions
-    for file in list(files.values())[1:]:
+    for file in list(files):
         with open(file, "r") as f:
             new_data = json.load(f, cls=JSONWithCommentsDecoder)
+
+        if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("additions"):
+            continue
 
         # Merge layout
         for orig_area_name, orig_columns in data["layout"].items():
@@ -104,34 +114,35 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
         new_cats = new_data["additions"]["categories"].keys() - data["categories"].keys()
         for new_cat in new_cats:
             data["categories"][new_cat] = new_data["additions"]["categories"][new_cat]
-        # data["categories"].update(new_data["additions"]["categories"])
-
-    # Load the latest version
-    # def_path = ""
-    # version = int(f"{bl_version[0]}{bl_version[1]}")
-    # while True:
-    #     try:
-    #         def_path = files[str(version)]
-    #         break
-    #     except KeyError:
-    #         version -= 1
-    #         if version < 0:
-    #             break
-    #         continue
-    # def_path = def_path or list(files.values())[-1]
 
     layout = data["layout"]
 
-    for idname, cat in data["categories"].items():
+    # Get all node definition classes so that the labels can be auto generated
+    bl_node_types = {n.bl_idname: n for n in bpy.types.Node.__subclasses__() if hasattr(n, "bl_idname")}
+    types = {getattr(bpy.types, t) for t in dir(bpy.types)}
+    for t in types:
+        if isclass(t) and issubclass(t, bpy.types.Node):
+            bl_node_types[t.bl_rna.identifier] = t
+
+    for cat_idname, cat in data["categories"].items():
         items = []
         for node in cat["nodes"]:
             if node.get("separator"):
                 items.append(Separator(label=node.get("label", "")))
                 continue
-            item = NodeItem(node["label"], node["identifier"], color=node.get("color", ""))
+            idname = node["identifier"]
+            
+            # Get an auto generated label, if one is not provided
+            bl_node = bl_node_types.get(idname)
+            label = node.get("label")
+            if not label:
+                if bl_node:
+                    label = bl_node.bl_rna.name
+
+            item = NodeItem(label, idname, color=node.get("color", ""))
             item.settings = node.get("settings", [])
             items.append(item)
 
-        category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=idname)
-        categories[idname] = category
+        category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
+        categories[cat_idname] = category
     return categories, layout

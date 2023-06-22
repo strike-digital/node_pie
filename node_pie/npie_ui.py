@@ -1,12 +1,13 @@
 import json
 from pathlib import Path
 from collections import OrderedDict
+import traceback
 
 import bpy
 from .npie_custom_pies import NodeCategory, NodeItem, Separator
 from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
-from bpy.types import Menu, UILayout
+from bpy.types import Context, Menu, UILayout
 
 from .npie_helpers import lerp, inv_lerp, get_prefs
 
@@ -145,6 +146,25 @@ class NPIE_MT_node_pie(Menu):
         return context.space_data.node_tree and prefs.node_pie_enabled
 
     def draw(self, context):
+        try:
+            self.draw_menu(context)
+        except Exception as e:
+            pie = self.layout.menu_pie()
+            pie.row()
+            pie.row()
+            box = pie.box()
+            col = box.column(align=True)
+            col.label(text="An error occurred while trying to draw the pie menu:")
+            col.separator()
+            e = traceback.format_exception(e)
+            lines = []
+            for line in e:
+                lines += line.split("\n")
+            for line in lines:
+                if line:
+                    col.label(text=line.replace("\n", ""))
+
+    def draw_menu(self, context: Context):
         layout = self.layout
 
         pie = layout.menu_pie()
@@ -152,10 +172,11 @@ class NPIE_MT_node_pie(Menu):
         tree_type = context.space_data.node_tree.bl_rna.identifier
 
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type)
+        print(categories.keys())
         has_node_file = categories != {}
 
         if not has_node_file:
-            all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "label")}
+            all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "nodetype")}
         else:
             all_nodes = {n.idname: n for c in categories.values() for n in c.nodes if isinstance(n, NodeItem)}
 
@@ -410,7 +431,7 @@ class NPIE_MT_node_pie(Menu):
                         draw_header(col, node_cat.name)
 
                         for nodeitem in node_cat.items(context):
-                            if not hasattr(nodeitem, "label"):
+                            if not hasattr(nodeitem, "nodetype") or not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
                             draw_add_operator(col, nodeitem.label, "input", nodeitem.nodetype)

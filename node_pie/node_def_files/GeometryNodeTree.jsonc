@@ -19,31 +19,24 @@
       "color": "attribute",
       "nodes": [
         {
-          "label": "Blur Attribute",
           "identifier": "GeometryNodeBlurAttribute"
         },
         {
-          "label": "Attribute Statistic",
           "identifier": "GeometryNodeAttributeStatistic"
         },
         {
-          "label": "Capture Attribute",
           "identifier": "GeometryNodeCaptureAttribute"
         },
         {
-          "label": "Domain Size",
           "identifier": "GeometryNodeAttributeDomainSize"
         },
         {
-          "label": "Remove labeld Attribute",
           "identifier": "GeometryNodeRemoveAttribute"
         },
         {
-          "label": "Store labeld Attribute",
           "identifier": "GeometryNodeStorelabeldAttribute"
         },
         {
-          "label": "Transfer Attribute",
           "identifier": "GeometryNodeAttributeTransfer"
         }
       ]
@@ -53,27 +46,22 @@
       "color": "converter",
       "nodes": [
         {
-          "label": "Mix Color",
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'RGBA'" }],
           "color": "color"
         },
         {
-          "label": "RGB Curves",
           "identifier": "ShaderNodeRGBCurve",
           "color": "color"
         },
         {
-          "label": "ColorRamp",
           "identifier": "ShaderNodeValToRGB",
           "color": "converter"
         },
         {
-          "label": "Combine Color",
           "identifier": "FunctionNodeCombineColor"
         },
         {
-          "label": "Separate Color",
           "identifier": "FunctionNodeSeparateColor"
         }
       ]
@@ -84,146 +72,114 @@
       "nodes": [
         { "separator": true, "label": "Operations" },
         {
-          "label": "Curve Length",
           "identifier": "GeometryNodeCurveLength"
         },
         {
-          "label": "Curve to Mesh",
           "identifier": "GeometryNodeCurveToMesh"
         },
         {
-          "label": "Curve to Points",
           "identifier": "GeometryNodeCurveToPoints"
         },
         {
-          "label": "Deform Curves on Surface",
           "identifier": "GeometryNodeDeformCurvesOnSurface"
         },
         {
-          "label": "Fill Curve",
           "identifier": "GeometryNodeFillCurve"
         },
         {
-          "label": "Fillet Curve",
           "identifier": "GeometryNodeFilletCurve"
         },
         {
-          "label": "Resample Curve",
           "identifier": "GeometryNodeResampleCurve"
         },
         {
-          "label": "Reverse Curve",
           "identifier": "GeometryNodeReverseCurve"
         },
         {
-          "label": "Sample Curve",
           "identifier": "GeometryNodeSampleCurve"
         },
         {
-          "label": "Subdivide Curve",
           "identifier": "GeometryNodeSubdivideCurve"
         },
         {
-          "label": "Trim Curve",
           "identifier": "GeometryNodeTrimCurve"
         },
         {
-          "label": "Interpolate Curves",
           "identifier": "GeometryNodeInterpolateCurves"
         },
         { "separator": true, "label": "Read" },
         {
-          "label": "Curve Handle Positions",
           "identifier": "GeometryNodeInputCurveHandlePositions",
           "color": "input"
         },
         {
-          "label": "Curve Tangent",
           "identifier": "GeometryNodeInputTangent",
           "color": "input"
         },
         {
-          "label": "Curve Tilt",
           "identifier": "GeometryNodeInputCurveTilt",
           "color": "input"
         },
         {
-          "label": "Endpoint Selection",
           "identifier": "GeometryNodeCurveEndpointSelection",
           "color": "input"
         },
         {
-          "label": "Handle Type Selection",
           "identifier": "GeometryNodeCurveHandleTypeSelection",
           "color": "input"
         },
         {
-          "label": "Is Spline Cyclic",
           "identifier": "GeometryNodeInputSplineCyclic",
           "color": "input"
         },
         {
-          "label": "Spline Length",
           "identifier": "GeometryNodeSplineLength",
           "color": "input"
         },
         {
-          "label": "Spline Parameter",
           "identifier": "GeometryNodeSplineParameter",
           "color": "input"
         },
         {
-          "label": "Spline Resolution",
           "identifier": "GeometryNodeInputSplineResolution",
           "color": "input"
         },
         { "separator": true, "label": "Topology" },
         {
-          "label": "Points of Curve",
           "identifier": "GeometryNodePointsOfCurve",
           "color": "input"
         },
         {
-          "label": "Curve of Point",
           "identifier": "GeometryNodeCurveOfPoint",
           "color": "input"
         },
         {
-          "label": "Offset Point in Curve",
           "identifier": "GeometryNodeOffsetPointInCurve",
           "color": "input"
         },
         { "separator": true, "label": "Write" },
         {
-          "label": "Set Curve Radius",
           "identifier": "GeometryNodeSetCurveRadius"
         },
         {
-          "label": "Set Curve Tilt",
           "identifier": "GeometryNodeSetCurveTilt"
         },
         {
-          "label": "Set Curve Normal",
           "identifier": "GeometryNodeSetCurveNormal"
         },
         {
-          "label": "Set Handle Positions",
           "identifier": "GeometryNodeSetCurveHandlePositions"
         },
         {
-          "label": "Set Handle Type",
           "identifier": "GeometryNodeCurveSetHandles"
         },
         {
-          "label": "Set Spline Cyclic",
           "identifier": "GeometryNodeSetSplineCyclic"
         },
         {
-          "label": "Set Spline Resolution",
           "identifier": "GeometryNodeSetSplineResolution"
         },
         {
-          "label": "Set Spline Type",
           "identifier": "GeometryNodeCurveSplineType"
         }
       ]
@@ -251,35 +207,27 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Arc",
           "identifier": "GeometryNodeCurveArc"
         },
         {
-          "label": "Bezier Segment",
           "identifier": "GeometryNodeCurvePrimitiveBezierSegment"
         },
         {
-          "label": "Curve Circle",
           "identifier": "GeometryNodeCurvePrimitiveCircle"
         },
         {
-          "label": "Curve Line",
           "identifier": "GeometryNodeCurvePrimitiveLine"
         },
         {
-          "label": "Curve Spiral",
           "identifier": "GeometryNodeCurveSpiral"
         },
         {
-          "label": "Quadratic Bezier",
           "identifier": "GeometryNodeCurveQuadraticBezier"
         },
         {
-          "label": "Quadrilateral",
           "identifier": "GeometryNodeCurvePrimitiveQuadrilateral"
         },
         {
-          "label": "Star",
           "identifier": "GeometryNodeCurveStar"
         }
       ]
@@ -290,69 +238,53 @@
       "nodes": [
         { "separator": true, "label": "Operations" },
         {
-          "label": "Bounding Box",
           "identifier": "GeometryNodeBoundBox"
         },
         {
-          "label": "Convex Hull",
           "identifier": "GeometryNodeConvexHull"
         },
         {
-          "label": "Delete Geometry",
           "identifier": "GeometryNodeDeleteGeometry"
         },
         {
-          "label": "Duplicate Elements",
           "identifier": "GeometryNodeDuplicateElements"
         },
         {
-          "label": "Geometry to Instance",
           "identifier": "GeometryNodeGeometryToInstance"
         },
         {
-          "label": "Join Geometry",
           "identifier": "GeometryNodeJoinGeometry"
         },
         {
-          "label": "Merge by Distance",
           "identifier": "GeometryNodeMergeByDistance"
         },
         {
-          "label": "Separate Components",
           "identifier": "GeometryNodeSeparateComponents"
         },
         {
-          "label": "Separate Geometry",
           "identifier": "GeometryNodeSeparateGeometry"
         },
         {
-          "label": "Transform",
           "identifier": "GeometryNodeTransform"
         },
         { "separator": true, "label": "Sample" },
         {
-          "label": "Geometry Proximity",
           "identifier": "GeometryNodeProximity"
         },
         {
-          "label": "Raycast",
           "identifier": "GeometryNodeRaycast"
         },
         {
-          "label": "Sample Nearest",
           "identifier": "GeometryNodeSampleNearest"
         },
         {
-          "label": "Sample Index",
           "identifier": "GeometryNodeSampleIndex"
         },
         { "separator": true, "label": "Write" },
         {
-          "label": "Set ID",
           "identifier": "GeometryNodeSetID"
         },
         {
-          "label": "Set Position",
           "identifier": "GeometryNodeSetPosition"
         }
       ]
@@ -363,85 +295,65 @@
       "nodes": [
         { "separator": true, "label": "Constant" },
         {
-          "label": "Boolean",
           "identifier": "FunctionNodeInputBool"
         },
         {
-          "label": "Color",
           "identifier": "FunctionNodeInputColor"
         },
         {
-          "label": "Image",
           "identifier": "GeometryNodeInputImage"
         },
         {
-          "label": "Integer",
           "identifier": "FunctionNodeInputInt"
         },
         {
-          "label": "Material",
           "identifier": "GeometryNodeInputMaterial"
         },
         {
-          "label": "String",
           "identifier": "FunctionNodeInputString"
         },
         {
-          "label": "Value",
           "identifier": "ShaderNodeValue"
         },
         {
-          "label": "Vector",
           "identifier": "FunctionNodeInputVector"
         },
         { "separator": true, "label": "Data" },
         {
-          "label": "ID",
           "identifier": "GeometryNodeInputID"
         },
         {
-          "label": "Index",
           "identifier": "GeometryNodeInputIndex"
         },
         {
-          "label": "labeld Attribute",
           "identifier": "GeometryNodeInputlabeldAttribute"
         },
         {
-          "label": "Normal",
           "identifier": "GeometryNodeInputNormal"
         },
         {
-          "label": "Position",
           "identifier": "GeometryNodeInputPosition"
         },
         {
-          "label": "Radius",
           "identifier": "GeometryNodeInputRadius"
         },
         {
-          "label": "Scene Time",
           "identifier": "GeometryNodeInputSceneTime"
         },
         {
-          "label": "Is Viewport",
           "identifier": "GeometryNodeIsViewport"
         },
         { "separator": true, "label": "Scene" },
         {
-          "label": "Self Object",
           "identifier": "GeometryNodeSelfObject"
         },
         {
-          "label": "Object Info",
           "identifier": "GeometryNodeObjectInfo"
         },
         {
-          "label": "Collection Info",
           "identifier": "GeometryNodeCollectionInfo"
         },
         {
-          "label": "Image Info",
           "identifier": "GeometryNodeImageInfo"
         }
       ]
@@ -451,37 +363,29 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Instance on Points",
           "identifier": "GeometryNodeInstanceOnPoints"
         },
         {
-          "label": "Instances to Points",
           "identifier": "GeometryNodeInstancesToPoints"
         },
         {
-          "label": "Realize Instances",
           "identifier": "GeometryNodeRealizeInstances"
         },
         {
-          "label": "Rotate Instances",
           "identifier": "GeometryNodeRotateInstances"
         },
         {
-          "label": "Scale Instances",
           "identifier": "GeometryNodeScaleInstances"
         },
         {
-          "label": "Translate Instances",
           "identifier": "GeometryNodeTranslateInstances"
         },
         { "separator": true },
         {
-          "label": "Instance Rotation",
           "identifier": "GeometryNodeInputInstanceRotation",
           "color": "input"
         },
         {
-          "label": "Instance Scale",
           "identifier": "GeometryNodeInputInstanceScale",
           "color": "input"
         }
@@ -492,23 +396,18 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Replace Material",
           "identifier": "GeometryNodeReplaceMaterial"
         },
         {
-          "label": "Material Selection",
           "identifier": "GeometryNodeMaterialSelection"
         },
         {
-          "label": "Set Material",
           "identifier": "GeometryNodeSetMaterial"
         },
         {
-          "label": "Set Material Index",
           "identifier": "GeometryNodeSetMaterialIndex"
         },
         {
-          "label": "Material Index",
           "identifier": "GeometryNodeInputMaterialIndex",
           "color": "input"
         }
@@ -554,170 +453,134 @@
       "nodes": [
         { "separator": true, "label": "Operations" },
         {
-          "label": "Dual Mesh",
           "identifier": "GeometryNodeDualMesh"
         },
         {
-          "label": "Edge Paths to Curves",
           "identifier": "GeometryNodeEdgePathsToCurves"
         },
         {
-          "label": "Edge Paths to Selection",
           "identifier": "GeometryNodeEdgePathsToSelection"
         },
         {
-          "label": "Extrude Mesh",
           "identifier": "GeometryNodeExtrudeMesh"
         },
         {
-          "label": "Flip Faces",
           "identifier": "GeometryNodeFlipFaces"
         },
         {
-          "label": "Mesh Boolean",
           "identifier": "GeometryNodeMeshBoolean"
         },
         {
-          "label": "Mesh to Curve",
           "identifier": "GeometryNodeMeshToCurve"
         },
         {
-          "label": "Mesh to Points",
           "identifier": "GeometryNodeMeshToPoints"
         },
         {
-          "label": "Mesh to Volume",
           "identifier": "GeometryNodeMeshToVolume"
         },
         {
-          "label": "Scale Elements",
           "identifier": "GeometryNodeScaleElements"
         },
         {
-          "label": "Split Edges",
           "identifier": "GeometryNodeSplitEdges"
         },
         {
-          "label": "Subdivide Mesh",
           "identifier": "GeometryNodeSubdivideMesh"
         },
         {
-          "label": "Subdivision Surface",
           "identifier": "GeometryNodeSubdivisionSurface"
         },
         {
-          "label": "Triangulate",
           "identifier": "GeometryNodeTriangulate"
         },
         {
-          "label": "Sample UV Surface",
           "identifier": "GeometryNodeSampleUVSurface"
         },
         {
-          "label": "Sample Nearest Surface",
           "identifier": "GeometryNodeSampleNearestSurface"
         },
 
         { "separator": true, "label": "Read" },
         {
-          "label": "Edge Angle",
           "identifier": "GeometryNodeInputMeshEdgeAngle",
           "color": "input"
         },
         {
-          "label": "Edge Neighbors",
           "identifier": "GeometryNodeInputMeshEdgeNeighbors",
           "color": "input"
         },
         {
-          "label": "Edge Vertices",
           "identifier": "GeometryNodeInputMeshEdgeVertices",
           "color": "input"
         },
         {
-          "label": "Face Group Boundaries",
           "identifier": "GeometryNodeMeshFaceSetBoundaries",
           "color": "input"
         },
         {
-          "label": "Edges to Face Groups",
           "identifier": "GeometryNodeEdgesToFaceGroups",
           "color": "input"
         },
         {
-          "label": "Face Area",
           "identifier": "GeometryNodeInputMeshFaceArea",
           "color": "input"
         },
         {
-          "label": "Face Neighbors",
           "identifier": "GeometryNodeInputMeshFaceNeighbors",
           "color": "input"
         },
         {
-          "label": "Is Face Planar",
           "identifier": "GeometryNodeInputMeshFaceIsPlanar",
           "color": "input"
         },
         {
-          "label": "Is Shade Smooth",
           "identifier": "GeometryNodeInputShadeSmooth",
           "color": "input"
         },
         {
-          "label": "Mesh Island",
           "identifier": "GeometryNodeInputMeshIsland",
           "color": "input"
         },
         {
-          "label": "Shortest Edge Paths",
           "identifier": "GeometryNodeInputShortestEdgePaths",
           "color": "input"
         },
         {
-          "label": "Vertex Neighbors",
           "identifier": "GeometryNodeInputMeshVertexNeighbors",
           "color": "input"
         },
         { "separator": true, "label": "Topology" },
         {
-          "label": "Corners of Face",
           "identifier": "GeometryNodeCornersOfFace",
           "color": "input"
         },
         {
-          "label": "Vertex of Corner",
           "identifier": "GeometryNodeVertexOfCorner",
           "color": "input"
         },
         {
-          "label": "Offset Corner in Face",
           "identifier": "GeometryNodeOffsetCornerInFace",
           "color": "input"
         },
         {
-          "label": "Face of Corner",
           "identifier": "GeometryNodeFaceOfCorner",
           "color": "input"
         },
         {
-          "label": "Edges of Vertex",
           "identifier": "GeometryNodeEdgesOfVertex",
           "color": "input"
         },
         {
-          "label": "Edges of Corner",
           "identifier": "GeometryNodeEdgesOfCorner",
           "color": "input"
         },
         {
-          "label": "Corners of Vertex",
           "identifier": "GeometryNodeCornersOfVertex",
           "color": "input"
         },
         { "separator": true, "label": "Write" },
         {
-          "label": "Set Shade Smooth",
           "identifier": "GeometryNodeSetShadeSmooth"
         }
       ]
@@ -727,35 +590,27 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Cone",
           "identifier": "GeometryNodeMeshCone"
         },
         {
-          "label": "Cube",
           "identifier": "GeometryNodeMeshCube"
         },
         {
-          "label": "Cylinder",
           "identifier": "GeometryNodeMeshCylinder"
         },
         {
-          "label": "Grid",
           "identifier": "GeometryNodeMeshGrid"
         },
         {
-          "label": "Ico Sphere",
           "identifier": "GeometryNodeMeshIcoSphere"
         },
         {
-          "label": "Mesh Circle",
           "identifier": "GeometryNodeMeshCircle"
         },
         {
-          "label": "Mesh Line",
           "identifier": "GeometryNodeMeshLine"
         },
         {
-          "label": "UV Sphere",
           "identifier": "GeometryNodeMeshUVSphere"
         }
       ]
@@ -765,27 +620,21 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Distribute Points in Volume",
           "identifier": "GeometryNodeDistributePointsInVolume"
         },
         {
-          "label": "Distribute Points on Faces",
           "identifier": "GeometryNodeDistributePointsOnFaces"
         },
         {
-          "label": "Points",
           "identifier": "GeometryNodePoints"
         },
         {
-          "label": "Points to Vertices",
           "identifier": "GeometryNodePointsToVertices"
         },
         {
-          "label": "Points to Volume",
           "identifier": "GeometryNodePointsToVolume"
         },
         {
-          "label": "Set Point Radius",
           "identifier": "GeometryNodeSetPointRadius"
         }
       ]
@@ -795,34 +644,27 @@
       "color": "converter",
       "nodes": [
         {
-          "label": "String to Curves",
           "identifier": "GeometryNodeStringToCurves",
           "color": "geometry"
         },
         { "separator": true },
         {
-          "label": "Join Strings",
           "identifier": "GeometryNodeStringJoin",
           "color": "converter"
         },
         {
-          "label": "Replace String",
           "identifier": "FunctionNodeReplaceString"
         },
         {
-          "label": "Slice String",
           "identifier": "FunctionNodeSliceString"
         },
         {
-          "label": "Special Characters",
           "identifier": "FunctionNodeInputSpecialCharacters"
         },
         {
-          "label": "String Length",
           "identifier": "FunctionNodeStringLength"
         },
         {
-          "label": "Value to String",
           "identifier": "FunctionNodeValueToString"
         }
       ]
@@ -832,43 +674,33 @@
       "color": "texture",
       "nodes": [
         {
-          "label": "Brick Texture",
           "identifier": "ShaderNodeTexBrick"
         },
         {
-          "label": "Checker Texture",
           "identifier": "ShaderNodeTexChecker"
         },
         {
-          "label": "Gradient Texture",
           "identifier": "ShaderNodeTexGradient"
         },
         {
-          "label": "Image Texture",
           "identifier": "GeometryNodeImageTexture"
         },
         {
-          "label": "Magic Texture",
           "identifier": "ShaderNodeTexMagic"
         },
         {
-          "label": "Musgrave Texture",
           "identifier": "ShaderNodeTexMusgrave"
         },
         {
-          "label": "Noise Texture",
           "identifier": "ShaderNodeTexNoise"
         },
         {
-          "label": "Voronoi Texture",
           "identifier": "ShaderNodeTexVoronoi"
         },
         {
-          "label": "Wave Texture",
           "identifier": "ShaderNodeTexWave"
         },
         {
-          "label": "White Noise",
           "identifier": "ShaderNodeTexWhiteNoise"
         }
       ]
@@ -879,65 +711,50 @@
       "nodes": [
         { "separator": true, "label": "Field" },
         {
-          "label": "Accumulate Field",
           "identifier": "GeometryNodeAccumulateField"
         },
         {
-          "label": "Evaluate at Index",
           "identifier": "GeometryNodeFieldAtIndex"
         },
         {
-          "label": "Evaluate on Domain",
           "identifier": "GeometryNodeFieldOnDomain"
         },
         { "separator": true, "label": "Math" },
         {
-          "label": "Boolean Math",
           "identifier": "FunctionNodeBooleanMath"
         },
         {
-          "label": "Clamp",
           "identifier": "ShaderNodeClamp"
         },
         {
-          "label": "Compare",
           "identifier": "FunctionNodeCompare"
         },
         {
-          "label": "Float Curve",
           "identifier": "ShaderNodeFloatCurve"
         },
         {
-          "label": "Float to Integer",
           "identifier": "FunctionNodeFloatToInt"
         },
         {
-          "label": "Map Range",
           "identifier": "ShaderNodeMapRange"
         },
         {
-          "label": "Math",
           "identifier": "ShaderNodeMath"
         },
         {
-          "label": "Mix",
           "identifier": "ShaderNodeMix"
         },
         {
-          "label": "Random Value",
           "identifier": "FunctionNodeRandomValue"
         },
         {
-          "label": "Switch",
           "identifier": "GeometryNodeSwitch"
         },
         { "separator": true, "label": "Rotation" },
         {
-          "label": "Align Euler to Vector",
           "identifier": "FunctionNodeAlignEulerToVector"
         },
         {
-          "label": "Rotate Euler",
           "identifier": "FunctionNodeRotateEuler"
         }
       ]
@@ -947,11 +764,9 @@
       "color": "converter",
       "nodes": [
         {
-          "label": "Pack UV Islands",
           "identifier": "GeometryNodeUVPackIslands"
         },
         {
-          "label": "UV Unwrap",
           "identifier": "GeometryNodeUVUnwrap"
         }
       ]
@@ -961,30 +776,24 @@
       "color": "vector",
       "nodes": [
         {
-          "label": "Combine XYZ",
           "identifier": "ShaderNodeCombineXYZ",
           "color": "converter"
         },
         {
-          "label": "Separate XYZ",
           "identifier": "ShaderNodeSeparateXYZ",
           "color": "converter"
         },
         {
-          "label": "Vector Curves",
           "identifier": "ShaderNodeVectorCurve"
         },
         {
-          "label": "Vector Math",
           "identifier": "ShaderNodeVectorMath"
         },
         {
-          "label": "Mix Vector",
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'VECTOR'" }]
         },
         {
-          "label": "Vector Rotate",
           "identifier": "ShaderNodeVectorRotate"
         }
       ]
@@ -994,11 +803,9 @@
       "color": "geometry",
       "nodes": [
         {
-          "label": "Volume Cube",
           "identifier": "GeometryNodeVolumeCube"
         },
         {
-          "label": "Volume to Mesh",
           "identifier": "GeometryNodeVolumeToMesh"
         }
       ]
@@ -1008,11 +815,9 @@
       "color": "layout",
       "nodes": [
         {
-          "label": "Frame",
           "identifier": "NodeFrame"
         },
         {
-          "label": "Reroute",
           "identifier": "NodeReroute"
         }
       ]

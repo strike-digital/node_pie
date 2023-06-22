@@ -2,6 +2,7 @@ shared/__pycache__
 *.pyc
 **/*.json
 !**/node_def_files/*.json
+**/npie_dev.py
 *.zip
 tokens.txt
 builds/

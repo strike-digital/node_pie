@@ -1,0 +1,818 @@
+// For more info about how to use this file, use the "Open Example File" operator in the right click menu of the node editor
+// You'll need Node Pie developer extras to be enabled in the preferences to see it.
+
+{
+  "layout": {
+    "left": [
+      ["INPUT"],
+      ["INPUT_II", "SNIPPETS", "LAYOUT"],
+      ["INTERFACE", "DEBUG"]
+    ],
+    "right": [
+      ["PROGRAM", "PROPERTIES"],
+      ["PROGRAM_II", "VARIABLES"],
+      ["UTILITIES"]
+    ],
+    "top": [["EVENTS"]],
+    "bottom": [["PYTHON"]]
+  },
+  "categories": {
+    "INPUT": {
+      "label": "Input",
+      "color": "input",
+      "nodes": [
+        {
+          "identifier": "SN_AddonInfoNode"
+        },
+        {
+          "identifier": "SN_AssetNode"
+        },
+        {
+          "identifier": "SN_GetEditSelectNode"
+        },
+        {
+          "identifier": "SN_IconNode"
+        },
+        {
+          "identifier": "SN_InModeNode"
+        },
+        {
+          "identifier": "SN_IsExportNode"
+        },
+        {
+          "identifier": "SN_IsObjectType"
+        },
+        {
+          "identifier": "SN_NamedIconNode"
+        },
+        {
+          "identifier": "SN_NodeIdnameNode"
+        },
+        {
+          "identifier": "SN_NodeIsIdname"
+        },
+        {
+          "identifier": "SN_RandomColorNode"
+        },
+        {
+          "identifier": "SN_RandomNumberNode"
+        },
+        {
+          "identifier": "SN_SceneContextNode"
+        },
+        {
+          "identifier": "SN_TimeNode"
+        },
+        { "separator": true, "label": "Data" },
+        {
+          "identifier": "SN_BooleanNode"
+        },
+        {
+          "identifier": "SN_BooleanVectorNode"
+        },
+        {
+          "identifier": "SN_ColorNode"
+        },
+        {
+          "identifier": "SN_FloatNode"
+        },
+        {
+          "identifier": "SN_FloatVectorNode"
+        },
+        {
+          "identifier": "SN_IntegerNode"
+        },
+        {
+          "identifier": "SN_IntegerVectorNode"
+        },
+        {
+          "identifier": "SN_ListNode"
+        },
+        {
+          "identifier": "SN_NoneNode"
+        },
+        {
+          "identifier": "SN_StringNode"
+        },
+        { "separator": true, "label": "Geometry" },
+        {
+          "identifier": "SN_BMeshEdgeDataNode"
+        },
+        {
+          "identifier": "SN_BMeshFaceDataNode"
+        },
+        {
+          "identifier": "SN_FacesToVertexLocationsNode"
+        },
+        {
+          "identifier": "SN_BMeshDataNode"
+        },
+        {
+          "identifier": "SN_BMeshVertexDataNode"
+        },
+        {
+          "identifier": "SN_CreateLineLocationsNode"
+        },
+        {
+          "identifier": "SN_CreateQuadLocationsNode"
+        },
+        {
+          "identifier": "SN_CreateTriangleLocationsNode"
+        },
+        {
+          "identifier": "SN_NgonToTriangleLocationsNode"
+        },
+        {
+          "identifier": "SN_ObjectToBMeshNode"
+        },
+        {
+          "identifier": "SN_TriangulateBmeshNode"
+        }
+      ]
+    },
+    "INPUT_II": {
+      "label": "Areas",
+      "color": "input",
+      "nodes": [
+        // { "separator": true, "label": "Areas" },
+        {
+          "identifier": "SN_2DViewZoomNode"
+        },
+        {
+          "identifier": "SN_AreaByTypeNode"
+        },
+        {
+          "identifier": "SN_AreaLocationsNode"
+        },
+        { "separator": true, "label": "Blend Data" },
+        {
+          "identifier": "SN_ActionsBlendDataNode"
+        },
+        {
+          "identifier": "SN_ArmaturesBlendDataNode"
+        },
+        {
+          "identifier": "SN_BlenderDataNode"
+        },
+        {
+          "identifier": "SN_BrushesBlendDataNode"
+        },
+        {
+          "identifier": "SN_CamerasBlendDataNode"
+        },
+        {
+          "identifier": "SN_CollectionsBlendDataNode"
+        },
+        {
+          "identifier": "SN_CurvesBlendDataNode"
+        },
+        {
+          "identifier": "SN_FontsBlendDataNode"
+        },
+        {
+          "identifier": "SN_GreasePencilsBlendDataNode"
+        },
+        {
+          "identifier": "SN_ImagesBlendDataNode"
+        },
+        {
+          "identifier": "SN_LatticesBlendDataNode"
+        },
+        {
+          "identifier": "SN_LightsBlendDataNode"
+        },
+        {
+          "identifier": "SN_MaterialsBlendDataNode"
+        },
+        {
+          "identifier": "SN_MeshBlendDataNode"
+        },
+        {
+          "identifier": "SN_MetaballsBlendDataNode"
+        },
+        {
+          "identifier": "SN_NodeGroupsBlendDataNode"
+        },
+        {
+          "identifier": "SN_ObjectBlendDataNode"
+        },
+        {
+          "identifier": "SN_ScenesBlendDataNode"
+        },
+        {
+          "identifier": "SN_ScreensBlendDataNode"
+        },
+        {
+          "identifier": "SN_ShapeKeysBlendDataNode"
+        },
+        {
+          "identifier": "SN_TextsBlendDataNode"
+        },
+        {
+          "identifier": "SN_TexturesBlendDataNode"
+        },
+        {
+          "identifier": "SN_VolumesBlendDataNode"
+        },
+        {
+          "identifier": "SN_WindowManagersBlendDataNode"
+        },
+        {
+          "identifier": "SN_WorkspacesBlendDataNode"
+        },
+        {
+          "identifier": "SN_WorldsBlendDataNode"
+        }
+      ]
+    },
+    "INTERFACE": {
+      "label": "Interface",
+      "color": "vector",
+      "nodes": [
+        {
+          "identifier": "SN_ButtonNodeNew"
+        },
+        {
+          "identifier": "SN_DisplayCollectionListNodeNew"
+        },
+        {
+          "identifier": "SN_DisplayEnumItemNode"
+        },
+        {
+          "identifier": "SN_DisplayIconNodeNew"
+        },
+        {
+          "identifier": "SN_DisplayPreviewNodeNew"
+        },
+        {
+          "identifier": "SN_DisplayPropertyNodeNew"
+        },
+        {
+          "identifier": "SN_DisplaySearchNodeNew"
+        },
+        {
+          "identifier": "SN_DisplaySerpensShortcutNodeNew"
+        },
+        {
+          "identifier": "SN_EnumMapInterfaceNode"
+        },
+        {
+          "identifier": "SN_IconGalleryNodeNew"
+        },
+        {
+          "identifier": "SN_LabelNodeNew"
+        },
+        {
+          "identifier": "SN_SeparatorNodeNew"
+        },
+        { "separator": true, "label": "Layout" },
+        {
+          "identifier": "SN_AddToMenuNodeNew"
+        },
+        {
+          "identifier": "SN_AddToPanelNodeNew"
+        },
+        {
+          "identifier": "SN_InterfaceFunctionNode"
+        },
+        {
+          "identifier": "SN_RunInterfaceFunctionNodeNew"
+        },
+        {
+          "identifier": "SN_MenuNode"
+        },
+        {
+          "identifier": "SN_PanelNode"
+        },
+        {
+          "identifier": "SN_PieMenuNode"
+        },
+        {
+          "identifier": "SN_PreferencesNode"
+        },
+        { "separator": true, "label": "SubLayout" },
+        {
+          "identifier": "SN_LayoutBoxNodeNew"
+        },
+        {
+          "identifier": "SN_LayoutColumnNodeNew"
+        },
+        {
+          "identifier": "SN_CopyMenuNodeNew"
+        },
+        {
+          "identifier": "SN_CopyPanelNodeNew"
+        },
+        {
+          "identifier": "SN_LayoutGridNode"
+        },
+        {
+          "identifier": "SN_IfElseInterfaceNodeNew"
+        },
+        {
+          "identifier": "SN_ForInterfaceNodeNew"
+        },
+        {
+          "identifier": "SN_RepeatInterfaceNodeNew"
+        },
+        {
+          "identifier": "SN_PopoverNodeNew"
+        },
+        {
+          "identifier": "SN_LayoutRowNodeNew"
+        },
+        {
+          "identifier": "SN_LayoutSplitNodeNew"
+        },
+        {
+          "identifier": "SN_SubmenuNodeNew"
+        }
+      ]
+    },
+    "PROGRAM": {
+      "label": "Program",
+      "color": "geometry",
+      "nodes": [
+        {
+          "identifier": "SN_FunctionNode"
+        },
+        {
+          "identifier": "SN_FunctionReturnNode"
+        },
+        {
+          "identifier": "SN_RunFunctionNode"
+        },
+        {
+          "identifier": "SN_OperatorNode"
+        },
+        {
+          "identifier": "SN_RunOperatorNode"
+        },
+        { "separator": true, "label": "Drawing" },
+        {
+          "identifier": "SN_DrawCircleNode"
+        },
+        {
+          "identifier": "SN_DrawLineNode"
+        },
+        {
+          "identifier": "SN_DrawPointNode"
+        },
+        {
+          "identifier": "SN_DrawQuadNode"
+        },
+        {
+          "identifier": "SN_DrawModalTextNode"
+        },
+        {
+          "identifier": "SN_DrawTriangleNode"
+        },
+        {
+          "identifier": "SN_EndDrawingNode"
+        },
+        {
+          "identifier": "SN_StartDrawingNode"
+        },
+        { "separator": true, "label": "Files" },
+        {
+          "identifier": "SN_JoinPathNode"
+        },
+        {
+          "identifier": "SN_ListBlendContentNode"
+        },
+        {
+          "identifier": "SN_ListDirectoryFilesNode"
+        },
+        {
+          "identifier": "SN_AbsolutePathNode"
+        },
+        {
+          "identifier": "SN_PathInfoNode"
+        }
+      ]
+    },
+    "PROGRAM_II": {
+      "label": "Modal",
+      "color": "geometry",
+      "nodes": [
+        //{ "separator": true, "label": "Modal" },
+        {
+          "identifier": "SN_ModalEventNode"
+        },
+        {
+          "identifier": "SN_ModalOperatorNode"
+        },
+        {
+          "identifier": "SN_ModalShortcutPressedNode"
+        },
+        {
+          "identifier": "SN_ModalViewportMovedNode"
+        },
+        {
+          "identifier": "SN_ReturnModalNode"
+        },
+        {
+          "identifier": "SN_SetModalCursorNode"
+        },
+        {
+          "identifier": "SN_TextSizeNode"
+        },
+        { "separator": true, "label": "Operations" },
+        {
+          "identifier": "SN_BreakNode"
+        },
+        {
+          "identifier": "SN_EnumMapNode"
+        },
+        {
+          "identifier": "SN_FindShortcutOperator"
+        },
+        {
+          "identifier": "SN_IfElseExecuteNode"
+        },
+        {
+          "identifier": "SN_ForExecuteNode"
+        },
+        {
+          "identifier": "SN_RepeatExecuteNode"
+        },
+        {
+          "identifier": "SN_OpenMenuNode"
+        },
+        {
+          "identifier": "SN_OpenPanelNode"
+        },
+        {
+          "identifier": "SN_OpenPieMenuNode"
+        },
+        {
+          "identifier": "SN_OverrideContextNode"
+        },
+        {
+          "identifier": "SN_RefreshViewNode"
+        },
+        {
+          "identifier": "SN_ReportNode"
+        },
+        {
+          "identifier": "SN_SetEditSelectNode"
+        },
+        {
+          "identifier": "SN_SetHeaderTextNode"
+        },
+        {
+          "identifier": "SN_SetStatusTextNode"
+        }
+      ]
+    },
+    "PROGRAM_TIMER": {
+      "label": "Timer",
+      "color": "geometry",
+      "nodes": [
+        {
+          "identifier": "SN_RunInIntervalsNode"
+        },
+        {
+          "identifier": "SN_RunMultipleTimesNode"
+        },
+        {
+          "identifier": "SN_RunWithDelayNode"
+        }
+      ]
+    },
+    "PROPERTIES": {
+      "label": "Properties",
+      "color": "converter",
+      "nodes": [
+        {
+          "identifier": "SN_BlenderPropertyNode"
+        },
+        {
+          "identifier": "SN_OnPropertyUpdateNode"
+        },
+        {
+          "identifier": "SN_PropertyExistsNode"
+        },
+        {
+          "identifier": "SN_RunPropertyFunctionNode"
+        },
+        {
+          "identifier": "SN_SerpensPropertyNode"
+        },
+        {
+          "identifier": "SN_SetPropertyNode"
+        },
+        { "separator": true, "label": "Collection" },
+        {
+          "identifier": "SN_AddCollectionItemNode"
+        },
+        {
+          "identifier": "SN_CollectionLengthNode"
+        },
+        {
+          "identifier": "SN_IndexCollectionPropertyNode"
+        },
+        {
+          "identifier": "SN_IsIndexInCollectionPropertyNode"
+        },
+        {
+          "identifier": "SN_MoveCollectionItemNode"
+        },
+        {
+          "identifier": "SN_RemoveCollectionItemNode"
+        },
+        { "separator": true, "label": "Custom" },
+        {
+          "identifier": "SN_GetCustomPropertyNode"
+        },
+        {
+          "identifier": "SN_HasCustomPropertyNode"
+        },
+        {
+          "identifier": "SN_SetCustomPropertyNode"
+        },
+        { "separator": true, "label": "Enum" },
+        {
+          "identifier": "SN_GenerateEnumItemsNode"
+        },
+        {
+          "identifier": "SN_MakeEnumItemNode"
+        }
+      ]
+    },
+    "PYTHON": {
+      "label": "Python",
+      "color": "texture",
+      "nodes": [
+        {
+          "identifier": "SN_GetDataScriptlineNode"
+        },
+        {
+          "identifier": "SN_GetPropertyScriptlineNode"
+        },
+        {
+          "identifier": "SN_InterfaceScriptNode"
+        },
+        {
+          "identifier": "SN_InterfaceScriptlineNode"
+        },
+        {
+          "identifier": "SN_RunScriptNode"
+        },
+        {
+          "identifier": "SN_ScriptNode"
+        },
+        {
+          "identifier": "SN_ScriptlineNode"
+        },
+        { "separator": true, "label": "Attributes" },
+        {
+          "identifier": "SN_GetAttributeNode"
+        },
+        {
+          "identifier": "SN_HasAttributeNode"
+        },
+        {
+          "identifier": "SN_SetAttributeNode"
+        }
+      ]
+    },
+    "UTILITIES": {
+      "label": "Utilities",
+      "color": "group",
+      "nodes": [
+        {
+          "identifier": "SN_CompareNode"
+        },
+        {
+          "identifier": "SN_SwitchDataNode"
+        },
+        {
+          "identifier": "SN_SwitchIconNode"
+        },
+        { "separator": true, "label": "Boolean" },
+        {
+          "identifier": "SN_BooleanMathNode"
+        },
+        {
+          "identifier": "SN_InvertBooleanNode"
+        },
+        { "separator": true, "label": "Converter" },
+        {
+          "identifier": "SN_3DLocationTo2DNode"
+        },
+        {
+          "identifier": "SN_CombineVectorNode"
+        },
+        {
+          "identifier": "SN_RadiansNode"
+        },
+        {
+          "identifier": "SN_DataToIconNode"
+        },
+        {
+          "identifier": "SN_DefineDataType"
+        },
+        {
+          "identifier": "SN_EnumSetToListNode"
+        },
+        {
+          "identifier": "SN_RegionToViewNode"
+        },
+        {
+          "identifier": "SN_SplitVectorNode"
+        },
+        {
+          "identifier": "SN_ViewToRegionNode"
+        },
+        { "separator": true, "label": "Files" },
+        {
+          "identifier": "SN_JoinPathNode"
+        },
+        {
+          "identifier": "SN_ListBlendContentNode"
+        },
+        {
+          "identifier": "SN_ListDirectoryFilesNode"
+        },
+        {
+          "identifier": "SN_AbsolutePathNode"
+        },
+        {
+          "identifier": "SN_PathInfoNode"
+        },
+        { "separator": true, "label": "Math" },
+        {
+          "identifier": "SN_ClampNode"
+        },
+        {
+          "identifier": "SN_MathNode"
+        },
+        {
+          "identifier": "SN_RoundNode"
+        },
+        {
+          "identifier": "SN_VectorMathNode"
+        },
+        { "separator": true, "label": "Text" },
+        {
+          "identifier": "SN_CombineStringsNode"
+        },
+        {
+          "identifier": "SN_DecodeStringNode"
+        },
+        {
+          "identifier": "SN_EncodeStringNode"
+        },
+        {
+          "identifier": "SN_JoinStringsNode"
+        },
+        {
+          "identifier": "SN_MapStringsNode"
+        },
+        {
+          "identifier": "SN_PadStringNode"
+        },
+        {
+          "identifier": "SN_ReplaceStringNode"
+        },
+        {
+          "identifier": "SN_SliceStringNode"
+        },
+        {
+          "identifier": "SN_SplitStringNode"
+        },
+        {
+          "identifier": "SN_StringLengthNode"
+        },
+        {
+          "identifier": "SN_StripStringNode"
+        },
+        {
+          "identifier": "SN_IsInStringNode"
+        }
+      ]
+    },
+    "VARIABLES": {
+      "label": "Variables",
+      "color": "attribute",
+      "nodes": [
+        {
+          "identifier": "SN_ChangeVariableByNode"
+        },
+        {
+          "identifier": "SN_GetVariableNode"
+        },
+        {
+          "identifier": "SN_ResetVariableNode"
+        },
+        {
+          "identifier": "SN_SetVariableNode"
+        },
+        {
+          "identifier": "SN_ToggleVariableNode"
+        },
+        { "separator": true, "label": "List" },
+        {
+          "identifier": "SN_AddToListNode"
+        },
+        {
+          "identifier": "SN_IsInListNode"
+        },
+        {
+          "identifier": "SN_IndexListNode"
+        },
+        {
+          "identifier": "SN_IndexOfElementNode"
+        },
+        {
+          "identifier": "SN_ListLengthNode"
+        },
+        {
+          "identifier": "SN_RemoveFromListNode"
+        },
+        {
+          "identifier": "SN_SortListNode"
+        }
+      ]
+    },
+    "EVENTS": {
+      "label": "Events",
+      "color": "color",
+      "nodes": [
+        {
+          "identifier": "SN_BeforeExitNode"
+        },
+        {
+          "identifier": "SN_DepsgraphUpdateNode"
+        },
+        {
+          "identifier": "SN_ChangeFrameNode"
+        },
+        {
+          "identifier": "SN_OnKeypressNode"
+        },
+        {
+          "identifier": "SN_OnLoadNode"
+        },
+        {
+          "identifier": "SN_RedoEventNode"
+        },
+        {
+          "identifier": "SN_AfterRenderNode"
+        },
+        {
+          "identifier": "SN_BeforeRenderNode"
+        },
+        {
+          "identifier": "SN_OnSaveNode"
+        },
+        {
+          "identifier": "SN_UndoEventNode"
+        }
+      ]
+    },
+    "DEBUG": {
+      "label": "Debug",
+      "color": "output",
+      "nodes": [
+        {
+          "identifier": "SN_PrintNode"
+        },
+        {
+          "identifier": "SN_SleepNode"
+        },
+        {
+          "identifier": "SN_TimestampNode"
+        },
+        {
+          "identifier": "SN_TriggerNode"
+        }
+      ]
+    },
+    "SNIPPETS": {
+      "label": "Snippets",
+      "color": "script",
+      "nodes": [
+        {
+          "identifier": "SN_SnippetNode"
+        }
+      ]
+    },
+    "LAYOUT": {
+      "label": "Layout",
+      "color": "layout",
+      "nodes": [
+        {
+          "identifier": "NodeFrame"
+        },
+        {
+          "identifier": "SN_PortalNode"
+        },
+        {
+          "identifier": "NodeReroute"
+        }
+      ]
+    }
+  }
+}

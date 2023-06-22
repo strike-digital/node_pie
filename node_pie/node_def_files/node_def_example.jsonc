@@ -46,13 +46,15 @@
       "nodes": [
         // IMPORTANT: You can auto generate this from the selected nodes with the 'Copy nodes as json' operator
         {
-          // The display name of the node
-          "label": "Trigger",
           // The internal blender name of the node
-          "identifier": "SN_TriggerNode"
+          "identifier": "SN_TriggerNode",
+          // The display name of the node. This is optional, only needs to be used if the auto generated one is wrong
+          "label": "Trigger",
+          // Optional, only needed if the color is different from the category color
+          "color": "input"
         },
-        // Define a separator like this
-        {"separator": true},
+        // Define a separator like this, the label is optional, is only show if subcategory labels are enabled in the preferences
+        {"separator": true, "label": "My separator"},
         {
           "label": "Timestamp",
           "identifier": "SN_TimestampNode"

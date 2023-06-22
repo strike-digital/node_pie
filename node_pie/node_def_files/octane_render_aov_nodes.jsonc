@@ -11,13 +11,14 @@
   "categories": {
     "CATEGORY_NAME": {
       "label": "Category name",
-      "color": "converter", 
+      "color": "converter",
       "nodes": [
         // Use the "Copy nodes as json" operator for this
         {
-          "identifier": "NodeIdentifier"
+          "label": "Render AOV group",
+          "identifier": "OctaneRenderAOVGroup"
         },
-        {"separator": true}
+        { "separator": true }
       ]
     }
   }
