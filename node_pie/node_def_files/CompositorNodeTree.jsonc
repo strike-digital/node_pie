@@ -13,422 +13,146 @@
       "label": "Input",
       "color": "input",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeBokehImage"
-        },
-        {
-
-          "identifier": "CompositorNodeImage"
-        },
-        {
-
-          "identifier": "CompositorNodeMask"
-        },
-        {
-
-          "identifier": "CompositorNodeMovieClip"
-        },
-        {
-
-          "identifier": "CompositorNodeRLayers"
-        },
-        {
-
-          "identifier": "CompositorNodeRGB"
-        },
-        {
-
-          "identifier": "CompositorNodeSceneTime"
-        },
-        {
-
-          "identifier": "CompositorNodeTexture"
-        },
-        {
-
-          "identifier": "CompositorNodeTime"
-        },
-        {
-
-          "identifier": "CompositorNodeTrackPos"
-        },
-        {
-
-          "identifier": "CompositorNodeValue"
-        }
+        { "identifier": "CompositorNodeBokehImage" },
+        { "identifier": "CompositorNodeImage" },
+        { "identifier": "CompositorNodeMask" },
+        { "identifier": "CompositorNodeMovieClip" },
+        { "identifier": "CompositorNodeRLayers" },
+        { "identifier": "CompositorNodeRGB" },
+        { "identifier": "CompositorNodeSceneTime" },
+        { "identifier": "CompositorNodeTexture" },
+        { "identifier": "CompositorNodeTime" },
+        { "identifier": "CompositorNodeTrackPos" },
+        { "identifier": "CompositorNodeValue" }
       ]
     },
     "OUTPUT": {
       "label": "Output",
       "color": "output",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeComposite"
-        },
-        {
-
-          "identifier": "CompositorNodeOutputFile"
-        },
-        {
-
-          "identifier": "CompositorNodeLevels"
-        },
-        {
-
-          "identifier": "CompositorNodeSplitViewer"
-        },
-        {
-
-          "identifier": "CompositorNodeViewer"
-        }
+        { "identifier": "CompositorNodeComposite" },
+        { "identifier": "CompositorNodeOutputFile" },
+        { "identifier": "CompositorNodeLevels" },
+        { "identifier": "CompositorNodeSplitViewer" },
+        { "identifier": "CompositorNodeViewer" }
       ]
     },
     "COLOR": {
       "label": "Color",
       "color": "color",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeAlphaOver"
-        },
-        {
-
-          "identifier": "CompositorNodeBrightContrast"
-        },
-        {
-
-          "identifier": "CompositorNodeColorBalance"
-        },
-        {
-
-          "identifier": "CompositorNodeColorCorrection"
-        },
-        {
-
-          "identifier": "CompositorNodeExposure"
-        },
-        {
-
-          "identifier": "CompositorNodeGamma"
-        },
-        {
-
-          "identifier": "CompositorNodeHueCorrect"
-        },
-        {
-
-          "identifier": "CompositorNodeHueSat"
-        },
-        {
-
-          "identifier": "CompositorNodeInvert"
-        },
-        {
-
-          "identifier": "CompositorNodeMixRGB"
-        },
-        {
-
-          "identifier": "CompositorNodePosterize"
-        },
-        {
-
-          "identifier": "CompositorNodeCurveRGB"
-        },
-        {
-
-          "identifier": "CompositorNodeTonemap"
-        },
-        {
-
-          "identifier": "CompositorNodeZcombine"
-        }
+        { "identifier": "CompositorNodeAlphaOver" },
+        { "identifier": "CompositorNodeBrightContrast" },
+        { "identifier": "CompositorNodeColorBalance" },
+        { "identifier": "CompositorNodeColorCorrection" },
+        { "identifier": "CompositorNodeExposure" },
+        { "identifier": "CompositorNodeGamma" },
+        { "identifier": "CompositorNodeHueCorrect" },
+        { "identifier": "CompositorNodeHueSat" },
+        { "identifier": "CompositorNodeInvert" },
+        { "identifier": "CompositorNodeMixRGB" },
+        { "identifier": "CompositorNodePosterize" },
+        { "identifier": "CompositorNodeCurveRGB" },
+        { "identifier": "CompositorNodeTonemap" },
+        { "identifier": "CompositorNodeZcombine" }
       ]
     },
     "CONVERTOR": {
       "label": "Converter",
       "color": "converter",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodePremulKey"
-        },
-        {
-
-          "identifier": "CompositorNodeConvertColorSpace"
-        },
-        {
-
-          "identifier": "CompositorNodeValToRGB"
-        },
-        {
-
-          "identifier": "CompositorNodeCombineColor"
-        },
-        {
-
-          "identifier": "CompositorNodeCombineXYZ"
-        },
-        {
-
-          "identifier": "CompositorNodeIDMask"
-        },
-        {
-
-          "identifier": "CompositorNodeMath"
-        },
-        {
-
-          "identifier": "CompositorNodeRGBToBW"
-        },
-        {
-
-          "identifier": "CompositorNodeSeparateColor"
-        },
-        {
-
-          "identifier": "CompositorNodeSeparateXYZ"
-        },
-        {
-
-          "identifier": "CompositorNodeSetAlpha"
-        },
-        {
-
-          "identifier": "CompositorNodeSwitchView"
-        }
+        { "identifier": "CompositorNodePremulKey" },
+        { "identifier": "CompositorNodeConvertColorSpace" },
+        { "identifier": "CompositorNodeValToRGB" },
+        { "identifier": "CompositorNodeCombineColor" },
+        { "identifier": "CompositorNodeCombineXYZ" },
+        { "identifier": "CompositorNodeIDMask" },
+        { "identifier": "CompositorNodeMath" },
+        { "identifier": "CompositorNodeRGBToBW" },
+        { "identifier": "CompositorNodeSeparateColor" },
+        { "identifier": "CompositorNodeSeparateXYZ" },
+        { "identifier": "CompositorNodeSetAlpha" },
+        { "identifier": "CompositorNodeSwitchView" }
       ]
     },
     "FILTER": {
       "label": "Filter",
       "color": "filter",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeAntiAliasing"
-        },
-        {
-
-          "identifier": "CompositorNodeBilateralblur"
-        },
-        {
-
-          "identifier": "CompositorNodeBlur"
-        },
-        {
-
-          "identifier": "CompositorNodeBokehBlur"
-        },
-        {
-
-          "identifier": "CompositorNodeDefocus"
-        },
-        {
-
-          "identifier": "CompositorNodeDenoise"
-        },
-        {
-
-          "identifier": "CompositorNodeDespeckle"
-        },
-        {
-
-          "identifier": "CompositorNodeDilateErode"
-        },
-        {
-
-          "identifier": "CompositorNodeDBlur"
-        },
-        {
-
-          "identifier": "CompositorNodeFilter"
-        },
-        {
-
-          "identifier": "CompositorNodeGlare"
-        },
-        {
-
-          "identifier": "CompositorNodeInpaint"
-        },
-        {
-
-          "identifier": "CompositorNodePixelate"
-        },
-        {
-
-          "identifier": "CompositorNodeSunBeams"
-        },
-        {
-
-          "identifier": "CompositorNodeVecBlur"
-        }
+        { "identifier": "CompositorNodeAntiAliasing" },
+        { "identifier": "CompositorNodeBilateralblur" },
+        { "identifier": "CompositorNodeBlur" },
+        { "identifier": "CompositorNodeBokehBlur" },
+        { "identifier": "CompositorNodeDefocus" },
+        { "identifier": "CompositorNodeDenoise" },
+        { "identifier": "CompositorNodeDespeckle" },
+        { "identifier": "CompositorNodeDilateErode" },
+        { "identifier": "CompositorNodeDBlur" },
+        { "identifier": "CompositorNodeFilter" },
+        { "identifier": "CompositorNodeGlare" },
+        { "identifier": "CompositorNodeInpaint" },
+        { "identifier": "CompositorNodePixelate" },
+        { "identifier": "CompositorNodeSunBeams" },
+        { "identifier": "CompositorNodeVecBlur" }
       ]
     },
     "VECTOR": {
       "label": "Vector",
       "color": "vector",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeMapRange"
-        },
-        {
-
-          "identifier": "CompositorNodeMapValue"
-        },
-        {
-
-          "identifier": "CompositorNodeNormal"
-        },
-        {
-
-          "identifier": "CompositorNodeNormalize"
-        },
-        {
-
-          "identifier": "CompositorNodeCurveVec"
-        }
+        { "identifier": "CompositorNodeMapRange" },
+        { "identifier": "CompositorNodeMapValue" },
+        { "identifier": "CompositorNodeNormal" },
+        { "identifier": "CompositorNodeNormalize" },
+        { "identifier": "CompositorNodeCurveVec" }
       ]
     },
     "MATTE": {
       "label": "Matte",
       "color": "matte",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeBoxMask"
-        },
-        {
-
-          "identifier": "CompositorNodeChannelMatte"
-        },
-        {
-
-          "identifier": "CompositorNodeChromaMatte"
-        },
-        {
-
-          "identifier": "CompositorNodeColorMatte"
-        },
-        {
-
-          "identifier": "CompositorNodeColorSpill"
-        },
-        {
-
-          "identifier": "CompositorNodeCryptomatteV2"
-        },
-        {
-
-          "identifier": "CompositorNodeCryptomatte"
-        },
-        {
-
-          "identifier": "CompositorNodeDiffMatte"
-        },
-        {
-
-          "identifier": "CompositorNodeDistanceMatte"
-        },
-        {
-
-          "identifier": "CompositorNodeDoubleEdgeMask"
-        },
-        {
-
-          "identifier": "CompositorNodeEllipseMask"
-        },
-        {
-
-          "identifier": "CompositorNodeKeying"
-        },
-        {
-
-          "identifier": "CompositorNodeKeyingScreen"
-        },
-        {
-
-          "identifier": "CompositorNodeLumaMatte"
-        }
+        { "identifier": "CompositorNodeBoxMask" },
+        { "identifier": "CompositorNodeChannelMatte" },
+        { "identifier": "CompositorNodeChromaMatte" },
+        { "identifier": "CompositorNodeColorMatte" },
+        { "identifier": "CompositorNodeColorSpill" },
+        { "identifier": "CompositorNodeCryptomatteV2" },
+        { "identifier": "CompositorNodeCryptomatte" },
+        { "identifier": "CompositorNodeDiffMatte" },
+        { "identifier": "CompositorNodeDistanceMatte" },
+        { "identifier": "CompositorNodeDoubleEdgeMask" },
+        { "identifier": "CompositorNodeEllipseMask" },
+        { "identifier": "CompositorNodeKeying" },
+        { "identifier": "CompositorNodeKeyingScreen" },
+        { "identifier": "CompositorNodeLumaMatte" }
       ]
     },
     "DISTORT": {
       "label": "Distort",
       "color": "distor",
       "nodes": [
-        {
-
-          "identifier": "CompositorNodeCornerPin"
-        },
-        {
-
-          "identifier": "CompositorNodeCrop"
-        },
-        {
-
-          "identifier": "CompositorNodeDisplace"
-        },
-        {
-
-          "identifier": "CompositorNodeFlip"
-        },
-        {
-
-          "identifier": "CompositorNodeLensdist"
-        },
-        {
-
-          "identifier": "CompositorNodeMapUV"
-        },
-        {
-
-          "identifier": "CompositorNodeMovieDistortion"
-        },
-        {
-
-          "identifier": "CompositorNodePlaneTrackDeform"
-        },
-        {
-
-          "identifier": "CompositorNodeRotate"
-        },
-        {
-
-          "identifier": "CompositorNodeScale"
-        },
-        {
-
-          "identifier": "CompositorNodeStabilize"
-        },
-        {
-
-          "identifier": "CompositorNodeTransform"
-        },
-        {
-
-          "identifier": "CompositorNodeTranslate"
-        }
+        { "identifier": "CompositorNodeCornerPin" },
+        { "identifier": "CompositorNodeCrop" },
+        { "identifier": "CompositorNodeDisplace" },
+        { "identifier": "CompositorNodeFlip" },
+        { "identifier": "CompositorNodeLensdist" },
+        { "identifier": "CompositorNodeMapUV" },
+        { "identifier": "CompositorNodeMovieDistortion" },
+        { "identifier": "CompositorNodePlaneTrackDeform" },
+        { "identifier": "CompositorNodeRotate" },
+        { "identifier": "CompositorNodeScale" },
+        { "identifier": "CompositorNodeStabilize" },
+        { "identifier": "CompositorNodeTransform" },
+        { "identifier": "CompositorNodeTranslate" }
       ]
     },
     "LAYOUT": {
       "label": "Layout",
       "color": "layout",
       "nodes": [
-        {
-
-          "identifier": "NodeFrame"
-        },
-        {
-
-          "identifier": "NodeReroute"
-        },
-        {
-
-          "identifier": "CompositorNodeSwitch"
-        }
+        { "identifier": "NodeFrame" },
+        { "identifier": "NodeReroute" },
+        { "identifier": "CompositorNodeSwitch" }
       ]
     }
   }

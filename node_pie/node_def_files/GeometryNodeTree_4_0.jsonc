@@ -9,7 +9,6 @@
       "GEOMETRY": {
         "nodes": [
           {
-  
             "identifier": "GeometryNodeIndexOfNearest",
             "after_node": "GeometryNodeSampleIndex"
           }
@@ -17,8 +16,7 @@
       },
       // "MESH_TOPOLOGY": {
       //   "nodes": [
-      //     {
-      //       "label": "Corners of Edge",
+      //     {      //       "label": "Corners of Edge",
       //       "identifier": "GeometryNodeCornersOfEdge"
       //     }
       //   ]
@@ -26,20 +24,15 @@
       "MESH": {
         "nodes": [
           {
-  
             "identifier": "GeometryNodeMeshToSDFVolume",
             "after_node": "GeometryNodeMeshToVolume"
           },
-          {
-  
-            "identifier": "GeometryNodeCornersOfEdge"
-          }
+          { "identifier": "GeometryNodeCornersOfEdge" }
         ]
       },
       "POINT": {
         "nodes": [
           {
-  
             "identifier": "GeometryNodePointsToSDFVolume",
             "after_node": "GeometryNodePointsToVolume"
           }
@@ -47,41 +40,20 @@
       },
       "VOLUME": {
         "nodes": [
-          {"separator": true},
-          {
-  
-            "identifier": "GeometryNodeInputSignedDistance"
-          },
-          {
-  
-            "identifier": "GeometryNodeSampleVolume"
-          },
-          {
-  
-            "identifier": "GeometryNodeSDFVolumeSphere"
-          },
-          {
-  
-            "identifier": "GeometryNodeOffsetSDFVolume"
-          },
-          {
-  
-            "identifier": "GeometryNodeMeanFilterSDFVolume"
-          }
+          { "separator": true },
+          { "identifier": "GeometryNodeInputSignedDistance" },
+          { "identifier": "GeometryNodeSampleVolume" },
+          { "identifier": "GeometryNodeSDFVolumeSphere" },
+          { "identifier": "GeometryNodeOffsetSDFVolume" },
+          { "identifier": "GeometryNodeMeanFilterSDFVolume" }
         ]
       },
       "SIMULATION": {
         "label": "Simulation",
         "color": "layout",
         "nodes": [
-          {
-  
-            "identifier": "GeometryNodeSimulationInput"
-          },
-          {
-  
-            "identifier": "GeometryNodeSimulationOutput"
-          }
+          { "identifier": "GeometryNodeSimulationInput" },
+          { "identifier": "GeometryNodeSimulationOutput" }
         ]
       }
     }

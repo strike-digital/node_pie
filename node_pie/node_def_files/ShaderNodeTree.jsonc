@@ -10,419 +10,135 @@
       "label": "Input",
       "color": "input",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeAmbientOcclusion"
-        },
-        {
-
-          "identifier": "ShaderNodeAttribute"
-        },
-        {
-
-          "identifier": "ShaderNodeBevel"
-        },
-        {
-
-          "identifier": "ShaderNodeCameraData"
-        },
-        {
-
-          "identifier": "ShaderNodeVertexColor"
-        },
-        {
-
-          "identifier": "ShaderNodeHairInfo"
-        },
-        {
-
-          "identifier": "ShaderNodeFresnel"
-        },
-        {
-
-          "identifier": "ShaderNodeNewGeometry"
-        },
-        {
-
-          "identifier": "ShaderNodeLayerWeight"
-        },
-        {
-
-          "identifier": "ShaderNodeLightPath"
-        },
-        {
-
-          "identifier": "ShaderNodeObjectInfo"
-        },
-        {
-
-          "identifier": "ShaderNodeParticleInfo"
-        },
-        {
-
-          "identifier": "ShaderNodePointInfo"
-        },
-        {
-
-          "identifier": "ShaderNodeRGB"
-        },
-        {
-
-          "identifier": "ShaderNodeTangent"
-        },
-        {
-
-          "identifier": "ShaderNodeTexCoord"
-        },
-        {
-
-          "identifier": "ShaderNodeUVMap"
-        },
-        {
-
-          "identifier": "ShaderNodeValue"
-        },
-        {
-
-          "identifier": "ShaderNodeVolumeInfo"
-        },
-        {
-
-          "identifier": "ShaderNodeWireframe"
-        }
+        { "identifier": "ShaderNodeAmbientOcclusion" },
+        { "identifier": "ShaderNodeAttribute" },
+        { "identifier": "ShaderNodeCameraData" },
+        { "identifier": "ShaderNodeVertexColor" },
+        { "identifier": "ShaderNodeHairInfo" },
+        { "identifier": "ShaderNodeFresnel" },
+        { "identifier": "ShaderNodeNewGeometry" },
+        { "identifier": "ShaderNodeLayerWeight" },
+        { "identifier": "ShaderNodeLightPath" },
+        { "identifier": "ShaderNodeObjectInfo" },
+        { "identifier": "ShaderNodePointInfo" },
+        { "identifier": "ShaderNodeRGB" },
+        { "identifier": "ShaderNodeTangent" },
+        { "identifier": "ShaderNodeTexCoord" },
+        { "identifier": "ShaderNodeUVMap" },
+        { "identifier": "ShaderNodeValue" },
+        { "identifier": "ShaderNodeVolumeInfo" },
+        { "identifier": "ShaderNodeWireframe" }
       ]
     },
     "OUTPUT": {
       "label": "Output",
       "color": "output",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeOutputAOV"
-        },
-        {
-
-          "identifier": "ShaderNodeOutputLight"
-        },
-        {
-
-          "identifier": "ShaderNodeOutputMaterial"
-        }
+        { "identifier": "ShaderNodeOutputAOV" },
+        { "identifier": "ShaderNodeOutputLight" },
+        { "identifier": "ShaderNodeOutputMaterial" }
       ]
     },
     "SHADER": {
       "label": "Shader",
       "color": "shader",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeAddShader"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfAnisotropic"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfDiffuse"
-        },
-        {
-
-          "identifier": "ShaderNodeEmission"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfGlass"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfGlossy"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfHair"
-        },
-        {
-
-          "identifier": "ShaderNodeHoldout"
-        },
-        {
-
-          "identifier": "ShaderNodeMixShader"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfPrincipled"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfHairPrincipled"
-        },
-        {
-
-          "identifier": "ShaderNodeVolumePrincipled"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfRefraction"
-        },
-        {
-
-          "identifier": "ShaderNodeSubsurfaceScattering"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfToon"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfTranslucent"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfTransparent"
-        },
-        {
-
-          "identifier": "ShaderNodeBsdfVelvet"
-        },
-        {
-
-          "identifier": "ShaderNodeVolumeAbsorption"
-        },
-        {
-
-          "identifier": "ShaderNodeVolumeScatter"
-        }
+        { "identifier": "ShaderNodeAddShader" },
+        { "identifier": "ShaderNodeBsdfDiffuse" },
+        { "identifier": "ShaderNodeEmission" },
+        { "identifier": "ShaderNodeBsdfGlass" },
+        { "identifier": "ShaderNodeBsdfGlossy" },
+        { "identifier": "ShaderNodeHoldout" },
+        { "identifier": "ShaderNodeMixShader" },
+        { "identifier": "ShaderNodeBsdfPrincipled" },
+        { "identifier": "ShaderNodeVolumePrincipled" },
+        { "identifier": "ShaderNodeBsdfRefraction" },
+        { "identifier": "ShaderNodeSubsurfaceScattering" },
+        { "identifier": "ShaderNodeBsdfTranslucent" },
+        { "identifier": "ShaderNodeBsdfTransparent" },
+        { "identifier": "ShaderNodeVolumeAbsorption" },
+        { "identifier": "ShaderNodeVolumeScatter" }
       ]
     },
     "TEXTURE": {
       "label": "Texture",
       "color": "texture",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeTexBrick"
-        },
-        {
-
-          "identifier": "ShaderNodeTexChecker"
-        },
-        {
-
-          "identifier": "ShaderNodeTexEnvironment"
-        },
-        {
-
-          "identifier": "ShaderNodeTexGradient"
-        },
-        {
-
-          "identifier": "ShaderNodeTexIES"
-        },
-        {
-
-          "identifier": "ShaderNodeTexImage"
-        },
-        {
-
-          "identifier": "ShaderNodeTexMagic"
-        },
-        {
-
-          "identifier": "ShaderNodeTexMusgrave"
-        },
-        {
-
-          "identifier": "ShaderNodeTexNoise"
-        },
-        {
-
-          "identifier": "ShaderNodeTexPointDensity"
-        },
-        {
-
-          "identifier": "ShaderNodeTexSky"
-        },
-        {
-
-          "identifier": "ShaderNodeTexVoronoi"
-        },
-        {
-
-          "identifier": "ShaderNodeTexWave"
-        },
-        {
-
-          "identifier": "ShaderNodeTexWhiteNoise"
-        }
+        { "identifier": "ShaderNodeTexBrick" },
+        { "identifier": "ShaderNodeTexChecker" },
+        { "identifier": "ShaderNodeTexEnvironment" },
+        { "identifier": "ShaderNodeTexGradient" },
+        { "identifier": "ShaderNodeTexIES" },
+        { "identifier": "ShaderNodeTexImage" },
+        { "identifier": "ShaderNodeTexMagic" },
+        { "identifier": "ShaderNodeTexMusgrave" },
+        { "identifier": "ShaderNodeTexNoise" },
+        { "identifier": "ShaderNodeTexPointDensity" },
+        { "identifier": "ShaderNodeTexSky" },
+        { "identifier": "ShaderNodeTexVoronoi" },
+        { "identifier": "ShaderNodeTexWave" },
+        { "identifier": "ShaderNodeTexWhiteNoise" }
       ]
     },
     "COLOR": {
       "label": "Color",
       "color": "color",
       "nodes": [
+        { "identifier": "ShaderNodeBrightContrast" },
+        { "identifier": "ShaderNodeGamma" },
+        { "identifier": "ShaderNodeHueSaturation" },
+        { "identifier": "ShaderNodeInvert" },
         {
-
-          "identifier": "ShaderNodeBrightContrast"
-        },
-        {
-
-          "identifier": "ShaderNodeGamma"
-        },
-        {
-
-          "identifier": "ShaderNodeHueSaturation"
-        },
-        {
-
-          "identifier": "ShaderNodeInvert"
-        },
-        {
-
-          "identifier": "ShaderNodeLightFalloff"
-        },
-        {
-
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'RGBA'" }]
         },
-        {
-
-          "identifier": "ShaderNodeRGBCurve"
-        }
+        { "identifier": "ShaderNodeRGBCurve" }
       ]
     },
     "VECTOR": {
       "label": "Vector",
       "color": "vector",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeBump"
-        },
-        {
-
-          "identifier": "ShaderNodeDisplacement"
-        },
-        {
-
-          "identifier": "ShaderNodeMapping"
-        },
-        {
-
-          "identifier": "ShaderNodeNormal"
-        },
-        {
-
-          "identifier": "ShaderNodeNormalMap"
-        },
-        {
-
-          "identifier": "ShaderNodeVectorCurve"
-        },
-        {
-
-          "identifier": "ShaderNodeVectorDisplacement"
-        },
-        {
-
-          "identifier": "ShaderNodeVectorRotate"
-        },
-        {
-
-          "identifier": "ShaderNodeVectorTransform"
-        }
+        { "identifier": "ShaderNodeBump" },
+        { "identifier": "ShaderNodeDisplacement" },
+        { "identifier": "ShaderNodeMapping" },
+        { "identifier": "ShaderNodeNormal" },
+        { "identifier": "ShaderNodeNormalMap" },
+        { "identifier": "ShaderNodeVectorCurve" },
+        { "identifier": "ShaderNodeVectorDisplacement" },
+        { "identifier": "ShaderNodeVectorRotate" },
+        { "identifier": "ShaderNodeVectorTransform" }
       ]
     },
     "CONVERTOR": {
       "label": "Converter",
       "color": "converter",
       "nodes": [
-        {
-
-          "identifier": "ShaderNodeBlackbody"
-        },
-        {
-
-          "identifier": "ShaderNodeClamp"
-        },
-        {
-
-          "identifier": "ShaderNodeValToRGB",
-          "color": "converter"
-        },
-        {
-
-          "identifier": "ShaderNodeCombineColor"
-        },
-        {
-
-          "identifier": "ShaderNodeCombineXYZ",
-          "color": "converter"
-        },
-        {
-
-          "identifier": "ShaderNodeFloatCurve"
-        },
-        {
-
-          "identifier": "ShaderNodeMapRange"
-        },
-        {
-
-          "identifier": "ShaderNodeMath"
-        },
-        {
-
-          "identifier": "ShaderNodeMix"
-        },
-        {
-
-          "identifier": "ShaderNodeRGBToBW"
-        },
-        {
-
-          "identifier": "ShaderNodeSeparateColor"
-        },
-        {
-
-          "identifier": "ShaderNodeSeparateXYZ",
-          "color": "converter"
-        },
-        {
-
-          "identifier": "ShaderNodeVectorMath"
-        },
-        {
-
-          "identifier": "ShaderNodeWavelength"
-        }
+        { "identifier": "ShaderNodeBlackbody" },
+        { "identifier": "ShaderNodeClamp" },
+        { "identifier": "ShaderNodeValToRGB", "color": "converter" },
+        { "identifier": "ShaderNodeCombineColor" },
+        { "identifier": "ShaderNodeCombineXYZ", "color": "converter" },
+        { "identifier": "ShaderNodeFloatCurve" },
+        { "identifier": "ShaderNodeMapRange" },
+        { "identifier": "ShaderNodeMath" },
+        { "identifier": "ShaderNodeMix" },
+        { "identifier": "ShaderNodeRGBToBW" },
+        { "identifier": "ShaderNodeSeparateColor" },
+        { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
+        { "identifier": "ShaderNodeVectorMath" },
+        { "identifier": "ShaderNodeWavelength" }
       ]
     },
     "SCRIPT": {
       "label": "Script",
       "color": "script",
-      "nodes": [
-        {
-
-          "identifier": "ShaderNodeScript"
-        }
-      ]
+      "nodes": [{ "identifier": "ShaderNodeScript" }]
     },
     "LAYOUT": {
       "label": "Layout",
       "color": "layout",
-      "nodes": [
-        {
-
-          "identifier": "NodeFrame"
-        },
-        {
-
-          "identifier": "NodeReroute"
-        }
-      ]
+      "nodes": [{ "identifier": "NodeFrame" }, { "identifier": "NodeReroute" }]
     }
   }
 }

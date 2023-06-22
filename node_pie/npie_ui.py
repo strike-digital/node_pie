@@ -163,6 +163,7 @@ class NPIE_MT_node_pie(Menu):
             for line in lines:
                 if line:
                     col.label(text=line.replace("\n", ""))
+                    print(line)
 
     def draw_menu(self, context: Context):
         layout = self.layout
@@ -171,8 +172,7 @@ class NPIE_MT_node_pie(Menu):
         prefs = get_prefs(context)
         tree_type = context.space_data.node_tree.bl_rna.identifier
 
-        categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type)
-        print(categories.keys())
+        categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}
 
         if not has_node_file:

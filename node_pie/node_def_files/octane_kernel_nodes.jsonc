@@ -2,6 +2,7 @@
 // You'll need Node Pie developer extras to be enabled in the preferences to see it.
 
 {
+  "render_engine": "octane",
   "layout": {
     "left": [["CATEGORY_NAME"]],
     "right": [],
@@ -14,7 +15,7 @@
       "color": "converter",
       "nodes": [
         // Use the "Copy nodes as json" operator for this
-        { "identifier": "NodeIdentifier" },
+        { "identifier": "OctaneDirectLightingKernel" },
         { "separator": true }
       ]
     }

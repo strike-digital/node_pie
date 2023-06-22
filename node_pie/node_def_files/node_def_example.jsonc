@@ -54,11 +54,8 @@
           "color": "input"
         },
         // Define a separator like this, the label is optional, is only show if subcategory labels are enabled in the preferences
-        {"separator": true, "label": "My separator"},
-        {
-          "label": "Timestamp",
-          "identifier": "SN_TimestampNode"
-        }
+        { "separator": true, "label": "My separator" },
+        { "identifier": "SN_TimestampNode" }
       ]
     }
   }

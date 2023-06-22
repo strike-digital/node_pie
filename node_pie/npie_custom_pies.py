@@ -1,11 +1,9 @@
-from collections import OrderedDict
 from dataclasses import dataclass, field
 from inspect import isclass
 import json
-from pprint import pprint
 
 import bpy
-from .npie_constants import NODE_DEF_DIR
+from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 from .npie_helpers import JSONWithCommentsDecoder
 
 
@@ -39,35 +37,80 @@ class Separator():
     label: str = ""
 
 
-def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory], dict]:
-    bl_version = bpy.app.version
+def create_defaults(data: dict):
+    # Add default values in case they are missing from the file
+    default_layout = {"top": [[]], "bottom": [[]], "left": [[]], "right": [[]]}
+    data["layout"] = data.get("layout", default_layout)
+    data["categories"] = data.get("categories", {})
+    default_layout.update(data["layout"])
+    data["layout"] = default_layout
+    return data
+
+
+def merge_configs(base: dict, additions: dict, removals: dict = {}):
+    # Add default values in case they are missing from the file
+    base = create_defaults(base)
+    additions = create_defaults(additions)
+
+    # Merge layout
+    for orig_area_name, orig_columns in base["layout"].items():
+        new_columns = additions["layout"].get(orig_area_name)
+        if not new_columns:
+            continue
+        for i, new_column in enumerate(new_columns):
+            new_column = new_column.copy()
+            for new_row in new_column:
+                orig_columns = base["layout"][orig_area_name]
+                if i > len(orig_columns) - 1:
+                    orig_columns.append([new_row])
+                else:
+                    orig_columns[i].append(new_row)
+
+    # Merge in the new nodes
+    for orig_cat_name, orig_cat in base["categories"].items():
+        new_cat = additions["categories"].get(orig_cat_name)
+        if new_cat:
+            # Insert the node after the specified one.
+            idx = -1
+            for new_node in new_cat["nodes"]:
+                if name := new_node.get("after_node"):
+                    names = [n.get("identifier") for n in orig_cat["nodes"]]
+                    idx = names.index(name)
+                if idx == -1:
+                    orig_cat["nodes"].append(new_node)
+                else:
+                    orig_cat["nodes"].insert(idx + 1, new_node)
+
+    # Add new categories
+    new_cats = additions["categories"].keys() - base["categories"].keys()
+    for new_cat in new_cats:
+        base["categories"][new_cat] = additions["categories"][new_cat]
+    return base
+
+
+def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, NodeCategory], dict]:
     categories = {}
     layout = {}
 
-    # Load config file
-    # files = {}
-    # for file in (NODE_DEF_DIR).iterdir():
-    #     if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
-    #         files[file.stem.split("_")[-1]] = file
+    # Different render engines can use different nodes in the default shader editor, account for that.
+    if tree_identifier == "ShaderNodeTree":
+        for file in NODE_DEF_DIR.iterdir():
+            if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
+                with open(file, 'r') as f:
+                    data = json.load(f, cls=JSONWithCommentsDecoder)
+                if data.get("render_engine") == context.scene.render.engine:
+                    tree_identifier = file.name
 
-    # for file in files.copy():
-    #     if file != tree_identifier:
-    #         try:
-    #             int(file)
-    #         except ValueError:
-    #             del files[file]
-    #             continue
-    #         if int(file) > int(f"{bl_version[0]}{bl_version[1]}"):
-    #             del files[file]
-
+    # Get files
     files = []
-    for file in (NODE_DEF_DIR).iterdir():
+    for file in NODE_DEF_DIR.iterdir():
         if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
             files.append(file)
 
     if not files:
         return {}, {}
 
+    # Sort the files from first version to latest version so that they are applied in the correct order
     def sort(f):
         with open(f, "r") as file:
             fdata = json.load(file, cls=JSONWithCommentsDecoder)
@@ -78,6 +121,13 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
     with open(files[0], "r") as f:
         data = json.load(f, cls=JSONWithCommentsDecoder)
 
+    # Merge in imports
+    if imports := data.get("imports"):
+        for import_name in imports:
+            with open(NODE_DEF_DIR / f"{import_name}.jsonc", "r") as f:
+                new_data = json.load(f, cls=JSONWithCommentsDecoder)
+            merge_configs(data, new_data)
+
     # Merge in nodes from newer versions
     for file in list(files):
         with open(file, "r") as f:
@@ -86,34 +136,7 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
         if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("additions"):
             continue
 
-        # Merge layout
-        for orig_area_name, orig_columns in data["layout"].items():
-            new_columns = new_data["additions"]["layout"].get(orig_area_name)
-            if not new_columns:
-                continue
-            for i, new_column in enumerate(new_columns):
-                for new_row in new_column:
-                    orig_columns[i].append(new_row)
-
-        # Merge in the new nodes
-        for orig_cat_name, orig_cat in data["categories"].items():
-            new_cat = new_data["additions"]["categories"].get(orig_cat_name)
-            if new_cat:
-                # Insert the node after the specified one.
-                names = [n.get("identifier") for n in orig_cat["nodes"]]
-                idx = -1
-                for new_node in new_cat["nodes"]:
-                    if name := new_node.get("after_node"):
-                        idx = names.index(name)
-                    if idx == -1:
-                        orig_cat["nodes"].append(new_node)
-                    else:
-                        orig_cat["nodes"].insert(idx + 1, new_node)
-
-        # Add new categories
-        new_cats = new_data["additions"]["categories"].keys() - data["categories"].keys()
-        for new_cat in new_cats:
-            data["categories"][new_cat] = new_data["additions"]["categories"][new_cat]
+        merge_configs(data, new_data["additions"])
 
     layout = data["layout"]
 
@@ -124,6 +147,8 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
         if isclass(t) and issubclass(t, bpy.types.Node):
             bl_node_types[t.bl_rna.identifier] = t
 
+    not_found = []
+
     for cat_idname, cat in data["categories"].items():
         items = []
         for node in cat["nodes"]:
@@ -131,18 +156,25 @@ def load_custom_nodes_info(tree_identifier: str) -> tuple[dict[str, NodeCategory
                 items.append(Separator(label=node.get("label", "")))
                 continue
             idname = node["identifier"]
-            
+
             # Get an auto generated label, if one is not provided
             bl_node = bl_node_types.get(idname)
             label = node.get("label")
             if not label:
                 if bl_node:
-                    label = bl_node.bl_rna.name
+                    label = bl_node.bl_rna.name if bl_node.bl_rna.name != "Node" else bl_node.bl_label
 
+            if not label and not bl_node:
+                not_found.append(idname)
+                continue
             item = NodeItem(label, idname, color=node.get("color", ""))
             item.settings = node.get("settings", [])
             items.append(item)
 
+        if not_found:
+            raise ValueError(f"No label found for node(s) '{not_found}'")
+        elif not cat.get("label"):
+            raise ValueError(f"No label found for category '{cat_idname}'")
         category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
         categories[cat_idname] = category
     return categories, layout

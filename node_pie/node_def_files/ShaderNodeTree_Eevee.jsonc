@@ -1,0 +1,24 @@
+{
+  "imports": ["ShaderNodeTree"],
+  "render_engine": "BLENDER_EEVEE",
+  "additions": {
+    "categories": {
+      "CONVERTOR": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeShaderToRGB",
+            "after_node": "ShaderNodeSeparateXYZ"
+          }
+        ]
+      },
+      "SHADER": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeEeveeSpecular",
+            "after_node": "ShaderNodeSubsurfaceScattering"
+          }
+        ]
+      }
+    }
+  }
+}

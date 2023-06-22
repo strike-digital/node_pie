@@ -18,27 +18,12 @@
       "label": "Attribute",
       "color": "attribute",
       "nodes": [
-        {
-          "identifier": "GeometryNodeBlurAttribute"
-        },
-        {
-          "identifier": "GeometryNodeAttributeStatistic"
-        },
-        {
-          "identifier": "GeometryNodeCaptureAttribute"
-        },
-        {
-          "identifier": "GeometryNodeAttributeDomainSize"
-        },
-        {
-          "identifier": "GeometryNodeRemoveAttribute"
-        },
-        {
-          "identifier": "GeometryNodeStorelabeldAttribute"
-        },
-        {
-          "identifier": "GeometryNodeAttributeTransfer"
-        }
+        { "identifier": "GeometryNodeBlurAttribute" },
+        { "identifier": "GeometryNodeAttributeStatistic" },
+        { "identifier": "GeometryNodeCaptureAttribute" },
+        { "identifier": "GeometryNodeAttributeDomainSize" },
+        { "identifier": "GeometryNodeRemoveAttribute" },
+        { "identifier": "GeometryNodeStoreNamedAttribute" }
       ]
     },
     "COLOR": {
@@ -50,20 +35,10 @@
           "settings": [{ "name": "data_type", "value": "'RGBA'" }],
           "color": "color"
         },
-        {
-          "identifier": "ShaderNodeRGBCurve",
-          "color": "color"
-        },
-        {
-          "identifier": "ShaderNodeValToRGB",
-          "color": "converter"
-        },
-        {
-          "identifier": "FunctionNodeCombineColor"
-        },
-        {
-          "identifier": "FunctionNodeSeparateColor"
-        }
+        { "identifier": "ShaderNodeRGBCurve", "color": "color" },
+        { "identifier": "ShaderNodeValToRGB", "color": "converter" },
+        { "identifier": "FunctionNodeCombineColor" },
+        { "identifier": "FunctionNodeSeparateColor" }
       ]
     },
     "CURVE": {
@@ -71,55 +46,25 @@
       "color": "geometry",
       "nodes": [
         { "separator": true, "label": "Operations" },
-        {
-          "identifier": "GeometryNodeCurveLength"
-        },
-        {
-          "identifier": "GeometryNodeCurveToMesh"
-        },
-        {
-          "identifier": "GeometryNodeCurveToPoints"
-        },
-        {
-          "identifier": "GeometryNodeDeformCurvesOnSurface"
-        },
-        {
-          "identifier": "GeometryNodeFillCurve"
-        },
-        {
-          "identifier": "GeometryNodeFilletCurve"
-        },
-        {
-          "identifier": "GeometryNodeResampleCurve"
-        },
-        {
-          "identifier": "GeometryNodeReverseCurve"
-        },
-        {
-          "identifier": "GeometryNodeSampleCurve"
-        },
-        {
-          "identifier": "GeometryNodeSubdivideCurve"
-        },
-        {
-          "identifier": "GeometryNodeTrimCurve"
-        },
-        {
-          "identifier": "GeometryNodeInterpolateCurves"
-        },
+        { "identifier": "GeometryNodeCurveLength" },
+        { "identifier": "GeometryNodeCurveToMesh" },
+        { "identifier": "GeometryNodeCurveToPoints" },
+        { "identifier": "GeometryNodeDeformCurvesOnSurface" },
+        { "identifier": "GeometryNodeFillCurve" },
+        { "identifier": "GeometryNodeFilletCurve" },
+        { "identifier": "GeometryNodeResampleCurve" },
+        { "identifier": "GeometryNodeReverseCurve" },
+        { "identifier": "GeometryNodeSampleCurve" },
+        { "identifier": "GeometryNodeSubdivideCurve" },
+        { "identifier": "GeometryNodeTrimCurve" },
+        { "identifier": "GeometryNodeInterpolateCurves" },
         { "separator": true, "label": "Read" },
         {
           "identifier": "GeometryNodeInputCurveHandlePositions",
           "color": "input"
         },
-        {
-          "identifier": "GeometryNodeInputTangent",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputCurveTilt",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeInputTangent", "color": "input" },
+        { "identifier": "GeometryNodeInputCurveTilt", "color": "input" },
         {
           "identifier": "GeometryNodeCurveEndpointSelection",
           "color": "input"
@@ -128,108 +73,49 @@
           "identifier": "GeometryNodeCurveHandleTypeSelection",
           "color": "input"
         },
-        {
-          "identifier": "GeometryNodeInputSplineCyclic",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeSplineLength",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeSplineParameter",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputSplineResolution",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeInputSplineCyclic", "color": "input" },
+        { "identifier": "GeometryNodeSplineLength", "color": "input" },
+        { "identifier": "GeometryNodeSplineParameter", "color": "input" },
+        { "identifier": "GeometryNodeInputSplineResolution", "color": "input" },
         { "separator": true, "label": "Topology" },
-        {
-          "identifier": "GeometryNodePointsOfCurve",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeCurveOfPoint",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeOffsetPointInCurve",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodePointsOfCurve", "color": "input" },
+        { "identifier": "GeometryNodeCurveOfPoint", "color": "input" },
+        { "identifier": "GeometryNodeOffsetPointInCurve", "color": "input" },
         { "separator": true, "label": "Write" },
-        {
-          "identifier": "GeometryNodeSetCurveRadius"
-        },
-        {
-          "identifier": "GeometryNodeSetCurveTilt"
-        },
-        {
-          "identifier": "GeometryNodeSetCurveNormal"
-        },
-        {
-          "identifier": "GeometryNodeSetCurveHandlePositions"
-        },
-        {
-          "identifier": "GeometryNodeCurveSetHandles"
-        },
-        {
-          "identifier": "GeometryNodeSetSplineCyclic"
-        },
-        {
-          "identifier": "GeometryNodeSetSplineResolution"
-        },
-        {
-          "identifier": "GeometryNodeCurveSplineType"
-        }
+        { "identifier": "GeometryNodeSetCurveRadius" },
+        { "identifier": "GeometryNodeSetCurveTilt" },
+        { "identifier": "GeometryNodeSetCurveNormal" },
+        { "identifier": "GeometryNodeSetCurveHandlePositions" },
+        { "identifier": "GeometryNodeCurveSetHandles" },
+        { "identifier": "GeometryNodeSetSplineCyclic" },
+        { "identifier": "GeometryNodeSetSplineResolution" },
+        { "identifier": "GeometryNodeCurveSplineType" }
       ]
     },
     // "CURVE_TOPOLOGY": {
     //   "label": "Curve Topology",
     //   "color": "input",
     //   "nodes": [
-    //     {
-    //       "label": "Points of Curve",
-    //       "identifier": "GeometryNodePointsOfCurve"
-    //     },
-    //     {
-    //       "label": "Curve of Point",
-    //       "identifier": "GeometryNodeCurveOfPoint"
-    //     },
-    //     {
-    //       "label": "Offset Point in Curve",
-    //       "identifier": "GeometryNodeOffsetPointInCurve"
-    //     }
+    //     {    //       "label": "Points of Curve",
+    //       "identifier": "GeometryNodePointsOfCurve"    //     },
+    //     {    //       "label": "Curve of Point",
+    //       "identifier": "GeometryNodeCurveOfPoint"    //     },
+    //     {    //       "label": "Offset Point in Curve",
+    //       "identifier": "GeometryNodeOffsetPointInCurve"    //     }
     //   ]
     // },
     "PRIMITIVES_CURVE": {
       "label": "Curve Primitives",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeCurveArc"
-        },
-        {
-          "identifier": "GeometryNodeCurvePrimitiveBezierSegment"
-        },
-        {
-          "identifier": "GeometryNodeCurvePrimitiveCircle"
-        },
-        {
-          "identifier": "GeometryNodeCurvePrimitiveLine"
-        },
-        {
-          "identifier": "GeometryNodeCurveSpiral"
-        },
-        {
-          "identifier": "GeometryNodeCurveQuadraticBezier"
-        },
-        {
-          "identifier": "GeometryNodeCurvePrimitiveQuadrilateral"
-        },
-        {
-          "identifier": "GeometryNodeCurveStar"
-        }
+        { "identifier": "GeometryNodeCurveArc" },
+        { "identifier": "GeometryNodeCurvePrimitiveBezierSegment" },
+        { "identifier": "GeometryNodeCurvePrimitiveCircle" },
+        { "identifier": "GeometryNodeCurvePrimitiveLine" },
+        { "identifier": "GeometryNodeCurveSpiral" },
+        { "identifier": "GeometryNodeCurveQuadraticBezier" },
+        { "identifier": "GeometryNodeCurvePrimitiveQuadrilateral" },
+        { "identifier": "GeometryNodeCurveStar" }
       ]
     },
     "GEOMETRY": {
@@ -237,56 +123,24 @@
       "color": "geometry",
       "nodes": [
         { "separator": true, "label": "Operations" },
-        {
-          "identifier": "GeometryNodeBoundBox"
-        },
-        {
-          "identifier": "GeometryNodeConvexHull"
-        },
-        {
-          "identifier": "GeometryNodeDeleteGeometry"
-        },
-        {
-          "identifier": "GeometryNodeDuplicateElements"
-        },
-        {
-          "identifier": "GeometryNodeGeometryToInstance"
-        },
-        {
-          "identifier": "GeometryNodeJoinGeometry"
-        },
-        {
-          "identifier": "GeometryNodeMergeByDistance"
-        },
-        {
-          "identifier": "GeometryNodeSeparateComponents"
-        },
-        {
-          "identifier": "GeometryNodeSeparateGeometry"
-        },
-        {
-          "identifier": "GeometryNodeTransform"
-        },
+        { "identifier": "GeometryNodeBoundBox" },
+        { "identifier": "GeometryNodeConvexHull" },
+        { "identifier": "GeometryNodeDeleteGeometry" },
+        { "identifier": "GeometryNodeDuplicateElements" },
+        { "identifier": "GeometryNodeGeometryToInstance" },
+        { "identifier": "GeometryNodeJoinGeometry" },
+        { "identifier": "GeometryNodeMergeByDistance" },
+        { "identifier": "GeometryNodeSeparateComponents" },
+        { "identifier": "GeometryNodeSeparateGeometry" },
+        { "identifier": "GeometryNodeTransform" },
         { "separator": true, "label": "Sample" },
-        {
-          "identifier": "GeometryNodeProximity"
-        },
-        {
-          "identifier": "GeometryNodeRaycast"
-        },
-        {
-          "identifier": "GeometryNodeSampleNearest"
-        },
-        {
-          "identifier": "GeometryNodeSampleIndex"
-        },
+        { "identifier": "GeometryNodeProximity" },
+        { "identifier": "GeometryNodeRaycast" },
+        { "identifier": "GeometryNodeSampleNearest" },
+        { "identifier": "GeometryNodeSampleIndex" },
         { "separator": true, "label": "Write" },
-        {
-          "identifier": "GeometryNodeSetID"
-        },
-        {
-          "identifier": "GeometryNodeSetPosition"
-        }
+        { "identifier": "GeometryNodeSetID" },
+        { "identifier": "GeometryNodeSetPosition" }
       ]
     },
     "INPUT": {
@@ -294,157 +148,74 @@
       "color": "input",
       "nodes": [
         { "separator": true, "label": "Constant" },
-        {
-          "identifier": "FunctionNodeInputBool"
-        },
-        {
-          "identifier": "FunctionNodeInputColor"
-        },
-        {
-          "identifier": "GeometryNodeInputImage"
-        },
-        {
-          "identifier": "FunctionNodeInputInt"
-        },
-        {
-          "identifier": "GeometryNodeInputMaterial"
-        },
-        {
-          "identifier": "FunctionNodeInputString"
-        },
-        {
-          "identifier": "ShaderNodeValue"
-        },
-        {
-          "identifier": "FunctionNodeInputVector"
-        },
+        { "identifier": "FunctionNodeInputBool" },
+        { "identifier": "FunctionNodeInputColor" },
+        { "identifier": "GeometryNodeInputImage" },
+        { "identifier": "FunctionNodeInputInt" },
+        { "identifier": "GeometryNodeInputMaterial" },
+        { "identifier": "FunctionNodeInputString" },
+        { "identifier": "ShaderNodeValue" },
+        { "identifier": "FunctionNodeInputVector" },
         { "separator": true, "label": "Data" },
-        {
-          "identifier": "GeometryNodeInputID"
-        },
-        {
-          "identifier": "GeometryNodeInputIndex"
-        },
-        {
-          "identifier": "GeometryNodeInputlabeldAttribute"
-        },
-        {
-          "identifier": "GeometryNodeInputNormal"
-        },
-        {
-          "identifier": "GeometryNodeInputPosition"
-        },
-        {
-          "identifier": "GeometryNodeInputRadius"
-        },
-        {
-          "identifier": "GeometryNodeInputSceneTime"
-        },
-        {
-          "identifier": "GeometryNodeIsViewport"
-        },
+        { "identifier": "GeometryNodeInputID" },
+        { "identifier": "GeometryNodeInputIndex" },
+        { "identifier": "GeometryNodeInputNamedAttribute" },
+        { "identifier": "GeometryNodeInputNormal" },
+        { "identifier": "GeometryNodeInputPosition" },
+        { "identifier": "GeometryNodeInputRadius" },
+        { "identifier": "GeometryNodeInputSceneTime" },
+        { "identifier": "GeometryNodeIsViewport" },
         { "separator": true, "label": "Scene" },
-        {
-          "identifier": "GeometryNodeSelfObject"
-        },
-        {
-          "identifier": "GeometryNodeObjectInfo"
-        },
-        {
-          "identifier": "GeometryNodeCollectionInfo"
-        },
-        {
-          "identifier": "GeometryNodeImageInfo"
-        }
+        { "identifier": "GeometryNodeSelfObject" },
+        { "identifier": "GeometryNodeObjectInfo" },
+        { "identifier": "GeometryNodeCollectionInfo" },
+        { "identifier": "GeometryNodeImageInfo" }
       ]
     },
     "INSTANCE": {
       "label": "Instances",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeInstanceOnPoints"
-        },
-        {
-          "identifier": "GeometryNodeInstancesToPoints"
-        },
-        {
-          "identifier": "GeometryNodeRealizeInstances"
-        },
-        {
-          "identifier": "GeometryNodeRotateInstances"
-        },
-        {
-          "identifier": "GeometryNodeScaleInstances"
-        },
-        {
-          "identifier": "GeometryNodeTranslateInstances"
-        },
+        { "identifier": "GeometryNodeInstanceOnPoints" },
+        { "identifier": "GeometryNodeInstancesToPoints" },
+        { "identifier": "GeometryNodeRealizeInstances" },
+        { "identifier": "GeometryNodeRotateInstances" },
+        { "identifier": "GeometryNodeScaleInstances" },
+        { "identifier": "GeometryNodeTranslateInstances" },
         { "separator": true },
-        {
-          "identifier": "GeometryNodeInputInstanceRotation",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputInstanceScale",
-          "color": "input"
-        }
+        { "identifier": "GeometryNodeInputInstanceRotation", "color": "input" },
+        { "identifier": "GeometryNodeInputInstanceScale", "color": "input" }
       ]
     },
     "MATERIAL": {
       "label": "Material",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeReplaceMaterial"
-        },
-        {
-          "identifier": "GeometryNodeMaterialSelection"
-        },
-        {
-          "identifier": "GeometryNodeSetMaterial"
-        },
-        {
-          "identifier": "GeometryNodeSetMaterialIndex"
-        },
-        {
-          "identifier": "GeometryNodeInputMaterialIndex",
-          "color": "input"
-        }
+        { "identifier": "GeometryNodeReplaceMaterial" },
+        { "identifier": "GeometryNodeMaterialSelection" },
+        { "identifier": "GeometryNodeSetMaterial" },
+        { "identifier": "GeometryNodeSetMaterialIndex" },
+        { "identifier": "GeometryNodeInputMaterialIndex", "color": "input" }
       ]
     },
     // "MESH_TOPOLOGY": {
     //   "label": "Mesh Topology",
     //   "color": "input",
     //   "nodes": [
-    //     {
-    //       "label": "Corners of Face",
-    //       "identifier": "GeometryNodeCornersOfFace"
-    //     },
-    //     {
-    //       "label": "Vertex of Corner",
-    //       "identifier": "GeometryNodeVertexOfCorner"
-    //     },
-    //     {
-    //       "label": "Offset Corner in Face",
-    //       "identifier": "GeometryNodeOffsetCornerInFace"
-    //     },
-    //     {
-    //       "label": "Face of Corner",
-    //       "identifier": "GeometryNodeFaceOfCorner"
-    //     },
-    //     {
-    //       "label": "Edges of Vertex",
-    //       "identifier": "GeometryNodeEdgesOfVertex"
-    //     },
-    //     {
-    //       "label": "Edges of Corner",
-    //       "identifier": "GeometryNodeEdgesOfCorner"
-    //     },
-    //     {
-    //       "label": "Corners of Vertex",
-    //       "identifier": "GeometryNodeCornersOfVertex"
-    //     }
+    //     {    //       "label": "Corners of Face",
+    //       "identifier": "GeometryNodeCornersOfFace"    //     },
+    //     {    //       "label": "Vertex of Corner",
+    //       "identifier": "GeometryNodeVertexOfCorner"    //     },
+    //     {    //       "label": "Offset Corner in Face",
+    //       "identifier": "GeometryNodeOffsetCornerInFace"    //     },
+    //     {    //       "label": "Face of Corner",
+    //       "identifier": "GeometryNodeFaceOfCorner"    //     },
+    //     {    //       "label": "Edges of Vertex",
+    //       "identifier": "GeometryNodeEdgesOfVertex"    //     },
+    //     {    //       "label": "Edges of Corner",
+    //       "identifier": "GeometryNodeEdgesOfCorner"    //     },
+    //     {    //       "label": "Corners of Vertex",
+    //       "identifier": "GeometryNodeCornersOfVertex"    //     }
     //   ]
     // },
     "MESH": {
@@ -452,96 +223,40 @@
       "color": "geometry",
       "nodes": [
         { "separator": true, "label": "Operations" },
-        {
-          "identifier": "GeometryNodeDualMesh"
-        },
-        {
-          "identifier": "GeometryNodeEdgePathsToCurves"
-        },
-        {
-          "identifier": "GeometryNodeEdgePathsToSelection"
-        },
-        {
-          "identifier": "GeometryNodeExtrudeMesh"
-        },
-        {
-          "identifier": "GeometryNodeFlipFaces"
-        },
-        {
-          "identifier": "GeometryNodeMeshBoolean"
-        },
-        {
-          "identifier": "GeometryNodeMeshToCurve"
-        },
-        {
-          "identifier": "GeometryNodeMeshToPoints"
-        },
-        {
-          "identifier": "GeometryNodeMeshToVolume"
-        },
-        {
-          "identifier": "GeometryNodeScaleElements"
-        },
-        {
-          "identifier": "GeometryNodeSplitEdges"
-        },
-        {
-          "identifier": "GeometryNodeSubdivideMesh"
-        },
-        {
-          "identifier": "GeometryNodeSubdivisionSurface"
-        },
-        {
-          "identifier": "GeometryNodeTriangulate"
-        },
-        {
-          "identifier": "GeometryNodeSampleUVSurface"
-        },
-        {
-          "identifier": "GeometryNodeSampleNearestSurface"
-        },
+        { "identifier": "GeometryNodeDualMesh" },
+        { "identifier": "GeometryNodeEdgePathsToCurves" },
+        { "identifier": "GeometryNodeEdgePathsToSelection" },
+        { "identifier": "GeometryNodeExtrudeMesh" },
+        { "identifier": "GeometryNodeFlipFaces" },
+        { "identifier": "GeometryNodeMeshBoolean" },
+        { "identifier": "GeometryNodeMeshToCurve" },
+        { "identifier": "GeometryNodeMeshToPoints" },
+        { "identifier": "GeometryNodeMeshToVolume" },
+        { "identifier": "GeometryNodeScaleElements" },
+        { "identifier": "GeometryNodeSplitEdges" },
+        { "identifier": "GeometryNodeSubdivideMesh" },
+        { "identifier": "GeometryNodeSubdivisionSurface" },
+        { "identifier": "GeometryNodeTriangulate" },
+        { "identifier": "GeometryNodeSampleUVSurface" },
+        { "identifier": "GeometryNodeSampleNearestSurface" },
 
         { "separator": true, "label": "Read" },
-        {
-          "identifier": "GeometryNodeInputMeshEdgeAngle",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeInputMeshEdgeAngle", "color": "input" },
         {
           "identifier": "GeometryNodeInputMeshEdgeNeighbors",
           "color": "input"
         },
-        {
-          "identifier": "GeometryNodeInputMeshEdgeVertices",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeMeshFaceSetBoundaries",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeEdgesToFaceGroups",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputMeshFaceArea",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeInputMeshEdgeVertices", "color": "input" },
+        { "identifier": "GeometryNodeMeshFaceSetBoundaries", "color": "input" },
+        { "identifier": "GeometryNodeEdgesToFaceGroups", "color": "input" },
+        { "identifier": "GeometryNodeInputMeshFaceArea", "color": "input" },
         {
           "identifier": "GeometryNodeInputMeshFaceNeighbors",
           "color": "input"
         },
-        {
-          "identifier": "GeometryNodeInputMeshFaceIsPlanar",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputShadeSmooth",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeInputMeshIsland",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeInputMeshFaceIsPlanar", "color": "input" },
+        { "identifier": "GeometryNodeInputShadeSmooth", "color": "input" },
+        { "identifier": "GeometryNodeInputMeshIsland", "color": "input" },
         {
           "identifier": "GeometryNodeInputShortestEdgePaths",
           "color": "input"
@@ -551,158 +266,71 @@
           "color": "input"
         },
         { "separator": true, "label": "Topology" },
-        {
-          "identifier": "GeometryNodeCornersOfFace",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeVertexOfCorner",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeOffsetCornerInFace",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeFaceOfCorner",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeEdgesOfVertex",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeEdgesOfCorner",
-          "color": "input"
-        },
-        {
-          "identifier": "GeometryNodeCornersOfVertex",
-          "color": "input"
-        },
+        { "identifier": "GeometryNodeCornersOfFace", "color": "input" },
+        { "identifier": "GeometryNodeVertexOfCorner", "color": "input" },
+        { "identifier": "GeometryNodeOffsetCornerInFace", "color": "input" },
+        { "identifier": "GeometryNodeFaceOfCorner", "color": "input" },
+        { "identifier": "GeometryNodeEdgesOfVertex", "color": "input" },
+        { "identifier": "GeometryNodeEdgesOfCorner", "color": "input" },
+        { "identifier": "GeometryNodeCornersOfVertex", "color": "input" },
         { "separator": true, "label": "Write" },
-        {
-          "identifier": "GeometryNodeSetShadeSmooth"
-        }
+        { "identifier": "GeometryNodeSetShadeSmooth" }
       ]
     },
     "PRIMITIVES_MESH": {
       "label": "Mesh Primitives",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeMeshCone"
-        },
-        {
-          "identifier": "GeometryNodeMeshCube"
-        },
-        {
-          "identifier": "GeometryNodeMeshCylinder"
-        },
-        {
-          "identifier": "GeometryNodeMeshGrid"
-        },
-        {
-          "identifier": "GeometryNodeMeshIcoSphere"
-        },
-        {
-          "identifier": "GeometryNodeMeshCircle"
-        },
-        {
-          "identifier": "GeometryNodeMeshLine"
-        },
-        {
-          "identifier": "GeometryNodeMeshUVSphere"
-        }
+        { "identifier": "GeometryNodeMeshCone" },
+        { "identifier": "GeometryNodeMeshCube" },
+        { "identifier": "GeometryNodeMeshCylinder" },
+        { "identifier": "GeometryNodeMeshGrid" },
+        { "identifier": "GeometryNodeMeshIcoSphere" },
+        { "identifier": "GeometryNodeMeshCircle" },
+        { "identifier": "GeometryNodeMeshLine" },
+        { "identifier": "GeometryNodeMeshUVSphere" }
       ]
     },
     "POINT": {
       "label": "Point",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeDistributePointsInVolume"
-        },
-        {
-          "identifier": "GeometryNodeDistributePointsOnFaces"
-        },
-        {
-          "identifier": "GeometryNodePoints"
-        },
-        {
-          "identifier": "GeometryNodePointsToVertices"
-        },
-        {
-          "identifier": "GeometryNodePointsToVolume"
-        },
-        {
-          "identifier": "GeometryNodeSetPointRadius"
-        }
+        { "identifier": "GeometryNodeDistributePointsInVolume" },
+        { "identifier": "GeometryNodeDistributePointsOnFaces" },
+        { "identifier": "GeometryNodePoints" },
+        { "identifier": "GeometryNodePointsToVertices" },
+        { "identifier": "GeometryNodePointsToVolume" },
+        { "identifier": "GeometryNodeSetPointRadius" }
       ]
     },
     "TEXT": {
       "label": "Text",
       "color": "converter",
       "nodes": [
-        {
-          "identifier": "GeometryNodeStringToCurves",
-          "color": "geometry"
-        },
+        { "identifier": "GeometryNodeStringToCurves", "color": "geometry" },
         { "separator": true },
-        {
-          "identifier": "GeometryNodeStringJoin",
-          "color": "converter"
-        },
-        {
-          "identifier": "FunctionNodeReplaceString"
-        },
-        {
-          "identifier": "FunctionNodeSliceString"
-        },
-        {
-          "identifier": "FunctionNodeInputSpecialCharacters"
-        },
-        {
-          "identifier": "FunctionNodeStringLength"
-        },
-        {
-          "identifier": "FunctionNodeValueToString"
-        }
+        { "identifier": "GeometryNodeStringJoin", "color": "converter" },
+        { "identifier": "FunctionNodeReplaceString" },
+        { "identifier": "FunctionNodeSliceString" },
+        { "identifier": "FunctionNodeInputSpecialCharacters" },
+        { "identifier": "FunctionNodeStringLength" },
+        { "identifier": "FunctionNodeValueToString" }
       ]
     },
     "TEXTURE": {
       "label": "Texture",
       "color": "texture",
       "nodes": [
-        {
-          "identifier": "ShaderNodeTexBrick"
-        },
-        {
-          "identifier": "ShaderNodeTexChecker"
-        },
-        {
-          "identifier": "ShaderNodeTexGradient"
-        },
-        {
-          "identifier": "GeometryNodeImageTexture"
-        },
-        {
-          "identifier": "ShaderNodeTexMagic"
-        },
-        {
-          "identifier": "ShaderNodeTexMusgrave"
-        },
-        {
-          "identifier": "ShaderNodeTexNoise"
-        },
-        {
-          "identifier": "ShaderNodeTexVoronoi"
-        },
-        {
-          "identifier": "ShaderNodeTexWave"
-        },
-        {
-          "identifier": "ShaderNodeTexWhiteNoise"
-        }
+        { "identifier": "ShaderNodeTexBrick" },
+        { "identifier": "ShaderNodeTexChecker" },
+        { "identifier": "ShaderNodeTexGradient" },
+        { "identifier": "GeometryNodeImageTexture" },
+        { "identifier": "ShaderNodeTexMagic" },
+        { "identifier": "ShaderNodeTexMusgrave" },
+        { "identifier": "ShaderNodeTexNoise" },
+        { "identifier": "ShaderNodeTexVoronoi" },
+        { "identifier": "ShaderNodeTexWave" },
+        { "identifier": "ShaderNodeTexWhiteNoise" }
       ]
     },
     "UTILITIES": {
@@ -710,117 +338,60 @@
       "color": "converter",
       "nodes": [
         { "separator": true, "label": "Field" },
-        {
-          "identifier": "GeometryNodeAccumulateField"
-        },
-        {
-          "identifier": "GeometryNodeFieldAtIndex"
-        },
-        {
-          "identifier": "GeometryNodeFieldOnDomain"
-        },
+        { "identifier": "GeometryNodeAccumulateField" },
+        { "identifier": "GeometryNodeFieldAtIndex" },
+        { "identifier": "GeometryNodeFieldOnDomain" },
         { "separator": true, "label": "Math" },
-        {
-          "identifier": "FunctionNodeBooleanMath"
-        },
-        {
-          "identifier": "ShaderNodeClamp"
-        },
-        {
-          "identifier": "FunctionNodeCompare"
-        },
-        {
-          "identifier": "ShaderNodeFloatCurve"
-        },
-        {
-          "identifier": "FunctionNodeFloatToInt"
-        },
-        {
-          "identifier": "ShaderNodeMapRange"
-        },
-        {
-          "identifier": "ShaderNodeMath"
-        },
-        {
-          "identifier": "ShaderNodeMix"
-        },
-        {
-          "identifier": "FunctionNodeRandomValue"
-        },
-        {
-          "identifier": "GeometryNodeSwitch"
-        },
+        { "identifier": "FunctionNodeBooleanMath" },
+        { "identifier": "ShaderNodeClamp" },
+        { "identifier": "FunctionNodeCompare" },
+        { "identifier": "ShaderNodeFloatCurve" },
+        { "identifier": "FunctionNodeFloatToInt" },
+        { "identifier": "ShaderNodeMapRange" },
+        { "identifier": "ShaderNodeMath" },
+        { "identifier": "ShaderNodeMix" },
+        { "identifier": "FunctionNodeRandomValue" },
+        { "identifier": "GeometryNodeSwitch" },
         { "separator": true, "label": "Rotation" },
-        {
-          "identifier": "FunctionNodeAlignEulerToVector"
-        },
-        {
-          "identifier": "FunctionNodeRotateEuler"
-        }
+        { "identifier": "FunctionNodeAlignEulerToVector" },
+        { "identifier": "FunctionNodeRotateEuler" }
       ]
     },
     "UV": {
       "label": "UV",
       "color": "converter",
       "nodes": [
-        {
-          "identifier": "GeometryNodeUVPackIslands"
-        },
-        {
-          "identifier": "GeometryNodeUVUnwrap"
-        }
+        { "identifier": "GeometryNodeUVPackIslands" },
+        { "identifier": "GeometryNodeUVUnwrap" }
       ]
     },
     "VECTOR": {
       "label": "Vector",
       "color": "vector",
       "nodes": [
-        {
-          "identifier": "ShaderNodeCombineXYZ",
-          "color": "converter"
-        },
-        {
-          "identifier": "ShaderNodeSeparateXYZ",
-          "color": "converter"
-        },
-        {
-          "identifier": "ShaderNodeVectorCurve"
-        },
-        {
-          "identifier": "ShaderNodeVectorMath"
-        },
+        { "identifier": "ShaderNodeCombineXYZ", "color": "converter" },
+        { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
+        { "identifier": "ShaderNodeVectorCurve" },
+        { "identifier": "ShaderNodeVectorMath" },
         {
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'VECTOR'" }]
         },
-        {
-          "identifier": "ShaderNodeVectorRotate"
-        }
+        { "identifier": "ShaderNodeVectorRotate" }
       ]
     },
     "VOLUME": {
       "label": "Volume",
       "color": "geometry",
       "nodes": [
-        {
-          "identifier": "GeometryNodeVolumeCube"
-        },
-        {
-          "identifier": "GeometryNodeVolumeToMesh"
-        }
+        { "identifier": "GeometryNodeVolumeCube" },
+        { "identifier": "GeometryNodeVolumeToMesh" }
       ]
     },
     "LAYOUT": {
       "label": "Layout",
       "color": "layout",
-      "nodes": [
-        {
-          "identifier": "NodeFrame"
-        },
-        {
-          "identifier": "NodeReroute"
-        }
-      ]
+      "nodes": [{ "identifier": "NodeFrame" }, { "identifier": "NodeReroute" }]
     }
   }
 }

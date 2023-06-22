@@ -1,0 +1,64 @@
+{
+  "imports": ["ShaderNodeTree"],
+  "render_engine": "CYCLES",
+  "additions": {
+    "categories": {
+      "SHADER": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeBsdfAnisotropic",
+            "after_node": "ShaderNodeAddShader"
+          },
+          {
+            "identifier": "ShaderNodeBsdfToon",
+            "after_node": "ShaderNodeSubsurfaceScattering"
+          },
+          {
+            "identifier": "ShaderNodeBsdfHair",
+            "after_node": "ShaderNodeBsdfGlossy"
+          },
+          {
+            "identifier": "ShaderNodeBsdfHairPrincipled",
+            "after_node": "ShaderNodeBsdfPrincipled"
+          },
+          {
+            "identifier": "ShaderNodeBsdfVelvet",
+            "after_node": "ShaderNodeBsdfTransparent"
+          }
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeBevel",
+            "after_node": "ShaderNodeAttribute"
+          },
+          {
+            "identifier": "ShaderNodeParticleInfo",
+            "after_node": "ShaderNodeObjectInfo"
+          }
+        ]
+      },
+      "TEXTURE": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeTexIES",
+            "after_node": "ShaderNodeTexGradient"
+          },
+          {
+            "identifier": "ShaderNodeTexPointDensity",
+            "after_node": "ShaderNodeTexNoise"
+          }
+        ]
+      },
+      "COLOR": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeLightFalloff",
+            "after_node": "ShaderNodeInvert"
+          }
+        ]
+      }
+    }
+  }
+}

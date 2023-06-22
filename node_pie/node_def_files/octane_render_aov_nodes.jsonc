@@ -2,24 +2,5 @@
 // You'll need Node Pie developer extras to be enabled in the preferences to see it.
 
 {
-  "layout": {
-    "left": [["CATEGORY_NAME"]],
-    "right": [],
-    "top": [],
-    "bottom": []
-  },
-  "categories": {
-    "CATEGORY_NAME": {
-      "label": "Category name",
-      "color": "converter",
-      "nodes": [
-        // Use the "Copy nodes as json" operator for this
-        {
-          "label": "Render AOV group",
-          "identifier": "OctaneRenderAOVGroup"
-        },
-        { "separator": true }
-      ]
-    }
-  }
+  "imports": ["octane_kernel_nodes"]
 }
