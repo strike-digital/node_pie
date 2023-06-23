@@ -3,6 +3,7 @@ import json
 from typing import TYPE_CHECKING
 from bpy.types import Operator, AddonPreferences
 from mathutils import Vector as V
+from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 if TYPE_CHECKING:
     from .npie_prefs import NodePiePrefs
 else:
@@ -53,6 +54,14 @@ class JSONWithCommentsDecoder(json.JSONDecoder):
     def decode(self, s: str):
         s = '\n'.join(l if not l.lstrip().startswith('//') else '' for l in s.split('\n'))
         return super().decode(s)
+
+
+def get_all_def_files():
+    files = []
+    for file in NODE_DEF_DIR.rglob("*"):
+        if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
+            files.append(file)
+    return files
 
 
 @dataclass

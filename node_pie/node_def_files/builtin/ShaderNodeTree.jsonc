@@ -12,6 +12,7 @@
       "nodes": [
         { "identifier": "ShaderNodeAmbientOcclusion" },
         { "identifier": "ShaderNodeAttribute" },
+        { "identifier": "ShaderNodeBevel" },
         { "identifier": "ShaderNodeCameraData" },
         { "identifier": "ShaderNodeVertexColor" },
         { "identifier": "ShaderNodeHairInfo" },
@@ -20,6 +21,7 @@
         { "identifier": "ShaderNodeLayerWeight" },
         { "identifier": "ShaderNodeLightPath" },
         { "identifier": "ShaderNodeObjectInfo" },
+        { "identifier": "ShaderNodeParticleInfo" },
         { "identifier": "ShaderNodePointInfo" },
         { "identifier": "ShaderNodeRGB" },
         { "identifier": "ShaderNodeTangent" },
@@ -44,18 +46,24 @@
       "color": "shader",
       "nodes": [
         { "identifier": "ShaderNodeAddShader" },
+        { "identifier": "ShaderNodeBsdfAnisotropic" },
         { "identifier": "ShaderNodeBsdfDiffuse" },
         { "identifier": "ShaderNodeEmission" },
         { "identifier": "ShaderNodeBsdfGlass" },
         { "identifier": "ShaderNodeBsdfGlossy" },
+        { "identifier": "ShaderNodeBsdfHair" },
         { "identifier": "ShaderNodeHoldout" },
         { "identifier": "ShaderNodeMixShader" },
         { "identifier": "ShaderNodeBsdfPrincipled" },
         { "identifier": "ShaderNodeVolumePrincipled" },
+        { "identifier": "ShaderNodeBsdfHairPrincipled" },
         { "identifier": "ShaderNodeBsdfRefraction" },
         { "identifier": "ShaderNodeSubsurfaceScattering" },
+        { "identifier": "ShaderNodeEeveeSpecular" },
+        { "identifier": "ShaderNodeBsdfToon" },
         { "identifier": "ShaderNodeBsdfTranslucent" },
         { "identifier": "ShaderNodeBsdfTransparent" },
+        { "identifier": "ShaderNodeBsdfVelvet" },
         { "identifier": "ShaderNodeVolumeAbsorption" },
         { "identifier": "ShaderNodeVolumeScatter" }
       ]
@@ -88,6 +96,7 @@
         { "identifier": "ShaderNodeGamma" },
         { "identifier": "ShaderNodeHueSaturation" },
         { "identifier": "ShaderNodeInvert" },
+        { "identifier": "ShaderNodeLightFalloff" },
         {
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'RGBA'" }]
@@ -126,6 +135,7 @@
         { "identifier": "ShaderNodeRGBToBW" },
         { "identifier": "ShaderNodeSeparateColor" },
         { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
+        { "identifier": "ShaderNodeShaderToRGB" },
         { "identifier": "ShaderNodeVectorMath" },
         { "identifier": "ShaderNodeWavelength" }
       ]

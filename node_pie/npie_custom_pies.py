@@ -3,8 +3,8 @@ from inspect import isclass
 import json
 
 import bpy
-from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
-from .npie_helpers import JSONWithCommentsDecoder
+from .npie_constants import NODE_DEF_DIR
+from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files
 
 
 @dataclass
@@ -92,10 +92,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     categories = {}
     layout = {}
 
-    all_files = []
-    for file in NODE_DEF_DIR.rglob("*"):
-        if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
-            all_files.append(file)
+    all_files = get_all_def_files()
 
     # Different render engines can use different nodes in the default shader editor, account for that.
     if tree_identifier == "ShaderNodeTree":

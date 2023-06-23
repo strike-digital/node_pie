@@ -1,4 +1,0 @@
-{
-  "imports": ["ShaderNodeTree"],
-  "render_engine": "BLENDER_WORKBENCH"
-}
