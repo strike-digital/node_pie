@@ -102,6 +102,11 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
                 data = json.load(f, cls=JSONWithCommentsDecoder)
             if data.get("render_engine") == context.scene.render.engine:
                 tree_identifier = file.name
+                break
+        else:
+            # Auto generate if not blender render engine
+            if context.scene.render.engine not in {"BLENDER_EEVEE", "CYCLES", "BLENDER_WORKBENCH"}:
+                return {}, {}
 
     # Get files
     files = []

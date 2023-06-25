@@ -233,7 +233,8 @@ class NPIE_MT_node_pie(Menu):
                 op.group_name = group_name
                 op.type = identifier
                 op.use_transform = True
-                if (nodeitem := all_nodes.get(identifier)) and nodeitem.description:
+                if (nodeitem := all_nodes.get(identifier)) and hasattr(nodeitem,
+                                                                       "description") and nodeitem.description:
                     op.bl_description = nodeitem.description
             for name, value in params.items():
                 setattr(op, name, value)
@@ -416,14 +417,14 @@ class NPIE_MT_node_pie(Menu):
             orig_colors = [
                 "converter",
                 "color",
-                "distor",
+                # "distor",
                 "input",
                 "output",
                 "filter",
                 "vector",
                 "texture",
                 "shader",
-                "script",
+                # "script",
                 "geometry",
                 "attribute",
             ]
