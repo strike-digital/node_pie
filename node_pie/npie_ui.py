@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from collections import OrderedDict
+import random
 import traceback
 
 import bpy
@@ -187,6 +188,14 @@ class NPIE_MT_node_pie(Menu):
             all_node_counts[node_name] = node_count_data.get(node_name, {}).get("count", 0)
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
 
+        def get_node_size(identifier):
+            # lerp between the min and max sizes based on how used each node is compared to the most used one.
+            # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
+            index = all_node_counts.get(identifier, 1)
+            counts = list(dict.fromkeys(all_node_counts.values()))
+            fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
+            return lerp(fac, prefs.npie_normal_size, prefs.npie_max_size)
+
         def draw_add_operator(
             layout: UILayout,
             text: str,
@@ -198,16 +207,11 @@ class NPIE_MT_node_pie(Menu):
             params={},
         ):
             """Draw the add node operator"""
-            index = all_node_counts.get(identifier, 1)
 
             row = layout.row(align=True)
             # draw the operator larger if the node is used more often
             if prefs.npie_variable_sizes and not group_name:
-                # lerp between the min and max sizes based on how used each node is compared to the most used one.
-                # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
-                counts = list(dict.fromkeys(all_node_counts.values()))
-                fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
-                row.scale_y = lerp(fac, prefs.npie_normal_size, prefs.npie_max_size)
+                row.scale_y = get_node_size(identifier)
 
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
@@ -229,6 +233,8 @@ class NPIE_MT_node_pie(Menu):
                 op.group_name = group_name
                 op.type = identifier
                 op.use_transform = True
+                if (nodeitem := all_nodes.get(identifier)) and nodeitem.description:
+                    op.bl_description = nodeitem.description
             for name, value in params.items():
                 setattr(op, name, value)
 
@@ -326,6 +332,7 @@ class NPIE_MT_node_pie(Menu):
             # Get all categories for the current context, and sort them based on the number of nodes they contain.
             categories = list(nodeitems_utils.node_categories_iter(context))
             categories.sort(key=lambda cat: len(list(cat.items(context))))
+            # categories.sort(key=lambda cat: sum(get_node_size(n.nodetype) for n in cat.items(context) if hasattr(n, "nodetype")))
 
             if not categories:
                 pie.separator()
@@ -406,6 +413,22 @@ class NPIE_MT_node_pie(Menu):
             # biggest = len(list(categories[-1].items(context)))
             orig_cats = categories.copy()
             add_categories(orig_cats[::1 * -1 if big_on_inside else 1], 1, biggest)
+            orig_colors = [
+                "converter",
+                "color",
+                "distor",
+                "input",
+                "output",
+                "filter",
+                "vector",
+                "texture",
+                "shader",
+                "script",
+                "geometry",
+                "attribute",
+            ]
+            new_colors = orig_colors.copy()
+            random.seed(tree_type)
 
             # Draw all of the areas
             for i, area in enumerate(areas):
@@ -417,23 +440,27 @@ class NPIE_MT_node_pie(Menu):
                     # Add the parent column
                     bigcol = row.column(align=False)
 
-                    # Draw search button at top of the bottom column
-                    if i == 2:
-                        draw_search(bigcol.box())
-                        bigcol.separator(factor=.4)
-
                     if not isinstance(node_cats, list):
                         node_cats = [node_cats]
 
                     # Draw all of the categories in this column
                     for node_cat in node_cats:
                         col = bigcol.box().column(align=True)
+                        # color = random.choice(colors)
+                        if not new_colors:
+                            new_colors = orig_colors.copy()
+                        color = new_colors.pop(random.randint(0, len(new_colors) - 1))
                         draw_header(col, node_cat.name)
 
                         for nodeitem in node_cat.items(context):
                             if not hasattr(nodeitem, "nodetype") or not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_add_operator(col, nodeitem.label, "input", nodeitem.nodetype)
+                            draw_add_operator(col, nodeitem.label, color, nodeitem.nodetype)
 
+                        bigcol.separator(factor=.4)
+
+                    # Draw search button at bottom of the top column
+                    if i == 3:
+                        draw_search(bigcol.box())
                         bigcol.separator(factor=.4)

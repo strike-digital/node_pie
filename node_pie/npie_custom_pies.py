@@ -29,6 +29,7 @@ class NodeItem():
     idname: str
     settings: list = field(default_factory=list)
     color: str = ""
+    description: str = ""
 
 
 @dataclass
@@ -173,7 +174,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             if not label and not bl_node:
                 not_found.append(idname)
                 continue
-            item = NodeItem(label, idname, color=node.get("color", ""))
+            item = NodeItem(label, idname, color=node.get("color", ""), description=bl_node.bl_rna.description)
             item.settings = node.get("settings", [])
             items.append(item)
 

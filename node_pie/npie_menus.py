@@ -1,7 +1,6 @@
 import bpy
 from bpy.types import UILayout
-from .npie_constants import NODE_DEF_DIR
-from .npie_helpers import get_prefs
+from .npie_helpers import get_all_def_files, get_prefs
 
 
 def context_menu_draw(self, context):
@@ -14,8 +13,12 @@ def context_menu_draw(self, context):
     op = layout.operator("node_pie.open_definition_file", text="Open example definition file")
     op.example = True
 
-    file = NODE_DEF_DIR / f"{context.space_data.tree_type}.jsonc"
-    word = "Open" if file.exists() else "Create"
+    for file in get_all_def_files():
+        if file.name == f"{context.space_data.tree_type}.jsonc":
+            word = "Open"
+            break
+    else:
+        word = "Create"
     op = layout.operator("node_pie.open_definition_file", text=f"{word} definition file for this node tree type")
     op.example = False
     layout.operator("node_pie.copy_nodes_as_json")

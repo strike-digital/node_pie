@@ -8,7 +8,7 @@ from bpy.props import BoolProperty
 from bpy.types import Operator, UILayout
 
 from .npie_ui import NPIE_MT_node_pie
-from .npie_helpers import Op
+from .npie_helpers import BOperator, get_all_def_files
 from .npie_constants import NODE_DEF_BASE_FILE, NODE_DEF_DIR, NODE_DEF_EXAMPLE_FILE, POPULARITY_FILE, POPULARITY_FILE_VERSION
 
 
@@ -21,7 +21,7 @@ class NodeSetting(bpy.types.PropertyGroup):
     )
 
 
-@Op("node_pie", idname="add_node", undo=True)
+@BOperator("node_pie", idname="add_node", undo=True)
 class NPIE_OT_node_pie_add_node(Operator):
     """Add a node to the node tree, and increase its polularity by 1"""
 
@@ -95,7 +95,7 @@ class NPIE_OT_node_pie_add_node(Operator):
         return {'PASS_THROUGH'}
 
 
-@Op("node_pie")
+@BOperator("node_pie")
 class NPIE_OT_reset_popularity(Operator):
     """Reset the popularity of all nodes back to zero"""
 
@@ -128,7 +128,7 @@ class NPIE_OT_reset_popularity(Operator):
         return {"FINISHED"}
 
 
-@Op("node_pie")
+@BOperator("node_pie")
 class NPIE_OT_call_node_pie(Operator):
     """Call the node pie menu"""
 
@@ -145,7 +145,7 @@ class NPIE_OT_call_node_pie(Operator):
         return {"FINISHED"}
 
 
-@Op("node_pie")
+@BOperator("node_pie")
 class NPIE_OT_open_definition_file(Operator):
     """Open the node pie definition file for this node tree"""
 
@@ -161,7 +161,12 @@ class NPIE_OT_open_definition_file(Operator):
         if self.example:
             file = NODE_DEF_EXAMPLE_FILE
         else:
-            file = NODE_DEF_DIR / f"{context.space_data.tree_type}.jsonc"
+            files = get_all_def_files()
+            for file in files:
+                if file.name == f"{context.space_data.tree_type}.jsonc":
+                    break
+            else:
+                file = NODE_DEF_DIR / "user" / f"{context.space_data.tree_type}.jsonc"
             if not file.exists():
                 shutil.copyfile(NODE_DEF_BASE_FILE, file)
 
@@ -169,7 +174,7 @@ class NPIE_OT_open_definition_file(Operator):
         return {"FINISHED"}
 
 
-@Op("node_pie")
+@BOperator("node_pie")
 class NPIE_OT_copy_nodes_as_json(Operator):
     """Copy the selected nodes in the correct format to be pasted into the node pie definition file."""
 

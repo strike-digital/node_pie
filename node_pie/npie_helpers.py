@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 import json
-from typing import TYPE_CHECKING
-from bpy.types import Operator, AddonPreferences
+from typing import TYPE_CHECKING, Generic, Type, TypeVar
+from bpy.props import StringProperty
+from bpy.types import Context, Operator, AddonPreferences, UILayout
 from mathutils import Vector as V
 from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 if TYPE_CHECKING:
@@ -64,8 +65,11 @@ def get_all_def_files():
     return files
 
 
+T = TypeVar("T")
+
+
 @dataclass
-class Op():
+class BOperator():
     """A decorator for defining blender Operators that helps to cut down on boilerplate code,
     and adds better functionality for autocomplete.
     To use it, add it as a decorator to the operator class, with whatever arguments you want.
@@ -74,22 +78,26 @@ class Op():
     This works best for operators that use the naming convension ADDON_NAME_OT_operator_name.
 
     Args:
-        `category` (str): The first part of the name used to call the operator (e.g. "object" in "object.select_all").
-        `idname` (str): The second part of the name used to call the operator (e.g. "select_all" in "object.select_all")
-        `label` (str): The name of the operator that is displayed in the UI.
-        `description` (str): The description of the operator that is displayed in the UI.
-        `register` (bool): Whether to display the operator in the info window and support the redo panel.
-        `undo` (bool): Whether to push an undo step after the operator is executed.
-        `undo_grouped` (bool): Whether to group multiple consecutive executions of the operator into one undo step.
-        `internal` (bool): Whether the operator is only used internally and should not be shown in menu search
+        category (str): The first part of the name used to call the operator (e.g. "object" in "object.select_all").
+        idname (str): The second part of the name used to call the operator (e.g. "select_all" in "object.select_all")
+        label (str): The name of the operator that is displayed in the UI.
+        description (str): The description of the operator that is displayed in the UI.
+        dynamic_description (bool): Whether to automatically allow bl_description to be altered from the UI.
+        custom_invoke (bool): Whether to automatically log each time an operator is invoked.
+        call_popup (bool): Whether to call a popup after the invoke function is run.
+        
+        register (bool): Whether to display the operator in the info window and support the redo panel.
+        undo (bool): Whether to push an undo step after the operator is executed.
+        undo_grouped (bool): Whether to group multiple consecutive executions of the operator into one undo step.
+        internal (bool): Whether the operator is only used internally and should not be shown in menu search
             (doesn't affect the operator search accessible when developer extras is enabled).
-        `wrap_cursor` (bool): Whether to wrap the cursor to the other side of the region when it goes outside of it.
-        `wrap_cursor_x` (bool): Only wrap the cursor in the horizontal (x) direction.
-        `wrap_cursor_y` (bool): Only wrap the cursor in the horizontal (y) direction.
-        `preset` (bool): Display a preset button with the operators settings.
-        `blocking` (bool): Block anything else from using the cursor.
-        `macro` (bool): Use to check if an operator is a macro.
-        `logging` (int | bool): Whether to log when this operator is called.
+        wrap_cursor (bool): Whether to wrap the cursor to the other side of the region when it goes outside of it.
+        wrap_cursor_x (bool): Only wrap the cursor in the horizontal (x) direction.
+        wrap_cursor_y (bool): Only wrap the cursor in the horizontal (y) direction.
+        preset (bool): Display a preset button with the operators settings.
+        blocking (bool): Block anything else from using the cursor.
+        macro (bool): Use to check if an operator is a macro.
+        logging (int | bool): Whether to log when this operator is called.
             Default is to use the class logging variable which can be set with set_logging() and is global.
     """
 
@@ -104,7 +112,10 @@ class Op():
     idname: str = ""
     label: str = ""
     description: str = ""
-    invoke: bool = True
+    dynamic_description: bool = True
+    custom_invoke: bool = True
+    call_popup: bool = False
+
     register: bool = True
     undo: bool = False
     undo_grouped: bool = False
@@ -119,24 +130,19 @@ class Op():
     # ik this is the same name as the module, but I don't care.
     logging: int = -1
 
-    def __call__(self, cls):
+    def __call__(self, cls: Type[T]):
         """This takes the decorated class and populate's the bl_ attributes with either the supplied values,
         or a best guess based on the other values"""
-
-        cls_name_end: str = cls.__name__.split("OT_")[-1]
-        idname = self.category + "." + (self.idname if self.idname else cls_name_end)
-
-        if self.label:
-            label = self.label
-        else:
-            label = cls_name_end.capitalize().replace("_", " ")
+        cls_name_end = cls.__name__.split("OT_")[-1]
+        idname = f"{self.category}." + (self.idname or cls_name_end)
+        label = self.label or cls_name_end.replace("_", " ").title()
 
         if self.description:
-            description = self.description
+            op_description = self.description
         elif cls.__doc__:
-            description = cls.__doc__
+            op_description = cls.__doc__
         else:
-            description = label
+            op_description = label
 
         options = {
             "REGISTER": self.register,
@@ -150,35 +156,92 @@ class Op():
             "PRESET": self.preset,
             "MACRO": self.macro,
         }
-        options = {k for k, v in options.items() if v}
 
+        options = {k for k, v in options.items() if v}
         if hasattr(cls, "bl_options"):
             options = options.union(cls.bl_options)
+        log = self._logging if self.logging == -1 else bool(self.logging)
 
-        if self.logging == -1:
-            log = self._logging
-        else:
-            log = bool(self.logging)
-
-        class Wrapped(cls, Operator):
+        class Wrapped(cls, Operator, Generic[T]):
             bl_idname = idname
             bl_label = label
-            bl_description = description
             bl_options = options
+            __original__ = cls
 
-            if self.invoke:
+            if self.dynamic_description:
+                bl_description: StringProperty(default=op_description)
 
-                def invoke(_self, context, event):
+                @classmethod
+                def description(cls, context, props):
+                    if props:
+                        return props.bl_description.replace("  ", "")
+                    else:
+                        return op_description
+            else:
+                bl_description = op_description
+
+            if not hasattr(cls, "execute"):
+
+                def execute(self, context):
+                    return {"FINISHED"}
+
+            if self.custom_invoke or self.call_popup:
+
+                def invoke(_self, context: Context, event):
                     """Here we can log whenever an operator using this decorator is invoked"""
                     if log:
-                        # I could use the actual logging module here, but I can't be bothered.
                         print(f"Invoke: {idname}")
-                    if hasattr(super(), "invoke"):
-                        return super().invoke(context, event)
-                    else:
-                        return _self.execute(context)
 
-        Wrapped.__doc__ = description
+                    if hasattr(super(), "invoke"):
+                        retval = super().invoke(context, event)
+
+                    if self.call_popup:
+                        return context.window_manager.invoke_props_dialog(_self)
+
+                    if not hasattr(super(), "invoke"):
+                        retval = _self.execute(context)
+                    return retval
+
+            @classmethod
+            def draw_button(
+                _cls,
+                layout: UILayout,
+                text: str = "",
+                text_ctxt: str = "",
+                translate: bool = True,
+                icon: str | int = 'NONE',
+                emboss: bool = True,
+                depress: bool = False,
+                icon_value: int = 0,
+            ) -> 'Wrapped':
+                """Draw this operator as a button.
+                I wanted it to be able to provide proper auto complete for the operator properties,
+                but I can't figure out how to do that for a decorator... It's really annoying.
+
+                Args:
+                    text (str): Override automatic text of the item
+                    text_ctxt (str): Override automatic translation context of the given text
+                    translate (bool): Translate the given text, when UI translation is enabled
+                    icon (str | into): Icon, Override automatic icon of the item
+                    emboss (bool): Draw the button itself, not just the icon/text
+                    depress (bool): Draw pressed in
+                    icon_value (int): Icon Value, Override automatic icon of the item
+                
+                Returns:
+                    OperatorProperties: Operator properties to fill in
+                """
+                return layout.operator(
+                    _cls.bl_idname,
+                    text=text,
+                    text_ctxt=text_ctxt,
+                    translate=translate,
+                    icon=icon,
+                    emboss=emboss,
+                    depress=depress,
+                    icon_value=icon_value,
+                )
+
+        Wrapped.__doc__ = op_description
         Wrapped.__name__ = cls.__name__
         return Wrapped
 

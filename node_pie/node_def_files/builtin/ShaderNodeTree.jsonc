@@ -12,7 +12,6 @@
       "nodes": [
         { "identifier": "ShaderNodeAmbientOcclusion" },
         { "identifier": "ShaderNodeAttribute" },
-        { "identifier": "ShaderNodeBevel" },
         { "identifier": "ShaderNodeCameraData" },
         { "identifier": "ShaderNodeVertexColor" },
         { "identifier": "ShaderNodeHairInfo" },
@@ -21,7 +20,6 @@
         { "identifier": "ShaderNodeLayerWeight" },
         { "identifier": "ShaderNodeLightPath" },
         { "identifier": "ShaderNodeObjectInfo" },
-        { "identifier": "ShaderNodeParticleInfo" },
         { "identifier": "ShaderNodePointInfo" },
         { "identifier": "ShaderNodeRGB" },
         { "identifier": "ShaderNodeTangent" },
@@ -29,7 +27,10 @@
         { "identifier": "ShaderNodeUVMap" },
         { "identifier": "ShaderNodeValue" },
         { "identifier": "ShaderNodeVolumeInfo" },
-        { "identifier": "ShaderNodeWireframe" }
+        { "identifier": "ShaderNodeWireframe" },
+        { "separator": true, "label": "Cycles" },
+        { "identifier": "ShaderNodeBevel" },
+        { "identifier": "ShaderNodeParticleInfo" }
       ]
     },
     "OUTPUT": {
@@ -46,26 +47,28 @@
       "color": "shader",
       "nodes": [
         { "identifier": "ShaderNodeAddShader" },
-        { "identifier": "ShaderNodeBsdfAnisotropic" },
         { "identifier": "ShaderNodeBsdfDiffuse" },
         { "identifier": "ShaderNodeEmission" },
         { "identifier": "ShaderNodeBsdfGlass" },
         { "identifier": "ShaderNodeBsdfGlossy" },
-        { "identifier": "ShaderNodeBsdfHair" },
         { "identifier": "ShaderNodeHoldout" },
         { "identifier": "ShaderNodeMixShader" },
         { "identifier": "ShaderNodeBsdfPrincipled" },
         { "identifier": "ShaderNodeVolumePrincipled" },
-        { "identifier": "ShaderNodeBsdfHairPrincipled" },
         { "identifier": "ShaderNodeBsdfRefraction" },
         { "identifier": "ShaderNodeSubsurfaceScattering" },
-        { "identifier": "ShaderNodeEeveeSpecular" },
-        { "identifier": "ShaderNodeBsdfToon" },
         { "identifier": "ShaderNodeBsdfTranslucent" },
         { "identifier": "ShaderNodeBsdfTransparent" },
-        { "identifier": "ShaderNodeBsdfVelvet" },
         { "identifier": "ShaderNodeVolumeAbsorption" },
-        { "identifier": "ShaderNodeVolumeScatter" }
+        { "identifier": "ShaderNodeVolumeScatter" },
+        { "separator": true, "label": "Cycles" },
+        { "identifier": "ShaderNodeBsdfAnisotropic" },
+        { "identifier": "ShaderNodeBsdfToon" },
+        { "identifier": "ShaderNodeBsdfHair" },
+        { "identifier": "ShaderNodeBsdfHairPrincipled" },
+        { "identifier": "ShaderNodeBsdfVelvet" },
+        { "separator": true, "label": "Eevee" },
+        { "identifier": "ShaderNodeEeveeSpecular" }
       ]
     },
     "TEXTURE": {
@@ -76,16 +79,17 @@
         { "identifier": "ShaderNodeTexChecker" },
         { "identifier": "ShaderNodeTexEnvironment" },
         { "identifier": "ShaderNodeTexGradient" },
-        { "identifier": "ShaderNodeTexIES" },
         { "identifier": "ShaderNodeTexImage" },
         { "identifier": "ShaderNodeTexMagic" },
         { "identifier": "ShaderNodeTexMusgrave" },
         { "identifier": "ShaderNodeTexNoise" },
-        { "identifier": "ShaderNodeTexPointDensity" },
         { "identifier": "ShaderNodeTexSky" },
         { "identifier": "ShaderNodeTexVoronoi" },
         { "identifier": "ShaderNodeTexWave" },
-        { "identifier": "ShaderNodeTexWhiteNoise" }
+        { "identifier": "ShaderNodeTexWhiteNoise" },
+        { "separator": true, "label": "Cycles" },
+        { "identifier": "ShaderNodeTexIES" },
+        { "identifier": "ShaderNodeTexPointDensity" }
       ]
     },
     "COLOR": {
@@ -96,12 +100,13 @@
         { "identifier": "ShaderNodeGamma" },
         { "identifier": "ShaderNodeHueSaturation" },
         { "identifier": "ShaderNodeInvert" },
-        { "identifier": "ShaderNodeLightFalloff" },
         {
           "identifier": "ShaderNodeMix",
           "settings": [{ "name": "data_type", "value": "'RGBA'" }]
         },
-        { "identifier": "ShaderNodeRGBCurve" }
+        { "identifier": "ShaderNodeRGBCurve" },
+        { "separator": true, "label": "Cycles" },
+        { "identifier": "ShaderNodeLightFalloff" }
       ]
     },
     "VECTOR": {
@@ -135,9 +140,10 @@
         { "identifier": "ShaderNodeRGBToBW" },
         { "identifier": "ShaderNodeSeparateColor" },
         { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
-        { "identifier": "ShaderNodeShaderToRGB" },
         { "identifier": "ShaderNodeVectorMath" },
-        { "identifier": "ShaderNodeWavelength" }
+        { "identifier": "ShaderNodeWavelength" },
+        { "separator": true, "label": "Eevee" },
+        { "identifier": "ShaderNodeShaderToRGB" }
       ]
     },
     "SCRIPT": {

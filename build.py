@@ -172,6 +172,7 @@ if __name__ == "__main__":
         with ZipFile(out_path, 'w') as z:
             # writing each file one by one
             for file in files:
+                print(file, file.exists())
                 # print(file)
                 # z.write(file, arcname=str(file).replace("asset_bridge", f"asset_bridge_{file_version}"))
                 z.write(file, arcname=str(f"node_pie_{file_version}" / file))
