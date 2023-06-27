@@ -1,0 +1,30 @@
+// This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
+
+// In this version, the glossy bsdf node was replaced by an improved version of the anisotropic bsdf.
+// However, while the display label is now "Glossy Bsdf", the identifier is still "ShaderNodeBsdfAnisotropic".
+// This just removes the old nodes and adds the anisotropic back in in the correct location
+{
+  "blender_version": [4, 0, 0],
+  "removals": {
+    "categories": {
+      "SHADER": {
+        "nodes": [
+          { "identifier": "ShaderNodeBsdfAnisotropic" },
+          { "identifier": "ShaderNodeBsdfGlossy" }
+        ]
+      }
+    }
+  },
+  "additions": {
+    "categories": {
+      "SHADER": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeBsdfAnisotropic",
+            "after_node": "ShaderNodeBsdfGlass"
+          }
+        ]
+      }
+    }
+  }
+}

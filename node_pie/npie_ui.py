@@ -194,7 +194,7 @@ class NPIE_MT_node_pie(Menu):
             index = all_node_counts.get(identifier, 1)
             counts = list(dict.fromkeys(all_node_counts.values()))
             fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
-            return lerp(fac, prefs.npie_normal_size, prefs.npie_max_size)
+            return lerp(fac, prefs.npie_normal_size, prefs.npie_normal_size * prefs.npie_max_size)
 
         def draw_add_operator(
             layout: UILayout,

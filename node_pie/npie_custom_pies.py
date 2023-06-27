@@ -42,9 +42,9 @@ def create_defaults(data: dict):
     # Add default values in case they are missing from the file
     default_layout = {"top": [[]], "bottom": [[]], "left": [[]], "right": [[]]}
     data["layout"] = data.get("layout", default_layout)
-    data["categories"] = data.get("categories", {})
     default_layout.update(data["layout"])
     data["layout"] = default_layout
+    data["categories"] = data.get("categories", {})
     return data
 
 
@@ -52,7 +52,26 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
     # Add default values in case they are missing from the file
     base = create_defaults(base)
     additions = create_defaults(additions)
+    removals = create_defaults(removals)
 
+    # REMOVALS
+    orig_categories = base["categories"]
+    remove_categories = removals["categories"]
+    for rem_cat_name, rem_cat in remove_categories.items():
+        if nodes := rem_cat.get("nodes", []):
+            orig_nodes = orig_categories[rem_cat_name]["nodes"]
+            for rem_node in nodes:
+                for i, orig_node in enumerate(orig_nodes.copy()):
+                    if rem_node.get("separator") or orig_node.get("separator"):
+                        continue
+                    if rem_node["identifier"] == orig_node["identifier"]:
+                        orig_nodes.remove(orig_node)
+                        break
+            pass
+        else:
+            del orig_categories[rem_cat_name]
+
+    # ADDITIONS
     # Merge layout
     for orig_area_name, orig_columns in base["layout"].items():
         new_columns = additions["layout"].get(orig_area_name)
@@ -148,7 +167,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("additions"):
             continue
 
-        merge_configs(data, new_data["additions"])
+        merge_configs(data, new_data["additions"], new_data.get("removals", {}))
 
     layout = data["layout"]
 
@@ -179,7 +198,8 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             if not label and not bl_node:
                 not_found.append(idname)
                 continue
-            item = NodeItem(label, idname, color=node.get("color", ""), description=bl_node.bl_rna.description)
+            description = bl_node.bl_rna.description if bl_node else ""
+            item = NodeItem(label, idname, color=node.get("color", ""), description=description)
             item.settings = node.get("settings", [])
             items.append(item)
 
