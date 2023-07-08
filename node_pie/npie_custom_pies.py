@@ -27,7 +27,8 @@ class NodeItem():
 
     label: str
     idname: str
-    settings: list = field(default_factory=list)
+    settings: dict = field(default_factory=dict)
+    variants: dict = field(default_factory=dict)
     color: str = ""
     description: str = ""
 
@@ -36,6 +37,15 @@ class NodeItem():
 class Separator():
 
     label: str = ""
+
+
+@dataclass
+class NodeOperator():
+
+    idname: str
+    label: str = ""
+    settings: dict = field(default_factory=dict)
+    color: str = ""
 
 
 def create_defaults(data: dict):
@@ -94,18 +104,24 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
             idx = -1
             for new_node in new_cat["nodes"]:
                 if name := new_node.get("after_node"):
-                    names = [n.get("identifier") for n in orig_cat["nodes"]]
-                    idx = names.index(name)
+                    if name == "top":
+                        idx = 0
+                    else:
+                        names = [n.get("identifier") for n in orig_cat["nodes"]]
+                        idx = names.index(name) + 1
                 if idx == -1:
                     orig_cat["nodes"].append(new_node)
                 else:
-                    orig_cat["nodes"].insert(idx + 1, new_node)
+                    orig_cat["nodes"].insert(idx, new_node)
 
     # Add new categories
     new_cats = additions["categories"].keys() - base["categories"].keys()
     for new_cat in new_cats:
         base["categories"][new_cat] = additions["categories"][new_cat]
     return base
+
+
+modified_times = {}
 
 
 def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, NodeCategory], dict]:
@@ -186,6 +202,14 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             if node.get("separator"):
                 items.append(Separator(label=node.get("label", "")))
                 continue
+            if node.get("operator"):
+                items.append(
+                    NodeOperator(
+                        node["operator"],
+                        label=node.get("label", ""),
+                        settings=node.get("settings", {}),
+                    ))
+                continue
             idname = node["identifier"]
 
             # Get an auto generated label, if one is not provided
@@ -200,13 +224,19 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
                 continue
             description = bl_node.bl_rna.description if bl_node else ""
             item = NodeItem(label, idname, color=node.get("color", ""), description=description)
-            item.settings = node.get("settings", [])
+            item.settings = node.get("settings", {})
+            item.variants: dict[str, dict] = node.get("variants", {})
+            for name, variant in item.variants.items():
+                if name != "separator":
+                    all_settings = item.settings.copy()
+                    all_settings.update(variant)
+                    item.variants[name] = all_settings
             items.append(item)
 
-        if not_found:
-            raise ValueError(f"No label found for node(s) '{not_found}'")
-        elif not cat.get("label"):
+        if not cat.get("label"):
             raise ValueError(f"No label found for category '{cat_idname}'")
         category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
         categories[cat_idname] = category
+    if not_found:
+        raise ValueError(f"No label found for node(s) '{not_found}'")
     return categories, layout

@@ -6,8 +6,9 @@ import webbrowser
 import bpy
 from bpy.props import BoolProperty
 from bpy.types import Operator, UILayout
+from .npie_custom_pies import NodeItem, load_custom_nodes_info
 
-from .npie_ui import NPIE_MT_node_pie
+from .npie_ui import NPIE_MT_node_pie, get_variants_menu
 from .npie_helpers import BOperator, get_all_def_files
 from .npie_constants import NODE_DEF_BASE_FILE, NODE_DEF_DIR, NODE_DEF_EXAMPLE_FILE, POPULARITY_FILE, POPULARITY_FILE_VERSION
 
@@ -32,29 +33,35 @@ class NPIE_OT_node_pie_add_node(Operator):
     settings: bpy.props.StringProperty(
         name="Settings",
         description="Settings to be applied on the newly created node",
-        default="[]",
+        default="{}",
         options={'SKIP_SAVE'},
     )
 
     def execute(self, context):
-        settings = eval(self.settings)
         try:
             bpy.ops.node.add_node(
                 "INVOKE_DEFAULT",
                 False,
                 type=self.type,
                 use_transform=self.use_transform,
-                settings=settings,
             )
         except RuntimeError as e:
             self.report({"ERROR"}, str(e))
             return {'CANCELLED'}
 
         node_tree = context.area.spaces.active.path[-1].node_tree
+        node = node_tree.nodes.active
         if self.group_name:
-            node = node_tree.nodes.active
             node.node_tree = bpy.data.node_groups[self.group_name]
-        # node_tree = context.space_data.node_tree
+
+        # Set the settings for the node
+        settings = eval(self.settings)
+        for name, value in settings.items():
+            name = "node." + name
+            attr = ".".join(name.split(".")[:-1])
+            name = name.split(".")[-1]
+            setattr(eval(attr), name, value)
+
         with open(POPULARITY_FILE, "r") as f:
             if text := f.read():
                 try:
@@ -141,6 +148,16 @@ class NPIE_OT_call_node_pie(Operator):
         return True
 
     def execute(self, context):
+        # The variants menus can't be added in a draw function, so add them here beforehand
+        categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
+        has_node_file = categories != {}
+        if has_node_file:
+            for cat_name, category in categories.items():
+                for node in category.nodes:
+                    if isinstance(node, NodeItem) and node.variants:
+                        get_variants_menu(cat_name, node.idname, node.variants)
+
+        area = context.area
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
         return {"FINISHED"}
 

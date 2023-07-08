@@ -102,7 +102,7 @@
         { "identifier": "ShaderNodeInvert" },
         {
           "identifier": "ShaderNodeMix",
-          "settings": [{ "name": "data_type", "value": "'RGBA'" }]
+          "settings": {"data_type": "RGBA"}
         },
         { "identifier": "ShaderNodeRGBCurve" },
         { "separator": true, "label": "Cycles" },

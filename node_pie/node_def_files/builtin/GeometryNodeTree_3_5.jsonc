@@ -1,0 +1,37 @@
+// This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
+{
+  "blender_version": [3, 5, 0],
+  "additions": {
+    "categories": {
+      "ATTRIBUTE": {
+        "nodes": [{ "identifier": "GeometryNodeBlurAttribute", "after_node": "top"}]
+      },
+      "INPUT": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeInputImage",
+            "after_node": "FunctionNodeInputColor"
+          },
+          { "identifier": "GeometryNodeImageInfo" }
+        ]
+      },
+      "CURVE": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeInterpolateCurves",
+            "after_node": "GeometryNodeTrimCurve"
+          }
+        ]
+      },
+      "MESH": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeEdgesToFaceGroups",
+            "after_node": "GeometryNodeMeshFaceSetBoundaries",
+            "color": "input"
+          }
+        ]
+      }
+    }
+  }
+}

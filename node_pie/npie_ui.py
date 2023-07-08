@@ -5,7 +5,7 @@ import random
 import traceback
 
 import bpy
-from .npie_custom_pies import NodeCategory, NodeItem, Separator
+from .npie_custom_pies import NodeCategory, NodeItem, NodeOperator, Separator
 from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
 from bpy.types import Context, Menu, UILayout
@@ -137,6 +137,36 @@ def get_all_node_data():
     return data
 
 
+def get_variants_menu(category, idname, variants, scale=1):
+    cls_idname = f"NPIE_MT_node_sub_menu_{category}_{idname}"
+
+    class NPIE_MT_node_sub_menu(Menu):
+        """A sub menu that can be added to certain nodes with different parameters."""
+        bl_label = "Node options"
+        bl_idname = cls_idname
+
+        def draw(self, context):
+            layout = self.layout
+            col = layout.column(align=True)
+            col.scale_y = self._scale
+            for name, variant in variants.items():
+                if name == "separator":
+                    col.separator()
+                    continue
+                op = col.operator("node_pie.add_node", text=name)
+                op.type = idname
+                op.settings = str(variant)
+
+    try:
+        bpy.utils.register_class(NPIE_MT_node_sub_menu)
+    except RuntimeError:
+        pass
+
+    if cls := getattr(bpy.types, cls_idname):
+        cls._scale = scale
+    return cls_idname
+
+
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
     bl_label = "Node pie"
@@ -147,6 +177,7 @@ class NPIE_MT_node_pie(Menu):
         return context.space_data.node_tree and prefs.node_pie_enabled
 
     def draw(self, context):
+
         try:
             self.draw_menu(context)
         except Exception as e:
@@ -200,18 +231,22 @@ class NPIE_MT_node_pie(Menu):
             layout: UILayout,
             text: str,
             color_name: str,
+            category: NodeCategory = None,
             identifier: str = "",
             group_name="",
             max_len=200,
             op="",
+            variants={},
             params={},
         ):
             """Draw the add node operator"""
 
             row = layout.row(align=True)
+            scale = 1
             # draw the operator larger if the node is used more often
             if prefs.npie_variable_sizes and not group_name:
-                row.scale_y = get_node_size(identifier)
+                scale = get_node_size(identifier)
+            row.scale_y = scale
 
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
@@ -225,6 +260,7 @@ class NPIE_MT_node_pie(Menu):
             text = bpy.app.translations.pgettext(text)
             if len(text) > max_len:
                 text = text[:max_len] + "..."
+            row.scale_x = .9
 
             if op:
                 op = row.operator(op, text=text)
@@ -236,6 +272,31 @@ class NPIE_MT_node_pie(Menu):
                 if (nodeitem := all_nodes.get(identifier)) and hasattr(nodeitem,
                                                                        "description") and nodeitem.description:
                     op.bl_description = nodeitem.description
+
+                # Dark magic to draw the variants menu on top of the add node button
+                # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
+                if variants:
+                    # Draw a normal operator that is invisible, and unclickable
+                    # This serves to stop the actual operator from overflowing outside the box
+                    row = row.row(align=True)
+                    row.scale_x = 1.5
+                    subrow = row.row(align=False)
+                    subrow.enabled = False
+                    subrow.operator("node_pie.add_node", text="", icon="BLANK1", emboss=False)
+                    # Draw a property with negative scale. This essentially gives it a negative bounding box,
+                    # and so operators on the left expand to the right, and operators to the right get pushed
+                    # to the left.
+                    subrow = row.row(align=True)
+                    subrow.prop(context.scene, "frame_end", text="")
+                    subrow.scale_x = -.5
+                    subrow = row.row(align=True)
+                    # Draw the menu, which will now be pushed on top of the add node button
+                    subrow.menu(
+                        get_variants_menu(category.idname, identifier, variants, scale=1.2),
+                        text="",
+                        icon="TRIA_RIGHT",
+                    )
+
             for name, value in params.items():
                 setattr(op, name, value)
 
@@ -284,25 +345,37 @@ class NPIE_MT_node_pie(Menu):
                 return
 
             for i, node in enumerate(nodeitems):
+
                 # Draw separators
                 if isinstance(node, Separator):
                     if node.label and prefs.npie_separator_headings:
                         if i:
                             col.separator(factor=.5)
-                        # row = col.box().row(align=True)
                         row = col.row(align=True)
-                        # row.scale_y = .5
                         row.scale_y = .8
                         draw_header(row, node.label)
                     elif i:
                         col.separator(factor=.5)
                     continue
+                elif isinstance(node, NodeOperator):
+                    color = get_color_name(category, node)
+                    draw_add_operator(col, node.label, color, op=node.idname, params=node.settings)
+                    continue
 
                 # Draw node items
                 color = get_color_name(category, node)
-                settings = getattr(node, "settings", [])
+                settings = getattr(node, "settings", {})
+                variants = getattr(node, "variants", {})
                 params = {"settings": str(settings)}
-                draw_add_operator(col, node.label.replace(remove, ""), color, node.idname, params=params)
+                draw_add_operator(
+                    col,
+                    node.label.replace(remove, ""),
+                    color,
+                    category=category,
+                    identifier=node.idname,
+                    variants=variants,
+                    params=params,
+                )
 
         def draw_search(layout: UILayout):
             layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
@@ -457,7 +530,7 @@ class NPIE_MT_node_pie(Menu):
                             if not hasattr(nodeitem, "nodetype") or not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_add_operator(col, nodeitem.label, color, nodeitem.nodetype)
+                            draw_add_operator(col, nodeitem.label, color, identifier=nodeitem.nodetype)
 
                         bigcol.separator(factor=.4)
 

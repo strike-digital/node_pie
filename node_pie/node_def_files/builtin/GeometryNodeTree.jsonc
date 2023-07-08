@@ -18,7 +18,6 @@
       "label": "Attribute",
       "color": "attribute",
       "nodes": [
-        { "identifier": "GeometryNodeBlurAttribute" },
         { "identifier": "GeometryNodeAttributeStatistic" },
         { "identifier": "GeometryNodeCaptureAttribute" },
         { "identifier": "GeometryNodeAttributeDomainSize" },
@@ -32,8 +31,16 @@
       "nodes": [
         {
           "identifier": "ShaderNodeMix",
-          "settings": [{ "name": "data_type", "value": "'RGBA'" }],
-          "color": "color"
+          "settings": { "data_type": "RGBA" },
+          "color": "color",
+          "variants": {
+            "Add": { "blend_type": "ADD" },
+            "Subtract": { "blend_type": "SUBTRACT" },
+            "Multiply": { "blend_type": "MULTIPLY" },
+            "Divide": { "blend_type": "DIVIDE" },
+            "Overlay": { "blend_type": "OVERLAY" },
+            "Linear Light": { "blend_type": "LINEAR_LIGHT" }
+          }
         },
         { "identifier": "ShaderNodeRGBCurve", "color": "color" },
         { "identifier": "ShaderNodeValToRGB", "color": "converter" },
@@ -57,7 +64,6 @@
         { "identifier": "GeometryNodeSampleCurve" },
         { "identifier": "GeometryNodeSubdivideCurve" },
         { "identifier": "GeometryNodeTrimCurve" },
-        { "identifier": "GeometryNodeInterpolateCurves" },
         { "separator": true, "label": "Read" },
         {
           "identifier": "GeometryNodeInputCurveHandlePositions",
@@ -150,7 +156,6 @@
         { "separator": true, "label": "Constant" },
         { "identifier": "FunctionNodeInputBool" },
         { "identifier": "FunctionNodeInputColor" },
-        { "identifier": "GeometryNodeInputImage" },
         { "identifier": "FunctionNodeInputInt" },
         { "identifier": "GeometryNodeInputMaterial" },
         { "identifier": "FunctionNodeInputString" },
@@ -168,8 +173,7 @@
         { "separator": true, "label": "Scene" },
         { "identifier": "GeometryNodeSelfObject" },
         { "identifier": "GeometryNodeObjectInfo" },
-        { "identifier": "GeometryNodeCollectionInfo" },
-        { "identifier": "GeometryNodeImageInfo" }
+        { "identifier": "GeometryNodeCollectionInfo" }
       ]
     },
     "INSTANCE": {
@@ -248,7 +252,6 @@
         },
         { "identifier": "GeometryNodeInputMeshEdgeVertices", "color": "input" },
         { "identifier": "GeometryNodeMeshFaceSetBoundaries", "color": "input" },
-        { "identifier": "GeometryNodeEdgesToFaceGroups", "color": "input" },
         { "identifier": "GeometryNodeInputMeshFaceArea", "color": "input" },
         {
           "identifier": "GeometryNodeInputMeshFaceNeighbors",
@@ -337,6 +340,11 @@
       "label": "Utilities",
       "color": "converter",
       "nodes": [
+        {
+          "label": "Hoho",
+          "operator": "node.add_node",
+          "settings": { "type": "FunctionNodeBooleanMath" }
+        },
         { "separator": true, "label": "Field" },
         { "identifier": "GeometryNodeAccumulateField" },
         { "identifier": "GeometryNodeFieldAtIndex" },
@@ -348,7 +356,40 @@
         { "identifier": "ShaderNodeFloatCurve" },
         { "identifier": "FunctionNodeFloatToInt" },
         { "identifier": "ShaderNodeMapRange" },
-        { "identifier": "ShaderNodeMath" },
+        {
+          "identifier": "ShaderNodeMath",
+          "variants": {
+            "Negate": {
+              "operation": "MULTIPLY",
+              "show_options": false,
+              "label": "Negate",
+              "inputs[1].hide": true,
+              "inputs[1].default_value": -1
+            },
+            "One Minus": {
+              "operation": "SUBTRACT",
+              "show_options": false,
+              "label": "One Minus",
+              "inputs[0].hide": true,
+              "inputs[0].default_value": 1
+            },
+            "One Over": {
+              "operation": "DIVIDE",
+              "show_options": false,
+              "label": "One Over",
+              "inputs[0].hide": true,
+              "inputs[0].default_value": 1
+            },
+            "separator": true,
+            "Multiply": { "operation": "MULTIPLY" },
+            "Divide": { "operation": "DIVIDE" },
+            "Subtract": { "operation": "SUBTRACT" },
+            "Modulo": { "operation": "MODULO" },
+            "Absolute": { "operation": "ABSOLUTE" },
+            "Sine": { "operation": "SINE" },
+            "Cosine": { "operation": "COSINE" }
+          }
+        },
         { "identifier": "ShaderNodeMix" },
         { "identifier": "FunctionNodeRandomValue" },
         { "identifier": "GeometryNodeSwitch" },
@@ -375,7 +416,7 @@
         { "identifier": "ShaderNodeVectorMath" },
         {
           "identifier": "ShaderNodeMix",
-          "settings": [{ "name": "data_type", "value": "'VECTOR'" }]
+          "settings": { "data_type": "VECTOR" }
         },
         { "identifier": "ShaderNodeVectorRotate" }
       ]

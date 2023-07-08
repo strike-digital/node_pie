@@ -1,0 +1,30 @@
+// This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
+{
+  "blender_version": [3, 6, 0],
+  "additions": {
+    "layout": {
+      "left": [[], ["SIMULATION"]]
+    },
+    "categories": {
+      "GEOMETRY": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeIndexOfNearest",
+            "after_node": "GeometryNodeSampleIndex"
+          }
+        ]
+      },
+      "SIMULATION": {
+        "label": "Simulation",
+        "color": "layout",
+        "nodes": [
+          {
+            "label": "Simulation Zone",
+            "operator": "node.add_simulation_zone",
+            "settings": { "use_transform": true }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -2,25 +2,7 @@
 {
   "blender_version": [4, 0, 0],
   "additions": {
-    "layout": {
-      "left": [["SIMULATION"]]
-    },
     "categories": {
-      "GEOMETRY": {
-        "nodes": [
-          {
-            "identifier": "GeometryNodeIndexOfNearest",
-            "after_node": "GeometryNodeSampleIndex"
-          }
-        ]
-      },
-      // "MESH_TOPOLOGY": {
-      //   "nodes": [
-      //     {      //       "label": "Corners of Edge",
-      //       "identifier": "GeometryNodeCornersOfEdge"
-      //     }
-      //   ]
-      // },
       "MESH": {
         "nodes": [
           {
@@ -46,14 +28,6 @@
           { "identifier": "GeometryNodeSDFVolumeSphere" },
           { "identifier": "GeometryNodeOffsetSDFVolume" },
           { "identifier": "GeometryNodeMeanFilterSDFVolume" }
-        ]
-      },
-      "SIMULATION": {
-        "label": "Simulation",
-        "color": "layout",
-        "nodes": [
-          { "identifier": "GeometryNodeSimulationInput" },
-          { "identifier": "GeometryNodeSimulationOutput" }
         ]
       }
     }
