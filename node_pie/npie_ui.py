@@ -292,7 +292,7 @@ class NPIE_MT_node_pie(Menu):
                     subrow = row.row(align=True)
                     # Draw the menu, which will now be pushed on top of the add node button
                     subrow.menu(
-                        get_variants_menu(category.idname, identifier, variants, scale=1.2),
+                        get_variants_menu(category.idname, identifier, variants, scale=1.1),
                         text="",
                         icon="TRIA_RIGHT",
                     )

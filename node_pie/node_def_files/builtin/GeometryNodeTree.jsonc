@@ -19,10 +19,28 @@
       "color": "attribute",
       "nodes": [
         { "identifier": "GeometryNodeAttributeStatistic" },
-        { "identifier": "GeometryNodeCaptureAttribute" },
+        {
+          "identifier": "GeometryNodeCaptureAttribute",
+          "variants": {
+            "Integer": { "data_type": "INT" },
+            "Vector": { "data_type": "FLOAT_VECTOR" },
+            "Color": { "data_type": "FLOAT_COLOR" },
+            "Boolean": { "data_type": "BOOLEAN" }
+          }
+        },
         { "identifier": "GeometryNodeAttributeDomainSize" },
         { "identifier": "GeometryNodeRemoveAttribute" },
-        { "identifier": "GeometryNodeStoreNamedAttribute" }
+        {
+          "identifier": "GeometryNodeStoreNamedAttribute",
+          "variants": {
+            "Integer": { "data_type": "INT" },
+            "Vector": { "data_type": "FLOAT_VECTOR" },
+            "Color": { "data_type": "FLOAT_COLOR" },
+            "Byte Color": { "data_type": "BYTE_COLOR" },
+            "Boolean": { "data_type": "BOOLEAN" },
+            "2D Vector": { "data_type": "FLOAT2" }
+          }
+        }
       ]
     },
     "COLOR": {
@@ -340,11 +358,6 @@
       "label": "Utilities",
       "color": "converter",
       "nodes": [
-        {
-          "label": "Hoho",
-          "operator": "node.add_node",
-          "settings": { "type": "FunctionNodeBooleanMath" }
-        },
         { "separator": true, "label": "Field" },
         { "identifier": "GeometryNodeAccumulateField" },
         { "identifier": "GeometryNodeFieldAtIndex" },
@@ -386,6 +399,7 @@
             "Subtract": { "operation": "SUBTRACT" },
             "Modulo": { "operation": "MODULO" },
             "Absolute": { "operation": "ABSOLUTE" },
+            "Power": { "operation": "POWER" },
             "Sine": { "operation": "SINE" },
             "Cosine": { "operation": "COSINE" }
           }
@@ -413,7 +427,43 @@
         { "identifier": "ShaderNodeCombineXYZ", "color": "converter" },
         { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
         { "identifier": "ShaderNodeVectorCurve" },
-        { "identifier": "ShaderNodeVectorMath" },
+        {
+          "identifier": "ShaderNodeVectorMath",
+          "variants": {
+            "Negate": {
+              "operation": "SCALE",
+              "show_options": false,
+              "label": "Negate",
+              "inputs[1].hide": true,
+              "inputs[1].default_value": -1
+            },
+            "One Minus": {
+              "operation": "SUBTRACT",
+              "show_options": false,
+              "label": "One Minus",
+              "inputs[0].hide": true,
+              "inputs[0].default_value": [1, 1, 1]
+            },
+            "One Over": {
+              "operation": "DIVIDE",
+              "show_options": false,
+              "label": "One Over",
+              "inputs[0].hide": true,
+              "inputs[0].default_value": [1, 1, 1]
+            },
+            "separator": true,
+            "Multiply": { "operation": "MULTIPLY" },
+            "Divide": { "operation": "DIVIDE" },
+            "Subtract": { "operation": "SUBTRACT" },
+            "Scale": { "operation": "SCALE" },
+            "Dot Product": { "operation": "DOT_PRODUCT" },
+            "Cross Product": { "operation": "CROSS_PRODUCT" },
+            "Normalize": { "operation": "NORMALIZE" },
+            "Absolute": { "operation": "ABSOLUTE" },
+            "Distance": { "operation": "DISTANCE" },
+            "Length": { "operation": "LENGTH" }
+          }
+        },
         {
           "identifier": "ShaderNodeMix",
           "settings": { "data_type": "VECTOR" }
