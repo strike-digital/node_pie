@@ -61,9 +61,42 @@
           }
         },
         { "identifier": "ShaderNodeRGBCurve", "color": "color" },
+        {
+          "identifier": "FunctionNodeCompare",
+          "settings": { "data_type": "RGBA" },
+          "variants": {
+            "Less Than": { "operation": "LESS_THAN" },
+            "Equal": { "operation": "EQUAL" },
+            "Not Equal": { "operation": "NOT_EQUAL" }
+          }
+        },
         { "identifier": "ShaderNodeValToRGB", "color": "converter" },
         { "identifier": "FunctionNodeCombineColor" },
-        { "identifier": "FunctionNodeSeparateColor" }
+        {
+          "identifier": "FunctionNodeSeparateColor",
+          "variants": {
+            "R": {
+              "outputs[1].hide": true,
+              "outputs[2].hide": true,
+              "outputs[3].hide": true
+            },
+            "G": {
+              "outputs[0].hide": true,
+              "outputs[2].hide": true,
+              "outputs[3].hide": true
+            },
+            "B": {
+              "outputs[0].hide": true,
+              "outputs[1].hide": true,
+              "outputs[3].hide": true
+            },
+            "A": {
+              "outputs[0].hide": true,
+              "outputs[1].hide": true,
+              "outputs[2].hide": true
+            }
+          }
+        }
       ]
     },
     "CURVE": {
@@ -363,9 +396,24 @@
         { "identifier": "GeometryNodeFieldAtIndex" },
         { "identifier": "GeometryNodeFieldOnDomain" },
         { "separator": true, "label": "Math" },
-        { "identifier": "FunctionNodeBooleanMath" },
+        {
+          "identifier": "FunctionNodeBooleanMath",
+          "variants": {
+            "Or": { "operation": "OR" },
+            "Not": { "operation": "NOT" },
+            "Equal": { "operation": "XNOR" },
+            "Not Equal": { "operation": "XOR" }
+          }
+        },
         { "identifier": "ShaderNodeClamp" },
-        { "identifier": "FunctionNodeCompare" },
+        {
+          "identifier": "FunctionNodeCompare",
+          "variants": {
+            "Less Than": { "operation": "LESS_THAN" },
+            "Equal": { "operation": "EQUAL" },
+            "Not Equal": { "operation": "NOT_EQUAL" }
+          }
+        },
         { "identifier": "ShaderNodeFloatCurve" },
         { "identifier": "FunctionNodeFloatToInt" },
         { "identifier": "ShaderNodeMapRange" },
@@ -424,8 +472,31 @@
       "label": "Vector",
       "color": "vector",
       "nodes": [
-        { "identifier": "ShaderNodeCombineXYZ", "color": "converter" },
-        { "identifier": "ShaderNodeSeparateXYZ", "color": "converter" },
+        {
+          "identifier": "ShaderNodeCombineXYZ",
+          "color": "converter"
+        },
+        {
+          "identifier": "ShaderNodeSeparateXYZ",
+          "color": "converter",
+          "variants": {
+            "X": {
+              "outputs[1].hide": true,
+              "outputs[2].hide": true,
+              "label": "Get X"
+            },
+            "Y": {
+              "outputs[0].hide": true,
+              "outputs[2].hide": true,
+              "label": "Get Y"
+            },
+            "Z": {
+              "outputs[0].hide": true,
+              "outputs[1].hide": true,
+              "label": "Get Z"
+            }
+          }
+        },
         { "identifier": "ShaderNodeVectorCurve" },
         {
           "identifier": "ShaderNodeVectorMath",
@@ -467,6 +538,15 @@
         {
           "identifier": "ShaderNodeMix",
           "settings": { "data_type": "VECTOR" }
+        },
+        {
+          "identifier": "FunctionNodeCompare",
+          "settings": { "data_type": "VECTOR" },
+          "variants": {
+            "Less Than": { "operation": "LESS_THAN" },
+            "Equal": { "operation": "EQUAL" },
+            "Not Equal": { "operation": "NOT_EQUAL" }
+          }
         },
         { "identifier": "ShaderNodeVectorRotate" }
       ]

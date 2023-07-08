@@ -137,6 +137,12 @@ def get_all_node_data():
     return data
 
 
+def get_popularity_id(node_idname, settings={}):
+    if not isinstance(settings, str):
+        settings = str(settings)
+    return node_idname + ("" if settings == "{}" else settings)
+
+
 def get_variants_menu(category, idname, variants, scale=1):
     cls_idname = f"NPIE_MT_node_sub_menu_{category}_{idname}"
 
@@ -219,9 +225,10 @@ class NPIE_MT_node_pie(Menu):
             all_node_counts[node_name] = node_count_data.get(node_name, {}).get("count", 0)
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
 
-        def get_node_size(identifier):
+        def get_node_size(identifier, settings):
             # lerp between the min and max sizes based on how used each node is compared to the most used one.
             # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
+            identifier = get_popularity_id(identifier, settings)
             index = all_node_counts.get(identifier, 1)
             counts = list(dict.fromkeys(all_node_counts.values()))
             fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
@@ -245,7 +252,7 @@ class NPIE_MT_node_pie(Menu):
             scale = 1
             # draw the operator larger if the node is used more often
             if prefs.npie_variable_sizes and not group_name:
-                scale = get_node_size(identifier)
+                scale = get_node_size(identifier, params.get("settings", {}))
             row.scale_y = scale
 
             # Draw the colour bar to the side

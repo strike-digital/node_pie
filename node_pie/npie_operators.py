@@ -8,7 +8,7 @@ from bpy.props import BoolProperty
 from bpy.types import Operator, UILayout
 from .npie_custom_pies import NodeItem, load_custom_nodes_info
 
-from .npie_ui import NPIE_MT_node_pie, get_variants_menu
+from .npie_ui import NPIE_MT_node_pie, get_popularity_id, get_variants_menu
 from .npie_helpers import BOperator, get_all_def_files
 from .npie_constants import NODE_DEF_BASE_FILE, NODE_DEF_DIR, NODE_DEF_EXAMPLE_FILE, POPULARITY_FILE, POPULARITY_FILE_VERSION
 
@@ -79,13 +79,14 @@ class NPIE_OT_node_pie_add_node(Operator):
 
         trees = data.get("node_trees", {})
         nodes = OrderedDict(trees.get(node_tree.bl_rna.identifier, {}))
-        node = nodes.get(self.type, {})
+        key = get_popularity_id(self.type, self.settings)
+        node = nodes.get(key, {})
         count = node.get("count", 0)
         count += 1
 
         data["version"] = POPULARITY_FILE_VERSION
         node["count"] = count
-        nodes[self.type] = node
+        nodes[key] = node
         # Sort the nodes in decending order
         nodes = OrderedDict(sorted(nodes.items(), key=lambda item: item[1].get("count", 0), reverse=True))
         trees[node_tree.bl_rna.identifier] = nodes
