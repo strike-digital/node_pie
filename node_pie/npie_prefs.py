@@ -65,6 +65,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Draw the headings of subcategories or just a gap",
     )
 
+    npie_show_variants: BoolProperty(
+        name="Show variants",
+        default=True,
+        description="Draw the variants menus for nodes that support them",
+    )
+
     def draw(self, context):
         layout = self.layout
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
@@ -83,9 +89,10 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
         col = draw_section(layout, "General")
         draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
-        draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
+        draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
+        draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 
         col = draw_section(layout, "Keymap")
         kc = bpy.context.window_manager.keyconfigs.user

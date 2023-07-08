@@ -282,46 +282,25 @@ class NPIE_MT_node_pie(Menu):
 
                 # Dark magic to draw the variants menu on top of the add node button
                 # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
-                if variants:
-                    # Draw a normal operator that is invisible, and unclickable
-                    # This serves to stop the actual operator from overflowing outside the box
+                if variants and prefs.npie_show_variants:
                     col = layout.column(align=True)
+
+                    # Draw a property with negative scale. This essentially gives it a negative bounding box,
+                    # Pushing everything drawn below it upwards on top of whatever is already there.
                     subcol = col.column(align=True)
                     subcol.prop(context.scene, "frame_end", text="")
                     subcol.scale_y = -scale
 
-                    split = col.split(align=True, factor=.5)
-                    split.scale_y = scale
-                    subrow = split.row(align=True)
-                    # subrow.separator()
-                    subrow = split.row(align=True)
-                    subrow.alignment = "RIGHT"
-                    subrow.scale_x = 1.2
                     # Draw the menu, which will now be pushed on top of the add node button
+                    subrow = col.row(align=True)
+                    subrow.scale_x = 1.1
+                    subrow.scale_y = scale
+                    subrow.alignment = "RIGHT"
                     subrow.menu(
                         get_variants_menu(category.idname, identifier, variants, scale=1.1),
                         text="",
                         icon="TRIA_RIGHT",
                     )
-
-                    # row = row.row(align=True)
-                    # row.scale_x = 1.5
-                    # subrow = row.row(align=False)
-                    # subrow.enabled = False
-                    # subrow.scale_x = 1
-                    # subrow.operator("node_pie.add_node", text="", icon="BLANK1", emboss=True)
-                    # # Draw a property with negative scale. This essentially gives it a negative bounding box,
-                    # # and so operators on the left expand to the right, and operators to the right get pushed
-                    # # to the left.
-                    # subrow = row.row(align=True)
-                    # subrow.prop(context.scene, "frame_end", text="")
-                    # subrow.scale_x = -.5
-                    # subrow = row.row(align=True)
-                    # # Draw the menu, which will now be pushed on top of the add node button
-                    # subrow.menu(
-                    #     get_variants_menu(category.idname, identifier, variants, scale=1.1),
-                    #     text="",
-                    #     icon="TRIA_RIGHT",
 
             for name, value in params.items():
                 setattr(op, name, value)
