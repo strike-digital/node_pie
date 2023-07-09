@@ -223,6 +223,7 @@ class NPIE_MT_node_pie(Menu):
         all_node_counts = {}
         for node_name in all_nodes:
             all_node_counts[node_name] = node_count_data.get(node_name, {}).get("count", 0)
+        all_node_counts[""] = 1
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
 
         def get_node_size(identifier, settings):

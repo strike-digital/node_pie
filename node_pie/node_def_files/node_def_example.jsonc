@@ -51,7 +51,18 @@
           // The display name of the node. This is optional, only needs to be used if the auto generated one is wrong
           "label": "Trigger",
           // Optional, only needed if the color is different from the category color
-          "color": "input"
+          "color": "input",
+          // Variants show up as a sub menu at the right of the node button, and allow for
+          // having multple preset configurations for a node.
+          // Each variant then has a list of setting names the corresponding values that they should be set to.
+          // For a good reference on what's possible, have a look at the geometry nodes math nodes variants in the built in definition files.
+          "variants": {
+            // This defines a variant called "My variant", that has the setting "node_setting" set to the string "node_value"
+            // This is equivalent to writing node.node_setting = "node_value" in python.
+            "My variant": { "node_setting": "node_value" },
+            // This sets the value of the first node input to 5
+            "My other variant": { "inputs[0].default_value": 5 }
+          }
         },
         // Define a separator like this, the label is optional, is only show if subcategory labels are enabled in the preferences
         { "separator": true, "label": "My separator" },
