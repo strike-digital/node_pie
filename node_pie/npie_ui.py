@@ -173,9 +173,27 @@ def get_variants_menu(category, idname, variants, scale=1):
     return cls_idname
 
 
+class NPIE_MT_node_groups(Menu):
+    """Show a list of node groups that you can add"""
+    bl_label = "Node Groups"
+
+    def draw(self, context):
+        tree_type = context.space_data.tree_type
+        node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
+        if not node_groups:
+            return
+        layout = self.layout
+        col = layout.column(align=True)
+        for ng in node_groups:
+            if ng != context.space_data.node_tree and not ng.name.startswith("."):
+                op = col.operator("node_pie.add_node", text=ng.name)
+                op.type = tree_type.replace("Tree", "Group")
+                op.group_name = ng.name
+
+
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
-    bl_label = "Node pie"
+    bl_label = "Node Pie"
 
     @classmethod
     def poll(cls, context):
@@ -325,17 +343,24 @@ class NPIE_MT_node_pie(Menu):
             if not node_groups or not prefs.npie_show_node_groups:
                 return
             col = layout.box().column(align=True)
-            draw_header(col, "Groups")
-            for ng in node_groups:
-                if ng.bl_idname == tree_type and not ng.name.startswith("."):
-                    draw_add_operator(
-                        col,
-                        ng.name,
-                        color_name="group",
-                        identifier=tree_type.replace("Tree", "Group"),
-                        group_name=ng.name,
-                        max_len=18,
-                    )
+            col.scale_y = prefs.npie_normal_size
+
+            col.operator("wm.call_menu", text="Node Groups", icon="NODE")
+            scale = -1
+
+            # Uncomment this to add an arrow to the right hand side
+            # subcol = col.column(align=True)
+            # subcol.prop(context.scene, "frame_end", text="")
+            # subcol.scale_y = scale
+            # row = col.row(align=True)
+            # row.alignment = "RIGHT"
+            # row.menu(NPIE_MT_node_groups.__name__, text="", icon="TRIA_RIGHT")
+
+            subcol = col.column(align=True)
+            subcol.prop(context.scene, "frame_end", text="")
+            subcol.scale_y = scale
+            subcol.scale_x = 1.6
+            col.menu(NPIE_MT_node_groups.__name__, text=" ")
 
         def draw_category(layout: UILayout, category: NodeCategory, header="", remove: str = ""):
             """Draw all node items in this category"""
@@ -384,12 +409,16 @@ class NPIE_MT_node_pie(Menu):
                 )
 
         def draw_search(layout: UILayout):
+            layout.scale_y = prefs.npie_normal_size
             layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
 
         if has_node_file:
 
-            def draw_area(area: list):
-                row = pie.row()
+            def draw_area(area: list, layout=None):
+                if layout:
+                    row = layout.row()
+                else:
+                    row = pie.row()
                 if not area:
                     return row.column()
                 for col in area:
@@ -400,9 +429,10 @@ class NPIE_MT_node_pie(Menu):
 
             draw_area(cat_layout["left"])
             draw_area(cat_layout["right"])
-            col = draw_area(cat_layout["bottom"])
+            col = pie.column()
             if tree_type in {"GeometryNodeTree", "ShaderNodeTree", "CompositorNodeTree"}:
                 draw_node_groups(col)
+            col = draw_area(cat_layout["bottom"], col)
             col = draw_area(cat_layout["top"])
             draw_search(col.box())
 

@@ -24,7 +24,7 @@ class NodeSetting(bpy.types.PropertyGroup):
 
 @BOperator("node_pie", idname="add_node", undo=True)
 class NPIE_OT_node_pie_add_node(Operator):
-    """Add a node to the node tree, and increase its polularity by 1"""
+    """Add a node to the node tree, and increase its poularity by 1"""
 
     type: bpy.props.StringProperty(name="Type", description="Node type to add", default="FunctionNodeInputVector")
     group_name: bpy.props.StringProperty(name="Group name", description="The name of the node group to add")
