@@ -1,15 +1,15 @@
 import bpy
+from bpy.types import NodeTree
 from ..npie_btypes import BOperator
 from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
-from ..npie_ui import get_popularity_id
-
+from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
 
 import json
 from typing import OrderedDict
 
 
 @BOperator("node_pie", idname="add_node", undo=True)
-class NPIE_OT_node_pie_add_node(BOperator.type):
+class NPIE_OT_add_node(BOperator.type):
     """Add a node to the node tree, and increase its poularity by 1"""
 
     type: bpy.props.StringProperty(name="Type", description="Node type to add", default="FunctionNodeInputVector")
@@ -35,10 +35,38 @@ class NPIE_OT_node_pie_add_node(BOperator.type):
             self.report({"ERROR"}, str(e))
             return {'CANCELLED'}
 
-        node_tree = context.area.spaces.active.path[-1].node_tree
+        node_tree: NodeTree = context.area.spaces.active.path[-1].node_tree
         node = node_tree.nodes.active
         if self.group_name:
             node.node_tree = bpy.data.node_groups[self.group_name]
+
+        # If being added by dragging from a socket
+        if socket := NPIE_MT_node_pie.from_socket:
+            exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
+            exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
+
+            # Try to find the best link based on the socket types
+            def get_socket(from_socket, sockets):
+                socket = None
+                for s in sockets:
+                    if s.bl_idname != from_socket.bl_idname:
+                        if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
+                            continue
+                    socket = s
+                    break
+                if not socket:
+                    socket = sockets[0]
+                return socket
+
+            if socket.is_output:
+                inputs = [s for s in node.inputs if s.enabled and not s.hide]
+                to_socket = get_socket(socket, inputs)
+                from_socket = socket
+            else:
+                outputs = [s for s in node.outputs if s.enabled and not s.hide]
+                from_socket = get_socket(socket, outputs)
+                to_socket = socket
+            node_tree.links.new(from_socket, to_socket)
 
         # Set the settings for the node
         settings = eval(self.settings)

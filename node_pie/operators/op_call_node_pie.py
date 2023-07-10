@@ -1,4 +1,5 @@
 import bpy
+from mathutils import Vector
 from ..npie_btypes import BOperator
 from ..npie_custom_pies import NodeItem, load_custom_nodes_info
 from ..npie_ui import NPIE_MT_node_pie, get_variants_menu
@@ -8,7 +9,7 @@ from ..npie_ui import NPIE_MT_node_pie, get_variants_menu
 class NPIE_OT_call_node_pie(BOperator.type):
     """Call the node pie menu"""
 
-    name: bpy.props.IntProperty()
+    reset_args: bpy.props.BoolProperty(default=True)
 
     @classmethod
     def poll(cls, context):
@@ -17,7 +18,7 @@ class NPIE_OT_call_node_pie(BOperator.type):
         return True
 
     def execute(self, context):
-        # The variants menus can't be added in a draw function, so add them here beforehand
+        # The variants menus can't be registered in a draw function, so add them here beforehand
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}
         if has_node_file:
@@ -26,6 +27,8 @@ class NPIE_OT_call_node_pie(BOperator.type):
                     if isinstance(node, NodeItem) and node.variants:
                         get_variants_menu(cat_name, node.idname, node.variants)
 
-        area = context.area
+        if self.reset_args:
+            NPIE_MT_node_pie.from_socket = None
+            NPIE_MT_node_pie.reset_cursor_pos = Vector((0, 0))
+
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)
-        return {"FINISHED"}

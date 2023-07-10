@@ -1,0 +1,192 @@
+import bpy
+from bpy.types import Area, Context, Event, Node
+import gpu
+from gpu_extras.batch import batch_for_shader
+from gpu_extras.presets import draw_circle_2d
+from mathutils import Vector as V
+from ..npie_helpers import get_prefs, lerp
+from ..npie_ui import NPIE_MT_node_pie
+from ..npie_btypes import BOperator
+
+location = None
+hitbox_size = 10  # The radius in which to register a socket click
+
+
+def view_to_region(area: Area, coords: V) -> V:
+    """Convert 2d editor to screen space coordinates"""
+    coords = area.regions[3].view2d.view_to_region(coords[0], coords[1], clip=False)
+    return V(coords)
+
+
+def region_to_view(area: Area, coords: V) -> V:
+    """Convert screen space to 2d editor coordinates"""
+    coords = area.regions[3].view2d.region_to_view(coords[0], coords[1])
+    return V(coords)
+
+
+def dpifac():
+    prefs = bpy.context.preferences.system
+    return prefs.dpi / 72
+    return prefs.dpi * prefs.pixel_size / 72
+
+
+def get_socket_locations(node: Node):
+    """Get the locations of all inputs and outputs for the given node.
+    There is no built in way to do this so it's mostly arbitrary numbers that look about right."""
+    if not node:
+        return
+
+    not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
+
+    location = node.location.copy()
+    bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
+    positions = {}
+    inputs = [i for i in node.inputs if not i.hide and i.enabled]
+    ui_scale = bpy.context.preferences.view.ui_scale
+
+    for i, input in enumerate(list(inputs)[::-1]):
+        pos = bottom.copy()
+        if i == 0:
+            pos.y -= 5
+        if input.type == "VECTOR" and not input.hide_value and not input.is_linked and input.name not in not_vectors:
+            pos.y += 82
+        else:
+            print(ui_scale)
+            if ui_scale < 1:
+                print(lerp((ui_scale - .5) / 2, 24.5, 22))
+                pos.y += lerp(ui_scale, 27, 22)
+            else:
+                pos.y += 22
+        bottom = pos
+        positions[input] = pos * dpifac()
+
+    top = V((location.x + node.width, location.y))
+    outputs = [o for o in node.outputs if not o.hide and o.enabled]
+
+    for i, output in enumerate(list(outputs)[::]):
+        pos = top.copy()
+        if i == 0:
+            pos.y -= 35
+        else:
+            pos.y -= 22
+        top = pos
+        positions[output] = pos * dpifac()
+
+    return positions
+
+
+def draw_debug_lines():
+    """Draw a circle around the sockets of the active node, and also the last location that the node pie was activated"""
+    node = bpy.context.active_node
+    if node:
+        locations = get_socket_locations(node)
+        for socket, pos in locations.items():
+            draw_circle_2d(pos, (1, 0, 1, 1), hitbox_size * dpifac())
+    if location:
+        draw_circle_2d(location, (0, 1, 1, 1), 5 * dpifac())
+
+
+handlers = []
+
+
+def register_debug_handler():
+    if get_prefs(bpy.context).npie_draw_debug_lines:
+        global handlers
+        handlers.append(bpy.types.SpaceNodeEditor.draw_handler_add(draw_debug_lines, (), "WINDOW", "POST_VIEW"))
+
+
+def unregister_debug_handler():
+    unregister()
+
+
+def register():
+    bpy.app.timers.register(register_debug_handler)
+
+
+def unregister():
+    global handlers
+    for handler in handlers:
+        bpy.types.SpaceNodeEditor.draw_handler_remove(handler, "WINDOW")
+    handlers.clear()
+
+
+@BOperator("node_pie")
+class NPIE_OT_node_link(BOperator.type):
+    """Call the node pie menu"""
+
+    name: bpy.props.IntProperty()
+
+    @classmethod
+    def poll(cls, context):
+        if not context.space_data or context.area.type != "NODE_EDITOR":
+            return False
+        return True
+
+    def invoke(self, context: Context, event: Event):
+        self.handler = None
+        self.socket = None
+        self.from_pos = V((0, 0))
+        self.shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR" if bpy.app.version < (4, 0, 0) else "UNIFORM_COLOR")
+
+        mouse_pos = region_to_view(context.area, self.mouse_region)
+        global location
+        location = mouse_pos
+        # Look for a socket near to the mouse position
+        for node in context.space_data.node_tree.nodes:
+            if node.hide:
+                continue
+            locations = get_socket_locations(node)
+            for socket, pos in locations.items():
+                vec: V = mouse_pos - pos
+                if vec.length < hitbox_size:
+                    self.socket = socket
+                    self.from_pos = pos
+                    break
+
+        # if socket clicked
+        if self.socket:
+            context.area.tag_redraw()
+            self.handler = bpy.types.SpaceNodeEditor.draw_handler_add(
+                self.draw_handler,
+                tuple([context]),
+                "WINDOW",
+                "POST_VIEW",
+            )
+            handlers.append(self.handler)
+            return self.start_modal()
+        else:
+            bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT")
+        return self.FINISHED
+
+    def finish(self):
+        bpy.types.SpaceNodeEditor.draw_handler_remove(self.handler, "WINDOW")
+        global handlers
+        handlers.remove(self.handler)
+        return self.FINISHED
+
+    def modal(self, context: Context, event: Event):
+        context.area.tag_redraw()
+
+        if event.type in {"RIGHTMOUSE", "ESC"}:
+            return self.finish()
+
+        # Call the node pie
+        elif event.type == "LEFTMOUSE" and event.value == "RELEASE":
+            NPIE_MT_node_pie.from_socket = self.socket
+            NPIE_MT_node_pie.reset_cursor_pos = region_to_view(context.area, self.mouse_region)
+            bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)
+            return self.finish()
+
+        return self.RUNNING_MODAL
+
+    def draw_handler(self, context: Context):
+        # Draw a line from the socket to the mouse
+        to_pos = region_to_view(context.area, self.mouse_region)
+        coords = [self.from_pos, to_pos]
+
+        shader = self.shader
+        gpu.state.line_width_set(2)
+        batch = batch_for_shader(shader, "LINES", {"pos": coords})
+        shader.bind()
+        shader.uniform_float("color", (1, 0, 0, 1))
+        batch.draw(shader)

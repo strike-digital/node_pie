@@ -25,7 +25,7 @@ POSSIBLE_VALUES = ["type", "value", "shift", "ctrl", "alt", "oskey", "any", "key
 
 def kmi_from_config(config: dict, km: bpy.types.KeyMap, id: int):
     active = config.pop("active", True)
-    kmi = km.keymap_items.new("node_pie.call_node_pie", **config)
+    kmi = km.keymap_items.new("node_pie.node_link", **config)
     kmi.active = active
     kmi.properties.name = id
     addon_keymaps.append((km, kmi))

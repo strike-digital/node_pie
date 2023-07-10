@@ -402,15 +402,32 @@ class BOperator():
                 This needs to be returned by the invoke method to work."""
                 return bpy.context.window_manager.invoke_props_popup(_self, _self.event)
 
-            def invoke(_self, context, event):
-                """Wrap the invoke function so we can set some initial attributes"""
+            def start_modal(_self):
+                """Initialize this as a modal operator.
+                Should be called and returned by the invoke function"""
+                bpy.context.window_manager.modal_handler_add(_self)
+                return _self.RUNNING_MODAL
+
+            def set_event_attrs(_self, event):
                 _self.event = event
+                _self.mouse_window = Vector((event.mouse_x, event.mouse_y))
+                _self.mouse_window_prev = Vector((event.mouse_prev_x, event.mouse_prev_y))
+                _self.mouse_region = Vector((event.mouse_region_x, event.mouse_region_y))
+
+            def invoke(_self, context: Context, event: Event):
+                """Wrap the invoke function so we can set some initial attributes"""
+                _self.set_event_attrs(event)
                 if hasattr(super(), "invoke"):
                     return super().invoke(context, event)
                 else:
                     return _self.execute(context)
 
-            def execute(_self, context):
+            def modal(_self, context: Context, event: Event):
+                """Wrap the modal function so we can set some initial attributes"""
+                _self.set_event_attrs(event)
+                return super().modal(context, event)
+
+            def execute(_self, context: Context):
                 """Wrap the execute function to remove the need to return {"FINISHED"}"""
                 ret = super().execute(context)
                 if ret is None:

@@ -1,6 +1,7 @@
 import bpy
 from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
+from .operators.op_node_link import register_debug_handler, unregister_debug_handler
 from .npie_helpers import get_prefs
 from .npie_ui import draw_section, draw_inline_prop
 from .npie_keymap import addon_keymaps, get_user_kmi_from_addon_kmi
@@ -59,12 +60,6 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Prevent new changes the popularity of nodes.",
     )
 
-    npie_dev_extras: BoolProperty(
-        name="Show dev extras",
-        default=False,
-        description="Show some operators in the right click menu to make creating custom definition files easier.",
-    )
-
     npie_separator_headings: BoolProperty(
         name="Subcategory labels",
         default=True,
@@ -75,6 +70,25 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         name="Show variants",
         default=True,
         description="Draw the variants menus for nodes that support them",
+    )
+
+    npie_dev_extras: BoolProperty(
+        name="Show dev extras",
+        default=False,
+        description="Show some operators in the right click menu to make creating custom definition files easier.",
+    )
+
+    def draw_debug_update(self, context):
+        if self.npie_draw_debug_lines:
+            register_debug_handler()
+        else:
+            unregister_debug_handler()
+
+    npie_draw_debug_lines: BoolProperty(
+        name="Draw debug lines",
+        default=False,
+        description="Draw some debug lines to show the position of clicks, node inputs etc.",
+        update=draw_debug_update,
     )
 
     def draw(self, context):
@@ -100,6 +114,8 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
+        if prefs.npie_dev_extras:
+            draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 
         col = draw_section(layout, "Keymap")

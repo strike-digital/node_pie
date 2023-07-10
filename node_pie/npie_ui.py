@@ -5,10 +5,11 @@ import random
 import traceback
 
 import bpy
+from mathutils import Vector
 from .npie_custom_pies import NodeCategory, NodeItem, NodeOperator, Separator
 from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
-from bpy.types import Context, Menu, UILayout
+from bpy.types import Context, Menu, NodeSocket, UILayout
 
 from .npie_helpers import lerp, inv_lerp, get_prefs
 
@@ -194,6 +195,9 @@ class NPIE_MT_node_groups(Menu):
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
     bl_label = "Node Pie"
+
+    from_socket: NodeSocket = None
+    reset_cursor_pos: Vector = Vector((0, 0))
 
     @classmethod
     def poll(cls, context):
