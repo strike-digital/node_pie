@@ -5,25 +5,17 @@ import webbrowser
 
 import bpy
 from bpy.props import BoolProperty
-from bpy.types import Operator, UILayout
+from bpy.types import UILayout
 from .npie_custom_pies import NodeItem, load_custom_nodes_info
 
 from .npie_ui import NPIE_MT_node_pie, get_popularity_id, get_variants_menu
-from .npie_helpers import BOperator, get_all_def_files
+from .npie_helpers import get_all_def_files
+from .npie_btypes import BOperator
 from .npie_constants import NODE_DEF_BASE_FILE, NODE_DEF_DIR, NODE_DEF_EXAMPLE_FILE, POPULARITY_FILE, POPULARITY_FILE_VERSION
 
 
-class NodeSetting(bpy.types.PropertyGroup):
-    value: bpy.props.StringProperty(
-        name="Value",
-        description="Python expression to be evaluated "
-        "as the initial node setting",
-        default="",
-    )
-
-
 @BOperator("node_pie", idname="add_node", undo=True)
-class NPIE_OT_node_pie_add_node(Operator):
+class NPIE_OT_node_pie_add_node(BOperator.type):
     """Add a node to the node tree, and increase its poularity by 1"""
 
     type: bpy.props.StringProperty(name="Type", description="Node type to add", default="FunctionNodeInputVector")
@@ -104,7 +96,7 @@ class NPIE_OT_node_pie_add_node(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_reset_popularity(Operator):
+class NPIE_OT_reset_popularity(BOperator.type):
     """Reset the popularity of all nodes back to zero"""
 
     def invoke(self, context, event):
@@ -137,7 +129,7 @@ class NPIE_OT_reset_popularity(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_call_node_pie(Operator):
+class NPIE_OT_call_node_pie(BOperator.type):
     """Call the node pie menu"""
 
     name: bpy.props.IntProperty()
@@ -164,7 +156,7 @@ class NPIE_OT_call_node_pie(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_open_definition_file(Operator):
+class NPIE_OT_open_definition_file(BOperator.type):
     """Open the node pie definition file for this node tree"""
 
     example: BoolProperty()
@@ -193,7 +185,7 @@ class NPIE_OT_open_definition_file(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_copy_nodes_as_json(Operator):
+class NPIE_OT_copy_nodes_as_json(BOperator.type):
     """Copy the selected nodes in the correct format to be pasted into the node pie definition file."""
 
     @classmethod

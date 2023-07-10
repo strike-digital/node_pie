@@ -38,6 +38,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Whether to show node groups in the pie menu or not",
     )
 
+    npie_expand_node_groups: BoolProperty(
+        name="Expand node groups",
+        default=False,
+        description="Whether to draw the node groups as a sub menu or as individual buttons",
+    )
+
     npie_color_size: FloatProperty(
         name="Color bar size",
         default=.02,
@@ -88,7 +94,9 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         row.operator("node_pie.reset_popularity", icon="FILE_REFRESH")
 
         col = draw_section(layout, "General")
-        draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
+        col.scale_y = .9
+        # draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
+        draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)

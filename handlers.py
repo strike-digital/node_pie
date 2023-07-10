@@ -10,6 +10,7 @@
 
 # def dpifac():
 #     prefs = bpy.context.preferences.system
+#     return round(bpy.context.preferences.view.ui_scale, 2)
 #     return prefs.dpi * prefs.pixel_size / 72
 
 
@@ -36,18 +37,19 @@
 #     location = node.location.copy()
 #     location *= dpifac()
 #     bottom = V((location.x, location.y - node.dimensions.y))
-#     print(node.dimensions.y, node.location.y)
 #     # socket_positions = [bottom]
 #     socket_positions = []
+#     inputs = [i for i in node.inputs if not i.hide and i.enabled]
 #     # draw_rect(shader, location.x, location.y, node.dimensions.x, -node.dimensions.y)
-#     for i, input in enumerate(list(node.inputs)[::-1]):
+#     for i, input in enumerate(list(inputs)[::-1]):
 #         if not input.enabled:
 #             continue
 
 #         pos = bottom.copy()
 #         if i == 0:
-#             pos.y -= 12 * dpifac()
-#         if input.type == "VECTOR":
+#             pos.y -= 10 * dpifac()
+#             pass
+#         if input.type == "VECTOR" and not input.hide_value:
 #             pos.y += 82 * dpifac()
 #         else:
 #             pos.y += 22 * dpifac()
@@ -58,8 +60,8 @@
 #     for pos in socket_positions:
 #         width = 10 * dpifac()
 #         draw_rect(shader, pos[0] - width / 2, pos[1], width, width, (1, 0, 0, 1))
-#     draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
-#     draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
+#     # draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
+#     # draw_rect(shader, 0, 0, 100, 100, (1, 0, 0, 1))
 #     verts = [(0, 0), (0, 100), (100, 100), (100, 0)]
 #     verts = [verts[0], verts[1], verts[2], verts[2], verts[3], verts[0]]
 

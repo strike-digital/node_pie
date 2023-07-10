@@ -1,7 +1,6 @@
 from pathlib import Path
 import bpy
-from bpy.types import Operator
-from .npie_helpers import BOperator
+from .npie_btypes import BOperator
 """For some reason, blender doesn't save modified keymaps when the addon is reloaded, so this stores the keymaps in a
 config file in the presets directory. There is almost certainly a better way to do this, but I couldn't find it"""
 
@@ -151,7 +150,7 @@ def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):
 
 
 @BOperator("node_pie")
-class NPIE_OT_edit_keymap_item(Operator):
+class NPIE_OT_edit_keymap_item(BOperator.type):
 
     index: bpy.props.IntProperty()
 
@@ -169,7 +168,7 @@ class NPIE_OT_edit_keymap_item(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_remove_keymap_item(Operator):
+class NPIE_OT_remove_keymap_item(BOperator.type):
 
     index: bpy.props.IntProperty()
 
@@ -180,7 +179,7 @@ class NPIE_OT_remove_keymap_item(Operator):
 
 
 @BOperator("node_pie")
-class NPIE_OT_new_keymap_item(Operator):
+class NPIE_OT_new_keymap_item(BOperator.type):
     """Add a new keymap item for calling the node pie menu"""
 
     def execute(self, context):

@@ -13,19 +13,11 @@ __all__ = (
 
 blender_version = bpy.app.version
 
-# Icons needs to register first so that they are available to other modules when they're imported
-manual_modules_pre_classes = []
-manual_modules_post_classes = []
 modules = None
 ordered_classes = None
 
 
 def init():
-    # Something that I added so that I can get the correct order of registration
-    for module in manual_modules_pre_classes:
-        if hasattr(module, "register"):
-            module.register()
-
     global modules
     global ordered_classes
 
@@ -35,31 +27,29 @@ def init():
 
 def register():
 
-    for cls in ordered_classes:
-        if hasattr(cls, "dont_register"):
+    for module in modules.copy():
+        if module.__name__ == __name__ or hasattr(module, "__no_reg__") and module.__no_reg__:
+            modules.remove(module)
             continue
+
+    # Custom attributes to prevent registering, and to enable proper registration order
+    for cls in ordered_classes.copy():
+        if (hasattr(cls, "__no_reg__") and cls.__no_reg__):
+            ordered_classes.remove(cls)
+
+    for cls in ordered_classes:
         bpy.utils.register_class(cls)
 
-    for module in manual_modules_post_classes:
-        if hasattr(module, "register"):
-            module.register()
-
-    for module in modules:
-        if module.__name__ == __name__ or module in manual_modules_pre_classes or module in manual_modules_post_classes:
-            continue
+    for module in modules.copy():
         if hasattr(module, "register"):
             module.register()
 
 
 def unregister():
     for cls in reversed(ordered_classes):
-        if hasattr(cls, "dont_register"):
-            continue
         bpy.utils.unregister_class(cls)
 
     for module in modules:
-        if module.__name__ == __name__:
-            continue
         if hasattr(module, "unregister"):
             module.unregister()
 
@@ -69,7 +59,7 @@ def unregister():
 
 
 def get_all_submodules(directory):
-    return [m for m in list(iter_submodules(directory, directory.name)) if not hasattr(m, "dont_register")]
+    return list(iter_submodules(directory, directory.name))
 
 
 def iter_submodules(path, package_name):

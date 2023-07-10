@@ -343,24 +343,36 @@ class NPIE_MT_node_pie(Menu):
             if not node_groups or not prefs.npie_show_node_groups:
                 return
             col = layout.box().column(align=True)
-            col.scale_y = prefs.npie_normal_size
+            if prefs.npie_expand_node_groups:
+                draw_header(col, "Node Groups")
+                for ng in node_groups:
+                    if not ng.name.startswith("."):
+                        draw_add_operator(
+                            col,
+                            ng.name,
+                            color_name="group",
+                            identifier=tree_type.replace("Tree", "Group"),
+                            group_name=ng.name,
+                            max_len=18,
+                        )
+            else:
+                col.scale_y = prefs.npie_normal_size
+                col.operator("wm.call_menu", text="Node Groups", icon="NODE")
+                scale = -1
 
-            col.operator("wm.call_menu", text="Node Groups", icon="NODE")
-            scale = -1
+                # Uncomment to add an arrow to the right hand side
+                # subcol = col.column(align=True)
+                # subcol.prop(context.scene, "frame_end", text="")
+                # subcol.scale_y = scale
+                # row = col.row(align=True)
+                # row.alignment = "RIGHT"
+                # row.menu(NPIE_MT_node_groups.__name__, text="", icon="TRIA_RIGHT")
 
-            # Uncomment this to add an arrow to the right hand side
-            # subcol = col.column(align=True)
-            # subcol.prop(context.scene, "frame_end", text="")
-            # subcol.scale_y = scale
-            # row = col.row(align=True)
-            # row.alignment = "RIGHT"
-            # row.menu(NPIE_MT_node_groups.__name__, text="", icon="TRIA_RIGHT")
-
-            subcol = col.column(align=True)
-            subcol.prop(context.scene, "frame_end", text="")
-            subcol.scale_y = scale
-            subcol.scale_x = 1.6
-            col.menu(NPIE_MT_node_groups.__name__, text=" ")
+                subcol = col.column(align=True)
+                subcol.prop(context.scene, "frame_end", text="")
+                subcol.scale_y = scale
+                subcol.scale_x = 1.6
+                col.menu(NPIE_MT_node_groups.__name__, text=" ")
 
         def draw_category(layout: UILayout, category: NodeCategory, header="", remove: str = ""):
             """Draw all node items in this category"""
