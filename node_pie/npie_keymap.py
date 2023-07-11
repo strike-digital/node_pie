@@ -1,5 +1,6 @@
 from pathlib import Path
 import bpy
+from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .npie_btypes import BOperator
 """For some reason, blender doesn't save modified keymaps when the addon is reloaded, so this stores the keymaps in a
 config file in the presets directory. There is almost certainly a better way to do this, but I couldn't find it"""
@@ -91,6 +92,13 @@ def register():
 
         for i, config in enumerate(keymap_config):
             kmi_from_config(config, km, i)
+        km.keymap_items.new(
+            NPIE_OT_insert_node_pie.bl_idname,
+            type="LEFTMOUSE",
+            value="CLICK_DRAG",
+            ctrl=True,
+            alt=True,
+        )
 
 
 def unregister():

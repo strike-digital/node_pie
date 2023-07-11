@@ -44,18 +44,17 @@ compare_types = add_socket_names(compare_types)
 all_types = add_socket_names(all_types)
 
 
-def handle_node_linking(socket: NodeSocket, node: Node):
-    """Make the optimal link between a node and a socket, taking into account socket types"""
-    exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
-    exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
-
+def set_node_settings(socket: NodeSocket, node: Node):
     # Make sure that the node has the correct data type
     if node.type == "SWITCH" and not socket.bl_idname.startswith("NodeSocketBool"):
         name = next(s for s in switch_types if socket.bl_idname.startswith(s))
         node.input_type = switch_types[name]
 
     elif node.type == "COMPARE" and socket.is_output:
-        name = next(s for s in compare_types if socket.bl_idname.startswith(s))
+        try:
+            name = next(s for s in compare_types if socket.bl_idname.startswith(s))
+        except StopIteration:
+            return
         node.data_type = compare_types[name]
 
     elif hasattr(node, "data_type"):
@@ -65,6 +64,12 @@ def handle_node_linking(socket: NodeSocket, node: Node):
                 node.data_type = data_type
             except TypeError:
                 pass
+
+
+def handle_node_linking(socket: NodeSocket, node: Node):
+    """Make the optimal link between a node and a socket, taking into account socket types"""
+    exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
+    exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
 
     # Try to find the best link based on the socket types
     def get_socket(from_socket, sockets):
@@ -124,7 +129,7 @@ class NPIE_OT_add_node(BOperator.type):
 
         # If being added by dragging from a socket
         if socket := NPIE_MT_node_pie.from_socket:
-            handle_node_linking(socket, node)
+            set_node_settings(socket, node)
 
         # Set the settings for the node
         settings = eval(self.settings)
@@ -133,6 +138,16 @@ class NPIE_OT_add_node(BOperator.type):
             attr = ".".join(name.split(".")[:-1])
             name = name.split(".")[-1]
             setattr(eval(attr), name, value)
+
+        # If being added by dragging from a socket
+        if socket := NPIE_MT_node_pie.from_socket:
+            handle_node_linking(socket, node)
+
+        # If being added by dragging from a socket
+        if sockets := NPIE_MT_node_pie.to_sockets:
+            for socket in sockets:
+                handle_node_linking(socket, node)
+            print(sockets)
 
         with open(POPULARITY_FILE, "r") as f:
             if text := f.read():

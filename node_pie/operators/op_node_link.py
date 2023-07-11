@@ -41,8 +41,12 @@ def get_socket_locations(node: Node):
     location = node.location.copy()
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
     positions = {}
+
+    if node.type == "REROUTE":
+        positions[node.outputs[0]] = node.location * dpifac()
+        return positions
+
     inputs = [i for i in node.inputs if not i.hide and i.enabled]
-    ui_scale = bpy.context.preferences.view.ui_scale
 
     for i, input in enumerate(list(inputs)[::-1]):
         pos = bottom.copy()
@@ -51,9 +55,6 @@ def get_socket_locations(node: Node):
         if input.type == "VECTOR" and not input.hide_value and not input.is_linked and input.name not in not_vectors:
             pos.y += 82
         else:
-            # if ui_scale < 1:
-            #     pos.y += lerp(ui_scale, 27, 22)
-            # else:
             pos.y += get_prefs(bpy.context).npie_socket_separation
         bottom = pos
         positions[input] = pos * dpifac()
@@ -171,7 +172,7 @@ class NPIE_OT_node_link(BOperator.type):
         # Call the node pie
         elif event.type == "LEFTMOUSE" and event.value == "RELEASE":
             NPIE_MT_node_pie.from_socket = self.socket
-            NPIE_MT_node_pie.reset_cursor_pos = region_to_view(context.area, self.mouse_region)
+            NPIE_MT_node_pie.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)
             return self.finish()
 

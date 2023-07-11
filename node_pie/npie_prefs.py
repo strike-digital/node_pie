@@ -79,6 +79,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Show some operators in the right click menu to make creating custom definition files easier.",
     )
 
+    npie_use_link_dragging: BoolProperty(
+        name="Enable link dragging",
+        default=True,
+        description="Allow automatically connecting the new node to a socket if it is hoverred",
+    )
+
     def draw_debug_update(self, context):
         if self.npie_draw_debug_lines:
             register_debug_handler()
@@ -100,8 +106,6 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             and drag linking doesn't work as a result.".replace("  ", ""),
         subtype="PIXEL",
     )
-    """Added support for calling the pie menu after dragging from a socket with the node pie shortcut held. This will then automatically connect the new node to the socket that it was dragged from.
-    """
 
     def draw(self, context):
         layout = self.layout
@@ -129,9 +133,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         row.operator("node_pie.reset_popularity", icon="FILE_REFRESH")
 
         col = draw_section(layout, "On Link Drag")
-        draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
-        if prefs.npie_draw_debug_lines:
-            draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)
+        draw_inline_prop(col, prefs, "npie_use_link_dragging", factor=fac)
+        if prefs.npie_use_link_dragging:
+            draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
+            if prefs.npie_draw_debug_lines:
+                draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)
         InfoSnippets.link_drag.draw(col)
 
         col = draw_section(layout, "Keymap")

@@ -5,7 +5,6 @@ import random
 import traceback
 
 import bpy
-from mathutils import Vector
 from .npie_custom_pies import NodeCategory, NodeItem, NodeOperator, Separator
 from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
@@ -197,7 +196,7 @@ class NPIE_MT_node_pie(Menu):
     bl_label = "Node Pie"
 
     from_socket: NodeSocket = None
-    reset_cursor_pos: Vector = Vector((0, 0))
+    to_sockets: list[NodeSocket] = []
 
     @classmethod
     def poll(cls, context):
