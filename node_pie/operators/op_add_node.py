@@ -1,11 +1,93 @@
 import bpy
-from bpy.types import NodeTree
+from bpy.types import Node, NodeSocket, NodeTree
 from ..npie_btypes import BOperator
 from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
 from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
 
 import json
 from typing import OrderedDict
+
+# Convert from node socket types to node enum names
+# Switch and compare nodes have special cases that need to be dealt with individually
+compare_types = {
+    "Float": "FLOAT",
+    "Int": "INT",
+    "Vector": "VECTOR",
+    "String": "STRING",
+    "Color": "RGBA",
+}
+
+switch_types = {
+    "Bool": "BOOLEAN",
+    "Object": "OBJECT",
+    "Collection": "COLLECTION",
+    "Image": "IMAGE",
+    "Geometry": "GEOMETRY",
+    "Texture": "TEXTURE",
+    "Material": "MATERIAL",
+}
+
+
+def add_socket_names(names_dict):
+    return {"NodeSocket" + k: v for k, v in names_dict.items()}
+
+
+switch_types.update(compare_types)
+
+# All other nodes then have a list of enum types associated with each socket type
+all_types = {k: [v] for k, v in switch_types.items()}
+all_types["Vector"].append("FLOAT_VECTOR")
+all_types["Color"].append("FLOAT_COLOR")
+
+switch_types = add_socket_names(switch_types)
+compare_types = add_socket_names(compare_types)
+all_types = add_socket_names(all_types)
+
+
+def handle_node_linking(socket: NodeSocket, node: Node):
+    """Make the optimal link between a node and a socket, taking into account socket types"""
+    exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
+    exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
+
+    # Make sure that the node has the correct data type
+    if node.type == "SWITCH" and not socket.bl_idname.startswith("NodeSocketBool"):
+        name = next(s for s in switch_types if socket.bl_idname.startswith(s))
+        node.input_type = switch_types[name]
+
+    elif node.type == "COMPARE" and socket.is_output:
+        name = next(s for s in compare_types if socket.bl_idname.startswith(s))
+        node.data_type = compare_types[name]
+
+    elif hasattr(node, "data_type"):
+        name = next(s for s in all_types if socket.bl_idname.startswith(s))
+        for data_type in all_types[name]:
+            try:
+                node.data_type = data_type
+            except TypeError:
+                pass
+
+    # Try to find the best link based on the socket types
+    def get_socket(from_socket, sockets):
+        socket = None
+        for s in sockets:
+            if s.bl_idname != from_socket.bl_idname:
+                if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
+                    continue
+            socket = s
+            break
+        if not socket:
+            socket = sockets[0]
+        return socket
+
+    if socket.is_output:
+        inputs = [s for s in node.inputs if s.enabled and not s.hide]
+        to_socket = get_socket(socket, inputs)
+        from_socket = socket
+    else:
+        outputs = [s for s in node.outputs if s.enabled and not s.hide]
+        from_socket = get_socket(socket, outputs)
+        to_socket = socket
+    node.id_data.links.new(from_socket, to_socket)
 
 
 @BOperator("node_pie", idname="add_node", undo=True)
@@ -42,31 +124,7 @@ class NPIE_OT_add_node(BOperator.type):
 
         # If being added by dragging from a socket
         if socket := NPIE_MT_node_pie.from_socket:
-            exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
-            exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
-
-            # Try to find the best link based on the socket types
-            def get_socket(from_socket, sockets):
-                socket = None
-                for s in sockets:
-                    if s.bl_idname != from_socket.bl_idname:
-                        if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
-                            continue
-                    socket = s
-                    break
-                if not socket:
-                    socket = sockets[0]
-                return socket
-
-            if socket.is_output:
-                inputs = [s for s in node.inputs if s.enabled and not s.hide]
-                to_socket = get_socket(socket, inputs)
-                from_socket = socket
-            else:
-                outputs = [s for s in node.outputs if s.enabled and not s.hide]
-                from_socket = get_socket(socket, outputs)
-                to_socket = socket
-            node_tree.links.new(from_socket, to_socket)
+            handle_node_linking(socket, node)
 
         # Set the settings for the node
         settings = eval(self.settings)
@@ -109,9 +167,4 @@ class NPIE_OT_add_node(BOperator.type):
         with open(POPULARITY_FILE, "w") as f:
             json.dump(data, f, indent=4)
 
-        # from pprint import pprint
-        # pprint(list(bpy.utils.manual_map()))
-        # url = get_docs_url(self.type)
-        # print(get_docs_url(self.type))
-        # webbrowser.open(url)
         return {'PASS_THROUGH'}

@@ -63,6 +63,7 @@ KEYMAP_FILE = Path(__file__).parent / "keymap.json"
 
 
 def register():
+    addon_keymaps.clear()
     # Read saved keymap, or save and load the default one if not present
     # if not KEYMAP_FILE.exists():
     #     with open(KEYMAP_FILE, "w") as f:

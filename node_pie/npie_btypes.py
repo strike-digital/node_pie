@@ -13,12 +13,12 @@ from mathutils import Vector
 to_register = []
 
 
-def wrap_text(self, context: Context, text: str, layout: UILayout, centered: bool = False) -> list[str]:
+def wrap_text(self, context: Context, text: str, layout: UILayout, width: int = 0, centered: bool = False) -> list[str]:
     """Take a string and draw it over multiple lines so that it is never concatenated."""
     return_text = []
     row_text = ''
 
-    width = context.region.width
+    width = width or context.region.width
     system = context.preferences.system
     ui_scale = system.ui_scale
     width = (4 / (5 * ui_scale)) * width

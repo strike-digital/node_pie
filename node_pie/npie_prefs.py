@@ -1,6 +1,7 @@
 import bpy
 from bpy.types import UILayout
 from bpy.props import BoolProperty, FloatProperty
+from .operators.op_show_info import InfoSnippets
 from .operators.op_node_link import register_debug_handler, unregister_debug_handler
 from .npie_helpers import get_prefs
 from .npie_ui import draw_section, draw_inline_prop
@@ -87,17 +88,37 @@ class NodePiePrefs(bpy.types.AddonPreferences):
     npie_draw_debug_lines: BoolProperty(
         name="Draw debug lines",
         default=False,
-        description="Draw some debug lines to show the position of clicks, node inputs etc.",
+        description="Draw some debug lines to show the bounding box for clicking a node socket for drag linking.",
         update=draw_debug_update,
     )
+
+    npie_socket_separation: FloatProperty(
+        name="Socket separation",
+        default=22,
+        description="The vertical distance between node sockets.\
+            This should only be changed if you use a high or low UI scale,\
+            and drag linking doesn't work as a result.".replace("  ", ""),
+        subtype="PIXEL",
+    )
+    """Added support for calling the pie menu after dragging from a socket with the node pie shortcut held. This will then automatically connect the new node to the socket that it was dragged from.
+    """
 
     def draw(self, context):
         layout = self.layout
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
         prefs = get_prefs(context)
         layout = layout.grid_flow(row_major=True, even_columns=True)
-
         fac = .515
+
+        col = draw_section(layout, "General")
+        col.scale_y = .9
+        # draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
+        draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
+        draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
+        draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
+        draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
+        draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
+
         col = draw_section(layout, "Node Popularity")
         draw_inline_prop(col, prefs, "npie_variable_sizes", factor=fac)
         draw_inline_prop(col, prefs, "npie_normal_size", factor=fac)
@@ -107,16 +128,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         row.prop(prefs, "npie_freeze_popularity", text="Freeze popularity", icon="FREEZE", toggle=True)
         row.operator("node_pie.reset_popularity", icon="FILE_REFRESH")
 
-        col = draw_section(layout, "General")
-        col.scale_y = .9
-        # draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
-        draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
-        draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
-        draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
-        draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
-        if prefs.npie_dev_extras:
-            draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
-        draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
+        col = draw_section(layout, "On Link Drag")
+        draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
+        if prefs.npie_draw_debug_lines:
+            draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)
+        InfoSnippets.link_drag.draw(col)
 
         col = draw_section(layout, "Keymap")
         kc = bpy.context.window_manager.keyconfigs.user

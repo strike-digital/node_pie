@@ -4,7 +4,7 @@ import gpu
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
-from ..npie_helpers import get_prefs, lerp
+from ..npie_helpers import get_prefs
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
 
@@ -51,12 +51,10 @@ def get_socket_locations(node: Node):
         if input.type == "VECTOR" and not input.hide_value and not input.is_linked and input.name not in not_vectors:
             pos.y += 82
         else:
-            print(ui_scale)
-            if ui_scale < 1:
-                print(lerp((ui_scale - .5) / 2, 24.5, 22))
-                pos.y += lerp(ui_scale, 27, 22)
-            else:
-                pos.y += 22
+            # if ui_scale < 1:
+            #     pos.y += lerp(ui_scale, 27, 22)
+            # else:
+            pos.y += get_prefs(bpy.context).npie_socket_separation
         bottom = pos
         positions[input] = pos * dpifac()
 
@@ -185,8 +183,21 @@ class NPIE_OT_node_link(BOperator.type):
         coords = [self.from_pos, to_pos]
 
         shader = self.shader
-        gpu.state.line_width_set(2)
         batch = batch_for_shader(shader, "LINES", {"pos": coords})
         shader.bind()
-        shader.uniform_float("color", (1, 0, 0, 1))
+
+        color = (.27, .5, 1)
+
+        # The poor man's anti-aliasing. Doesn't really work, but it's better than nothing
+        gpu.state.blend_set("ALPHA")
+        gpu.state.line_width_set(6)
+        shader.uniform_float("color", (*color, .1))
+        batch.draw(shader)
+
+        gpu.state.line_width_set(4)
+        shader.uniform_float("color", (*color, .5))
+        batch.draw(shader)
+
+        gpu.state.line_width_set(2)
+        shader.uniform_float("color", (*color, 1))
         batch.draw(shader)
