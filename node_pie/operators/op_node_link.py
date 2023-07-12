@@ -1,10 +1,10 @@
 import bpy
-from bpy.types import Area, Context, Event, Node
+from bpy.types import Area, Context, Event, Node, NodeSocket
 import gpu
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
-from ..npie_helpers import get_prefs
+from ..npie_helpers import Rectangle, get_prefs
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
 
@@ -30,8 +30,8 @@ def dpifac():
     return prefs.dpi * prefs.pixel_size / 72
 
 
-def get_socket_locations(node: Node):
-    """Get the locations of all inputs and outputs for the given node.
+def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket, Rectangle]]:
+    """Get the bounding boxes of all inputs and outputs for the given node.
     There is no built in way to do this so it's mostly arbitrary numbers that look about right."""
     if not node:
         return
@@ -39,26 +39,38 @@ def get_socket_locations(node: Node):
     not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
 
     location = node.location.copy()
-    bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
     positions = {}
+    bboxes = {}
 
     if node.type == "REROUTE":
         positions[node.outputs[0]] = node.location * dpifac()
         return positions
 
+    # inputs
     inputs = [i for i in node.inputs if not i.hide and i.enabled]
+    bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
+    min_offset = 12
+    max_offset_x = node.width * dpifac()
 
     for i, input in enumerate(list(inputs)[::-1]):
         pos = bottom.copy()
+        min_offset_y = 0
         if i == 0:
             pos.y -= 5
         if input.type == "VECTOR" and not input.hide_value and not input.is_linked and input.name not in not_vectors:
             pos.y += 82
+            min_offset_y = 65
         else:
             pos.y += get_prefs(bpy.context).npie_socket_separation
         bottom = pos
         positions[input] = pos * dpifac()
+        pos = pos * dpifac()
 
+        min_co = pos - V((min_offset, min_offset + min_offset_y))
+        max_co = pos + V((max_offset_x, min_offset))
+        bboxes[input] = Rectangle(min_co, max_co)
+
+    # Outputs
     top = V((location.x + node.width, location.y))
     outputs = [o for o in node.outputs if not o.hide and o.enabled]
 
@@ -70,17 +82,34 @@ def get_socket_locations(node: Node):
             pos.y -= 22
         top = pos
         positions[output] = pos * dpifac()
+        pos = pos * dpifac()
 
-    return positions
+        min_co = pos - V((max_offset_x, min_offset))
+        max_co = pos + V((min_offset, min_offset))
+        bboxes[output] = Rectangle(min_co, max_co)
+
+    return positions, bboxes
+
+
+if bpy.app.version >= (4, 0, 0):
+    shader: gpu.types.GPUShader = gpu.shader.from_builtin("UNIFORM_COLOR")
+else:
+    shader: gpu.types.GPUShader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
 
 
 def draw_debug_lines():
     """Draw a circle around the sockets of the active node, and also the last location that the node pie was activated"""
     node = bpy.context.active_node
     if node:
-        locations = get_socket_locations(node)
-        for socket, pos in locations.items():
-            draw_circle_2d(pos, (1, 0, 1, 1), hitbox_size * dpifac())
+        positions, bboxes = get_socket_bboxes(node)
+        for socket, bbox in bboxes.items():
+            batch = batch_for_shader(shader, 'LINES', {"pos": bbox.as_lines()})
+            shader.bind()
+            line_colour = (1, 0, 1, .9)
+            shader.uniform_float("color", line_colour)
+            batch.draw(shader)
+        for socket, pos in positions.items():
+            draw_circle_2d(pos, (1, 0, 1, 1), 5 * dpifac())
     if location:
         draw_circle_2d(location, (0, 1, 1, 1), 5 * dpifac())
 
@@ -134,12 +163,13 @@ class NPIE_OT_node_link(BOperator.type):
         for node in context.space_data.node_tree.nodes:
             if node.hide:
                 continue
-            locations = get_socket_locations(node)
-            for socket, pos in locations.items():
-                vec: V = mouse_pos - pos
-                if vec.length < hitbox_size:
+            positions, bboxes = get_socket_bboxes(node)
+            for socket, bbox in bboxes.items():
+                # vec: V = mouse_pos - pos
+                # if vec.length < hitbox_size:
+                if bbox.isinside(mouse_pos):
                     self.socket = socket
-                    self.from_pos = pos
+                    self.from_pos = positions[socket]
                     break
 
         # if socket clicked
@@ -170,7 +200,8 @@ class NPIE_OT_node_link(BOperator.type):
             return self.finish()
 
         # Call the node pie
-        elif event.type == "LEFTMOUSE" and event.value == "RELEASE":
+        # elif event.type == "LEFTMOUSE" and event.value == "RELEASE":
+        elif event.value == "RELEASE":
             NPIE_MT_node_pie.from_socket = self.socket
             NPIE_MT_node_pie.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)

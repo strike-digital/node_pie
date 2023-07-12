@@ -92,7 +92,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             unregister_debug_handler()
 
     npie_draw_debug_lines: BoolProperty(
-        name="Draw debug lines",
+        name="Draw debug boxes",
         default=False,
         description="Draw some debug lines to show the bounding box for clicking a node socket for drag linking.",
         update=draw_debug_update,

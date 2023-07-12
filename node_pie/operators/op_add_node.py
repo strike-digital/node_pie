@@ -35,7 +35,11 @@ def add_socket_names(names_dict):
 switch_types.update(compare_types)
 
 # All other nodes then have a list of enum types associated with each socket type
-all_types = {k: [v] for k, v in switch_types.items()}
+all_types = switch_types.copy()
+all_types.update({
+    "Shader": "SHADER",
+})
+all_types = {k: [v] for k, v in all_types.items()}
 all_types["Vector"].append("FLOAT_VECTOR")
 all_types["Color"].append("FLOAT_COLOR")
 
