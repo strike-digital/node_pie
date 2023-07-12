@@ -49,7 +49,7 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     # inputs
     inputs = [i for i in node.inputs if not i.hide and i.enabled]
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
-    min_offset = 12
+    min_offset = V((18, 12))
     max_offset_x = node.width * dpifac()
 
     for i, input in enumerate(list(inputs)[::-1]):
@@ -66,8 +66,8 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
         positions[input] = pos * dpifac()
         pos = pos * dpifac()
 
-        min_co = pos - V((min_offset, min_offset + min_offset_y))
-        max_co = pos + V((max_offset_x, min_offset))
+        min_co = pos - V((min_offset.x, min_offset.y + min_offset_y))
+        max_co = pos + V((max_offset_x, min_offset.y))
         bboxes[input] = Rectangle(min_co, max_co)
 
     # Outputs
@@ -84,8 +84,8 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
         positions[output] = pos * dpifac()
         pos = pos * dpifac()
 
-        min_co = pos - V((max_offset_x, min_offset))
-        max_co = pos + V((min_offset, min_offset))
+        min_co = pos - V((max_offset_x, min_offset.y))
+        max_co = pos + V((min_offset.x, min_offset.y))
         bboxes[output] = Rectangle(min_co, max_co)
 
     return positions, bboxes
