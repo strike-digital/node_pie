@@ -65,6 +65,15 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
     removals = create_defaults(removals)
 
     # REMOVALS
+    # Process layout removals
+    orig_layout = base["layout"]
+    remove_layout = removals["layout"]
+    for area_name, rem_area in remove_layout.items():
+        for orig_column, rem_column in zip(orig_layout[area_name], rem_area):
+            for cat_id in rem_column:
+                orig_column.remove(cat_id)
+
+    # Process category removals
     orig_categories = base["categories"]
     remove_categories = removals["categories"]
     for rem_cat_name, rem_cat in remove_categories.items():

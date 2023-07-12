@@ -151,7 +151,6 @@ class NPIE_OT_add_node(BOperator.type):
         if sockets := NPIE_MT_node_pie.to_sockets:
             for socket in sockets:
                 handle_node_linking(socket, node)
-            print(sockets)
 
         with open(POPULARITY_FILE, "r") as f:
             if text := f.read():

@@ -1,7 +1,18 @@
 // This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
 {
   "blender_version": [4, 0, 0],
+  "removals": {
+    "layout": {
+      "left": [[], ["SIMULATION"]]
+    },
+    "categories": {
+      "SIMULATION": {}
+    }
+  },
   "additions": {
+    "layout": {
+      "left": [[], ["ZONE"]]
+    },
     "categories": {
       "MESH": {
         "nodes": [
@@ -28,6 +39,22 @@
           { "identifier": "GeometryNodeSDFVolumeSphere" },
           { "identifier": "GeometryNodeOffsetSDFVolume" },
           { "identifier": "GeometryNodeMeanFilterSDFVolume" }
+        ]
+      },
+      "ZONE": {
+        "label": "Zones",
+        "color": "layout",
+        "nodes": [
+          {
+            "label": "Simulation Zone",
+            "operator": "node.add_simulation_zone",
+            "settings": { "use_transform": true }
+          },
+          {
+            "label": "Repeat Zone",
+            "operator": "node.add_repeat_zone",
+            "settings": { "use_transform": true }
+          }
         ]
       }
     }

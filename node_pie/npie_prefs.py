@@ -1,11 +1,12 @@
 import bpy
-from bpy.types import UILayout
+from bpy.types import KeyMap, KeyMapItem, UILayout
 from bpy.props import BoolProperty, FloatProperty
+from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .operators.op_show_info import InfoSnippets
 from .operators.op_node_link import register_debug_handler, unregister_debug_handler
 from .npie_helpers import get_prefs
 from .npie_ui import draw_section, draw_inline_prop
-from .npie_keymap import addon_keymaps, get_user_kmi_from_addon_kmi
+from .npie_keymap import get_op_kmis
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):
@@ -116,7 +117,6 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
         col = draw_section(layout, "General")
         col.scale_y = .9
-        # draw_inline_prop(col, prefs, "npie_show_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
@@ -140,32 +140,43 @@ class NodePiePrefs(bpy.types.AddonPreferences):
                 draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)
         InfoSnippets.link_drag.draw(col)
 
-        col = draw_section(layout, "Keymap")
-        kc = bpy.context.window_manager.keyconfigs.user
-        for i, (km, addon_kmi) in enumerate(addon_keymaps):
-            kmi = addon_kmi
-            try:
-                # We need to get the user version of the keymap item so that they can be modified by the user.
-                # I spent far too much time pulling my hair out over this. It really needs to be better on Blenders end.
-                kmi = get_user_kmi_from_addon_kmi("View2D", addon_kmi.idname, addon_kmi.properties.name)
-            except AttributeError:
-                # the properties for the user keymap items are not created instantly on load, account for that.
-                return
-
+        def draw_op_kmis(keymap: KeyMap, operator: str, text: str, default_new: dict = {}):
             row = col.row(align=True)
-            row.active = kmi.active
-            sub = row.row(align=True)
-            sub.prop(kmi, "active", text="")
-            sub = row.row(align=True)
-            sub.scale_x = .5
-            sub.prop(kmi, "type", full_event=True, text="")
-            sub = row.row(align=True)
-            sub.enabled = True
-            op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
-            op.index = i
-            # if kmi.is_user_modified:
-            #     op = sub.operator("preferences.keyitem_restore", text="", icon="BACK")
-            #     op.item_id = kmi.id
-            op = sub.operator("node_pie.remove_keymap_item", text="", icon="X")
-            op.index = i
-        col.operator("node_pie.new_keymap_item", text="", icon="ADD")
+            row.scale_y = .8
+            row.label(text=text)
+
+            row = row.row(align=True)
+            row.alignment = "RIGHT"
+            op = row.operator("node_pie.new_keymap_item", text="", icon="ADD", emboss=False)
+            op.operator = operator
+            for name, arg in default_new.items():
+                setattr(op, name, arg)
+
+            kmis = get_op_kmis(keymap, operator)
+            for i, kmi in enumerate(kmis):
+                kmi: KeyMapItem
+
+                row = col.row(align=True)
+                row.active = kmi.active
+                sub = row.row(align=True)
+                sub.prop(kmi, "active", text="")
+                sub = row.row(align=True)
+                sub.scale_x = .5
+                sub.prop(kmi, "type", full_event=True, text="")
+                sub = row.row(align=True)
+                sub.enabled = True
+                op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
+                op.index = i
+                op.operator = operator
+                # if kmi.is_user_modified:
+                #     op = sub.operator("preferences.keyitem_restore", text="", icon="BACK")
+                #     op.item_id = kmi.id
+                op = sub.operator("node_pie.remove_keymap_item", text="", icon="X")
+                op.index = i
+                op.operator = operator
+
+        col = draw_section(layout, "Keymap")
+        km = bpy.context.window_manager.keyconfigs.user.keymaps["View2D"]
+        draw_op_kmis(km, "node_pie.node_link", "Pie menu:")
+        col.separator()
+        draw_op_kmis(km, NPIE_OT_insert_node_pie.bl_idname, "Link insert:", {"value": "CLICK_DRAG"})
