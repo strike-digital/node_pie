@@ -49,7 +49,7 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     # inputs
     inputs = [i for i in node.inputs if not i.hide and i.enabled]
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
-    min_offset = V((18, 12))
+    min_offset = V((18, 11)) * dpifac()
     max_offset_x = node.width * dpifac()
 
     for i, input in enumerate(list(inputs)[::-1]):
