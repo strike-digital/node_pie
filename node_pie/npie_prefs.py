@@ -31,7 +31,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     npie_max_size: FloatProperty(
         name="Max size",
-        default=2.5,
+        default=2,
         description="The size of the most popular nodes",
     )
 
@@ -123,7 +123,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 
-        col = draw_section(layout, "Node Popularity")
+        col = draw_section(layout, "Node Size")
         draw_inline_prop(col, prefs, "npie_variable_sizes", factor=fac)
         draw_inline_prop(col, prefs, "npie_normal_size", factor=fac)
         draw_inline_prop(col, prefs, "npie_max_size", factor=fac)

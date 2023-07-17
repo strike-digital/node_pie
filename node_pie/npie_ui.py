@@ -271,6 +271,10 @@ class NPIE_MT_node_pie(Menu):
             """Draw the add node operator"""
 
             row = layout.row(align=True)
+            active = True
+            if "" not in text.lower():
+                active = False
+                row.active = False
             scale = 1
             # draw the operator larger if the node is used more often
             if prefs.npie_variable_sizes and not group_name:
@@ -306,6 +310,7 @@ class NPIE_MT_node_pie(Menu):
                 # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
                 if variants and prefs.npie_show_variants:
                     col = layout.column(align=True)
+                    col.active = active
 
                     # Draw a property with negative scale. This essentially gives it a negative bounding box,
                     # Pushing everything drawn below it upwards on top of whatever is already there.

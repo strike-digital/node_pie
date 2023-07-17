@@ -101,11 +101,11 @@ class InfoSnippets():
     link_drag = InfoSnippet(
         "Link drag",
         """\
-        If you press the pie menu keyboard shortcut over a node socket, the node you select will be automatically\
+        If you press the pie menu keyboard shortcut over a node socket, the node you select will be automatically \
         connected to that socket.\n
 
-        NOTE: The node socket hitboxes can be innacurate at high or low UI scales, so if you use a UI scale that is\
-        either especially high or especially low, you may want to turn on "Draw debug lines", and then adjust the\
+        NOTE: The node socket hitboxes can be innacurate at high or low UI scales, so if you use a UI scale that is \
+        either especially high or especially low, you may want to turn on "Draw debug lines", and then adjust the \
         "Socket separation" parameter until they line up again.
         The problem will be most obvious with large nodes like the Principled BSDF or the Raycast node.
         """,

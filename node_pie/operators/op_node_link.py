@@ -42,15 +42,18 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     positions = {}
     bboxes = {}
 
-    if node.type == "REROUTE":
-        positions[node.outputs[0]] = node.location * dpifac()
-        return positions
-
     # inputs
     inputs = [i for i in node.inputs if not i.hide and i.enabled]
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
     min_offset = V((18, 11)) * dpifac()
     max_offset_x = node.width * dpifac()
+
+    if node.type == "REROUTE":
+        pos = node.location * dpifac()
+        positions[node.outputs[0]] = pos
+        size = V((20, 20))
+        bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
+        return positions, bboxes
 
     for i, input in enumerate(list(inputs)[::-1]):
         pos = bottom.copy()
@@ -146,7 +149,7 @@ class NPIE_OT_node_link(BOperator.type):
 
     @classmethod
     def poll(cls, context):
-        if not context.space_data or context.area.type != "NODE_EDITOR":
+        if not context.space_data or context.area.type != "NODE_EDITOR" or not context.space_data.node_tree:
             return False
         return True
 
@@ -184,6 +187,8 @@ class NPIE_OT_node_link(BOperator.type):
             handlers.append(self.handler)
             return self.start_modal()
         else:
+            NPIE_MT_node_pie.from_socket = self.socket
+            NPIE_MT_node_pie.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT")
         return self.FINISHED
 

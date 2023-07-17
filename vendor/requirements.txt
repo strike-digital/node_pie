@@ -1,1 +1,4 @@
 requests
+# keyboard
+# mouse
+# pvendor -r .\vendor\requirements.txt vendor

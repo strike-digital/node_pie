@@ -68,6 +68,8 @@ def iter_submodules(path, package_name):
 
 
 def iter_submodule_names(path, root=""):
+    if "vendor" in Path(path).parts:
+        return
     for _, module_name, is_package in pkgutil.iter_modules([str(path)]):
         if is_package:
             sub_path = path / module_name

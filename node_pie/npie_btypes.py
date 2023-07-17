@@ -317,17 +317,17 @@ class BOperator():
             """Inherit from this to get proper type hinting for operator classes defined with the BOperator decorator"""
             return BOperatorType
 
-    def __call__(self, cls=None):
+    def __call__(decorator, cls=None):
         """This takes the decorated class and populate's the bl_ attributes with either the supplied values,
         or a best guess based on the other values"""
         inherit_from = [cls, Operator]
         if cls:
             cls_name_end = cls.__name__.split("OT_")[-1]
-            idname = f"{self.category}." + (self.idname or cls_name_end)
-            label = self.label or cls_name_end.replace("_", " ").title()
+            idname = f"{decorator.category}." + (decorator.idname or cls_name_end)
+            label = decorator.label or cls_name_end.replace("_", " ").title()
 
-            if self.description:
-                op_description = self.description
+            if decorator.description:
+                op_description = decorator.description
             elif cls.__doc__:
                 op_description = cls.__doc__
             else:
@@ -337,16 +337,16 @@ class BOperator():
             op_description = idname = label = ""
 
         options = {
-            "REGISTER": self.register,
-            "UNDO": self.undo,
-            "UNDO_GROUPED": self.undo_grouped,
-            "GRAB_CURSOR": self.wrap_cursor,
-            "GRAB_CURSOR_X": self.wrap_cursor_x,
-            "GRAB_CURSOR_Y": self.wrap_cursor_y,
-            "BLOCKING": self.blocking,
-            "INTERNAL": self.internal,
-            "PRESET": self.preset,
-            "MACRO": self.macro,
+            "REGISTER": decorator.register,
+            "UNDO": decorator.undo,
+            "UNDO_GROUPED": decorator.undo_grouped,
+            "GRAB_CURSOR": decorator.wrap_cursor,
+            "GRAB_CURSOR_X": decorator.wrap_cursor_x,
+            "GRAB_CURSOR_Y": decorator.wrap_cursor_y,
+            "BLOCKING": decorator.blocking,
+            "INTERNAL": decorator.internal,
+            "PRESET": decorator.preset,
+            "MACRO": decorator.macro,
         }
 
         options = {k for k, v in options.items() if v}
@@ -365,7 +365,7 @@ class BOperator():
             wrap_text = wrap_text
 
             # Set up a description that can be set from the UI draw function
-            if self.dynamic_description:
+            if decorator.dynamic_description:
                 bl_description: StringProperty(default=op_description, options={"HIDDEN"})
 
                 @classmethod
@@ -377,61 +377,61 @@ class BOperator():
             else:
                 bl_description = op_description
 
-            def __init__(_self):
+            def __init__(self):
                 # Allow auto-complete for execute function return values
-                _self.FINISHED = {"FINISHED"}
-                _self.CANCELLED = {"CANCELLED"}
-                _self.PASS_THROUGH = {"PASS_THROUGH"}
-                _self.RUNNING_MODAL = {"RUNNING_MODAL"}
+                self.FINISHED = {"FINISHED"}
+                self.CANCELLED = {"CANCELLED"}
+                self.PASS_THROUGH = {"PASS_THROUGH"}
+                self.RUNNING_MODAL = {"RUNNING_MODAL"}
 
-            def call_popup(_self, width=300):
+            def call_popup(self, width=300):
                 """Call a popup that shows the parameters of the operator, or a custom draw function.
                 Doesn't execute the operator.
                 This needs to be returned by the invoke method to work."""
-                return bpy.context.window_manager.invoke_popup(_self, width=width)
+                return bpy.context.window_manager.invoke_popup(self, width=width)
 
-            def call_popup_confirm(_self, width=300):
+            def call_popup_confirm(self, width=300):
                 """Call a popup that shows the parameters of the operator (or a custom draw function),
                 and a confirmation button.
                 This needs to be returned by the invoke method to work."""
-                return bpy.context.window_manager.invoke_props_dialog(_self, width=width)
+                return bpy.context.window_manager.invoke_props_dialog(self, width=width)
 
-            def call_popup_auto_confirm(_self):
+            def call_popup_auto_confirm(self):
                 """Call a popup that shows the parameters of the operator, or a custom draw function.
                 Every time the parameters of the operator are changed, the operator is executed automatically.
                 This needs to be returned by the invoke method to work."""
-                return bpy.context.window_manager.invoke_props_popup(_self, _self.event)
+                return bpy.context.window_manager.invoke_props_popup(self, self.event)
 
-            def start_modal(_self):
+            def start_modal(self):
                 """Initialize this as a modal operator.
                 Should be called and returned by the invoke function"""
-                bpy.context.window_manager.modal_handler_add(_self)
-                return _self.RUNNING_MODAL
+                bpy.context.window_manager.modal_handler_add(self)
+                return self.RUNNING_MODAL
 
-            def set_event_attrs(_self, event):
-                _self.event = event
-                _self.mouse_window = Vector((event.mouse_x, event.mouse_y))
-                _self.mouse_window_prev = Vector((event.mouse_prev_x, event.mouse_prev_y))
-                _self.mouse_region = Vector((event.mouse_region_x, event.mouse_region_y))
+            def set_event_attrs(self, event):
+                self.event = event
+                self.mouse_window = Vector((event.mouse_x, event.mouse_y))
+                self.mouse_window_prev = Vector((event.mouse_prev_x, event.mouse_prev_y))
+                self.mouse_region = Vector((event.mouse_region_x, event.mouse_region_y))
 
-            def invoke(_self, context: Context, event: Event):
+            def invoke(self, context: Context, event: Event):
                 """Wrap the invoke function so we can set some initial attributes"""
-                _self.set_event_attrs(event)
+                self.set_event_attrs(event)
                 if hasattr(super(), "invoke"):
                     return super().invoke(context, event)
                 else:
-                    return _self.execute(context)
+                    return self.execute(context)
 
-            def modal(_self, context: Context, event: Event):
+            def modal(self, context: Context, event: Event):
                 """Wrap the modal function so we can set some initial attributes"""
-                _self.set_event_attrs(event)
+                self.set_event_attrs(event)
                 return super().modal(context, event)
 
-            def execute(_self, context: Context):
+            def execute(self, context: Context):
                 """Wrap the execute function to remove the need to return {"FINISHED"}"""
                 ret = super().execute(context)
                 if ret is None:
-                    return _self.FINISHED
+                    return self.FINISHED
                 return ret
 
         Wrapped.__doc__ = op_description
