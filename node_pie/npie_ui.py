@@ -319,7 +319,7 @@ class NPIE_MT_node_pie(Menu):
                     subcol.scale_y = -scale
 
                     # Draw the menu, which will now be pushed on top of the add node button
-                    subrow = col.row(align=True)
+                    subrow = col.row(align=False)
                     subrow.scale_x = 1.1
                     subrow.scale_y = scale
                     subrow.alignment = "RIGHT"

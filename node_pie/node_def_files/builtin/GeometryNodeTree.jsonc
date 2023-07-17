@@ -1,5 +1,5 @@
 {
- "layout": {
+  "layout": {
     "left": [
       ["INPUT", "LAYOUT"],
       ["ATTRIBUTE", "TEXTURE", "COLOR", "UV"],
