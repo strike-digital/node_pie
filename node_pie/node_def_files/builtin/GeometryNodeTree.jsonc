@@ -505,8 +505,8 @@
               "operation": "SCALE",
               "show_options": false,
               "label": "Negate",
-              "inputs[1].hide": true,
-              "inputs[1].default_value": -1
+              "inputs[3].hide": true,
+              "inputs[3].default_value": -1
             },
             "One Minus": {
               "operation": "SUBTRACT",
