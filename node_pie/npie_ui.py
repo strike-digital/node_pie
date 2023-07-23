@@ -185,7 +185,7 @@ class NPIE_MT_node_groups(Menu):
         layout = self.layout
         col = layout.column(align=True)
         for ng in node_groups:
-            if ng != context.space_data.node_tree and not ng.name.startswith("."):
+            if ng != context.space_data.edit_tree and not ng.name.startswith("."):
                 op = col.operator("node_pie.add_node", text=ng.name)
                 op.type = tree_type.replace("Tree", "Group")
                 op.group_name = ng.name
@@ -201,7 +201,7 @@ class NPIE_MT_node_pie(Menu):
     @classmethod
     def poll(cls, context):
         prefs = get_prefs(context)
-        return context.space_data.node_tree and prefs.node_pie_enabled
+        return context.space_data.edit_tree and prefs.node_pie_enabled
 
     def draw(self, context):
 
@@ -229,7 +229,7 @@ class NPIE_MT_node_pie(Menu):
 
         pie = layout.menu_pie()
         prefs = get_prefs(context)
-        tree_type = context.space_data.node_tree.bl_rna.identifier
+        tree_type = context.space_data.edit_tree.bl_rna.identifier
 
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}

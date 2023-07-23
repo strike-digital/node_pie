@@ -7,12 +7,10 @@
 
 # shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")
 
-
 # def dpifac():
 #     prefs = bpy.context.preferences.system
 #     return round(bpy.context.preferences.view.ui_scale, 2)
 #     return prefs.dpi * prefs.pixel_size / 72
-
 
 # def draw_rect(shader, x, y, width, height, color=(1, 1, 1, 1)):
 #     points = [(x, y), (x, y + height), (x + width, y + height), (x + width, y)]
@@ -23,12 +21,11 @@
 #     shader.uniform_float("color", color)
 #     batch.draw(shader)
 
-
 # def my_draw():
 #     """This is some testing for detecting when the user clicks on a socket.
 #     Uncomment the register functions to see it."""
 #     context = bpy.context
-#     node_tree = context.space_data.node_tree
+#     node_tree = context.space_data.edit_tree
 
 #     node = node_tree.nodes.active
 #     if not node:
@@ -70,14 +67,11 @@
 #     shader.uniform_float("color", (1, 1, 1, 1))
 #     batch.draw(shader)
 
-
 # handler = None
-
 
 # def register():
 #     global handler
 #     handler = bpy.types.SpaceNodeEditor.draw_handler_add(my_draw, (), "WINDOW", "POST_VIEW")
-
 
 # def unregister():
 #     global handler

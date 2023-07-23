@@ -150,7 +150,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
 
     @classmethod
     def poll(cls, context):
-        if not context.space_data or context.area.type != "NODE_EDITOR" or not context.space_data.node_tree:
+        if not context.space_data or context.area.type != "NODE_EDITOR" or not context.space_data.edit_tree:
             return False
         return True
 
@@ -163,7 +163,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
         global location
         location = mouse_pos
         # Look for a socket near to the mouse position
-        for node in context.space_data.node_tree.nodes:
+        for node in context.space_data.edit_tree.nodes:
             if node.hide:
                 continue
             positions, bboxes = get_socket_bboxes(node)

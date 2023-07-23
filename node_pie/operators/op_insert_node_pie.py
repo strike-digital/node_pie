@@ -16,7 +16,7 @@ class NPIE_OT_insert_node_pie(BOperator.type):
 
     def invoke(self, context, event):
         self.quit = False
-        self.start_names = {n.name for n in context.space_data.node_tree.nodes}
+        self.start_names = {n.name for n in context.space_data.edit_tree.nodes}
 
         # Call the reroute operator as a quick way to get which links have been dragged over
         bpy.ops.node.add_reroute("INVOKE_DEFAULT")
@@ -24,7 +24,7 @@ class NPIE_OT_insert_node_pie(BOperator.type):
         return self.start_modal()
 
     def modal(self, context: Context, event: Event):
-        node_tree: NodeTree = context.space_data.node_tree
+        node_tree: NodeTree = context.space_data.edit_tree
         self.cursor.set_icon(self.cursor.DOT)
 
         if event.type in {"RIGHTMOUSE", "ESC"} or self.quit:
