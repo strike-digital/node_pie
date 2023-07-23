@@ -1,7 +1,6 @@
 import bpy
 from bpy.types import Area, Context, Event, Node, NodeSocket
 import gpu
-from gpu.types import GPUShader
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
@@ -159,12 +158,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
         self.handler = None
         self.socket = None
         self.from_pos = V((0, 0))
-        # self.shader = gpu.shader.from_builtin("POLYLINE_UNIFORM_COLOR" if bpy.app.version < (4, 0,
-        #                                                                                      0) else "UNIFORM_COLOR")
-        self.shader: GPUShader = gpu.shader.from_builtin("POLYLINE_UNIFORM_COLOR")
-        print(gpu.state.viewport_get())
-        self.shader.uniform_float('viewportSize', gpu.state.viewport_get()[2:4])
-        self.shader.uniform_float('lineSmooth', True)
 
         mouse_pos = region_to_view(context.area, self.mouse_region)
         global location
@@ -175,7 +168,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
                 continue
             positions, bboxes = get_socket_bboxes(node)
             for socket, bbox in bboxes.items():
-                if bbox.isinside(mouse_pos):
+                if bbox.isinside(mouse_pos) and socket.bl_idname != "NodeSocketVirtual":
                     self.socket = socket
                     self.from_pos = positions[socket]
                     break
@@ -209,9 +202,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
         if event.type in {"RIGHTMOUSE", "ESC"}:
             return self.finish()
 
-        # Call the node pie
-        # elif event.type == "LEFTMOUSE" and event.value == "RELEASE":
-        elif event.value == "RELEASE":
+        elif event.value == "RELEASE" and event.type not in {"CTRL", "ALT", "OSKEY", "SHIFT"}:
             NPIE_MT_node_pie.from_socket = self.socket
             NPIE_MT_node_pie.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)
@@ -220,43 +211,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
         return self.RUNNING_MODAL
 
     def draw_handler(self, context: Context):
-        # Draw a line from the socket to the mouse
         to_pos = region_to_view(context.area, self.mouse_region)
         color = self.socket.draw_color(context, self.socket.node)
         draw_line(self.from_pos, to_pos, color)
-
-        # normal = V(to_pos - self.from_pos)
-        # normal.normalize()
-        # tangent = V((normal.y, -normal.x))
-        # coords = [self.from_pos, self.from_pos + (tangent * 20)]
-        # tangent *= 1
-        # coords = [
-        #     self.from_pos + tangent, self.from_pos - tangent, to_pos + tangent, self.from_pos - tangent,
-        #     to_pos + tangent, to_pos - tangent
-        # ]
-        # shader = gpu.shader.from_builtin("UNIFORM_COLOR")
-
-        # # shader = self.shader
-        # # batch = batch_for_shader(shader, "LINE_STRIP", {"pos": coords})
-        # batch = batch_for_shader(shader, "TRIS", {"pos": coords})
-        # shader.bind()
-
-        # color = (.27, .5, 1)
-
-        # # The poor man's anti-aliasing. Doesn't really work, but it's better than nothing
-        # gpu.state.blend_set("ALPHA")
-        # # gpu.state.line_width_set(60)
-
-        # # shader.uniform_float("lineWidth", 4)
-        # shader.uniform_float("color", (*color, .8))
-        # batch.draw(shader)
-
-        # gpu.state.line_width_set(4)
-        # shader.uniform_float("lineWidth", 10)
-        # shader.uniform_float("color", (*color, .5))
-        # batch.draw(shader)
-
-        # gpu.state.line_width_set(20)
-        # shader.uniform_float("lineWidth", 10)
-        # shader.uniform_float("color", (*color, 1))
-        # batch.draw(shader)
