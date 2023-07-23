@@ -26,6 +26,4 @@ It also works in all Blender Node editors, and even in custom node editors creat
 You can install Node Pie by downloading this repostory as a zip file, and then installing it like any other addon.
 
 <!-- todo -->
-<!-- Fix inside node groups -->
-<!-- Fix color compare -->
 <!-- Redo layout -->

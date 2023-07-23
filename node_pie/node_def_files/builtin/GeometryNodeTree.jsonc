@@ -65,7 +65,7 @@
           "identifier": "FunctionNodeCompare",
           "settings": { "data_type": "RGBA" },
           "variants": {
-            "Less Than": { "operation": "LESS_THAN" },
+            "Darker": { "operation": "DARKER" },
             "Equal": { "operation": "EQUAL" },
             "Not Equal": { "operation": "NOT_EQUAL" }
           }
