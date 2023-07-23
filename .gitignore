@@ -8,4 +8,5 @@ tokens.txt
 builds/
 .vscode
 .venv
+/docs_testing
 /node_pie/images

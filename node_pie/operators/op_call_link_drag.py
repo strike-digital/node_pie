@@ -222,8 +222,8 @@ class NPIE_OT_call_link_drag(BOperator.type):
     def draw_handler(self, context: Context):
         # Draw a line from the socket to the mouse
         to_pos = region_to_view(context.area, self.mouse_region)
-        coords = [self.from_pos, to_pos]
-        draw_line()
+        color = self.socket.draw_color(context, self.socket.node)
+        draw_line(self.from_pos, to_pos, color)
 
         # normal = V(to_pos - self.from_pos)
         # normal.normalize()
@@ -242,7 +242,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
         # shader.bind()
 
         # color = (.27, .5, 1)
-        # color = self.socket.draw_color(context, self.socket.node)[:3]
 
         # # The poor man's anti-aliasing. Doesn't really work, but it's better than nothing
         # gpu.state.blend_set("ALPHA")
