@@ -1,6 +1,6 @@
 import json
 from typing import TYPE_CHECKING
-from bpy.types import AddonPreferences, Context, NodeTree
+from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
 from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 if TYPE_CHECKING:
@@ -9,7 +9,17 @@ else:
     NodePiePrefs = AddonPreferences
 
 
+def get_node_location(node: Node) -> V:
+    """Get the actual location of a node, taking parent frame nodes into account"""
+    location = node.location.copy()
+    while node.parent:
+        node = node.parent
+        location += node.location
+    return location
+
+
 def get_node_tree(context: Context) -> NodeTree:
+    """Get the node tree currently being edited"""
     return context.space_data.edit_tree
 
 

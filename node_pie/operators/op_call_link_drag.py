@@ -5,7 +5,7 @@ from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
 from ..npie_drawing import draw_line
-from ..npie_helpers import Rectangle, get_prefs
+from ..npie_helpers import Rectangle, get_node_location, get_prefs
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
 
@@ -39,7 +39,7 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
 
     not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
 
-    location = node.location.copy()
+    location = get_node_location(node)
     positions = {}
     bboxes = {}
 
@@ -50,7 +50,7 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     max_offset_x = node.width * dpifac()
 
     if node.type == "REROUTE":
-        pos = node.location * dpifac()
+        pos = location * dpifac()
         positions[node.outputs[0]] = pos
         size = V((20, 20))
         bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
@@ -170,7 +170,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
             for socket, bbox in bboxes.items():
                 if bbox.isinside(mouse_pos) and socket.bl_idname != "NodeSocketVirtual":
                     self.socket = socket
-                    self.from_pos = positions[socket]
+                    self.from_pos = view_to_region(context.area, positions[socket])
                     break
 
         # if socket clicked
@@ -180,7 +180,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
                 self.draw_handler,
                 tuple([context]),
                 "WINDOW",
-                "POST_VIEW",
+                "POST_PIXEL",
             )
             handlers.append(self.handler)
             return self.start_modal()
@@ -211,6 +211,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
         return self.RUNNING_MODAL
 
     def draw_handler(self, context: Context):
-        to_pos = region_to_view(context.area, self.mouse_region)
+        to_pos = self.mouse_region
         color = self.socket.draw_color(context, self.socket.node)
         draw_line(self.from_pos, to_pos, color)
