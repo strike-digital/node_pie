@@ -1,9 +1,11 @@
 import bpy
 from bpy.types import Area, Context, Event, Node, NodeSocket
 import gpu
+from gpu.types import GPUShader
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
+from ..npie_drawing import draw_line
 from ..npie_helpers import Rectangle, get_prefs
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
@@ -142,7 +144,7 @@ def unregister():
 
 
 @BOperator("node_pie")
-class NPIE_OT_node_link(BOperator.type):
+class NPIE_OT_call_link_drag(BOperator.type):
     """Call the node pie menu"""
 
     name: bpy.props.IntProperty()
@@ -157,7 +159,12 @@ class NPIE_OT_node_link(BOperator.type):
         self.handler = None
         self.socket = None
         self.from_pos = V((0, 0))
-        self.shader = gpu.shader.from_builtin("2D_UNIFORM_COLOR" if bpy.app.version < (4, 0, 0) else "UNIFORM_COLOR")
+        # self.shader = gpu.shader.from_builtin("POLYLINE_UNIFORM_COLOR" if bpy.app.version < (4, 0,
+        #                                                                                      0) else "UNIFORM_COLOR")
+        self.shader: GPUShader = gpu.shader.from_builtin("POLYLINE_UNIFORM_COLOR")
+        print(gpu.state.viewport_get())
+        self.shader.uniform_float('viewportSize', gpu.state.viewport_get()[2:4])
+        self.shader.uniform_float('lineSmooth', True)
 
         mouse_pos = region_to_view(context.area, self.mouse_region)
         global location
@@ -168,8 +175,6 @@ class NPIE_OT_node_link(BOperator.type):
                 continue
             positions, bboxes = get_socket_bboxes(node)
             for socket, bbox in bboxes.items():
-                # vec: V = mouse_pos - pos
-                # if vec.length < hitbox_size:
                 if bbox.isinside(mouse_pos):
                     self.socket = socket
                     self.from_pos = positions[socket]
@@ -218,23 +223,41 @@ class NPIE_OT_node_link(BOperator.type):
         # Draw a line from the socket to the mouse
         to_pos = region_to_view(context.area, self.mouse_region)
         coords = [self.from_pos, to_pos]
+        draw_line()
 
-        shader = self.shader
-        batch = batch_for_shader(shader, "LINES", {"pos": coords})
-        shader.bind()
+        # normal = V(to_pos - self.from_pos)
+        # normal.normalize()
+        # tangent = V((normal.y, -normal.x))
+        # coords = [self.from_pos, self.from_pos + (tangent * 20)]
+        # tangent *= 1
+        # coords = [
+        #     self.from_pos + tangent, self.from_pos - tangent, to_pos + tangent, self.from_pos - tangent,
+        #     to_pos + tangent, to_pos - tangent
+        # ]
+        # shader = gpu.shader.from_builtin("UNIFORM_COLOR")
 
-        color = (.27, .5, 1)
+        # # shader = self.shader
+        # # batch = batch_for_shader(shader, "LINE_STRIP", {"pos": coords})
+        # batch = batch_for_shader(shader, "TRIS", {"pos": coords})
+        # shader.bind()
 
-        # The poor man's anti-aliasing. Doesn't really work, but it's better than nothing
-        gpu.state.blend_set("ALPHA")
-        gpu.state.line_width_set(6)
-        shader.uniform_float("color", (*color, .1))
-        batch.draw(shader)
+        # color = (.27, .5, 1)
+        # color = self.socket.draw_color(context, self.socket.node)[:3]
 
-        gpu.state.line_width_set(4)
-        shader.uniform_float("color", (*color, .5))
-        batch.draw(shader)
+        # # The poor man's anti-aliasing. Doesn't really work, but it's better than nothing
+        # gpu.state.blend_set("ALPHA")
+        # # gpu.state.line_width_set(60)
 
-        gpu.state.line_width_set(2)
-        shader.uniform_float("color", (*color, 1))
-        batch.draw(shader)
+        # # shader.uniform_float("lineWidth", 4)
+        # shader.uniform_float("color", (*color, .8))
+        # batch.draw(shader)
+
+        # gpu.state.line_width_set(4)
+        # shader.uniform_float("lineWidth", 10)
+        # shader.uniform_float("color", (*color, .5))
+        # batch.draw(shader)
+
+        # gpu.state.line_width_set(20)
+        # shader.uniform_float("lineWidth", 10)
+        # shader.uniform_float("color", (*color, 1))
+        # batch.draw(shader)

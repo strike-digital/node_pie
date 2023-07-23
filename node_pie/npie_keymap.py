@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import Context, KeyMap
-from .operators.op_node_link import NPIE_OT_node_link
+from .operators.op_call_link_drag import NPIE_OT_call_link_drag
 from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .npie_btypes import BOperator
 
@@ -20,14 +20,14 @@ def register():
         km = kc.keymaps.new(name='View2D')
 
         kmi = km.keymap_items.new(
-            NPIE_OT_node_link.bl_idname,
+            NPIE_OT_call_link_drag.bl_idname,
             type="LEFTMOUSE",
             value="PRESS",
             ctrl=True,
         )
         addon_keymaps.append((km, kmi))
         kmi = km.keymap_items.new(
-            NPIE_OT_node_link.bl_idname,
+            NPIE_OT_call_link_drag.bl_idname,
             type="A",
             value="PRESS",
             ctrl=True,
