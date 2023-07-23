@@ -1,5 +1,17 @@
 {
   "layout": {
+    // "left": [
+    //   ["INPUT", "LAYOUT"],
+    //   ["ATTRIBUTE", "TEXTURE", "COLOR", "UV"],
+    //   ["VECTOR", "UTILITIES"]
+    // ],
+    // "right": [
+    //   ["CURVE", "POINT"],
+    //   ["MESH"],
+    //   ["PRIMITIVES_MESH", "PRIMITIVES_CURVE", "MATERIAL", "TEXT"]
+    // ],
+    // "top": [["GEOMETRY"]],
+    // "bottom": [["INSTANCE", "VOLUME"]]
     "left": [
       ["INPUT", "LAYOUT"],
       ["ATTRIBUTE", "TEXTURE", "COLOR", "UV"],
