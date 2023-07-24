@@ -24,7 +24,7 @@ class NPIE_OT_call_node_pie(BOperator.type):
             for cat_name, category in categories.items():
                 for node in category.nodes:
                     if isinstance(node, NodeItem) and node.variants:
-                        get_variants_menu(cat_name, node.idname, node.variants)
+                        get_variants_menu(node)
 
         if self.reset_args:
             NPIE_MT_node_pie.from_socket = None

@@ -9,20 +9,6 @@ from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files
 
 
 @dataclass
-class NodeCategory():
-    """An imitator of the built in blender NodeCategory class, that implements the necessary settings"""
-
-    label: str
-    nodes: list
-    color: str
-    children: list = None
-    idname: str = ""
-
-    def items(self, context):
-        return self.nodes
-
-
-@dataclass
 class NodeItem():
     """An imitator of the built in blender NodeItem class, that implements the necessary settings"""
 
@@ -32,6 +18,21 @@ class NodeItem():
     variants: dict = field(default_factory=dict)
     color: str = ""
     description: str = ""
+    category = None
+
+
+@dataclass
+class NodeCategory():
+    """An imitator of the built in blender NodeCategory class, that implements the necessary settings"""
+
+    label: str
+    nodes: list[NodeItem]
+    color: str
+    children: list = None
+    idname: str = ""
+
+    def items(self, context) -> list[NodeItem]:
+        return self.nodes
 
 
 @dataclass
@@ -253,6 +254,9 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             raise ValueError(f"No label found for category '{cat_idname}'")
         category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
         categories[cat_idname] = category
+        for nodeitem in category.nodes:
+            nodeitem.category = category
+
     if not_found:
         raise ValueError(f"No label found for node(s) '{not_found}'")
     return categories, layout

@@ -1,7 +1,9 @@
+#ifndef is_compile
 uniform vec4 color;
 
 in vec2 frag_uvs;
 out vec4 fragColor;
+#endif
 
 void main() {
 
@@ -12,6 +14,6 @@ void main() {
     color.a = color.a / fwidth(color.a);
 
     // color = vec4(color.a, color.a, color.a, 1);
-    // fragColor = color;
-    fragColor = blender_srgb_to_framebuffer_space(color);
+    fragColor = color;
+    // fragColor = blender_srgb_to_framebuffer_space(color);
 }

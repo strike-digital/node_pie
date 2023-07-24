@@ -143,8 +143,10 @@ def get_popularity_id(node_idname, settings={}):
     return node_idname + ("" if settings == "{}" else settings)
 
 
-def get_variants_menu(category, idname, variants, scale=1):
-    cls_idname = f"NPIE_MT_node_sub_menu_{category}_{idname}"
+def get_variants_menu(node_item: NodeItem, scale=1):
+    hash_val = node_item.category.idname + node_item.idname + node_item.label
+    hash_val += str(node_item.settings) + str(node_item.variants)
+    cls_idname = f"NPIE_MT_{abs(hash(hash_val))}"
 
     class NPIE_MT_node_sub_menu(Menu):
         """A sub menu that can be added to certain nodes with different parameters."""
@@ -155,12 +157,12 @@ def get_variants_menu(category, idname, variants, scale=1):
             layout = self.layout
             col = layout.column(align=True)
             col.scale_y = self._scale
-            for name, variant in variants.items():
+            for name, variant in node_item.variants.items():
                 if name == "separator":
                     col.separator()
                     continue
                 op = col.operator("node_pie.add_node", text=name)
-                op.type = idname
+                op.type = node_item.idname
                 op.settings = str(variant)
 
     try:
@@ -173,22 +175,37 @@ def get_variants_menu(category, idname, variants, scale=1):
     return cls_idname
 
 
+def get_node_groups(context):
+    """Get a list of node groups that can be added to the current node tree"""
+
+    # A set of the node trees that are currently being edited in this area.
+    # These can't be added as that would cause recursion.
+    editing_groups = {p.node_tree for p in context.space_data.path}
+
+    tree_type = context.space_data.tree_type
+    node_groups = []
+    for ng in bpy.data.node_groups:
+        if ng.bl_idname == tree_type and ng not in editing_groups and not ng.name.startswith("."):
+            node_groups.append(ng)
+    return node_groups
+
+
 class NPIE_MT_node_groups(Menu):
     """Show a list of node groups that you can add"""
     bl_label = "Node Groups"
 
     def draw(self, context):
         tree_type = context.space_data.tree_type
-        node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
+        node_groups = get_node_groups(context)
         if not node_groups:
             return
+
         layout = self.layout
         col = layout.column(align=True)
         for ng in node_groups:
-            if ng != context.space_data.edit_tree and not ng.name.startswith("."):
-                op = col.operator("node_pie.add_node", text=ng.name)
-                op.type = tree_type.replace("Tree", "Group")
-                op.group_name = ng.name
+            op = col.operator("node_pie.add_node", text=ng.name)
+            op.type = tree_type.replace("Tree", "Group")
+            op.group_name = ng.name
 
 
 class NPIE_MT_node_pie(Menu):
@@ -237,7 +254,12 @@ class NPIE_MT_node_pie(Menu):
         if not has_node_file:
             all_nodes = {n.nodetype: n for n in nodeitems_utils.node_items_iter(context) if hasattr(n, "nodetype")}
         else:
-            all_nodes = {n.idname: n for c in categories.values() for n in c.nodes if isinstance(n, NodeItem)}
+            all_nodes = {}
+            for cat in categories.values():
+                for node in cat.nodes:
+                    if isinstance(node, NodeItem):
+                        name = node.idname + (str(node.settings) if node.settings else "")
+                        all_nodes[name] = node
 
         # Get the count of times each node has been used
         node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
@@ -247,11 +269,10 @@ class NPIE_MT_node_pie(Menu):
         all_node_counts[""] = 1
         all_node_counts = OrderedDict(sorted(all_node_counts.items(), key=lambda item: item[1]))
 
-        def get_node_size(identifier, settings):
+        def get_node_size(node_item: NodeItem):
             # lerp between the min and max sizes based on how used each node is compared to the most used one.
-            # counts = sorted(all_node_counts.items(), key=lambda item: item[1])
-            identifier = get_popularity_id(identifier, settings)
-            index = all_node_counts.get(identifier, 1)
+            identifier = get_popularity_id(node_item.idname, node_item.settings)
+            index = all_node_counts.get(identifier, 0)
             counts = list(dict.fromkeys(all_node_counts.values()))
             fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
             return lerp(fac, prefs.npie_normal_size, prefs.npie_normal_size * prefs.npie_max_size)
@@ -260,15 +281,17 @@ class NPIE_MT_node_pie(Menu):
             layout: UILayout,
             text: str,
             color_name: str,
-            category: NodeCategory = None,
-            identifier: str = "",
+            node_item: NodeItem = None,
             group_name="",
             max_len=200,
             op="",
-            variants={},
             params={},
         ):
             """Draw the add node operator"""
+            if node_item:
+                identifier = node_item.idname
+            elif group_name:
+                identifier = tree_type.replace("Tree", "Group")
 
             row = layout.row(align=True)
             active = True
@@ -277,8 +300,8 @@ class NPIE_MT_node_pie(Menu):
                 row.active = False
             scale = 1
             # draw the operator larger if the node is used more often
-            if prefs.npie_variable_sizes and not group_name:
-                scale = get_node_size(identifier, params.get("settings", {}))
+            if prefs.npie_variable_sizes and not group_name and not op:
+                scale = get_node_size(node_item)
             row.scale_y = scale
 
             # Draw the colour bar to the side
@@ -302,13 +325,14 @@ class NPIE_MT_node_pie(Menu):
                 op.group_name = group_name
                 op.type = identifier
                 op.use_transform = True
-                if (nodeitem := all_nodes.get(identifier)) and hasattr(nodeitem,
-                                                                       "description") and nodeitem.description:
-                    op.bl_description = nodeitem.description
+                op.settings = str(node_item.settings)
+                if (nodeitem := all_nodes.get(identifier)):
+                    if hasattr(nodeitem, "description") and nodeitem.description:
+                        op.bl_description = nodeitem.description
 
                 # Dark magic to draw the variants menu on top of the add node button
                 # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
-                if variants and prefs.npie_show_variants:
+                if node_item.variants and prefs.npie_show_variants:
                     col = layout.column(align=True)
                     col.active = active
 
@@ -324,7 +348,7 @@ class NPIE_MT_node_pie(Menu):
                     subrow.scale_y = scale
                     subrow.alignment = "RIGHT"
                     subrow.menu(
-                        get_variants_menu(category.idname, identifier, variants, scale=1.1),
+                        get_variants_menu(node_item, scale=1.1),
                         text="",
                         icon="TRIA_RIGHT",
                     )
@@ -347,22 +371,20 @@ class NPIE_MT_node_pie(Menu):
             row.label(text=text)
 
         def draw_node_groups(layout: UILayout):
-            node_groups = [ng for ng in bpy.data.node_groups if ng.bl_idname == tree_type]
+            node_groups = get_node_groups(context)
             if not node_groups or not prefs.npie_show_node_groups:
                 return
             col = layout.box().column(align=True)
             if prefs.npie_expand_node_groups:
                 draw_header(col, "Node Groups")
                 for ng in node_groups:
-                    if not ng.name.startswith("."):
-                        draw_add_operator(
-                            col,
-                            ng.name,
-                            color_name="group",
-                            identifier=tree_type.replace("Tree", "Group"),
-                            group_name=ng.name,
-                            max_len=18,
-                        )
+                    draw_add_operator(
+                        col,
+                        ng.name,
+                        color_name="group",
+                        group_name=ng.name,
+                        max_len=18,
+                    )
             else:
                 col.scale_y = prefs.npie_normal_size
                 col.operator("wm.call_menu", text="Node Groups", icon="NODE")
@@ -415,17 +437,14 @@ class NPIE_MT_node_pie(Menu):
 
                 # Draw node items
                 color = get_color_name(category, node)
-                settings = getattr(node, "settings", {})
-                variants = getattr(node, "variants", {})
+                settings = node.settings
+                variants = node.variants
                 params = {"settings": str(settings)}
                 draw_add_operator(
                     col,
                     node.label.replace(remove, ""),
                     color,
-                    category=category,
-                    identifier=node.idname,
-                    variants=variants,
-                    params=params,
+                    node_item=node,
                 )
 
         def draw_search(layout: UILayout):
@@ -586,7 +605,10 @@ class NPIE_MT_node_pie(Menu):
                             if not hasattr(nodeitem, "nodetype") or not hasattr(nodeitem, "label"):
                                 col.separator(factor=.4)
                                 continue
-                            draw_add_operator(col, nodeitem.label, color, identifier=nodeitem.nodetype)
+
+                            # Convert from blender node item to node pie NodeItem
+                            nodeitem = NodeItem(nodeitem.label, nodeitem.nodetype, nodeitem.settings, color=color)
+                            draw_add_operator(col, nodeitem.label, color, node_item=nodeitem)
 
                         bigcol.separator(factor=.4)
 

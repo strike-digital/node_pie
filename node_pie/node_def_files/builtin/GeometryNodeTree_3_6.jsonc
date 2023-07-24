@@ -3,7 +3,7 @@
   "blender_version": [3, 6, 0],
   "additions": {
     "layout": {
-      "left": [[], ["SIMULATION"]]
+      "right": [[], [], ["SIMULATION"]]
     },
     "categories": {
       "GEOMETRY": {
