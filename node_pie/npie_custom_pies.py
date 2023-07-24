@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
 from inspect import isclass
 import json
+from pathlib import Path
 
 import bpy
-from .npie_constants import NODE_DEF_DIR
+from .npie_constants import NODE_DEF_BUILTIN, NODE_DEF_USER
 from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files
 
 
@@ -152,11 +153,17 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             if context.scene.render.engine not in {"BLENDER_EEVEE", "CYCLES", "BLENDER_WORKBENCH"}:
                 return {}, {}
 
+    def get_def_files(dir: Path) -> Path:
+        files = []
+        for file in dir.rglob("*"):
+            if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
+                files.append(file)
+        return files
+
     # Get files
-    files = []
-    for file in NODE_DEF_DIR.rglob("*"):
-        if file.is_file() and file.suffix == ".jsonc" and file.name.startswith(f"{tree_identifier}"):
-            files.append(file)
+    files = get_def_files(NODE_DEF_USER)
+    names = {f.name for f in files}
+    files += [f for f in get_def_files(NODE_DEF_BUILTIN) if f.name not in names]
 
     if not files:
         return {}, {}
