@@ -1,13 +1,14 @@
 import bpy
-from bpy.types import Area, Context, Event, Node, NodeSocket
 import gpu
+from bpy.types import Area, Node, Event, Context, NodeSocket
+from mathutils import Vector as V
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
-from mathutils import Vector as V
-from ..npie_drawing import draw_line
-from ..npie_helpers import Rectangle, get_node_location, get_prefs
+
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
+from ..npie_drawing import draw_line
+from ..npie_helpers import Rectangle, get_prefs, get_node_location
 
 location = None
 hitbox_size = 10  # The radius in which to register a socket click
@@ -107,9 +108,9 @@ def draw_debug_lines():
     if node:
         positions, bboxes = get_socket_bboxes(node)
         for socket, bbox in bboxes.items():
-            batch = batch_for_shader(shader, 'LINES', {"pos": bbox.as_lines()})
+            batch = batch_for_shader(shader, "LINES", {"pos": bbox.as_lines()})
             shader.bind()
-            line_colour = (1, 0, 1, .9)
+            line_colour = (1, 0, 1, 0.9)
             shader.uniform_float("color", line_colour)
             batch.draw(shader)
         for socket, pos in positions.items():
@@ -151,6 +152,8 @@ class NPIE_OT_call_link_drag(BOperator.type):
     @classmethod
     def poll(cls, context):
         if not context.space_data or context.area.type != "NODE_EDITOR" or not context.space_data.edit_tree:
+            return False
+        if not get_prefs(context).npie_use_link_dragging:
             return False
         return True
 
