@@ -12,18 +12,14 @@
     // ],
     // "top": [["GEOMETRY"]],
     // "bottom": [["INSTANCE", "VOLUME"]]
-    "left": [
-      ["INPUT", "LAYOUT"],
-      ["ATTRIBUTE", "TEXTURE", "COLOR", "UV"],
-      ["VECTOR", "UTILITIES"]
-    ],
+    "left": [["MESH"], ["CURVE", "UV"], ["POINT", "UTILITIES", "INSTANCE"]],
     "right": [
-      ["CURVE", "POINT"],
-      ["MESH"],
-      ["PRIMITIVES_MESH", "PRIMITIVES_CURVE", "MATERIAL", "TEXT"]
+      ["INPUT", "COLOR", "LAYOUT"],
+      ["PRIMITIVES_MESH", "GEOMETRY", "VOLUME"],
+      ["PRIMITIVES_CURVE", "MATERIAL", "TEXT", "TEXTURE"]
     ],
-    "top": [["GEOMETRY"]],
-    "bottom": [["INSTANCE", "VOLUME"]]
+    "top": [["ATTRIBUTE"]],
+    "bottom": [["VECTOR"]]
   },
   "categories": {
     "ATTRIBUTE": {

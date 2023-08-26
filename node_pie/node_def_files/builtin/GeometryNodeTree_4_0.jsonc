@@ -4,7 +4,7 @@
   "blender_version": [4, 0, 0],
   "removals": {
     "layout": {
-      "left": [[], ["SIMULATION"]]
+      "right": [[], [], ["SIMULATION"]]
     },
     "categories": {
       "SIMULATION": {}
@@ -12,7 +12,7 @@
   },
   "additions": {
     "layout": {
-      "left": [[], ["ZONE"]]
+      "right": [[], [], ["ZONE"]]
     },
     "categories": {
       "MESH": {

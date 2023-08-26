@@ -1,11 +1,12 @@
-import bpy
-from bpy.types import Node, NodeSocket, NodeTree
-from ..npie_btypes import BOperator
-from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
-from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
-
 import json
 from typing import OrderedDict
+
+import bpy
+from bpy.types import Node, NodeTree, NodeSocket
+
+from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
+from ..npie_btypes import BOperator
+from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
 
 # Convert from node socket types to node enum names
 # Switch and compare nodes have special cases that need to be dealt with individually
@@ -36,9 +37,7 @@ switch_types.update(compare_types)
 
 # All other nodes then have a list of enum types associated with each socket type
 all_types = switch_types.copy()
-all_types.update({
-    "Shader": "SHADER",
-})
+all_types.update({"Shader": "SHADER"})
 all_types = {k: [v] for k, v in all_types.items()}
 all_types["Vector"].append("FLOAT_VECTOR")
 all_types["Color"].append("FLOAT_COLOR")
@@ -77,6 +76,9 @@ def handle_node_linking(socket: NodeSocket, node: Node):
 
     # Try to find the best link based on the socket types
     def get_socket(from_socket, sockets):
+        if not sockets:
+            return
+
         socket = None
         for s in sockets:
             if s.bl_idname != from_socket.bl_idname:
@@ -96,7 +98,9 @@ def handle_node_linking(socket: NodeSocket, node: Node):
         outputs = [s for s in node.outputs if s.enabled and not s.hide]
         from_socket = get_socket(socket, outputs)
         to_socket = socket
-    node.id_data.links.new(from_socket, to_socket)
+
+    if from_socket and to_socket:
+        node.id_data.links.new(from_socket, to_socket)
 
 
 @BOperator("node_pie", idname="add_node", undo=True)
@@ -111,7 +115,7 @@ class NPIE_OT_add_node(BOperator.type):
         name="Settings",
         description="Settings to be applied on the newly created node",
         default="{}",
-        options={'SKIP_SAVE'},
+        options={"SKIP_SAVE"},
     )
 
     def execute(self, context):
@@ -124,7 +128,7 @@ class NPIE_OT_add_node(BOperator.type):
             )
         except RuntimeError as e:
             self.report({"ERROR"}, str(e))
-            return {'CANCELLED'}
+            return {"CANCELLED"}
 
         node_tree: NodeTree = context.area.spaces.active.path[-1].node_tree
         node = node_tree.nodes.active
@@ -165,7 +169,7 @@ class NPIE_OT_add_node(BOperator.type):
 
         if version[0] > POPULARITY_FILE_VERSION[0]:
             self.report({"ERROR"}, "Saved nodes file is from a newer version of the addon")
-            return {'CANCELLED'}
+            return {"CANCELLED"}
 
         trees = data.get("node_trees", {})
         nodes = OrderedDict(trees.get(node_tree.bl_rna.identifier, {}))
@@ -185,4 +189,4 @@ class NPIE_OT_add_node(BOperator.type):
         with open(POPULARITY_FILE, "w") as f:
             json.dump(data, f, indent=4)
 
-        return {'PASS_THROUGH'}
+        return {"PASS_THROUGH"}
