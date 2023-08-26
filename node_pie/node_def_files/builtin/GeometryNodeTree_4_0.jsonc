@@ -12,9 +12,23 @@
   },
   "additions": {
     "layout": {
-      "right": [[], [], ["ZONE"]]
+      "right": [["ROTATION"], [], ["ZONE"]]
     },
     "categories": {
+      "ROTATION": {
+        "label": "Rotation",
+        "color": "converter",
+        "nodes": [
+          { "identifier": "FunctionNodeInvertRotation" },
+          { "identifier": "FunctionNodeRotateVector" },
+          { "identifier": "FunctionNodeRotationToAxisAngle" },
+          { "identifier": "FunctionNodeAxisAngleToRotation" },
+          { "identifier": "FunctionNodeRotationToEuler" },
+          { "identifier": "FunctionNodeEulerToRotation" },
+          { "identifier": "FunctionNodeRotationToQuaternion" },
+          { "identifier": "FunctionNodeQuaternionToRotation" }
+        ]
+      },
       "MESH": {
         "nodes": [
           {
