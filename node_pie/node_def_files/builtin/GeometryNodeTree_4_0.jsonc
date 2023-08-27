@@ -20,6 +20,10 @@
         "color": "converter",
         "nodes": [
           { "identifier": "FunctionNodeInvertRotation" },
+          {
+            "identifier": "ShaderNodeMix",
+            "settings": { "data_type": "ROTATION" }
+          },
           { "identifier": "FunctionNodeRotateVector" },
           { "identifier": "FunctionNodeRotationToAxisAngle" },
           { "identifier": "FunctionNodeAxisAngleToRotation" },
