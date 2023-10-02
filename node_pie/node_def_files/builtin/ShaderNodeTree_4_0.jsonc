@@ -9,6 +9,7 @@
     "categories": {
       "SHADER": {
         "nodes": [
+          { "identifier": "ShaderNodeBsdfVelvet" },
           { "identifier": "ShaderNodeBsdfAnisotropic" },
           { "identifier": "ShaderNodeBsdfGlossy" }
         ]

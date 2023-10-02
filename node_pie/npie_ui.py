@@ -1,19 +1,19 @@
 import json
-from pathlib import Path
-from collections import OrderedDict
 import random
 import traceback
+from pathlib import Path
+from collections import OrderedDict
 
 import bpy
-from .npie_custom_pies import NodeCategory, NodeItem, NodeOperator, Separator
-from .npie_custom_pies import load_custom_nodes_info
 import nodeitems_utils
-from bpy.types import Context, Menu, NodeSocket, UILayout
+from bpy.types import Menu, Context, UILayout, NodeSocket
 
+from .npie_constants import IS_4_0
 from .npie_helpers import lerp, inv_lerp, get_prefs
+from .npie_custom_pies import NodeItem, Separator, NodeCategory, NodeOperator, load_custom_nodes_info
 
 
-class DummyUI():
+class DummyUI:
     """Class that immitates UILayout, but doesn't draw anything"""
 
     def row(*args, **kwargs):
@@ -150,6 +150,7 @@ def get_variants_menu(node_item: NodeItem, scale=1):
 
     class NPIE_MT_node_sub_menu(Menu):
         """A sub menu that can be added to certain nodes with different parameters."""
+
         bl_label = "Node options"
         bl_idname = cls_idname
 
@@ -192,6 +193,7 @@ def get_node_groups(context):
 
 class NPIE_MT_node_groups(Menu):
     """Show a list of node groups that you can add"""
+
     bl_label = "Node Groups"
 
     def draw(self, context):
@@ -210,6 +212,7 @@ class NPIE_MT_node_groups(Menu):
 
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
+
     bl_label = "Node Pie"
 
     from_socket: NodeSocket = None
@@ -221,7 +224,6 @@ class NPIE_MT_node_pie(Menu):
         return context.space_data.edit_tree and prefs.node_pie_enabled
 
     def draw(self, context):
-
         try:
             self.draw_menu(context)
         except Exception as e:
@@ -294,6 +296,7 @@ class NPIE_MT_node_pie(Menu):
                 identifier = tree_type.replace("Tree", "Group")
 
             row = layout.row(align=True)
+
             active = True
             if "" not in text.lower():
                 active = False
@@ -309,14 +312,14 @@ class NPIE_MT_node_pie(Menu):
 
             sub = split.row(align=True)
             sub.prop(context.preferences.themes[0].node_editor, color_name + "_node", text="")
-            sub.scale_x = .03
+            sub.scale_x = 0.03
 
             # draw the button
             row = split.row(align=True)
             text = bpy.app.translations.pgettext(text)
             if len(text) > max_len:
                 text = text[:max_len] + "..."
-            row.scale_x = .9
+            row.scale_x = 0.9
 
             if op:
                 op = row.operator(op, text=text)
@@ -326,7 +329,7 @@ class NPIE_MT_node_pie(Menu):
                 op.type = identifier
                 op.use_transform = True
                 op.settings = str(node_item.settings)
-                if (nodeitem := all_nodes.get(identifier)):
+                if nodeitem := all_nodes.get(identifier):
                     if hasattr(nodeitem, "description") and nodeitem.description:
                         op.bl_description = nodeitem.description
 
@@ -418,17 +421,16 @@ class NPIE_MT_node_pie(Menu):
                 return
 
             for i, node in enumerate(nodeitems):
-
                 # Draw separators
                 if isinstance(node, Separator):
                     if node.label and prefs.npie_separator_headings:
                         if i:
-                            col.separator(factor=.5)
+                            col.separator(factor=0.5)
                         row = col.row(align=True)
-                        row.scale_y = .8
+                        row.scale_y = 0.8
                         draw_header(row, node.label)
                     elif i:
-                        col.separator(factor=.5)
+                        col.separator(factor=0.5)
                     continue
                 elif isinstance(node, NodeOperator):
                     color = get_color_name(category, node)
@@ -437,9 +439,9 @@ class NPIE_MT_node_pie(Menu):
 
                 # Draw node items
                 color = get_color_name(category, node)
-                settings = node.settings
-                variants = node.variants
-                params = {"settings": str(settings)}
+                # settings = node.settings
+                # variants = node.variants
+                # params = {"settings": str(settings)}
                 draw_add_operator(
                     col,
                     node.label.replace(remove, ""),
@@ -449,7 +451,10 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_search(layout: UILayout):
             layout.scale_y = prefs.npie_normal_size
-            layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
+            if IS_4_0:
+                layout.operator("wm.search_single_menu", text="Search", icon="VIEWZOOM").menu_idname = "NODE_MT_add"
+            else:
+                layout.operator("node.add_search", text="Search", icon="VIEWZOOM").use_transform = True
 
         if has_node_file:
 
@@ -489,12 +494,14 @@ class NPIE_MT_node_pie(Menu):
                 box = pie.box().column(align=True)
                 box.alignment = "CENTER"
                 box.label(
-                    text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api.")
+                    text="Unfortunately, this node tree is not supported, as it doesn't use the standard node api."
+                )
                 box.label(text="You can define the pie menu for this node tree manually by enabling developer extras")
                 box.label(text="in the preferences, and choosing 'Create definition file for this node tree type'")
                 box.label(text="from the right click menu in this node editor")
                 box.label(
-                    text="Be aware that this could require a lot of work, depending on the number of nodes required")
+                    text="Be aware that this could require a lot of work, depending on the number of nodes required"
+                )
                 return
 
             # Remove the layout category, all of it's entries can be accessed with shortcuts
@@ -556,12 +563,12 @@ class NPIE_MT_node_pie(Menu):
             big_on_inside = True
             biggest = len(list(categories[-1].items(context)))
             orig_cats = categories.copy()
-            add_categories(orig_cats[::2 * -1 if big_on_inside else 1], 0, biggest)
+            add_categories(orig_cats[:: 2 * -1 if big_on_inside else 1], 0, biggest)
 
             # Add the other half, which is now just the rest of them
             # biggest = len(list(categories[-1].items(context)))
             orig_cats = categories.copy()
-            add_categories(orig_cats[::1 * -1 if big_on_inside else 1], 1, biggest)
+            add_categories(orig_cats[:: 1 * -1 if big_on_inside else 1], 1, biggest)
             orig_colors = [
                 "converter",
                 "color",
@@ -603,16 +610,16 @@ class NPIE_MT_node_pie(Menu):
 
                         for nodeitem in node_cat.items(context):
                             if not hasattr(nodeitem, "nodetype") or not hasattr(nodeitem, "label"):
-                                col.separator(factor=.4)
+                                col.separator(factor=0.4)
                                 continue
 
                             # Convert from blender node item to node pie NodeItem
                             nodeitem = NodeItem(nodeitem.label, nodeitem.nodetype, nodeitem.settings, color=color)
                             draw_add_operator(col, nodeitem.label, color, node_item=nodeitem)
 
-                        bigcol.separator(factor=.4)
+                        bigcol.separator(factor=0.4)
 
                     # Draw search button at bottom of the top column
                     if i == 3:
                         draw_search(bigcol.box())
-                        bigcol.separator(factor=.4)
+                        bigcol.separator(factor=0.4)

@@ -1,5 +1,9 @@
 from pathlib import Path
 
+import bpy
+
+IS_4_0 = bpy.app.version >= (4, 0, 0)
+
 POPULARITY_FILE = Path(__file__).parent / "nodes.json"
 if not POPULARITY_FILE.exists():
     with open(POPULARITY_FILE, "w") as f:

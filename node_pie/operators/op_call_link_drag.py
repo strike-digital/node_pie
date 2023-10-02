@@ -8,6 +8,7 @@ from gpu_extras.presets import draw_circle_2d
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
 from ..npie_drawing import draw_line
+from ..npie_constants import IS_4_0
 from ..npie_helpers import Rectangle, get_prefs, get_node_location
 
 location = None
@@ -96,7 +97,7 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     return positions, bboxes
 
 
-if bpy.app.version >= (4, 0, 0):
+if IS_4_0:
     shader: gpu.types.GPUShader = gpu.shader.from_builtin("UNIFORM_COLOR")
 else:
     shader: gpu.types.GPUShader = gpu.shader.from_builtin("2D_UNIFORM_COLOR")

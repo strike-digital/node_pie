@@ -1,3 +1,5 @@
+
+
 if __name__ == "__main__":
     import requests
     import subprocess
@@ -6,9 +8,7 @@ if __name__ == "__main__":
     from pathlib import Path
     import webbrowser
     from github import Github
-    import github
-    github
-    import customtkinter as ctk
+    import click
     import re
 
     def update_init_file(init_file: Path, version: tuple):
@@ -38,17 +38,17 @@ if __name__ == "__main__":
         with open(constants_file, "w") as file:
             file.write(text)
 
-    def multi_input(prompt=""):
-        """Get user input over multiple lines. Exit with Ctrl-Z"""
-        print(prompt)
-        contents = []
-        while True:
-            try:
-                line = input()
-            except EOFError:
-                break
-            contents.append(line)
-        return "\n".join(contents)
+    # def multi_input(prompt=""):
+    #     """Get user input over multiple lines. Exit with Ctrl-Z"""
+    #     print(prompt)
+    #     contents = []
+    #     while True:
+    #         try:
+    #             line = input()
+    #         except EOFError:
+    #             break
+    #         contents.append(line)
+    #     return "\n".join(contents)
 
     # def multi_line_input(prompt):
     #     dark = "#26242f"
@@ -91,51 +91,54 @@ if __name__ == "__main__":
     #     win.mainloop()
     #     return confirm.final_text
 
-    def multi_line_input(prompt):
-        ctk.set_appearance_mode("dark")
-        ctk.set_default_color_theme("dark-blue")
-        win = ctk.CTk()
+    # def multi_line_input(prompt):
+    #     ctk.set_appearance_mode("dark")
+    #     ctk.set_default_color_theme("dark-blue")
+    #     win = ctk.CTk()
 
-        w = h = 750
+    #     w = h = 750
 
-        # get screen width and height
-        ws = win.winfo_screenwidth()  # width of the screen
-        hs = win.winfo_screenheight()  # height of the screen
+    #     # get screen width and height
+    #     ws = win.winfo_screenwidth()  # width of the screen
+    #     hs = win.winfo_screenheight()  # height of the screen
 
-        # calculate x and y coordinates for the Tk root window
-        x = int((ws / 2) - (w / 2))
-        y = int((hs / 2) - (h / 2))
+    #     # calculate x and y coordinates for the Tk root window
+    #     x = int((ws / 2) - (w / 2))
+    #     y = int((hs / 2) - (h / 2))
 
-        win.geometry(f"{w}x{h}+{x}+{y}")
+    #     win.geometry(f"{w}x{h}+{x}+{y}")
 
-        # win.config(bg=dark)
+    #     # win.config(bg=dark)
 
-        def confirm():
-            confirm.final_text = textbox.textbox.get("1.0", ctk.END)
-            win.quit()
+    #     def confirm():
+    #         confirm.final_text = textbox.textbox.get("1.0", ctk.END)
+    #         win.quit()
 
-        label = ctk.CTkLabel(win, text=prompt)
-        label.pack()
+    #     label = ctk.CTkLabel(win, text=prompt)
+    #     label.pack()
 
-        button = ctk.CTkButton(win, text="Confirm", width=20, command=confirm)
-        button.pack(side=ctk.BOTTOM)
-        # button.configure(bg=dark, fg="white")
+    #     button = ctk.CTkButton(win, text="Confirm", width=20, command=confirm)
+    #     button.pack(side=ctk.BOTTOM)
+    #     # button.configure(bg=dark, fg="white")
 
-        textbox = ctk.CTkTextbox(win)
-        textbox.focus_set()
-        textbox.pack(fill=ctk.BOTH, side=ctk.LEFT)
-        # scroll = ctk.CTkScrollbar(win)
+    #     textbox = ctk.CTkTextbox(win)
+    #     textbox.focus_set()
+    #     textbox.pack(fill=ctk.BOTH, side=ctk.LEFT)
+    #     # scroll = ctk.CTkScrollbar(win)
 
-        # textbox.configure(width=w - scroll.winfo_width() * 20)
-        textbox.configure(width=w)
+    #     # textbox.configure(width=w - scroll.winfo_width() * 20)
+    #     textbox.configure(width=w)
 
-        # textbox.configure(yscrollcommand=scroll.set)
+    #     # textbox.configure(yscrollcommand=scroll.set)
 
-        # scroll.configure(command=textbox.yview)
-        # scroll.pack(side=ctk.RIGHT, fill=ctk.BOTH)
+    #     # scroll.configure(command=textbox.yview)
+    #     # scroll.pack(side=ctk.RIGHT, fill=ctk.BOTH)
 
-        win.mainloop()
-        return confirm.final_text
+    #     win.mainloop()
+    #     return confirm.final_text
+
+    def multi_line_input(prompt: str):
+        return click.edit(text=prompt, editor="code -w -n", extension=".md")
 
     def main():
         parser = argparse.ArgumentParser()
