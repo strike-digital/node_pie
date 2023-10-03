@@ -8,8 +8,8 @@ import bpy
 import nodeitems_utils
 from bpy.types import Menu, Context, UILayout, NodeSocket
 
-from .npie_constants import IS_4_0
 from .npie_helpers import lerp, inv_lerp, get_prefs
+from .npie_constants import IS_4_0
 from .npie_custom_pies import NodeItem, Separator, NodeCategory, NodeOperator, load_custom_nodes_info
 
 
@@ -292,6 +292,8 @@ class NPIE_MT_node_pie(Menu):
             """Draw the add node operator"""
             if node_item:
                 identifier = node_item.idname
+                if not node_item.poll(context):
+                    return
             elif group_name:
                 identifier = tree_type.replace("Tree", "Group")
 
@@ -623,3 +625,19 @@ class NPIE_MT_node_pie(Menu):
                     if i == 3:
                         draw_search(bigcol.box())
                         bigcol.separator(factor=0.4)
+
+
+# def draw_add_menu_dummy(self, context):
+#     layout: UILayout = self.layout
+
+#     row = layout.row(align=True)
+#     row.scale_y = 0.00001
+#     row.operator("node.options_toggle", text="HOHOO")
+
+
+# def register():
+#     bpy.types.NODE_MT_add.append(draw_add_menu_dummy)
+
+
+# def unregister():
+#     bpy.types.NODE_MT_add.remove(draw_add_menu_dummy)

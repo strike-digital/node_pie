@@ -227,12 +227,12 @@
         { "identifier": "GeometryNodeInputNormal" },
         { "identifier": "GeometryNodeInputPosition" },
         { "identifier": "GeometryNodeInputRadius" },
-        { "identifier": "GeometryNodeInputSceneTime" },
-        { "identifier": "GeometryNodeIsViewport" },
         { "separator": true, "label": "Scene" },
-        { "identifier": "GeometryNodeSelfObject" },
+        { "identifier": "GeometryNodeCollectionInfo" },
+        { "identifier": "GeometryNodeIsViewport" },
         { "identifier": "GeometryNodeObjectInfo" },
-        { "identifier": "GeometryNodeCollectionInfo" }
+        { "identifier": "GeometryNodeSelfObject" },
+        { "identifier": "GeometryNodeInputSceneTime" }
       ]
     },
     "INSTANCE": {

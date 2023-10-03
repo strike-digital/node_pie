@@ -1,28 +1,64 @@
+import json
 from dataclasses import dataclass, field
 from inspect import isclass
-import json
 from pathlib import Path
+from typing import Any
 
 import bpy
+from bpy.types import Context
+
 from .npie_constants import NODE_DEF_BUILTIN, NODE_DEF_USER
 from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files
 
 
+class PollCondition:
+    """Represents a condition that can be evaluated to determine whether to show a node or not."""
+
+    def __init__(self, context_path: str, operand: str, value: Any = None):
+        supported_operands = {"bool", "equals", "in"}
+        if operand not in supported_operands:
+            raise ValueError(f"Operand for item {self} '{operand}' is not in {supported_operands}")
+
+        self.context_path = context_path
+        self.operand = operand
+        self.value = value
+
+    def evaluate(self, context: Context):
+        attr_path = f"context.{self.context_path}"
+        result = eval(attr_path)
+        if self.operand == "bool" and bool(result):
+            return True
+        elif self.operand == "equals" and self.value == result:
+            return True
+        elif self.operand == "in" and self.value in result:
+            return True
+        return False
+
+
 @dataclass
-class NodeItem():
+class NodeItem:
     """An imitator of the built in blender NodeItem class, that implements the necessary settings"""
 
     label: str
     idname: str
     settings: dict = field(default_factory=dict)
     variants: dict = field(default_factory=dict)
+    poll_conditions: list[PollCondition] = field(default_factory=list)
     color: str = ""
     description: str = ""
     category = None
 
+    def poll(self, context: Context):
+        if not self.poll_conditions:
+            return True
+        for condition in self.poll_conditions:
+            if condition.evaluate(context):
+                return True
+        return False
+
 
 @dataclass
-class NodeCategory():
+class NodeCategory:
     """An imitator of the built in blender NodeCategory class, that implements the necessary settings"""
 
     label: str
@@ -36,14 +72,12 @@ class NodeCategory():
 
 
 @dataclass
-class Separator():
-
+class Separator:
     label: str = ""
 
 
 @dataclass
-class NodeOperator():
-
+class NodeOperator:
     idname: str
     label: str = ""
     settings: dict = field(default_factory=dict)
@@ -117,9 +151,15 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
                 if name := new_node.get("after_node"):
                     if name == "top":
                         idx = 0
+                    elif name == "bottom":
+                        idx = -1
                     else:
                         names = [n.get("identifier") for n in orig_cat["nodes"]]
                         idx = names.index(name) + 1
+                elif name := new_node.get("before_node"):
+                    names = [n.get("identifier") for n in orig_cat["nodes"]]
+                    idx = names.index(name)
+
                 if idx == -1:
                     orig_cat["nodes"].append(new_node)
                 else:
@@ -144,7 +184,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     # Different render engines can use different nodes in the default shader editor, account for that.
     if tree_identifier == "ShaderNodeTree":
         for file in all_files:
-            with open(file, 'r') as f:
+            with open(file, "r") as f:
                 data = json.load(f, cls=JSONWithCommentsDecoder)
             if data.get("render_engine") == context.scene.render.engine:
                 tree_identifier = file.name
@@ -225,7 +265,8 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
                         node["operator"],
                         label=node.get("label", ""),
                         settings=node.get("settings", {}),
-                    ))
+                    )
+                )
                 continue
             idname = node["identifier"]
 
@@ -243,6 +284,15 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             item = NodeItem(label, idname, color=node.get("color", ""), description=description)
             item.settings = node.get("settings", {})
             item.variants: dict[str, dict] = node.get("variants", {})
+            for condition in node.get("poll_conditions", {}):
+                item.poll_conditions.append(
+                    PollCondition(
+                        condition["context_path"],
+                        condition["operand"],
+                        condition.get("value"),
+                    )
+                )
+
             for name, variant in item.variants.items():
                 if name != "separator":
                     all_settings = item.settings.copy()

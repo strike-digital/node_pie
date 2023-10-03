@@ -1,5 +1,6 @@
 // This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
 // Adds the new nodes, and also replaces the simulation category with one for all zones.
+// New tool specific nodes are also added, with poll conditions so that they only show up in the correct context.
 {
   "blender_version": [4, 0, 0],
   "removals": {
@@ -15,6 +16,47 @@
       "right": [["ROTATION"], [], ["ZONE"]]
     },
     "categories": {
+      "INPUT": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeInputEdgeSmooth",
+            "after_node": "GeometryNodeInputIndex"
+          },
+          {
+            "identifier": "GeometryNodeTool3DCursor",
+            "before_node": "FunctionNodeInputBool",
+            "poll_conditions": [
+              {
+                "context_path": "space_data.geometry_nodes_type",
+                "operand": "equals",
+                "value": "TOOL"
+              }
+            ]
+          },
+          {
+            "identifier": "GeometryNodeToolSelection",
+            "after_node": "GeometryNodeInputRadius",
+            "poll_conditions": [
+              {
+                "context_path": "space_data.geometry_nodes_type",
+                "operand": "equals",
+                "value": "TOOL"
+              }
+            ]
+          },
+          {
+            "identifier": "GeometryNodeToolFaceSet",
+            "before_node": "GeometryNodeInputID",
+            "poll_conditions": [
+              {
+                "context_path": "space_data.geometry_nodes_type",
+                "operand": "equals",
+                "value": "TOOL"
+              }
+            ]
+          }
+        ]
+      },
       "ROTATION": {
         "label": "Rotation",
         "color": "converter",
@@ -31,6 +73,31 @@
           { "identifier": "FunctionNodeEulerToRotation" },
           { "identifier": "FunctionNodeRotationToQuaternion" },
           { "identifier": "FunctionNodeQuaternionToRotation" }
+        ]
+      },
+      "GEOMETRY": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeToolSetSelection",
+            "poll_conditions": [
+              {
+                "context_path": "space_data.geometry_nodes_type",
+                "operand": "equals",
+                "value": "TOOL"
+              }
+            ]
+          },
+          {
+            "identifier": "GeometryNodeToolSetFaceSet",
+            "before_node": "GeometryNodeSetID",
+            "poll_conditions": [
+              {
+                "context_path": "space_data.geometry_nodes_type",
+                "operand": "equals",
+                "value": "TOOL"
+              }
+            ]
+          }
         ]
       },
       "MESH": {

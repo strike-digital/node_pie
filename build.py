@@ -197,6 +197,7 @@ if __name__ == "__main__":
             commit = repo.get_commits()[0]
 
             message = multi_line_input("Release message:")
+            print(message)
             release = repo.create_git_tag_and_release(
                 tag=version,
                 release_name="v" + version,
@@ -207,6 +208,7 @@ if __name__ == "__main__":
             )
             release.upload_asset(str(out_path))
             webbrowser.open(release.html_url)
+            print("FINISHED!")
 
         else:
             webbrowser.open(out_path.parent)
