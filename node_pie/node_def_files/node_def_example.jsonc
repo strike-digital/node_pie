@@ -62,7 +62,21 @@
             "My variant": { "node_setting": "node_value" },
             // This sets the value of the first node input to 5
             "My other variant": { "inputs[0].default_value": 5 }
-          }
+          },
+          // Poll conditions allow node items to only be displayed conditionally, depending on the context.
+          "poll_conditions": [
+            {
+              // This is the python data path starting from "bpy.context."
+              "context_path": "object.name",
+              // The logical operator to apply to the value. One of:
+              // "equals": check whether the returned value equals the provided value
+              // "in": Check whether the returned value is in the provided value
+              // "bool": cast the returned value to a boolean.
+              "operand": "equals",
+              // The value to check the returned value from the context_path against
+              "value": "Cube"
+            }
+          ]
         },
         // Define a separator like this, the label is optional, is only show if subcategory labels are enabled in the preferences
         { "separator": true, "label": "My separator" },
