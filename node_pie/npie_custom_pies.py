@@ -66,6 +66,15 @@ class NodeCategory:
     color: str
     children: list = None
     idname: str = ""
+    poll_conditions: list[PollCondition] = field(default_factory=list)
+
+    def poll(self, context: Context):
+        if not self.poll_conditions:
+            return True
+        for condition in self.poll_conditions:
+            if condition.evaluate(context):
+                return True
+        return False
 
     def items(self, context) -> list[NodeItem]:
         return self.nodes
@@ -285,13 +294,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             item.settings = node.get("settings", {})
             item.variants: dict[str, dict] = node.get("variants", {})
             for condition in node.get("poll_conditions", {}):
-                item.poll_conditions.append(
-                    PollCondition(
-                        condition["context_path"],
-                        condition["operand"],
-                        condition.get("value"),
-                    )
-                )
+                item.poll_conditions.append(PollCondition(**condition))
 
             for name, variant in item.variants.items():
                 if name != "separator":
@@ -303,6 +306,8 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         if not cat.get("label"):
             raise ValueError(f"No label found for category '{cat_idname}'")
         category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
+        for condition in cat.get("poll_conditions", {}):
+            category.poll_conditions.append(PollCondition(**condition))
         categories[cat_idname] = category
         for nodeitem in category.nodes:
             nodeitem.category = category

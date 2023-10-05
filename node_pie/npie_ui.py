@@ -411,6 +411,8 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_category(layout: UILayout, category: NodeCategory, header="", remove: str = ""):
             """Draw all node items in this category"""
+            if not category.poll(context):
+                return
             nodeitems = category.nodes
             col = layout.box().column(align=True)
             draw_header(col, header or category.label, keep_text=header)

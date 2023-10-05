@@ -64,6 +64,7 @@
             "My other variant": { "inputs[0].default_value": 5 }
           },
           // Poll conditions allow node items to only be displayed conditionally, depending on the context.
+          // They also work on entire categories.
           "poll_conditions": [
             {
               // This is the python data path starting from "bpy.context."

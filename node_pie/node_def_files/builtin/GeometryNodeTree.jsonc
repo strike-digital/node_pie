@@ -12,7 +12,11 @@
     // ],
     // "top": [["GEOMETRY"]],
     // "bottom": [["INSTANCE", "VOLUME"]]
-    "left": [["CURVE", "UV", "LAYOUT"], ["MESH"], ["POINT", "UTILITIES", "INSTANCE"]],
+    "left": [
+      ["CURVE", "UV", "LAYOUT"],
+      ["MESH"],
+      ["POINT", "UTILITIES", "INSTANCE"]
+    ],
     "right": [
       ["INPUT", "COLOR"],
       ["PRIMITIVES_MESH", "GEOMETRY", "VOLUME"],
