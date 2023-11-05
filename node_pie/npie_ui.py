@@ -377,17 +377,13 @@ class NPIE_MT_node_pie(Menu):
 
         def draw_header(layout: UILayout, text: str, icon: str = "", keep_text=False):
             """Draw the header of a node category"""
-            row = layout.row(align=False)
 
-            sub = row.row(align=True)
-            sub.alignment = "CENTER"
+            row = layout.row(align=True)
+            row.alignment = "CENTER"
             text = text if keep_text else text.capitalize().replace("_", " ")
 
-            sub.label(text=text, icon=icon or "NONE")
+            row.label(text=text, icon=icon or "NONE")
             layout.separator(factor=0.3)
-            # if icon:
-            # sub.separator(factor=0.3)
-            # sub.label(text=text)
 
         def draw_node_groups(layout: UILayout):
             node_groups = get_node_groups(context)
