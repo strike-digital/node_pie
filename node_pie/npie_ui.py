@@ -1,16 +1,22 @@
 import json
 import random
 import traceback
-from pathlib import Path
 from collections import OrderedDict
+from pathlib import Path
 
 import bpy
 import nodeitems_utils
-from bpy.types import Menu, Context, UILayout, NodeSocket
+from bpy.types import Context, Menu, NodeSocket, UILayout
 
-from .npie_helpers import lerp, inv_lerp, get_prefs
 from .npie_constants import IS_4_0
-from .npie_custom_pies import NodeItem, Separator, NodeCategory, NodeOperator, load_custom_nodes_info
+from .npie_custom_pies import (
+    NodeCategory,
+    NodeItem,
+    NodeOperator,
+    Separator,
+    load_custom_nodes_info,
+)
+from .npie_helpers import get_prefs, inv_lerp, lerp
 
 
 class DummyUI:
@@ -330,14 +336,15 @@ class NPIE_MT_node_pie(Menu):
                 op.group_name = group_name
                 op.type = identifier
                 op.use_transform = True
-                op.settings = str(node_item.settings)
+                if node_item:
+                    op.settings = str(node_item.settings)
                 if nodeitem := all_nodes.get(identifier):
                     if hasattr(nodeitem, "description") and nodeitem.description:
                         op.bl_description = nodeitem.description
 
                 # Dark magic to draw the variants menu on top of the add node button
                 # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
-                if node_item.variants and prefs.npie_show_variants:
+                if node_item and node_item.variants and prefs.npie_show_variants:
                     col = layout.column(align=True)
                     col.active = active
 
@@ -368,12 +375,19 @@ class NPIE_MT_node_pie(Menu):
                 return nodeitem.color
             return category.color
 
-        def draw_header(layout: UILayout, text: str, keep_text=False):
+        def draw_header(layout: UILayout, text: str, icon: str = "", keep_text=False):
             """Draw the header of a node category"""
-            row = layout.row(align=True)
-            row.alignment = "CENTER"
+            row = layout.row(align=False)
+
+            sub = row.row(align=True)
+            sub.alignment = "CENTER"
             text = text if keep_text else text.capitalize().replace("_", " ")
-            row.label(text=text)
+
+            sub.label(text=text, icon=icon or "NONE")
+            layout.separator(factor=0.3)
+            # if icon:
+            # sub.separator(factor=0.3)
+            # sub.label(text=text)
 
         def draw_node_groups(layout: UILayout):
             node_groups = get_node_groups(context)
@@ -415,7 +429,7 @@ class NPIE_MT_node_pie(Menu):
                 return
             nodeitems = category.nodes
             col = layout.box().column(align=True)
-            draw_header(col, header or category.label, keep_text=header)
+            draw_header(col, header or category.label, category.icon, keep_text=header)
 
             if hasattr(category, "children") and category.children:
                 for child in category.children:
@@ -443,9 +457,6 @@ class NPIE_MT_node_pie(Menu):
 
                 # Draw node items
                 color = get_color_name(category, node)
-                # settings = node.settings
-                # variants = node.variants
-                # params = {"settings": str(settings)}
                 draw_add_operator(
                     col,
                     node.label.replace(remove, ""),

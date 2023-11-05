@@ -64,6 +64,7 @@ class NodeCategory:
     label: str
     nodes: list[NodeItem]
     color: str
+    icon: str = ""
     children: list = None
     idname: str = ""
     poll_conditions: list[PollCondition] = field(default_factory=list)
@@ -305,7 +306,13 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
 
         if not cat.get("label"):
             raise ValueError(f"No label found for category '{cat_idname}'")
-        category = NodeCategory(cat["label"], items, color=cat.get("color", ""), idname=cat_idname)
+        category = NodeCategory(
+            cat["label"],
+            items,
+            color=cat.get("color", ""),
+            idname=cat_idname,
+            icon=cat.get("icon", ""),
+        )
         for condition in cat.get("poll_conditions", {}):
             category.poll_conditions.append(PollCondition(**condition))
         categories[cat_idname] = category

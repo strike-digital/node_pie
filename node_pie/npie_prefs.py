@@ -1,12 +1,17 @@
 import bpy
-from bpy.types import KeyMap, KeyMapItem, UILayout
 from bpy.props import BoolProperty, FloatProperty
+from bpy.types import KeyMap, KeyMapItem, UILayout
+
+from .npie_helpers import get_prefs
+from .npie_keymap import get_op_kmis
+from .npie_ui import draw_inline_prop, draw_section
+from .operators.op_call_link_drag import (
+    NPIE_OT_call_link_drag,
+    register_debug_handler,
+    unregister_debug_handler,
+)
 from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .operators.op_show_info import InfoSnippets
-from .operators.op_call_link_drag import NPIE_OT_call_link_drag, register_debug_handler, unregister_debug_handler
-from .npie_helpers import get_prefs
-from .npie_ui import draw_section, draw_inline_prop
-from .npie_keymap import get_op_kmis
 
 
 class NodePiePrefs(bpy.types.AddonPreferences):
@@ -49,7 +54,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     npie_color_size: FloatProperty(
         name="Color bar size",
-        default=.02,
+        default=0.02,
         description="Having this value too low can cause the colors to disapear.",
         subtype="FACTOR",
         min=0,
@@ -104,7 +109,9 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         default=22,
         description="The vertical distance between node sockets.\
             This should only be changed if you use a high or low UI scale,\
-            and drag linking doesn't work as a result.".replace("  ", ""),
+            and drag linking doesn't work as a result.".replace(
+            "  ", ""
+        ),
         subtype="PIXEL",
     )
 
@@ -113,10 +120,10 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
         prefs = get_prefs(context)
         layout = layout.grid_flow(row_major=True, even_columns=True)
-        fac = .515
+        fac = 0.515
 
         col = draw_section(layout, "General")
-        col.scale_y = .9
+        col.scale_y = 0.9
         draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
@@ -129,7 +136,13 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         draw_inline_prop(col, prefs, "npie_max_size", factor=fac)
         row = col.row(align=True)
         row.scale_y = 1.5
-        row.prop(prefs, "npie_freeze_popularity", text="Freeze popularity", icon="FREEZE", toggle=True)
+        row.prop(
+            prefs,
+            "npie_freeze_popularity",
+            text="Unfreeze popularity" if prefs.npie_freeze_popularity else "Freeze popularity",
+            icon="FREEZE",
+            toggle=True,
+        )
         row.operator("node_pie.reset_popularity", icon="FILE_REFRESH")
 
         col = draw_section(layout, "On Link Drag")
@@ -142,7 +155,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
         def draw_op_kmis(keymap: KeyMap, operator: str, text: str, default_new: dict = {}):
             row = col.row(align=True)
-            row.scale_y = .8
+            row.scale_y = 0.8
             row.label(text=text)
 
             row = row.row(align=True)
@@ -161,7 +174,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
                 sub = row.row(align=True)
                 sub.prop(kmi, "active", text="")
                 sub = row.row(align=True)
-                sub.scale_x = .5
+                sub.scale_x = 0.5
                 sub.prop(kmi, "type", full_event=True, text="")
                 sub = row.row(align=True)
                 sub.enabled = True

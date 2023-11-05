@@ -29,6 +29,7 @@
     "ATTRIBUTE": {
       "label": "Attribute",
       "color": "attribute",
+      "icon": "GHOST_ENABLED",
       "nodes": [
         { "identifier": "GeometryNodeAttributeStatistic" },
         {

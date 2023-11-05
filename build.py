@@ -197,7 +197,9 @@ if __name__ == "__main__":
             commit = repo.get_commits()[0]
 
             message = multi_line_input("Release message:")
-            print(message)
+            if message.rstrip().endswith("CANCEL"):
+                print("Cancelled release")
+                return
             release = repo.create_git_tag_and_release(
                 tag=version,
                 release_name="v" + version,
