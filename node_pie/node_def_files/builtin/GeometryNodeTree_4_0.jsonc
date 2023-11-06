@@ -60,6 +60,7 @@
       "ROTATION": {
         "label": "Rotation",
         "color": "converter",
+        "icon": "CON_ROTLIKE",
         "nodes": [
           { "identifier": "FunctionNodeInvertRotation" },
           {
@@ -130,6 +131,7 @@
       "ZONE": {
         "label": "Zones",
         "color": "layout",
+        "icon": "PHYSICS",
         "nodes": [
           {
             "label": "Simulation Zone",

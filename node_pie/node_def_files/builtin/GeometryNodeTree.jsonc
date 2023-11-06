@@ -29,7 +29,8 @@
     "ATTRIBUTE": {
       "label": "Attribute",
       "color": "attribute",
-      "icon": "GHOST_ENABLED",
+      // "icon": "MESH_DATA",
+      "icon": "SPREADSHEET",
       "nodes": [
         { "identifier": "GeometryNodeAttributeStatistic" },
         {
@@ -59,6 +60,7 @@
     "COLOR": {
       "label": "Color",
       "color": "converter",
+      "icon": "COLOR",
       "nodes": [
         {
           "identifier": "ShaderNodeMix",
@@ -115,6 +117,7 @@
     "CURVE": {
       "label": "Curve",
       "color": "geometry",
+      "icon": "OUTLINER_DATA_CURVE",
       "nodes": [
         { "separator": true, "label": "Operations" },
         { "identifier": "GeometryNodeCurveLength" },
@@ -177,6 +180,7 @@
     "PRIMITIVES_CURVE": {
       "label": "Curve Primitives",
       "color": "geometry",
+      "icon": "CURVE_NCIRCLE",
       "nodes": [
         { "identifier": "GeometryNodeCurveArc" },
         { "identifier": "GeometryNodeCurvePrimitiveBezierSegment" },
@@ -191,6 +195,7 @@
     "GEOMETRY": {
       "label": "Geometry",
       "color": "geometry",
+      "icon": "GEOMETRY_NODES",
       "nodes": [
         { "separator": true, "label": "Operations" },
         { "identifier": "GeometryNodeBoundBox" },
@@ -216,6 +221,7 @@
     "INPUT": {
       "label": "Input",
       "color": "input",
+      "icon": "TRACKING_FORWARDS_SINGLE",
       "nodes": [
         { "separator": true, "label": "Constant" },
         { "identifier": "FunctionNodeInputBool" },
@@ -243,6 +249,7 @@
     "INSTANCE": {
       "label": "Instances",
       "color": "geometry",
+      "icon": "MOD_PARTICLE_INSTANCE",
       "nodes": [
         { "identifier": "GeometryNodeInstanceOnPoints" },
         { "identifier": "GeometryNodeInstancesToPoints" },
@@ -258,6 +265,7 @@
     "MATERIAL": {
       "label": "Material",
       "color": "geometry",
+      "icon": "MATERIAL",
       "nodes": [
         { "identifier": "GeometryNodeReplaceMaterial" },
         { "identifier": "GeometryNodeMaterialSelection" },
@@ -289,6 +297,7 @@
     "MESH": {
       "label": "Mesh",
       "color": "geometry",
+      "icon": "MESH_DATA",
       "nodes": [
         { "separator": true, "label": "Operations" },
         { "identifier": "GeometryNodeDualMesh" },
@@ -347,6 +356,7 @@
     "PRIMITIVES_MESH": {
       "label": "Mesh Primitives",
       "color": "geometry",
+      "icon": "MESH_ICOSPHERE",
       "nodes": [
         { "identifier": "GeometryNodeMeshCone" },
         { "identifier": "GeometryNodeMeshCube" },
@@ -361,6 +371,7 @@
     "POINT": {
       "label": "Point",
       "color": "geometry",
+      "icon": "STICKY_UVS_DISABLE",
       "nodes": [
         { "identifier": "GeometryNodeDistributePointsInVolume" },
         { "identifier": "GeometryNodeDistributePointsOnFaces" },
@@ -373,6 +384,7 @@
     "TEXT": {
       "label": "Text",
       "color": "converter",
+      "icon": "SMALL_CAPS",
       "nodes": [
         { "identifier": "GeometryNodeStringToCurves", "color": "geometry" },
         { "separator": true },
@@ -387,6 +399,7 @@
     "TEXTURE": {
       "label": "Texture",
       "color": "texture",
+      "icon": "TEXTURE",
       "nodes": [
         { "identifier": "ShaderNodeTexBrick" },
         { "identifier": "ShaderNodeTexChecker" },
@@ -403,6 +416,7 @@
     "UTILITIES": {
       "label": "Utilities",
       "color": "converter",
+      "icon": "OPTIONS",
       "nodes": [
         { "separator": true, "label": "Field" },
         { "identifier": "GeometryNodeAccumulateField" },
@@ -476,6 +490,7 @@
     "UV": {
       "label": "UV",
       "color": "converter",
+      "icon": "UV",
       "nodes": [
         { "identifier": "GeometryNodeUVPackIslands" },
         { "identifier": "GeometryNodeUVUnwrap" }
@@ -484,6 +499,7 @@
     "VECTOR": {
       "label": "Vector",
       "color": "vector",
+      "icon": "ORIENTATION_GLOBAL",
       "nodes": [
         {
           "identifier": "ShaderNodeCombineXYZ",
@@ -567,6 +583,7 @@
     "VOLUME": {
       "label": "Volume",
       "color": "geometry",
+      "icon": "OUTLINER_DATA_VOLUME",
       "nodes": [
         { "identifier": "GeometryNodeVolumeCube" },
         { "identifier": "GeometryNodeVolumeToMesh" }
@@ -575,6 +592,7 @@
     "LAYOUT": {
       "label": "Layout",
       "color": "layout",
+      "icon": "OBJECT_HIDDEN",
       "nodes": [{ "identifier": "NodeFrame" }, { "identifier": "NodeReroute" }]
     }
   }

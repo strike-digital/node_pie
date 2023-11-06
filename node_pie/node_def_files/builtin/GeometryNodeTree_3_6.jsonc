@@ -17,6 +17,7 @@
       "SIMULATION": {
         "label": "Simulation",
         "color": "layout",
+        "icon": "PHYSICS",
         "nodes": [
           {
             "label": "Simulation Zone",
