@@ -79,6 +79,12 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Draw the variants menus for nodes that support them",
     )
 
+    npie_show_icons: BoolProperty(
+        name="Show icons",
+        default=True,
+        description="Draw icons for categories",
+    )
+
     npie_dev_extras: BoolProperty(
         name="Show dev extras",
         default=False,
@@ -124,9 +130,10 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
         col = draw_section(layout, "General")
         col.scale_y = 0.9
-        draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
+        draw_inline_prop(col, prefs, "npie_show_icons", factor=fac)
         draw_inline_prop(col, prefs, "npie_show_variants", factor=fac)
         draw_inline_prop(col, prefs, "npie_separator_headings", factor=fac)
+        draw_inline_prop(col, prefs, "npie_expand_node_groups", factor=fac)
         draw_inline_prop(col, prefs, "npie_dev_extras", factor=fac)
         draw_inline_prop(col, prefs, "npie_color_size", factor=fac)
 

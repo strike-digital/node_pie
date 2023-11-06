@@ -382,6 +382,7 @@ class NPIE_MT_node_pie(Menu):
             row.alignment = "CENTER"
             text = text if keep_text else text.capitalize().replace("_", " ")
 
+            icon = icon if prefs.npie_show_icons else ""
             row.label(text=text, icon=icon or "NONE")
             layout.separator(factor=0.3)
 
