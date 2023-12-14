@@ -19,6 +19,23 @@
   "additions": {
     "layout": {
       "right": [[], ["UV"]]
+    },
+    "categories": {
+      "GEOMETRY": {
+        "nodes": [
+          {"identifier": "GeometryNodeSplitToInstances", "after_node": "GeometryNodeSeparateGeometry"}
+        ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          { "identifier": "GeometryNodeIndexSwitch", "before_node": "GeometryNodeSwitch"}
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          { "identifier": "GeometryNodeInputActiveCamera", "before_node": "GeometryNodeCollectionInfo" }
+        ]
+      }
     }
   }
 }
