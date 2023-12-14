@@ -136,6 +136,15 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
         else:
             del orig_categories[rem_cat_name]
 
+    # Process full node removals
+    remove_nodes = removals.get("nodes", [])
+    for rem_node in remove_nodes:
+        for orig_category in orig_categories.values():
+            for orig_node in orig_category["nodes"].copy():
+                if rem_node == orig_node.get("identifier"):
+                    orig_category["nodes"].remove(orig_node)
+                    break
+
     # ADDITIONS
     # Merge layout
     for orig_area_name, orig_columns in base["layout"].items():
@@ -247,10 +256,10 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         with open(file, "r") as f:
             new_data = json.load(f, cls=JSONWithCommentsDecoder)
 
-        if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("additions"):
+        if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version:
             continue
 
-        merge_configs(data, new_data["additions"], new_data.get("removals", {}))
+        merge_configs(data, new_data.get("additions", {}), new_data.get("removals", {}))
 
     layout = data["layout"]
 

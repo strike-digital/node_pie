@@ -1,0 +1,24 @@
+// This is a versioning file that only specifies the new nodes in 3.5, compared to the base file.
+{
+  "blender_version": [4, 1, 0],
+  "removals": {
+    "layout": {
+      "left": [["UV"]]
+    },
+    "nodes": [
+      "ShaderNodeTexMusgrave",
+      "GeometryNodeSDFVolumeSphere",
+      "GeometryNodeInputSignedDistance",
+      "GeometryNodeOffsetSDFVolume",
+      "GeometryNodeSampleVolume",
+      "GeometryNodeMeanFilterSDFVolume",
+      "GeometryNodeMeshToSDFVolume",
+      "GeometryNodePointsToSDFVolume"
+    ]
+  },
+  "additions": {
+    "layout": {
+      "right": [[], ["UV"]]
+    }
+  }
+}
