@@ -1,6 +1,6 @@
 {
   "layout": {
-    "left": [["TEXTURE", "SCRIPT", "LAYOUT"], ["CONVERTOR"]],
+    "left": [["TEXTURE","LAYOUT"], ["CONVERTOR", "SCRIPT"]],
     "right": [["INPUT"], ["SHADER"]],
     "top": [["VECTOR"]],
     "bottom": [["COLOR"]]

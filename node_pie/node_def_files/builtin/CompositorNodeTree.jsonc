@@ -116,6 +116,8 @@
         { "identifier": "CompositorNodeSeparateColor" },
         { "identifier": "CompositorNodeSeparateXYZ" },
         { "identifier": "CompositorNodeSetAlpha" },
+        { "identifier": "CompositorNodeSplit" },
+        { "identifier": "CompositorNodeSwitch" },
         { "identifier": "CompositorNodeSwitchView" }
       ]
     },
@@ -135,6 +137,7 @@
         { "identifier": "CompositorNodeFilter" },
         { "identifier": "CompositorNodeGlare" },
         { "identifier": "CompositorNodeInpaint" },
+        { "identifier": "CompositorNodeKuwahara" },
         { "identifier": "CompositorNodePixelate" },
         { "identifier": "CompositorNodeSunBeams" },
         { "identifier": "CompositorNodeVecBlur" }
@@ -193,11 +196,7 @@
     "LAYOUT": {
       "label": "Layout",
       "color": "layout",
-      "nodes": [
-        { "identifier": "NodeFrame" },
-        { "identifier": "NodeReroute" },
-        { "identifier": "CompositorNodeSwitch" }
-      ]
+      "nodes": [{ "identifier": "NodeFrame" }, { "identifier": "NodeReroute" }]
     }
   }
 }
