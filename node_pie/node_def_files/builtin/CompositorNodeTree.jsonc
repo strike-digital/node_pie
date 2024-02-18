@@ -116,7 +116,6 @@
         { "identifier": "CompositorNodeSeparateColor" },
         { "identifier": "CompositorNodeSeparateXYZ" },
         { "identifier": "CompositorNodeSetAlpha" },
-        { "identifier": "CompositorNodeSplit" },
         { "identifier": "CompositorNodeSwitch" },
         { "identifier": "CompositorNodeSwitchView" }
       ]

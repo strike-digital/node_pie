@@ -2,13 +2,12 @@ import json
 import random
 import traceback
 from collections import OrderedDict
-from pathlib import Path
 
 import bpy
 import nodeitems_utils
 from bpy.types import Context, Menu, NodeSocket, UILayout
 
-from .npie_constants import IS_4_0
+from .npie_constants import IS_4_0, POPULARITY_FILE
 from .npie_custom_pies import (
     NodeCategory,
     NodeItem,
@@ -135,7 +134,10 @@ def get_tick_icon(enabled, show_box=False) -> str:
 
 
 def get_all_node_data():
-    with open(Path(__file__).parent / "nodes.json", "r") as f:
+    if not POPULARITY_FILE.exists():
+        with open(POPULARITY_FILE, "w") as f:
+            pass
+    with open(POPULARITY_FILE, "r") as f:
         try:
             data = json.load(f)
         except json.decoder.JSONDecodeError:

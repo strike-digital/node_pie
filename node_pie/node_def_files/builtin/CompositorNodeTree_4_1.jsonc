@@ -2,5 +2,8 @@
   "blender_version": [4, 1, 0],
   "removals": {
     "nodes": ["CompositorNodeSplitViewer"]
+  },
+  "additions": {
+    "nodes": [{ "identifier": "CompositorNodeSplit" }]
   }
 }
