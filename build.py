@@ -38,6 +38,22 @@ if __name__ == "__main__":
         with open(constants_file, "w") as file:
             file.write(text)
 
+    def update_manifest_file(manifest_file: Path, version: tuple):
+        with open(manifest_file, 'r') as file:
+            text = file.read()
+
+        version = tuple(version)
+        matcher = r'^version *= *"\d*.\d*.\d*"'
+        # print(text)
+        # matcher = '^version = '
+        match = re.findall(matcher, text, flags=re.MULTILINE)
+        print(match, matcher)
+        str_version = [str(v) for v in version]
+        text = text.replace(match[0], f'version = \"{".".join(str_version)}\"')
+
+        with open(manifest_file, 'w') as file:
+            file.write(text)
+
     # def multi_input(prompt=""):
     #     """Get user input over multiple lines. Exit with Ctrl-Z"""
     #     print(prompt)
@@ -151,9 +167,11 @@ if __name__ == "__main__":
         )
         args = parser.parse_args()
 
+        ignore = ["images\\", "README", ".gitignore", "build.py", "build.bat", "vendor\\"]
         path = Path(__file__).parent
         files = [Path(f.decode("utf8")) for f in subprocess.check_output("git ls-files", shell=True).splitlines()]
-        files = [f for f in files if not any(i in str(f) for i in ["images\\", "README", ".gitignore", "build.py"])]
+        files = [f for f in files if not any(i in str(f) for i in ignore)]
+        # pprint(files)
 
         # version
         if args.version:
@@ -166,7 +184,9 @@ if __name__ == "__main__":
             file_version = "_".join(latest_version.split(".")[:-1] + [str(int(subversion) + 1)])
 
         print(file_version)
-        update_init_file(path / "__init__.py", tuple(int(f) for f in file_version.split("_")))
+        version = tuple(int(f) for f in file_version.split("_"))
+        update_init_file(path / "__init__.py", version)
+        update_manifest_file(path / "blender_manifest.toml", version)
         # update_constants_file(constants_file, False)
 
         out_path = path / "builds" / f"node_pie_{file_version}.zip"

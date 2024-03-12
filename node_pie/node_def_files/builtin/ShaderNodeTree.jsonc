@@ -1,6 +1,9 @@
 {
   "layout": {
-    "left": [["TEXTURE","LAYOUT"], ["CONVERTOR", "SCRIPT"]],
+    "left": [
+      ["TEXTURE", "LAYOUT"],
+      ["CONVERTOR", "SCRIPT"]
+    ],
     "right": [["INPUT"], ["SHADER"]],
     "top": [["VECTOR"]],
     "bottom": [["COLOR"]]
@@ -68,6 +71,7 @@
         { "identifier": "ShaderNodeBsdfHairPrincipled" },
         { "identifier": "ShaderNodeBsdfVelvet" },
         { "separator": true, "label": "Eevee" },
+
         { "identifier": "ShaderNodeEeveeSpecular" }
       ]
     },
@@ -125,6 +129,10 @@
         { "identifier": "ShaderNodeBump" },
         { "identifier": "ShaderNodeDisplacement" },
         { "identifier": "ShaderNodeMapping" },
+        {
+          "identifier": "ShaderNodeMix",
+          "settings": { "data_type": "VECTOR" }
+        },
         { "identifier": "ShaderNodeNormal" },
         { "identifier": "ShaderNodeNormalMap" },
         { "identifier": "ShaderNodeVectorCurve" },
