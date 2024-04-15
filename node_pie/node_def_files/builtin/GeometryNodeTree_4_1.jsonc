@@ -49,6 +49,11 @@
             "before_node": "GeometryNodeCollectionInfo"
           }
         ]
+      },
+      "ROTATION": {
+        "nodes": [
+          { "identifier": "FunctionNodeRotateRotation" , "before_node": "FunctionNodeRotateVector"}
+        ]
       }
     }
   }
