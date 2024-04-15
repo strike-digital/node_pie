@@ -1,7 +1,8 @@
 import bpy
+
 from ..npie_btypes import BOperator
 from ..npie_custom_pies import NodeItem, load_custom_nodes_info
-from ..npie_ui import NPIE_MT_node_pie, get_variants_menu
+from ..npie_ui import NPIE_MT_node_pie, get_variants_menu, unregister_variants_menus
 
 
 @BOperator("node_pie")
@@ -17,6 +18,8 @@ class NPIE_OT_call_node_pie(BOperator.type):
         return True
 
     def execute(self, context):
+        unregister_variants_menus()
+
         # The variants menus can't be registered in a draw function, so add them here beforehand
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}

@@ -151,10 +151,24 @@ def get_popularity_id(node_idname, settings={}):
     return node_idname + ("" if settings == "{}" else settings)
 
 
+all_variants_menus: list[Menu] = []
+
+
+def unregister_variants_menus():
+    """Unregister all currently registered vairants menus.
+    Necessary to avoid errors being printed when the same menu is re-registered."""
+    for menu in all_variants_menus:
+        try:
+            bpy.utils.unregister_class(menu)
+        except RuntimeError:
+            pass
+
+
 def get_variants_menu(node_item: NodeItem, scale=1):
+    # Create a unique menu id
     hash_val = node_item.category.idname + node_item.idname + node_item.label
     hash_val += str(node_item.settings) + str(node_item.variants)
-    cls_idname = f"NPIE_MT_{abs(hash(hash_val))}"
+    cls_idname = f"NPIE_MT_{node_item.idname}_{abs(hash(hash_val))}"
 
     class NPIE_MT_node_sub_menu(Menu):
         """A sub menu that can be added to certain nodes with different parameters."""
@@ -179,6 +193,7 @@ def get_variants_menu(node_item: NodeItem, scale=1):
     except RuntimeError:
         pass
 
+    all_variants_menus.append(NPIE_MT_node_sub_menu)
     if cls := getattr(bpy.types, cls_idname):
         cls._scale = scale
     return cls_idname
