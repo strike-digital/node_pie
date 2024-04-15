@@ -1,4 +1,5 @@
 import json
+import re
 from typing import TYPE_CHECKING
 from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
@@ -61,11 +62,14 @@ def map_range(val, from_min=0, from_max=1, to_min=0, to_max=2):
 
 class JSONWithCommentsDecoder(json.JSONDecoder):
 
+    match_trailing_commas: re.Pattern = re.compile(r",(?=\s*?[\}\]])", re.MULTILINE)
+
     def __init__(self, **kw):
         super().__init__(**kw)
 
     def decode(self, s: str):
         s = '\n'.join(l if not l.lstrip().startswith('//') else '' for l in s.split('\n'))
+        s = self.match_trailing_commas.sub("", s)
         return super().decode(s)
 
 

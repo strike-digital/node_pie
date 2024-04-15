@@ -13,7 +13,8 @@
       "GeometryNodeSampleVolume",
       "GeometryNodeMeanFilterSDFVolume",
       "GeometryNodeMeshToSDFVolume",
-      "GeometryNodePointsToSDFVolume"
+      "GeometryNodePointsToSDFVolume",
+      "FunctionNodeRotateEuler"
     ]
   },
   "additions": {
@@ -23,17 +24,30 @@
     "categories": {
       "GEOMETRY": {
         "nodes": [
-          {"identifier": "GeometryNodeSplitToInstances", "after_node": "GeometryNodeSeparateGeometry"}
+          {
+            "identifier": "GeometryNodeSplitToInstances",
+            "after_node": "GeometryNodeSeparateGeometry"
+          },
+          {
+            "identifier": "GeometryNodeSortElements",
+            "before_node": "GeometryNodeSplitToInstances"
+          }
         ]
       },
       "UTILITIES": {
         "nodes": [
-          { "identifier": "GeometryNodeIndexSwitch", "before_node": "GeometryNodeSwitch"}
+          {
+            "identifier": "GeometryNodeIndexSwitch",
+            "before_node": "GeometryNodeSwitch"
+          }
         ]
       },
       "INPUT": {
         "nodes": [
-          { "identifier": "GeometryNodeInputActiveCamera", "before_node": "GeometryNodeCollectionInfo" }
+          {
+            "identifier": "GeometryNodeInputActiveCamera",
+            "before_node": "GeometryNodeCollectionInfo"
+          }
         ]
       }
     }
