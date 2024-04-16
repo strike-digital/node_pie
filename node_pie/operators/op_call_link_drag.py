@@ -154,8 +154,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
     def poll(cls, context):
         if not context.space_data or context.area.type != "NODE_EDITOR" or not context.space_data.edit_tree:
             return False
-        if not get_prefs(context).npie_use_link_dragging:
-            return False
         return True
 
     def invoke(self, context: Context, event: Event):
@@ -178,7 +176,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
                     break
 
         # if socket clicked
-        if self.socket:
+        if self.socket and get_prefs(context).npie_use_link_dragging:
             context.area.tag_redraw()
             self.handler = bpy.types.SpaceNodeEditor.draw_handler_add(
                 self.draw_handler,
