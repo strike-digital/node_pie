@@ -23,8 +23,8 @@ def wrap_text(
     ui_scale = system.ui_scale
     width = (4 / (5 * ui_scale)) * width
 
-    dpi = 72 if system.ui_scale >= 1 else system.dpi
-    blf.size(0, 11, dpi)
+    # dpi = 72 if system.ui_scale >= 1 else system.dpi
+    blf.size(0, 11)
 
     for word in text.split(splitter):
         if word == "":

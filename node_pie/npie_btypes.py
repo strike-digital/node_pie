@@ -24,7 +24,7 @@ def wrap_text(self, context: Context, text: str, layout: UILayout, width: int = 
     width = (4 / (5 * ui_scale)) * width
 
     dpi = 72 if system.ui_scale >= 1 else system.dpi
-    blf.size(0, 11, dpi)
+    blf.size(0, 11)
 
     for word in text.split():
         word = f' {word}'
