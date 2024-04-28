@@ -1,14 +1,15 @@
 import bpy
 from bpy.types import Context, KeyMap
+
+from .npie_btypes import BOperator
 from .operators.op_call_link_drag import NPIE_OT_call_link_drag
 from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
-from .npie_btypes import BOperator
 
 addon_keymaps: list[tuple[bpy.types.KeyMap, bpy.types.KeyMapItem]] = []
 
 
-def get_op_kmis(keymap: KeyMap, operator: str):
-    return [kmi for kmi in keymap.keymap_items if kmi.idname == operator]
+def get_operator_keymap_items(keymap: KeyMap, operator_idname: str) -> list[KeyMap]:
+    return [kmi for kmi in keymap.keymap_items if kmi.idname == operator_idname]
 
 
 def register():
@@ -17,7 +18,7 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name='View2D')
+        km = kc.keymaps.new(name="View2D")
 
         kmi = km.keymap_items.new(
             NPIE_OT_call_link_drag.bl_idname,
@@ -49,39 +50,43 @@ def unregister():
     addon_keymaps.clear()
 
 
-def draw_kmi(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):
+def get_keymap() -> KeyMap:
+    return bpy.context.window_manager.keyconfigs.user.keymaps["View2D"]
+
+
+def draw_keymap_item(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):
     """Draw a keymap item in a prettier way than the default"""
     row = layout.row(align=True)
     map_type = kmi.map_type
     row.prop(kmi, "map_type", text="")
-    if map_type == 'KEYBOARD':
+    if map_type == "KEYBOARD":
         row.prop(kmi, "type", text="", full_event=True)
-    elif map_type == 'MOUSE':
+    elif map_type == "MOUSE":
         row.prop(kmi, "type", text="", full_event=True)
-    elif map_type == 'NDOF':
+    elif map_type == "NDOF":
         row.prop(kmi, "type", text="", full_event=True)
-    elif map_type == 'TWEAK':
+    elif map_type == "TWEAK":
         subrow = row.row()
         subrow.prop(kmi, "type", text="")
         subrow.prop(kmi, "value", text="")
-    elif map_type == 'TIMER':
+    elif map_type == "TIMER":
         row.prop(kmi, "type", text="")
     else:
         row.label()
 
     box = layout
 
-    if map_type not in {'TEXTINPUT', 'TIMER'}:
+    if map_type not in {"TEXTINPUT", "TIMER"}:
         sub = box.column()
         subrow = sub.row(align=True)
 
-        if map_type == 'KEYBOARD':
+        if map_type == "KEYBOARD":
             subrow.prop(kmi, "type", text="", event=True)
             subrow.prop(kmi, "value", text="")
             subrow_repeat = subrow.row(align=True)
-            subrow_repeat.active = kmi.value in {'ANY', 'PRESS'}
+            subrow_repeat.active = kmi.value in {"ANY", "PRESS"}
             subrow_repeat.prop(kmi, "repeat", text="", icon="FILE_REFRESH")
-        elif map_type in {'MOUSE', 'NDOF'}:
+        elif map_type in {"MOUSE", "NDOF"}:
             subrow.prop(kmi, "type", text="")
             subrow.prop(kmi, "value", text="")
 
@@ -106,13 +111,13 @@ class NPIE_OT_edit_keymap_item(BOperator.type):
         return self.call_popup(width=400)
 
     def draw(self, context: Context):
-        km = context.window_manager.keyconfigs.user.keymaps["View2D"]
-        kmi = get_op_kmis(km, self.operator)[self.index]
+        km = get_keymap()
+        kmi = get_operator_keymap_items(km, self.operator)[self.index]
         layout = self.layout
         layout.scale_y = 1.2
         row = layout.row(align=True)
         row.label(text="Edit keybind:")
-        draw_kmi(kmi, layout)
+        draw_keymap_item(kmi, layout)
 
 
 @BOperator("node_pie")
@@ -123,8 +128,8 @@ class NPIE_OT_remove_keymap_item(BOperator.type):
     operator: bpy.props.StringProperty()
 
     def execute(self, context):
-        km: KeyMap = context.window_manager.keyconfigs.user.keymaps["View2D"]
-        kmi = get_op_kmis(km, self.operator)[self.index]
+        km = get_keymap()
+        kmi = get_operator_keymap_items(km, self.operator)[self.index]
         km.keymap_items.remove(kmi)
 
 
@@ -143,7 +148,7 @@ class NPIE_OT_new_keymap_item(BOperator.type):
     alt: bpy.props.BoolProperty()
 
     def execute(self, context):
-        km: KeyMap = context.window_manager.keyconfigs.user.keymaps["View2D"]
+        km = get_keymap()
         km.keymap_items.new(
             self.operator,
             self.type,

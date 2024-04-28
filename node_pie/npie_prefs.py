@@ -3,7 +3,7 @@ from bpy.props import BoolProperty, FloatProperty
 from bpy.types import KeyMap, KeyMapItem, UILayout
 
 from .npie_helpers import get_prefs
-from .npie_keymap import get_op_kmis
+from .npie_keymap import get_keymap, get_operator_keymap_items
 from .npie_ui import draw_inline_prop, draw_section
 from .operators.op_call_link_drag import (
     NPIE_OT_call_link_drag,
@@ -172,7 +172,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             for name, arg in default_new.items():
                 setattr(op, name, arg)
 
-            kmis = get_op_kmis(keymap, operator)
+            kmis = get_operator_keymap_items(keymap, operator)
             for i, kmi in enumerate(kmis):
                 kmi: KeyMapItem
 
@@ -196,7 +196,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
                 op.operator = operator
 
         col = draw_section(layout, "Keymap")
-        km = bpy.context.window_manager.keyconfigs.user.keymaps["View2D"]
+        km = get_keymap()
         draw_op_kmis(km, NPIE_OT_call_link_drag.bl_idname, "Pie menu:")
         col.separator()
         draw_op_kmis(km, NPIE_OT_insert_node_pie.bl_idname, "Link insert:", {"value": "CLICK_DRAG"})
