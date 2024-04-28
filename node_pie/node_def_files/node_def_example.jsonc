@@ -87,6 +87,6 @@
   },
   // This will add the imported files on top of the config specified in this file
   // There can be multiple given in the list to be added one on top of each other.
-  // The name should just be the name of the definition file with out the file extension.
+  // The name should just be the name of the definition file without the file extension.
   "imports": ["other_def_file"]
 }
