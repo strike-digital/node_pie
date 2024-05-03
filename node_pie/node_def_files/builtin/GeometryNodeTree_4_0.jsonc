@@ -24,7 +24,7 @@
           },
           {
             "identifier": "GeometryNodeTool3DCursor",
-            "before_node": "FunctionNodeInputBool",
+            "before_node": "GeometryNodeCollectionInfo",
             "poll_conditions": [
               {
                 "context_path": "space_data.geometry_nodes_type",
@@ -62,18 +62,19 @@
         "color": "converter",
         "icon": "CON_ROTLIKE",
         "nodes": [
+          { "identifier": "FunctionNodeAxisAngleToRotation" },
+          { "identifier": "FunctionNodeEulerToRotation" },
           { "identifier": "FunctionNodeInvertRotation" },
           {
             "identifier": "ShaderNodeMix",
+            "label": "Mix Rotation",
             "settings": { "data_type": "ROTATION" }
           },
+          { "identifier": "FunctionNodeQuaternionToRotation" },
           { "identifier": "FunctionNodeRotateVector" },
           { "identifier": "FunctionNodeRotationToAxisAngle" },
-          { "identifier": "FunctionNodeAxisAngleToRotation" },
           { "identifier": "FunctionNodeRotationToEuler" },
-          { "identifier": "FunctionNodeEulerToRotation" },
-          { "identifier": "FunctionNodeRotationToQuaternion" },
-          { "identifier": "FunctionNodeQuaternionToRotation" }
+          { "identifier": "FunctionNodeRotationToQuaternion" }
         ]
       },
       "GEOMETRY": {

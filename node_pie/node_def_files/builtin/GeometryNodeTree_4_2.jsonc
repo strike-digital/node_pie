@@ -1,0 +1,52 @@
+// This is a versioning file that only specifies the new nodes in 4.2, compared to the previous version.
+// This version added a lot of matrix nodes which requires the layout to be rearranged a lot
+{
+  "blender_version": [4, 2, 0],
+  "removals": {
+    "layout": {
+      "left": [[], [], ["UTILITIES", "INSTANCE", "POINT"]],
+      "right": [
+        ["INPUT", "COLOR", "ROTATION"],
+        ["UV", "VOLUME"]
+      ],
+      "top": [["ATTRIBUTE"]]
+    },
+    "nodes": ["FunctionNodeAlignEulerToVector", "SepRotation"]
+  },
+  "additions": {
+    "layout": {
+      "left": [[], [], ["MATRIX", "UTILITIES", "ROTATION"]],
+      "right": [["INSTANCE", "INPUT", "VOLUME"], ["POINT"]],
+      "top": [["COLOR", "ATTRIBUTE"]],
+      "bottom": [["UV"]]
+    },
+    "categories": {
+      "ROTATION": {
+        "nodes": [
+          {"identifier": "FunctionNodeAlignRotationToVector", "before_node": "FunctionNodeAxisAngleToRotation"}
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          { "identifier": "GeometryNodeToolMousePosition", "before_node": "GeometryNodeObjectInfo"},
+          {"identifier": "GeometryNodeViewportTransform", "after_node": "GeometryNodeInputSceneTime"}
+        ]
+      },
+      "MATRIX": {
+        "icon": "MESH_GRID",
+        "label": "Matrix",
+        "color": "converter",
+        "nodes": [
+          { "identifier": "FunctionNodeCombineTransform" },
+          { "identifier": "FunctionNodeInvertMatrix" },
+          { "identifier": "FunctionNodeMatrixMultiply" },
+          { "identifier": "FunctionNodeProjectPoint" },
+          { "identifier": "FunctionNodeSeparateTransform" },
+          { "identifier": "FunctionNodeTransformDirection" },
+          { "identifier": "FunctionNodeTransformPoint" },
+          { "identifier": "FunctionNodeTransposeMatrix" }
+        ]
+      }
+    }
+  }
+}

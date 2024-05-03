@@ -482,7 +482,7 @@
         { "identifier": "ShaderNodeMix" },
         { "identifier": "FunctionNodeRandomValue" },
         { "identifier": "GeometryNodeSwitch" },
-        { "separator": true, "label": "Rotation" },
+        { "separator": true, "label": "Rotation", "identifier": "SepRotation" },
         { "identifier": "FunctionNodeAlignEulerToVector" },
         { "identifier": "FunctionNodeRotateEuler" }
       ]
