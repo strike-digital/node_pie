@@ -64,6 +64,7 @@
       "nodes": [
         {
           "identifier": "ShaderNodeMix",
+          "label": "Mix Color",
           "settings": { "data_type": "RGBA" },
           "color": "color",
           "variants": {
@@ -566,6 +567,7 @@
         },
         {
           "identifier": "ShaderNodeMix",
+          "label": "Mix Vector",
           "settings": { "data_type": "VECTOR" }
         },
         {
