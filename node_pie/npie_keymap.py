@@ -18,7 +18,7 @@ def register():
     wm = bpy.context.window_manager
     kc = wm.keyconfigs.addon
     if kc:
-        km = kc.keymaps.new(name="View2D")
+        km = kc.keymaps.new(name="Window")
 
         kmi = km.keymap_items.new(
             NPIE_OT_call_link_drag.bl_idname,
@@ -51,7 +51,7 @@ def unregister():
 
 
 def get_keymap() -> KeyMap:
-    return bpy.context.window_manager.keyconfigs.user.keymaps["View2D"]
+    return bpy.context.window_manager.keyconfigs.user.keymaps["Window"]
 
 
 def draw_keymap_item(kmi: bpy.types.KeyMapItem, layout: bpy.types.UILayout):

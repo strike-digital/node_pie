@@ -13,7 +13,7 @@ from .npie_custom_pies import (
     NodeItem,
     NodeOperator,
     Separator,
-    load_custom_nodes_info,
+    load_node_def_info,
 )
 from .npie_helpers import get_prefs, inv_lerp, lerp
 
@@ -273,7 +273,7 @@ class NPIE_MT_node_pie(Menu):
         prefs = get_prefs(context)
         tree_type = context.space_data.edit_tree.bl_rna.identifier
 
-        categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
+        categories, cat_layout = load_node_def_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}
 
         if not has_node_file:

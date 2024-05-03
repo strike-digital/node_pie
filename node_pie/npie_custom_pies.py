@@ -194,7 +194,7 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
 modified_times = {}
 
 
-def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, NodeCategory], dict]:
+def load_node_def_info(tree_identifier: str, context) -> tuple[dict[str, NodeCategory], dict]:
     categories = {}
     layout = {}
 
