@@ -343,7 +343,7 @@ class NPIE_MT_node_pie(Menu):
             row = split.row(align=True)
             text = bpy.app.translations.pgettext(text)
             if len(text) > max_len:
-                text = text[:max_len] + "..."
+                text = text[:max_len - 0] + "..."
             row.scale_x = 0.9
 
             if op:
@@ -357,7 +357,7 @@ class NPIE_MT_node_pie(Menu):
                     op.settings = str(node_item.settings)
                 if nodeitem := all_nodes.get(identifier):
                     if hasattr(nodeitem, "description") and nodeitem.description:
-                        op.bl_description = nodeitem.description
+                        op.bl_description = bpy.app.translations.pgettext_tip(nodeitem.description)
 
                 # Dark magic to draw the variants menu on top of the add node button
                 # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
