@@ -50,14 +50,14 @@ all_types = add_socket_names(all_types)
 
 def set_node_settings(socket: NodeSocket, node: Node):
     # Make sure that the node has the correct data type
-    if node.type == "SWITCH" and not socket.bl_idname.startswith("NodeSocketBool"):
+    if node.bl_idname == "GeometryNodeSwitch" and not socket.bl_idname.startswith("NodeSocketBool"):
         try:
             name = next(s for s in switch_types if socket.bl_idname.startswith(s))
         except StopIteration:
             return
         node.input_type = switch_types[name]
 
-    elif node.type == "COMPARE" and socket.is_output:
+    elif node.bl_idname == "FunctionNodeCompare" and socket.is_output:
         try:
             name = next(s for s in compare_types if socket.bl_idname.startswith(s))
         except StopIteration:

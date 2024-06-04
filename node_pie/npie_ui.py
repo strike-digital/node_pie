@@ -7,7 +7,7 @@ import bpy
 import nodeitems_utils
 from bpy.types import Context, Menu, NodeSocket, UILayout
 
-from .npie_constants import CACHE_DIR, IS_4_0, POPULARITY_FILE
+from .npie_constants import IS_4_0, NODE_DEF_SOCKETS, POPULARITY_FILE
 from .npie_custom_pies import (
     NodeCategory,
     NodeItem,
@@ -274,8 +274,9 @@ class NPIE_MT_node_pie(Menu):
         tree_type = context.space_data.edit_tree.bl_rna.identifier
 
         socket_data = None
-        if self.from_socket:
-            socket_data = json.loads((CACHE_DIR / f"{tree_type}_sockets.json").read_text())
+        sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.json"
+        if self.from_socket and sockets_file.exists():
+            socket_data = json.loads(sockets_file.read_text())
 
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}
@@ -338,7 +339,7 @@ class NPIE_MT_node_pie(Menu):
 
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
-            if self.from_socket and isinstance(node_item, NodeItem):
+            if socket_data and isinstance(node_item, NodeItem):
                 in_out = "outputs" if self.from_socket.is_output else "inputs"
                 split.active = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
 

@@ -1,20 +1,15 @@
-import json
-from dataclasses import dataclass
-
 import bpy
 import gpu
-from bpy.types import Area, Context, Event, Node, NodeSocket, NodeTree
+from bpy.types import Area, Context, Event, Node, NodeSocket
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
 
 from ..npie_btypes import BOperator
-from ..npie_constants import CACHE_DIR, IS_4_0
-from ..npie_custom_pies import NodeItem, load_custom_nodes_info
+from ..npie_constants import IS_4_0
 from ..npie_drawing import draw_line
 from ..npie_helpers import Rectangle, get_node_location, get_prefs
 from ..npie_ui import NPIE_MT_node_pie
-from ..operators import op_add_node
 
 location = None
 hitbox_size = 10  # The radius in which to register a socket click
@@ -149,45 +144,6 @@ def unregister():
     handlers.clear()
 
 
-@dataclass
-class DummySocket:
-    bl_idname: str
-    is_output: bool
-
-
-def get_node_socket_info(context: Context, from_socket: NodeSocket):
-    categories, layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
-    all_nodes: list[NodeItem] = []
-    for cat in categories.values():
-        for node_type in cat.nodes:
-            if isinstance(node_type, NodeItem):
-                all_nodes.append(node_type)
-
-    data = {}
-    node_tree: NodeTree = context.space_data.edit_tree
-    NPIE_MT_node_pie.from_socket = from_socket
-    for node_type in all_nodes:
-        node = node_tree.nodes.new(node_type.idname)
-        node_data = {}
-        node_data["inputs"] = set()
-        node_data["outputs"] = set()
-        for socket_type in op_add_node.all_types:
-            op_add_node.set_node_settings(DummySocket(socket_type, True), node)
-            for socket in node.inputs:
-                node_data["inputs"].add(socket.bl_idname)
-            for socket in node.outputs:
-                node_data["outputs"].add(socket.bl_idname)
-
-        node_data["inputs"] = list(node_data["inputs"])
-        node_data["outputs"] = list(node_data["outputs"])
-        data[node_type.idname] = node_data
-        node_tree.nodes.remove(node)
-    tree_type = node_tree.bl_rna.identifier
-    with open(CACHE_DIR / f"{tree_type}_sockets.json", "w") as f:
-        json.dump(data, f, indent=2)
-    return data
-
-
 @BOperator("node_pie")
 class NPIE_OT_call_link_drag(BOperator.type):
     """Call the node pie menu"""
@@ -221,7 +177,6 @@ class NPIE_OT_call_link_drag(BOperator.type):
 
         # if socket clicked
         if self.socket and get_prefs(context).npie_use_link_dragging:
-            get_node_socket_info(context, self.socket)
             context.area.tag_redraw()
             self.handler = bpy.types.SpaceNodeEditor.draw_handler_add(
                 self.draw_handler,

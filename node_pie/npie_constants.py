@@ -18,8 +18,6 @@ NODE_DEF_BUILTIN = NODE_DEF_DIR / "builtin"
 NODE_DEF_USER = NODE_DEF_DIR / "user"
 NODE_DEF_BASE_FILE = NODE_DEF_DIR / "node_def_base.jsonc"
 NODE_DEF_EXAMPLE_FILE = NODE_DEF_DIR / "node_def_example.jsonc"
+NODE_DEF_SOCKETS = NODE_DEF_DIR / "sockets"
 
 SHADERS_DIR = Path(__file__).parent / "shaders"
-CACHE_DIR = Path(__file__).parent / "cache"
-CACHE_DIR.mkdir(parents=True, exist_ok=True)
-print(CACHE_DIR)
