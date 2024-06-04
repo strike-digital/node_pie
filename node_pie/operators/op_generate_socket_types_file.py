@@ -59,7 +59,7 @@ class NPIE_OT_generate_socket_types_file(BOperator.type):
     def invoke(self, context, event):
         node_tree: NodeTree = context.space_data.edit_tree
         self.tree_type = node_tree.bl_rna.identifier
-        self.to_path = NODE_DEF_SOCKETS / f"{self.tree_type}_sockets.json"
+        self.to_path = NODE_DEF_SOCKETS / f"{self.tree_type}_sockets.jsonc"
         generate_node_socket_info(context, self.to_path)
         return self.call_popup_confirm(width=500)
 

@@ -274,7 +274,7 @@ class NPIE_MT_node_pie(Menu):
         tree_type = context.space_data.edit_tree.bl_rna.identifier
 
         socket_data = None
-        sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.json"
+        sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.jsonc"
         if prefs.npie_link_drag_disable_invalid and self.from_socket and sockets_file.exists():
             socket_data = json.loads(sockets_file.read_text())
 
