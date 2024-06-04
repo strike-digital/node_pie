@@ -6,46 +6,8 @@ from bpy.types import Node, NodeSocket, NodeTree
 
 from ..npie_btypes import BOperator
 from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
+from ..npie_node_info import ALL_TYPES, COMPARE_TYPES, EXCLUSIVE_SOCKETS, SWITCH_TYPES
 from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
-
-# Convert from node socket types to node enum names
-# Switch and compare nodes have special cases that need to be dealt with individually
-compare_types = {
-    "Float": "FLOAT",
-    "Int": "INT",
-    "Vector": "VECTOR",
-    "String": "STRING",
-    "Color": "RGBA",
-}
-
-switch_types = {
-    "Bool": "BOOLEAN",
-    "Object": "OBJECT",
-    "Collection": "COLLECTION",
-    "Image": "IMAGE",
-    "Geometry": "GEOMETRY",
-    # "Texture": "TEXTURE",
-    "Material": "MATERIAL",
-}
-
-
-def add_socket_names(names_dict):
-    return {"NodeSocket" + k: v for k, v in names_dict.items()}
-
-
-switch_types.update(compare_types)
-
-# All other nodes then have a list of enum types associated with each socket type
-all_types = switch_types.copy()
-all_types.update({"Shader": "SHADER"})
-all_types.update({"Texture": "TEXTURE"})
-all_types = {k: [v] for k, v in all_types.items()}
-all_types["Vector"].append("FLOAT_VECTOR")
-all_types["Color"].append("FLOAT_COLOR")
-
-switch_types = add_socket_names(switch_types)
-compare_types = add_socket_names(compare_types)
-all_types = add_socket_names(all_types)
 
 
 def set_node_settings(socket: NodeSocket, node: Node, ui: bool = True):
@@ -57,21 +19,21 @@ def set_node_settings(socket: NodeSocket, node: Node, ui: bool = True):
         socket.bl_idname.startswith("NodeSocketBool") and ui and socket.is_output
     ):
         try:
-            name = next(s for s in switch_types if socket.bl_idname.startswith(s))
+            name = next(s for s in SWITCH_TYPES if socket.bl_idname.startswith(s))
         except StopIteration:
             return
-        node.input_type = switch_types[name]
+        node.input_type = SWITCH_TYPES[name]
 
     elif node.bl_idname == "FunctionNodeCompare" and socket.is_output:
         try:
-            name = next(s for s in compare_types if socket.bl_idname.startswith(s))
+            name = next(s for s in COMPARE_TYPES if socket.bl_idname.startswith(s))
         except StopIteration:
             return
-        node.data_type = compare_types[name]
+        node.data_type = COMPARE_TYPES[name]
 
     elif hasattr(node, "data_type"):
-        name = next(s for s in all_types if socket.bl_idname.startswith(s))
-        for data_type in all_types[name]:
+        name = next(s for s in ALL_TYPES if socket.bl_idname.startswith(s))
+        for data_type in ALL_TYPES[name]:
             try:
                 node.data_type = data_type
             except TypeError:
@@ -83,15 +45,13 @@ def get_socket(from_socket, to_sockets):
     Try to find the best match of from socket in to_sockets based on socket types.
     Is agnostic to whether sockets are inputs or outputs.
     """
-    exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
-    exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
     if not to_sockets:
         return
 
     socket = None
     for s in to_sockets:
         if s.bl_idname != from_socket.bl_idname:
-            if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
+            if s.bl_idname in EXCLUSIVE_SOCKETS or from_socket.bl_idname in EXCLUSIVE_SOCKETS:
                 continue
         socket = s
         break

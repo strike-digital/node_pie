@@ -16,10 +16,11 @@ from .npie_custom_pies import (
     load_custom_nodes_info,
 )
 from .npie_helpers import JSONWithCommentsDecoder, get_prefs, inv_lerp, lerp
+from .npie_node_info import socket_to_node_valid
 
 
 class DummyUI:
-    """Class that immitates UILayout, but doesn't draw anything"""
+    """Class that imitates UILayout, but doesn't draw anything"""
 
     def row(*args, **kwargs):
         return DummyUI()
@@ -340,14 +341,21 @@ class NPIE_MT_node_pie(Menu):
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
             if socket_data and isinstance(node_item, NodeItem):
-                in_out = "inputs" if self.from_socket.is_output else "outputs"
-                from_socket_valid = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
-                to_socket_valid = True
-                if self.to_sockets:
-                    in_out = "inputs" if self.to_sockets[0].is_output else "outputs"
-                    to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
+                split.active = socket_to_node_valid(
+                    self.from_socket.bl_idname,
+                    self.from_socket.is_output,
+                    node_item,
+                    socket_data,
+                )
 
-                split.active = from_socket_valid and to_socket_valid
+                # in_out = "inputs" if self.from_socket.is_output else "outputs"
+                # from_socket_valid = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
+                # to_socket_valid = True
+                # if self.to_sockets:
+                #     in_out = "inputs" if self.to_sockets[0].is_output else "outputs"
+                #     to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
+
+                # split.active = from_socket_valid and to_socket_valid
 
             sub = split.row(align=True)
             sub.prop(context.preferences.themes[0].node_editor, color_name + "_node", text="")
