@@ -1,9 +1,12 @@
 import json
 import re
 from typing import TYPE_CHECKING
+
 from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
+
 from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
+
 if TYPE_CHECKING:
     from .npie_prefs import NodePiePrefs
 else:
@@ -69,7 +72,7 @@ class JSONWithCommentsDecoder(json.JSONDecoder):
 
     def decode(self, s: str):
         # Remove comments
-        s = '\n'.join(l if not l.lstrip().startswith('//') else '' for l in s.split('\n'))
+        s = "\n".join(l if not l.lstrip().startswith("//") else "" for l in s.split("\n"))
         # Remove trailing commas
         s = self.match_trailing_commas.sub("", s)
         return super().decode(s)
@@ -78,12 +81,14 @@ class JSONWithCommentsDecoder(json.JSONDecoder):
 def get_all_def_files():
     files = []
     for file in NODE_DEF_DIR.rglob("*"):
+        if file.parent.name == "sockets":
+            continue
         if file.is_file() and file.suffix == ".jsonc" and not file.name.startswith(NODE_DEF_EXAMPLE_PREFIX):
             files.append(file)
     return files
 
 
-class Rectangle():
+class Rectangle:
     """Helper class to represent a rectangle"""
 
     __slots__ = ["min", "max"]

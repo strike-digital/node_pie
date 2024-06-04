@@ -15,7 +15,7 @@ from .npie_custom_pies import (
     Separator,
     load_custom_nodes_info,
 )
-from .npie_helpers import get_prefs, inv_lerp, lerp
+from .npie_helpers import JSONWithCommentsDecoder, get_prefs, inv_lerp, lerp
 
 
 class DummyUI:
@@ -276,7 +276,7 @@ class NPIE_MT_node_pie(Menu):
         socket_data = None
         sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.jsonc"
         if prefs.npie_link_drag_disable_invalid and self.from_socket and sockets_file.exists():
-            socket_data = json.loads(sockets_file.read_text())
+            socket_data = json.loads(sockets_file.read_text(), cls=JSONWithCommentsDecoder)
 
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         has_node_file = categories != {}

@@ -44,8 +44,15 @@ def generate_node_socket_info(context: Context, path: Path):
         node_data["outputs"] = list(node_data["outputs"])
         data[node_type.idname] = node_data
         node_tree.nodes.remove(node)
+    data_str = json.dumps(data, indent=2)
+    data_str = (
+        "// This is a list of the socket types of all nodes"
+        + "\n// used for telling whether a node is valid during link drag."
+        + "\n// It can be auto generated using the 'generate socket types file' operator\n"
+        + data_str
+    )
     with open(path, "w") as f:
-        json.dump(data, f, indent=2)
+        f.write(data_str)
     return data
 
 
