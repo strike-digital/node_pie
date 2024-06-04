@@ -4,6 +4,8 @@ from bpy.types import Area, Node, Event, Context, NodeSocket
 from mathutils import Vector as V
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
+from .op_add_node import NPIE_OT_add_node
+from ..npie_custom_pies import NodeItem, load_custom_nodes_info
 
 from ..npie_ui import NPIE_MT_node_pie
 from ..npie_btypes import BOperator
@@ -144,6 +146,19 @@ def unregister():
     handlers.clear()
 
 
+def get_node_socket_info(context: Context):
+    categories, layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
+    all_nodes = []
+    for cat in categories.values():
+        for node in cat.nodes:
+            if isinstance(node, NodeItem):
+                all_nodes.append(node)
+
+    tree_type = context.space_data.edit_tree.bl_rna.identifier
+    for node in all_nodes:
+        NPIE_OT_add_node
+
+
 @BOperator("node_pie")
 class NPIE_OT_call_link_drag(BOperator.type):
     """Call the node pie menu"""
@@ -177,6 +192,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
 
         # if socket clicked
         if self.socket and get_prefs(context).npie_use_link_dragging:
+            get_node_socket_info()
             context.area.tag_redraw()
             self.handler = bpy.types.SpaceNodeEditor.draw_handler_add(
                 self.draw_handler,

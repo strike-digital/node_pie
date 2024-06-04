@@ -2,11 +2,11 @@ import json
 from typing import OrderedDict
 
 import bpy
-from bpy.types import Node, NodeTree, NodeSocket
+from bpy.types import Node, NodeSocket, NodeTree
 
-from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
 from ..npie_btypes import BOperator
 from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
+from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
 
 # Convert from node socket types to node enum names
 # Switch and compare nodes have special cases that need to be dealt with individually
@@ -69,26 +69,30 @@ def set_node_settings(socket: NodeSocket, node: Node):
                 pass
 
 
-def handle_node_linking(socket: NodeSocket, node: Node):
-    """Make the optimal link between a node and a socket, taking into account socket types"""
+def get_socket(from_socket, to_sockets):
+    """
+    Try to find the best match of from socket in to_sockets based on socket types.
+    Is agnostic to whether sockets are inputs or outputs.
+    """
     exclusive_sockets = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image"}
     exclusive_sockets = {"NodeSocket" + s for s in exclusive_sockets}
+    if not to_sockets:
+        return
 
-    # Try to find the best link based on the socket types
-    def get_socket(from_socket, sockets):
-        if not sockets:
-            return
+    socket = None
+    for s in to_sockets:
+        if s.bl_idname != from_socket.bl_idname:
+            if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
+                continue
+        socket = s
+        break
+    if not socket:
+        socket = to_sockets[0]
+    return socket
 
-        socket = None
-        for s in sockets:
-            if s.bl_idname != from_socket.bl_idname:
-                if s.bl_idname in exclusive_sockets or from_socket.bl_idname in exclusive_sockets:
-                    continue
-            socket = s
-            break
-        if not socket:
-            socket = sockets[0]
-        return socket
+
+def handle_node_linking(socket: NodeSocket, node: Node):
+    """Make the optimal link between a node and a socket, taking into account socket types"""
 
     if socket.is_output:
         inputs = [s for s in node.inputs if s.enabled and not s.hide]
@@ -105,7 +109,7 @@ def handle_node_linking(socket: NodeSocket, node: Node):
 
 @BOperator("node_pie", idname="add_node", undo=True)
 class NPIE_OT_add_node(BOperator.type):
-    """Add a node to the node tree, and increase its poularity by 1"""
+    """Add a node to the node tree, and increase its popularity by 1"""
 
     type: bpy.props.StringProperty(name="Type", description="Node type to add", default="FunctionNodeInputVector")
     group_name: bpy.props.StringProperty(name="Group name", description="The name of the node group to add")

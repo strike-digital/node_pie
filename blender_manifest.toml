@@ -3,7 +3,7 @@ schema_version = "1.0.0"
 # Example of manifest file for a Blender extension
 # Change the values according to your extension
 id = "NodePie"
-version = "1.2.29"
+version = "1.2.30"
 name = "Node Pie"
 tagline = "Add nodes visually with a pie menu"
 maintainer = "Andrew Stevenson"
