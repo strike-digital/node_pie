@@ -1,5 +1,6 @@
 import bpy
 import gpu
+from bpy.props import BoolProperty, IntProperty
 from bpy.types import Area, Context, Event, Node, NodeSocket
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
@@ -148,7 +149,13 @@ def unregister():
 class NPIE_OT_call_link_drag(BOperator.type):
     """Call the node pie menu"""
 
-    name: bpy.props.IntProperty()
+    name: IntProperty()
+
+    pass_through: BoolProperty(
+        name="Enable link drag",
+        description="Whether to check for link drag, or just pass through to the default pie menu",
+        default=False,
+    )
 
     @classmethod
     def poll(cls, context):
@@ -160,6 +167,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
         self.handler = None
         self.socket = None
         self.from_pos = V((0, 0))
+        self.released = False
 
         mouse_pos = region_to_view(context.area, self.mouse_region)
         global location
@@ -176,7 +184,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
                     break
 
         # if socket clicked
-        if self.socket and get_prefs(context).npie_use_link_dragging:
+        if not self.pass_through and self.socket and get_prefs(context).npie_use_link_dragging:
             context.area.tag_redraw()
             self.handler = bpy.types.SpaceNodeEditor.draw_handler_add(
                 self.draw_handler,
@@ -201,7 +209,7 @@ class NPIE_OT_call_link_drag(BOperator.type):
     def modal(self, context: Context, event: Event):
         context.area.tag_redraw()
 
-        if event.type in {"RIGHTMOUSE", "ESC"}:
+        if event.type in {"RIGHTMOUSE", "ESC"} and event.value != "RELEASE":
             return self.finish()
 
         elif event.value == "RELEASE" and event.type not in {"CTRL", "ALT", "OSKEY", "SHIFT"}:

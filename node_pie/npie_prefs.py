@@ -167,7 +167,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
                 draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)
         InfoSnippets.link_drag.draw(col)
 
-        def draw_op_kmis(keymap: KeyMap, operator: str, text: str, default_new: dict = {}):
+        def draw_op_kmis(keymap: KeyMap, operator: str, text: str, properties: dict = {}, default_new: dict = {}):
             row = col.row(align=True)
             row.scale_y = 0.8
             row.label(text=text)
@@ -183,6 +183,15 @@ class NodePiePrefs(bpy.types.AddonPreferences):
             for i, kmi in enumerate(kmis):
                 kmi: KeyMapItem
 
+                # Check that properties are the same
+                matches = True
+                for key, value in properties.items():
+                    if getattr(kmi.properties, key) != value:
+                        matches = False
+                        break
+                if not matches:
+                    continue
+
                 row = col.row(align=True)
                 row.active = kmi.active
                 sub = row.row(align=True)
@@ -192,6 +201,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
                 sub.prop(kmi, "type", full_event=True, text="")
                 sub = row.row(align=True)
                 sub.enabled = True
+
+                # TODO get this working, currently doesn't save with the keymap
+                # if hasattr(kmi.properties, "pass_through"):
+                #     sub.prop(kmi.properties, "pass_through", text="", icon="IPO_EASE_IN_OUT", invert_checkbox=True)
+
                 op = sub.operator("node_pie.edit_keymap_item", text="", icon="GREASEPENCIL")
                 op.index = i
                 op.operator = operator
@@ -206,4 +220,4 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         km = get_keymap()
         draw_op_kmis(km, NPIE_OT_call_link_drag.bl_idname, "Pie menu:")
         col.separator()
-        draw_op_kmis(km, NPIE_OT_insert_node_pie.bl_idname, "Link insert:", {"value": "CLICK_DRAG"})
+        draw_op_kmis(km, NPIE_OT_insert_node_pie.bl_idname, "Link insert:", default_new={"value": "CLICK_DRAG"})
