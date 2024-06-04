@@ -24,7 +24,7 @@ switch_types = {
     "Collection": "COLLECTION",
     "Image": "IMAGE",
     "Geometry": "GEOMETRY",
-    "Texture": "TEXTURE",
+    # "Texture": "TEXTURE",
     "Material": "MATERIAL",
 }
 
@@ -38,6 +38,7 @@ switch_types.update(compare_types)
 # All other nodes then have a list of enum types associated with each socket type
 all_types = switch_types.copy()
 all_types.update({"Shader": "SHADER"})
+all_types.update({"Texture": "TEXTURE"})
 all_types = {k: [v] for k, v in all_types.items()}
 all_types["Vector"].append("FLOAT_VECTOR")
 all_types["Color"].append("FLOAT_COLOR")
@@ -50,7 +51,10 @@ all_types = add_socket_names(all_types)
 def set_node_settings(socket: NodeSocket, node: Node):
     # Make sure that the node has the correct data type
     if node.type == "SWITCH" and not socket.bl_idname.startswith("NodeSocketBool"):
-        name = next(s for s in switch_types if socket.bl_idname.startswith(s))
+        try:
+            name = next(s for s in switch_types if socket.bl_idname.startswith(s))
+        except StopIteration:
+            return
         node.input_type = switch_types[name]
 
     elif node.type == "COMPARE" and socket.is_output:
@@ -185,7 +189,7 @@ class NPIE_OT_add_node(BOperator.type):
         data["version"] = POPULARITY_FILE_VERSION
         node["count"] = count
         nodes[key] = node
-        # Sort the nodes in decending order
+        # Sort the nodes in descending order
         nodes = OrderedDict(sorted(nodes.items(), key=lambda item: item[1].get("count", 0), reverse=True))
         trees[node_tree.bl_rna.identifier] = nodes
         data["node_trees"] = trees

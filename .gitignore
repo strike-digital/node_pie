@@ -9,4 +9,5 @@ builds/
 .vscode
 .venv
 /docs_testing
+/node_pie/cache
 /node_pie/images

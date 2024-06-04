@@ -1,5 +1,5 @@
-from pathlib import Path
 import platform
+from pathlib import Path
 
 import bpy
 
@@ -20,3 +20,6 @@ NODE_DEF_BASE_FILE = NODE_DEF_DIR / "node_def_base.jsonc"
 NODE_DEF_EXAMPLE_FILE = NODE_DEF_DIR / "node_def_example.jsonc"
 
 SHADERS_DIR = Path(__file__).parent / "shaders"
+CACHE_DIR = Path(__file__).parent / "cache"
+CACHE_DIR.mkdir(parents=True, exist_ok=True)
+print(CACHE_DIR)
