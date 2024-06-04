@@ -346,8 +346,7 @@ class NPIE_MT_node_pie(Menu):
                 if self.to_sockets:
                     in_out = "inputs" if self.to_sockets[0].is_output else "outputs"
                     to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
-                if node_item.label == "Switch":
-                    print(node_item.idname, self.from_socket.bl_idname, socket_data[node_item.idname][in_out])
+
                 split.active = from_socket_valid and to_socket_valid
 
             sub = split.row(align=True)
@@ -360,6 +359,30 @@ class NPIE_MT_node_pie(Menu):
             if len(text) > max_len:
                 text = text[: max_len - 0] + "..."
             row.scale_x = 0.9
+
+            def same_row():
+                """Create a row on top of the previous row"""
+                # Dark magic to draw the variants menu on top of the add node button
+                # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
+                col = layout.column(align=True)
+                col.active = active
+
+                # Draw a property with negative scale. This essentially gives it a negative bounding box,
+                # Pushing everything drawn below it upwards on top of whatever is already there.
+                subcol = col.column(align=True)
+                subcol.prop(context.scene, "frame_end", text="")
+                subcol.scale_y = -scale
+
+                # This row will now be pushed on top of the add node button
+                subrow = col.row(align=False)
+                return subrow
+
+            # This is used to reduce the opacity of the background when inactive as I can't find the theme settings for that
+            if not split.active:
+                row.operator("node_pie.add_node", text=" ")
+                row = same_row()
+                row.scale_y = scale
+                row.active = split.active
 
             if op:
                 op = row.operator(op, text=text)
@@ -374,25 +397,14 @@ class NPIE_MT_node_pie(Menu):
                     if hasattr(nodeitem, "description") and nodeitem.description:
                         op.bl_description = bpy.app.translations.pgettext_tip(nodeitem.description)
 
-                # Dark magic to draw the variants menu on top of the add node button
-                # Works similarly to this: https://blender.stackexchange.com/a/277673/57981
                 if node_item and node_item.variants and prefs.npie_show_variants:
-                    col = layout.column(align=True)
-                    col.active = active
+                    row = same_row()
 
-                    # Draw a property with negative scale. This essentially gives it a negative bounding box,
-                    # Pushing everything drawn below it upwards on top of whatever is already there.
-                    subcol = col.column(align=True)
-                    subcol.prop(context.scene, "frame_end", text="")
-                    subcol.scale_y = -scale
-
-                    # Draw the menu, which will now be pushed on top of the add node button
-                    subrow = col.row(align=False)
-                    subrow.scale_x = 1.1
-                    subrow.scale_y = scale
-                    subrow.alignment = "RIGHT"
-                    subrow.active = split.active
-                    subrow.menu(
+                    row.scale_x = 1.1
+                    row.scale_y = scale
+                    row.alignment = "RIGHT"
+                    row.active = split.active
+                    row.menu(
                         get_variants_menu(node_item, scale=1.1),
                         text="",
                         icon="TRIA_RIGHT",
