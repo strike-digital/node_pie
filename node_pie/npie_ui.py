@@ -332,11 +332,6 @@ class NPIE_MT_node_pie(Menu):
             if "" not in text.lower():
                 active = False
                 row.active = False
-            scale = 1
-            # draw the operator larger if the node is used more often
-            if prefs.npie_variable_sizes and not group_name and not op:
-                scale = get_node_size(node_item)
-            row.scale_y = scale
 
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
@@ -348,14 +343,11 @@ class NPIE_MT_node_pie(Menu):
                     socket_data,
                 )
 
-                # in_out = "inputs" if self.from_socket.is_output else "outputs"
-                # from_socket_valid = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
-                # to_socket_valid = True
-                # if self.to_sockets:
-                #     in_out = "inputs" if self.to_sockets[0].is_output else "outputs"
-                #     to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
-
-                # split.active = from_socket_valid and to_socket_valid
+            scale = 1
+            # draw the operator larger if the node is used more often
+            if prefs.npie_variable_sizes and not group_name and not op and split.active:
+                scale = get_node_size(node_item)
+            row.scale_y = scale
 
             sub = split.row(align=True)
             sub.prop(context.preferences.themes[0].node_editor, color_name + "_node", text="")

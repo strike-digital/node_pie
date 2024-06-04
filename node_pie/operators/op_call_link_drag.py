@@ -36,7 +36,8 @@ def dpifac():
 
 def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket, Rectangle]]:
     """Get the bounding boxes of all inputs and outputs for the given node.
-    There is no built in way to do this so it's mostly arbitrary numbers that look about right."""
+    There is no built in way to do this so it's mostly arbitrary numbers that look about right.
+    This doesn't account for nodes with panels, as they are not currently accessible with the api"""
     if not node:
         return
 
