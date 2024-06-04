@@ -94,7 +94,13 @@ class NodePiePrefs(bpy.types.AddonPreferences):
     npie_use_link_dragging: BoolProperty(
         name="Enable link dragging",
         default=True,
-        description="Allow automatically connecting the new node to a socket if it is hoverred",
+        description="Allow automatically connecting the new node to a socket if it is hovered",
+    )
+
+    npie_link_drag_disable_invalid: BoolProperty(
+        name="Disable invalid nodes",
+        default=True,
+        description="Grey out nodes that are no able to be connected when using link drag or link insert",
     )
 
     def draw_debug_update(self, context):
@@ -155,6 +161,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         col = draw_section(layout, "On Link Drag")
         draw_inline_prop(col, prefs, "npie_use_link_dragging", factor=fac)
         if prefs.npie_use_link_dragging:
+            draw_inline_prop(col, prefs, "npie_link_drag_disable_invalid", factor=fac)
             draw_inline_prop(col, prefs, "npie_draw_debug_lines", factor=fac)
             if prefs.npie_draw_debug_lines:
                 draw_inline_prop(col, prefs, "npie_socket_separation", factor=fac)

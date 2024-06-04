@@ -275,7 +275,7 @@ class NPIE_MT_node_pie(Menu):
 
         socket_data = None
         sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.json"
-        if self.from_socket and sockets_file.exists():
+        if prefs.npie_link_drag_disable_invalid and self.from_socket and sockets_file.exists():
             socket_data = json.loads(sockets_file.read_text())
 
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
@@ -341,7 +341,12 @@ class NPIE_MT_node_pie(Menu):
             split = row.split(factor=prefs.npie_color_size, align=True)
             if socket_data and isinstance(node_item, NodeItem):
                 in_out = "outputs" if self.from_socket.is_output else "inputs"
-                split.active = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
+                from_socket_valid = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
+                to_socket_valid = True
+                if self.to_sockets:
+                    in_out = "outputs" if self.to_sockets[0].is_output else "inputs"
+                    to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
+                split.active = from_socket_valid and to_socket_valid
 
             sub = split.row(align=True)
             sub.prop(context.preferences.themes[0].node_editor, color_name + "_node", text="")
