@@ -34,7 +34,7 @@ def generate_node_socket_info(context: Context, path: Path):
         node_data["inputs"] = set()
         node_data["outputs"] = set()
         for socket_type in op_add_node.all_types:
-            op_add_node.set_node_settings(DummySocket(socket_type, True), node)
+            op_add_node.set_node_settings(DummySocket(socket_type, True), node, ui=False)
             for socket in node.inputs:
                 node_data["inputs"].add(socket.bl_idname)
             for socket in node.outputs:

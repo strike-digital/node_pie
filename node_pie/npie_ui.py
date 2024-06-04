@@ -340,12 +340,14 @@ class NPIE_MT_node_pie(Menu):
             # Draw the colour bar to the side
             split = row.split(factor=prefs.npie_color_size, align=True)
             if socket_data and isinstance(node_item, NodeItem):
-                in_out = "outputs" if self.from_socket.is_output else "inputs"
+                in_out = "inputs" if self.from_socket.is_output else "outputs"
                 from_socket_valid = self.from_socket.bl_idname in socket_data[node_item.idname][in_out]
                 to_socket_valid = True
                 if self.to_sockets:
-                    in_out = "outputs" if self.to_sockets[0].is_output else "inputs"
+                    in_out = "inputs" if self.to_sockets[0].is_output else "outputs"
                     to_socket_valid = self.to_sockets[0].bl_idname in socket_data[node_item.idname][in_out]
+                if node_item.label == "Switch":
+                    print(node_item.idname, self.from_socket.bl_idname, socket_data[node_item.idname][in_out])
                 split.active = from_socket_valid and to_socket_valid
 
             sub = split.row(align=True)

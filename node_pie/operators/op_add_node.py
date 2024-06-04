@@ -48,9 +48,14 @@ compare_types = add_socket_names(compare_types)
 all_types = add_socket_names(all_types)
 
 
-def set_node_settings(socket: NodeSocket, node: Node):
+def set_node_settings(socket: NodeSocket, node: Node, ui: bool = True):
+    """Set a nodes settings so that the correct type of socket is visible.
+    If ui is false don't make any changes that might be better for the user."""
     # Make sure that the node has the correct data type
-    if node.bl_idname == "GeometryNodeSwitch" and not socket.bl_idname.startswith("NodeSocketBool"):
+    # exclude bool if ui so that bool inputs are put into switch rather than true or false socket
+    if node.bl_idname == "GeometryNodeSwitch" and not (
+        socket.bl_idname.startswith("NodeSocketBool") and ui and socket.is_output
+    ):
         try:
             name = next(s for s in switch_types if socket.bl_idname.startswith(s))
         except StopIteration:

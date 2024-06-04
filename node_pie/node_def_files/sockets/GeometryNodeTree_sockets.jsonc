@@ -4,24 +4,24 @@
 {
   "GeometryNodeBlurAttribute": {
     "inputs": [
-      "NodeSocketFloat",
+      "NodeSocketFloatFactor",
       "NodeSocketColor",
-      "NodeSocketVector",
       "NodeSocketInt",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloat",
+      "NodeSocketVector"
     ],
     "outputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketVector",
       "NodeSocketColor",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ]
   },
   "GeometryNodeAttributeStatistic": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketBool",
       "NodeSocketGeometry",
+      "NodeSocketFloat",
       "NodeSocketVector"
     ],
     "outputs": [
@@ -31,20 +31,20 @@
   },
   "GeometryNodeCaptureAttribute": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeAttributeDomainSize": {
@@ -57,8 +57,8 @@
   },
   "GeometryNodeRemoveAttribute": {
     "inputs": [
-      "NodeSocketGeometry",
-      "NodeSocketString"
+      "NodeSocketString",
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -66,13 +66,13 @@
   },
   "GeometryNodeStoreNamedAttribute": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
+      "NodeSocketString",
       "NodeSocketColor",
-      "NodeSocketVector",
       "NodeSocketInt",
-      "NodeSocketString"
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -80,23 +80,23 @@
   },
   "ShaderNodeMix": {
     "inputs": [
-      "NodeSocketFloat",
+      "NodeSocketFloatFactor",
       "NodeSocketColor",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketRotation",
-      "NodeSocketFloatFactor"
+      "NodeSocketRotation"
     ],
     "outputs": [
       "NodeSocketFloat",
       "NodeSocketRotation",
-      "NodeSocketVector",
-      "NodeSocketColor"
+      "NodeSocketColor",
+      "NodeSocketVector"
     ]
   },
   "ShaderNodeRGBCurve": {
     "inputs": [
-      "NodeSocketColor",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloatFactor",
+      "NodeSocketColor"
     ],
     "outputs": [
       "NodeSocketColor"
@@ -104,12 +104,12 @@
   },
   "FunctionNodeCompare": {
     "inputs": [
-      "NodeSocketFloat",
+      "NodeSocketString",
       "NodeSocketColor",
-      "NodeSocketVector",
       "NodeSocketInt",
-      "NodeSocketFloatAngle",
-      "NodeSocketString"
+      "NodeSocketFloat",
+      "NodeSocketVector",
+      "NodeSocketFloatAngle"
     ],
     "outputs": [
       "NodeSocketBool"
@@ -159,9 +159,9 @@
   },
   "GeometryNodeCurveToPoints": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -178,8 +178,8 @@
   },
   "GeometryNodeFillCurve": {
     "inputs": [
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -187,10 +187,10 @@
   },
   "GeometryNodeFilletCurve": {
     "inputs": [
-      "NodeSocketBool",
+      "NodeSocketInt",
       "NodeSocketFloatDistance",
       "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -198,10 +198,10 @@
   },
   "GeometryNodeResampleCurve": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketBool",
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -218,27 +218,27 @@
   },
   "GeometryNodeSampleCurve": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
+      "NodeSocketFloatFactor",
       "NodeSocketColor",
-      "NodeSocketVector",
       "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketFloatFactor"
+      "NodeSocketGeometry",
+      "NodeSocketFloat",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeSubdivideCurve": {
     "inputs": [
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -246,8 +246,8 @@
   },
   "GeometryNodeTrimCurve": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry",
       "NodeSocketFloatFactor"
     ],
@@ -257,14 +257,14 @@
   },
   "GeometryNodeInterpolateCurves": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketGeometry",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ],
     "outputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ]
   },
   "GeometryNodeInputCurveHandlePositions": {
@@ -310,15 +310,15 @@
   "GeometryNodeSplineLength": {
     "inputs": [],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ]
   },
   "GeometryNodeSplineParameter": {
     "inputs": [],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ]
   },
   "GeometryNodeInputSplineResolution": {
@@ -329,8 +329,8 @@
   },
   "GeometryNodePointsOfCurve": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketInt"
@@ -349,14 +349,14 @@
       "NodeSocketInt"
     ],
     "outputs": [
-      "NodeSocketBool",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeSetCurveRadius": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -365,8 +365,8 @@
   },
   "GeometryNodeSetCurveTilt": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatAngle",
+      "NodeSocketBool",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -413,9 +413,9 @@
   },
   "GeometryNodeSetSplineResolution": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -434,9 +434,9 @@
     "inputs": [
       "NodeSocketBool",
       "NodeSocketFloatDistance",
-      "NodeSocketFloatAngle",
       "NodeSocketVectorTranslation",
-      "NodeSocketIntUnsigned"
+      "NodeSocketIntUnsigned",
+      "NodeSocketFloatAngle"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -455,9 +455,9 @@
   },
   "GeometryNodeCurvePrimitiveCircle": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketVectorTranslation",
-      "NodeSocketInt"
+      "NodeSocketVectorTranslation"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -467,8 +467,8 @@
   "GeometryNodeCurvePrimitiveLine": {
     "inputs": [
       "NodeSocketFloatDistance",
-      "NodeSocketVector",
-      "NodeSocketVectorTranslation"
+      "NodeSocketVectorTranslation",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -476,10 +476,10 @@
   },
   "GeometryNodeCurveSpiral": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
-      "NodeSocketIntUnsigned"
+      "NodeSocketFloat",
+      "NodeSocketIntUnsigned",
+      "NodeSocketBool"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -505,8 +505,8 @@
   },
   "GeometryNodeCurveStar": {
     "inputs": [
-      "NodeSocketFloatDistance",
       "NodeSocketFloatAngle",
+      "NodeSocketFloatDistance",
       "NodeSocketIntUnsigned"
     ],
     "outputs": [
@@ -542,13 +542,13 @@
   },
   "GeometryNodeDuplicateElements": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketGeometry"
     ]
   },
   "GeometryNodeGeometryToInstance": {
@@ -569,8 +569,8 @@
   },
   "GeometryNodeMergeByDistance": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -596,10 +596,10 @@
   },
   "GeometryNodeSortElements": {
     "inputs": [
-      "NodeSocketFloat",
+      "NodeSocketInt",
       "NodeSocketBool",
       "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -607,21 +607,21 @@
   },
   "GeometryNodeSplitToInstances": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketGeometry"
     ]
   },
   "GeometryNodeTransform": {
     "inputs": [
-      "NodeSocketVectorXYZ",
       "NodeSocketRotation",
       "NodeSocketGeometry",
-      "NodeSocketVectorTranslation"
+      "NodeSocketVectorTranslation",
+      "NodeSocketVectorXYZ"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -639,20 +639,20 @@
   },
   "GeometryNodeRaycast": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
-      "NodeSocketVector",
       "NodeSocketInt",
-      "NodeSocketFloatDistance"
+      "NodeSocketFloatDistance",
+      "NodeSocketGeometry",
+      "NodeSocketFloat",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeSampleNearest": {
@@ -666,36 +666,36 @@
   },
   "GeometryNodeSampleIndex": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeIndexOfNearest": {
     "inputs": [
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketVector"
     ],
     "outputs": [
-      "NodeSocketBool",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeToolSetFaceSet": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -703,9 +703,9 @@
   },
   "GeometryNodeSetID": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -714,8 +714,8 @@
   "GeometryNodeSetPosition": {
     "inputs": [
       "NodeSocketBool",
-      "NodeSocketVectorTranslation",
       "NodeSocketGeometry",
+      "NodeSocketVectorTranslation",
       "NodeSocketVector"
     ],
     "outputs": [
@@ -749,9 +749,9 @@
       "NodeSocketInt"
     ],
     "outputs": [
-      "NodeSocketFloat",
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketInt"
+      "NodeSocketFloat"
     ]
   },
   "GeometryNodeInputImage": {
@@ -793,8 +793,8 @@
   "GeometryNodeToolFaceSet": {
     "inputs": [],
     "outputs": [
-      "NodeSocketBool",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeInputID": {
@@ -820,11 +820,11 @@
       "NodeSocketString"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeInputNormal": {
@@ -904,10 +904,10 @@
   },
   "GeometryNodeInstanceOnPoints": {
     "inputs": [
-      "NodeSocketBool",
+      "NodeSocketInt",
       "NodeSocketGeometry",
       "NodeSocketVectorXYZ",
-      "NodeSocketInt",
+      "NodeSocketBool",
       "NodeSocketRotation"
     ],
     "outputs": [
@@ -916,8 +916,8 @@
   },
   "GeometryNodeInstancesToPoints": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry",
       "NodeSocketVector"
     ],
@@ -935,10 +935,10 @@
   },
   "GeometryNodeRotateInstances": {
     "inputs": [
+      "NodeSocketVectorTranslation",
       "NodeSocketBool",
-      "NodeSocketRotation",
       "NodeSocketGeometry",
-      "NodeSocketVectorTranslation"
+      "NodeSocketRotation"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -947,9 +947,9 @@
   "GeometryNodeScaleInstances": {
     "inputs": [
       "NodeSocketBool",
-      "NodeSocketVectorXYZ",
       "NodeSocketGeometry",
-      "NodeSocketVectorTranslation"
+      "NodeSocketVectorTranslation",
+      "NodeSocketVectorXYZ"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1006,9 +1006,9 @@
   },
   "GeometryNodeSetMaterialIndex": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1031,9 +1031,9 @@
   },
   "GeometryNodeEdgePathsToCurves": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1041,8 +1041,8 @@
   },
   "GeometryNodeEdgePathsToSelection": {
     "inputs": [
-      "NodeSocketBool",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketBool"
     ],
     "outputs": [
       "NodeSocketBool"
@@ -1050,10 +1050,10 @@
   },
   "GeometryNodeExtrudeMesh": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketBool",
       "NodeSocketGeometry",
-      "NodeSocketVectorTranslation"
+      "NodeSocketVectorTranslation",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketBool",
@@ -1090,8 +1090,8 @@
   },
   "GeometryNodeMeshToPoints": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry",
       "NodeSocketVector"
     ],
@@ -1101,8 +1101,8 @@
   },
   "GeometryNodeMeshToVolume": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketFloatDistance",
+      "NodeSocketFloat",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -1111,8 +1111,8 @@
   },
   "GeometryNodeCornersOfEdge": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketInt"
@@ -1121,10 +1121,10 @@
   "GeometryNodeScaleElements": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketGeometry",
+      "NodeSocketVectorTranslation",
       "NodeSocketVector",
-      "NodeSocketVectorTranslation"
+      "NodeSocketBool"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1141,8 +1141,8 @@
   },
   "GeometryNodeSubdivideMesh": {
     "inputs": [
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1150,9 +1150,9 @@
   },
   "GeometryNodeSubdivisionSurface": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketGeometry",
-      "NodeSocketFloatFactor",
-      "NodeSocketInt"
+      "NodeSocketFloatFactor"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1160,9 +1160,9 @@
   },
   "GeometryNodeTriangulate": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketGeometry"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1170,36 +1170,36 @@
   },
   "GeometryNodeSampleUVSurface": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeSampleNearestSurface": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketGeometry",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeInputMeshEdgeAngle": {
@@ -1217,8 +1217,8 @@
   "GeometryNodeInputMeshEdgeVertices": {
     "inputs": [],
     "outputs": [
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketVector"
     ]
   },
   "GeometryNodeMeshFaceSetBoundaries": {
@@ -1271,12 +1271,12 @@
   },
   "GeometryNodeInputShortestEdgePaths": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool"
+      "NodeSocketBool",
+      "NodeSocketFloat"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ]
   },
   "GeometryNodeInputMeshVertexNeighbors": {
@@ -1287,8 +1287,8 @@
   },
   "GeometryNodeCornersOfFace": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketInt"
@@ -1320,8 +1320,8 @@
   },
   "GeometryNodeEdgesOfVertex": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketInt"
@@ -1337,8 +1337,8 @@
   },
   "GeometryNodeCornersOfVertex": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketInt"
@@ -1355,8 +1355,8 @@
   },
   "GeometryNodeMeshCone": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketBool",
@@ -1366,8 +1366,8 @@
   },
   "GeometryNodeMeshCube": {
     "inputs": [
-      "NodeSocketVectorTranslation",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketVectorTranslation"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -1376,8 +1376,8 @@
   },
   "GeometryNodeMeshCylinder": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketBool",
@@ -1387,8 +1387,8 @@
   },
   "GeometryNodeMeshGrid": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -1397,8 +1397,8 @@
   },
   "GeometryNodeMeshIcoSphere": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -1407,8 +1407,8 @@
   },
   "GeometryNodeMeshCircle": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1416,9 +1416,9 @@
   },
   "GeometryNodeMeshLine": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketVectorTranslation",
-      "NodeSocketInt"
+      "NodeSocketVectorTranslation"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1426,8 +1426,8 @@
   },
   "GeometryNodeMeshUVSphere": {
     "inputs": [
-      "NodeSocketFloatDistance",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloatDistance"
     ],
     "outputs": [
       "NodeSocketGeometry",
@@ -1436,10 +1436,10 @@
   },
   "GeometryNodeDistributePointsInVolume": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketVectorXYZ",
       "NodeSocketGeometry",
-      "NodeSocketInt"
+      "NodeSocketVectorXYZ"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1447,24 +1447,24 @@
   },
   "GeometryNodeDistributePointsOnFaces": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
+      "NodeSocketFloatFactor",
       "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketFloatFactor"
+      "NodeSocketGeometry",
+      "NodeSocketFloat",
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketRotation",
       "NodeSocketGeometry",
+      "NodeSocketRotation",
       "NodeSocketVector"
     ]
   },
   "GeometryNodePoints": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloatDistance",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1481,8 +1481,8 @@
   },
   "GeometryNodePointsToVolume": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketFloatDistance",
+      "NodeSocketFloat",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -1491,8 +1491,8 @@
   },
   "GeometryNodeSetPointRadius": {
     "inputs": [
-      "NodeSocketBool",
       "NodeSocketFloatDistance",
+      "NodeSocketBool",
       "NodeSocketGeometry"
     ],
     "outputs": [
@@ -1501,15 +1501,15 @@
   },
   "GeometryNodeStringToCurves": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketFloatDistance",
-      "NodeSocketString"
+      "NodeSocketString",
+      "NodeSocketFloat"
     ],
     "outputs": [
-      "NodeSocketVector",
-      "NodeSocketGeometry",
+      "NodeSocketInt",
       "NodeSocketString",
-      "NodeSocketInt"
+      "NodeSocketGeometry",
+      "NodeSocketVector"
     ]
   },
   "GeometryNodeStringJoin": {
@@ -1530,8 +1530,8 @@
   },
   "FunctionNodeSliceString": {
     "inputs": [
-      "NodeSocketString",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketString"
     ],
     "outputs": [
       "NodeSocketString"
@@ -1553,8 +1553,8 @@
   },
   "FunctionNodeValueToString": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketString"
@@ -1563,8 +1563,8 @@
   "ShaderNodeTexBrick": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketColor"
+      "NodeSocketColor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1574,8 +1574,8 @@
   "ShaderNodeTexChecker": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketColor"
+      "NodeSocketColor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1593,9 +1593,9 @@
   },
   "GeometryNodeImageTexture": {
     "inputs": [
-      "NodeSocketVector",
       "NodeSocketImage",
-      "NodeSocketInt"
+      "NodeSocketInt",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1615,8 +1615,8 @@
   "ShaderNodeTexNoise": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloatFactor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1626,8 +1626,8 @@
   "ShaderNodeTexVoronoi": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloatFactor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1638,8 +1638,8 @@
   "ShaderNodeTexWave": {
     "inputs": [
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloatFactor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketFloat",
@@ -1658,46 +1658,46 @@
   },
   "GeometryNodeAccumulateField": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ],
     "outputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ]
   },
   "GeometryNodeFieldAtIndex": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeFieldOnDomain": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "FunctionNodeBooleanMath": {
@@ -1753,79 +1753,80 @@
   },
   "FunctionNodeRandomValue": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
       "NodeSocketFloatFactor",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ],
     "outputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketBool",
       "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeIndexSwitch": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketCollection",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketMaterial",
-      "NodeSocketColor",
-      "NodeSocketVector",
-      "NodeSocketInt",
-      "NodeSocketVirtual",
-      "NodeSocketObject",
       "NodeSocketString",
-      "NodeSocketImage"
+      "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketObject",
+      "NodeSocketVirtual",
+      "NodeSocketGeometry",
+      "NodeSocketImage",
+      "NodeSocketMaterial",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
       "NodeSocketCollection",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketMaterial",
-      "NodeSocketColor",
-      "NodeSocketVector",
-      "NodeSocketInt",
-      "NodeSocketObject",
       "NodeSocketString",
-      "NodeSocketImage"
+      "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketObject",
+      "NodeSocketGeometry",
+      "NodeSocketImage",
+      "NodeSocketMaterial",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ]
   },
   "GeometryNodeSwitch": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketCollection",
-      "NodeSocketBool",
-      "NodeSocketGeometry",
-      "NodeSocketMaterial",
-      "NodeSocketColor",
-      "NodeSocketVector",
-      "NodeSocketInt",
-      "NodeSocketObject",
       "NodeSocketString",
-      "NodeSocketImage"
+      "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketObject",
+      "NodeSocketGeometry",
+      "NodeSocketImage",
+      "NodeSocketMaterial",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ],
     "outputs": [
-      "NodeSocketFloat",
       "NodeSocketCollection",
-      "NodeSocketGeometry",
-      "NodeSocketMaterial",
-      "NodeSocketColor",
-      "NodeSocketVector",
-      "NodeSocketInt",
-      "NodeSocketObject",
       "NodeSocketString",
-      "NodeSocketImage"
+      "NodeSocketColor",
+      "NodeSocketInt",
+      "NodeSocketFloat",
+      "NodeSocketObject",
+      "NodeSocketGeometry",
+      "NodeSocketImage",
+      "NodeSocketMaterial",
+      "NodeSocketVector",
+      "NodeSocketBool"
     ]
   },
   "FunctionNodeAlignEulerToVector": {
     "inputs": [
-      "NodeSocketVectorEuler",
+      "NodeSocketFloatFactor",
       "NodeSocketVector",
-      "NodeSocketFloatFactor"
+      "NodeSocketVectorEuler"
     ],
     "outputs": [
       "NodeSocketVectorEuler"
@@ -1833,8 +1834,8 @@
   },
   "GeometryNodeUVPackIslands": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketBool",
+      "NodeSocketFloat",
       "NodeSocketVector"
     ],
     "outputs": [
@@ -1843,8 +1844,8 @@
   },
   "GeometryNodeUVUnwrap": {
     "inputs": [
-      "NodeSocketFloat",
-      "NodeSocketBool"
+      "NodeSocketBool",
+      "NodeSocketFloat"
     ],
     "outputs": [
       "NodeSocketVector"
@@ -1868,8 +1869,8 @@
   },
   "ShaderNodeVectorCurve": {
     "inputs": [
-      "NodeSocketVector",
-      "NodeSocketFloatFactor"
+      "NodeSocketFloatFactor",
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketVector"
@@ -1888,8 +1889,8 @@
   "ShaderNodeVectorRotate": {
     "inputs": [
       "NodeSocketFloatAngle",
-      "NodeSocketVectorEuler",
-      "NodeSocketVector"
+      "NodeSocketVector",
+      "NodeSocketVectorEuler"
     ],
     "outputs": [
       "NodeSocketVector"
@@ -1897,9 +1898,9 @@
   },
   "GeometryNodeVolumeCube": {
     "inputs": [
+      "NodeSocketInt",
       "NodeSocketFloat",
-      "NodeSocketVector",
-      "NodeSocketInt"
+      "NodeSocketVector"
     ],
     "outputs": [
       "NodeSocketGeometry"
@@ -1907,9 +1908,9 @@
   },
   "GeometryNodeVolumeToMesh": {
     "inputs": [
-      "NodeSocketFloat",
       "NodeSocketFloatDistance",
       "NodeSocketGeometry",
+      "NodeSocketFloat",
       "NodeSocketFloatFactor"
     ],
     "outputs": [
