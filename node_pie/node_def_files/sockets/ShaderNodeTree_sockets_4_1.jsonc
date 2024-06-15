@@ -1,0 +1,791 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    4,
+    1
+  ],
+  "nodes": {
+    "ShaderNodeAmbientOcclusion": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeAttribute": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeCameraData": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVertexColor": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeHairInfo": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeFresnel": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeNewGeometry": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeLayerWeight": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeLightPath": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeObjectInfo": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodePointInfo": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeRGB": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTangent": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeTexCoord": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeUVMap": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeValue": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeVolumeInfo": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeWireframe": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeBevel": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeParticleInfo": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeOutputAOV": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": []
+    },
+    "ShaderNodeOutputLight": {
+      "inputs": [
+        "NodeSocketShader"
+      ],
+      "outputs": []
+    },
+    "ShaderNodeOutputMaterial": {
+      "inputs": [
+        "NodeSocketShader",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": []
+    },
+    "ShaderNodeAddShader": {
+      "inputs": [
+        "NodeSocketShader"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfDiffuse": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeEmission": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfGlass": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfAnisotropic": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeHoldout": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeMixShader": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketShader"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfPrincipled": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeVolumePrincipled": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfRefraction": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeSubsurfaceScattering": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfTranslucent": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfTransparent": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeVolumeAbsorption": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeVolumeScatter": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfToon": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfHair": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatAngle"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfHairPrincipled": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatAngle"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeEeveeSpecular": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeTexBrick": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexChecker": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexEnvironment": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexGradient": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexImage": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexMagic": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexNoise": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexSky": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexVoronoi": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeTexWave": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexWhiteNoise": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeTexIES": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeTexPointDensity": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeBrightContrast": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeGamma": {
+      "inputs": [
+        "NodeSocketFloatUnsigned",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeHueSaturation": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeInvert": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeMix": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketRotation",
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketRotation",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeRGBCurve": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeLightFalloff": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeBump": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeDisplacement": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeMapping": {
+      "inputs": [
+        "NodeSocketVectorXYZ",
+        "NodeSocketVectorEuler",
+        "NodeSocketVectorTranslation",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeNormal": {
+      "inputs": [
+        "NodeSocketVectorDirection"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVectorDirection"
+      ]
+    },
+    "ShaderNodeNormalMap": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVectorCurve": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVectorDisplacement": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVectorRotate": {
+      "inputs": [
+        "NodeSocketVectorEuler",
+        "NodeSocketFloatAngle",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVectorTransform": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeVectorMath": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeBlackbody": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeClamp": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeValToRGB": {
+      "inputs": [
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeCombineColor": {
+      "inputs": [
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeCombineXYZ": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeFloatCurve": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeMapRange": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeMath": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeRGBToBW": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeSeparateColor": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeSeparateXYZ": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeWavelength": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeShaderToRGB": {
+      "inputs": [
+        "NodeSocketShader"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeScript": {
+      "inputs": [],
+      "outputs": []
+    },
+    "NodeFrame": {
+      "inputs": [],
+      "outputs": []
+    },
+    "NodeReroute": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    }
+  }
+}

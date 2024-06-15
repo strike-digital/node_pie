@@ -1,7 +1,7 @@
 import bpy
 
 from ..npie_btypes import BOperator
-from ..npie_custom_pies import NodeItem, load_custom_nodes_info
+from ..npie_node_def_file import NodeItem, load_custom_nodes_info
 from ..npie_ui import NPIE_MT_node_pie, get_variants_menu, unregister_variants_menus
 
 

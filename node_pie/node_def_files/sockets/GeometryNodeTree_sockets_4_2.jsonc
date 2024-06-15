@@ -1,0 +1,254 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    4,
+    2
+  ],
+  "nodes": {
+    "GeometryNodeCaptureAttribute": {
+      "inputs": [
+        "NodeSocketVirtual",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketVirtual",
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeCurveToPoints": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketRotation",
+        "NodeSocketGeometry",
+        "NodeSocketVector"
+      ]
+    },
+    "GeometryNodeSetCurveNormal": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketBool",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeTransform": {
+      "inputs": [
+        "NodeSocketVectorTranslation",
+        "NodeSocketGeometry",
+        "NodeSocketVectorXYZ",
+        "NodeSocketRotation",
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeProximity": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketVector",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketBool"
+      ]
+    },
+    "GeometryNodeToolMousePosition": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketInt"
+      ]
+    },
+    "GeometryNodeObjectInfo": {
+      "inputs": [
+        "NodeSocketObject",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketRotation",
+        "NodeSocketGeometry",
+        "NodeSocketMatrix",
+        "NodeSocketVector"
+      ]
+    },
+    "GeometryNodeViewportTransform": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ]
+    },
+    "GeometryNodeRealizeInstances": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeIndexSwitch": {
+      "inputs": [
+        "NodeSocketObject",
+        "NodeSocketCollection",
+        "NodeSocketVirtual",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketMaterial",
+        "NodeSocketInt",
+        "NodeSocketGeometry",
+        "NodeSocketMenu",
+        "NodeSocketVector",
+        "NodeSocketRotation",
+        "NodeSocketString",
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketObject",
+        "NodeSocketCollection",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketMaterial",
+        "NodeSocketGeometry",
+        "NodeSocketMenu",
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketRotation",
+        "NodeSocketString",
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ]
+    },
+    "GeometryNodeSwitch": {
+      "inputs": [
+        "NodeSocketObject",
+        "NodeSocketCollection",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketMaterial",
+        "NodeSocketGeometry",
+        "NodeSocketMenu",
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketRotation",
+        "NodeSocketString",
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketObject",
+        "NodeSocketCollection",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketMaterial",
+        "NodeSocketGeometry",
+        "NodeSocketMenu",
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketRotation",
+        "NodeSocketString",
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeAlignRotationToVector": {
+      "inputs": [
+        "NodeSocketRotation",
+        "NodeSocketFloatFactor",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeCombineTransform": {
+      "inputs": [
+        "NodeSocketVectorTranslation",
+        "NodeSocketRotation",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeInvertMatrix": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeMatrixMultiply": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeProjectPoint": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeSeparateTransform": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketVectorTranslation",
+        "NodeSocketRotation",
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeTransformDirection": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeTransformPoint": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeTransposeMatrix": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    }
+  }
+}
