@@ -6,6 +6,7 @@ from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
 
 from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
+from .. import __package__ as base_package
 
 if TYPE_CHECKING:
     from .npie_prefs import NodePiePrefs
@@ -29,7 +30,7 @@ def get_node_tree(context: Context) -> NodeTree:
 
 def get_prefs(context) -> NodePiePrefs:
     """Return the addon preferences"""
-    return context.preferences.addons[__package__.split(".")[0]].preferences
+    return context.preferences.addons[base_package].preferences
 
 
 def lerp(fac, a, b) -> float:

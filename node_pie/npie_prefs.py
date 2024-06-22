@@ -10,6 +10,7 @@ from .operators.op_call_link_drag import (
     register_debug_handler,
     unregister_debug_handler,
 )
+from .. import __package__ as base_package
 from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .operators.op_show_info import InfoSnippets
 
@@ -17,7 +18,7 @@ from .operators.op_show_info import InfoSnippets
 class NodePiePrefs(bpy.types.AddonPreferences):
     """Node pie"""
 
-    bl_idname: str = __package__.split(".")[0]
+    bl_idname: str = base_package
 
     layout: UILayout
     node_pie_enabled: BoolProperty(name="Enable node pie", default=True)

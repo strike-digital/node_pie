@@ -47,7 +47,6 @@ if __name__ == "__main__":
         # print(text)
         # matcher = '^version = '
         match = re.findall(matcher, text, flags=re.MULTILINE)
-        print(match, matcher)
         str_version = [str(v) for v in version]
         text = text.replace(match[0], f'version = \"{".".join(str_version)}\"')
 
