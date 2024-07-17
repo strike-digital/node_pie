@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING
 from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
 
-from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 from .. import __package__ as base_package
+from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 
 if TYPE_CHECKING:
     from .npie_prefs import NodePiePrefs

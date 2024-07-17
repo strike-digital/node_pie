@@ -64,7 +64,8 @@ def unregister():
         try:
             bpy.utils.unregister_class(cls)
         except RuntimeError as e:
-            print(traceback.format_exc(e))
+            traceback.print_exception(e)
+            # print(traceback.format_exc(e))
 
     for module in modules:
         if hasattr(module, "unregister"):

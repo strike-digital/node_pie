@@ -2,6 +2,7 @@ import bpy
 from bpy.props import BoolProperty, FloatProperty
 from bpy.types import KeyMap, KeyMapItem, UILayout
 
+from .. import __package__ as base_package
 from .npie_helpers import get_prefs
 from .npie_keymap import get_keymap, get_operator_keymap_items
 from .npie_ui import draw_inline_prop, draw_section
@@ -10,7 +11,6 @@ from .operators.op_call_link_drag import (
     register_debug_handler,
     unregister_debug_handler,
 )
-from .. import __package__ as base_package
 from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .operators.op_show_info import InfoSnippets
 
@@ -133,6 +133,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
         prefs = get_prefs(context)
         layout = layout.grid_flow(row_major=True, even_columns=True)
+        # layout.label(text="hahah")
         fac = 0.515
 
         col = draw_section(layout, "General")
