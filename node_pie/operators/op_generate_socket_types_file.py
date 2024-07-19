@@ -21,6 +21,9 @@ class DummySocket:
 
 
 def generate_node_socket_info(context: Context, tree_type: str, directory: Path):
+    """Generate a socket info file for the given node tree.
+    This contains the type of each socket for each node,
+    and is used to tell if a node should be greyed out during link dragging."""
     categories, layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
     all_nodes: list[NodeItem] = []
     for cat in categories.values():
@@ -107,4 +110,5 @@ class NPIE_OT_generate_socket_types_file(BOperator.type):
         layout.label(text="Open file?")
 
     def execute(self, context):
+        # Open the newly generated file in the default text editor.
         webbrowser.open(self.to_path)

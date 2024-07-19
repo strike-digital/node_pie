@@ -5,7 +5,7 @@ from mathutils import Vector as V
 
 from .npie_constants import IS_4_0, IS_MACOS, SHADERS_DIR
 
-# Create the the antialaiased line shader
+# Create the the antialiased line shader
 # This is not trivial...
 # And it doesn't work on Apple Silicone because of course it doesn't
 
@@ -14,7 +14,7 @@ if IS_MACOS:
     line_shader: GPUShader = gpu.shader.from_builtin(name)
 
     def draw_line(from_pos: V, to_pos: V, color: V, width=1):
-        """Draw a shitty normal line"""
+        """Draw a rubbish normal line"""
 
         batch: GPUBatch = batch_for_shader(line_shader, "LINES", {"pos": [from_pos, to_pos]})
         line_shader.bind()
@@ -27,6 +27,7 @@ else:
     vert_code = (SHADERS_DIR / "2D_vert.glsl").read_text()
     frag_code = (SHADERS_DIR / "2D_line_antialiased_frag.glsl").read_text()
 
+    # Create a gpu shader from scratch
     line_shader_info = GPUShaderCreateInfo()
     line_shader_info.define("is_compile", "true")
     line_shader_info.push_constant("MAT4", "ModelViewProjectionMatrix")

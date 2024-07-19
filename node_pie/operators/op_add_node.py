@@ -42,7 +42,7 @@ def set_node_settings(socket: NodeSocket, node: Node, ui: bool = True):
 
 def get_socket(from_socket, to_sockets):
     """
-    Try to find the best match of from socket in to_sockets based on socket types.
+    Try to find the best match of from_socket in to_sockets based on socket types.
     Is agnostic to whether sockets are inputs or outputs.
     """
     if not to_sockets:
