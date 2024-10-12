@@ -448,23 +448,23 @@ class NPIE_MT_node_pie(Menu):
                         max_len=18,
                     )
             else:
-                col.scale_y = prefs.npie_normal_size
-                col.operator("wm.call_menu", text="Node Groups", icon="NODE")
-                scale = -1
 
-                # Uncomment to add an arrow to the right hand side
-                # subcol = col.column(align=True)
-                # subcol.prop(context.scene, "frame_end", text="")
-                # subcol.scale_y = scale
-                # row = col.row(align=True)
-                # row.alignment = "RIGHT"
-                # row.menu(NPIE_MT_node_groups.__name__, text="", icon="TRIA_RIGHT")
+                def draw_operator_bg(text: str = "", icon: str = "NONE"):
+                    col.scale_y = prefs.npie_normal_size
+                    col.operator("wm.call_menu", text=text, icon=icon)
+                    scale = -1
 
-                subcol = col.column(align=True)
-                subcol.prop(context.scene, "frame_end", text="")
-                subcol.scale_y = scale
-                subcol.scale_x = 1.6
+                    subcol = col.column(align=True)
+                    subcol.prop(context.scene, "frame_end", text="")
+                    subcol.scale_y = scale
+                    subcol.scale_x = 1.6
+
+                draw_operator_bg(text="Node Groups", icon="NODE")
                 col.menu(NPIE_MT_node_groups.__name__, text=" ")
+
+                draw_operator_bg(text="Assets", icon="ASSET_MANAGER")
+                col.menu("NODE_MT_node_add_root_catalogs", text=" ")
+                # bl_ui.node_add_menu.draw_root_assets(col)
 
         def draw_category(layout: UILayout, category: NodeCategory, header="", remove: str = ""):
             """Draw all node items in this category"""

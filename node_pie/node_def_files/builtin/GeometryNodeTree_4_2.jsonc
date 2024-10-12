@@ -23,24 +23,42 @@
     "categories": {
       "COLOR": {
         "nodes": [
-          { "identifier": "ShaderNodeBlackbody", "before_node": "FunctionNodeCompare" }
+          {
+            "identifier": "ShaderNodeBlackbody",
+            "before_node": "FunctionNodeCompare"
+          }
         ]
       },
       "GEOMETRY": {
         "nodes": [
-          { "identifier": "GeometryNodeBake", "before_node": "GeometryNodeBoundBox"}
+          {
+            "identifier": "GeometryNodeBake",
+            "before_node": "GeometryNodeBoundBox"
+          }
         ]
       },
       "ROTATION": {
         "nodes": [
-          {"identifier": "FunctionNodeAlignRotationToVector", "before_node": "FunctionNodeAxisAngleToRotation"}
+          {
+            "identifier": "FunctionNodeAlignRotationToVector",
+            "before_node": "FunctionNodeAxisAngleToRotation"
+          }
         ]
       },
       "INPUT": {
         "nodes": [
-          { "identifier": "GeometryNodeToolMousePosition", "before_node": "GeometryNodeObjectInfo"},
-          {"identifier": "GeometryNodeViewportTransform", "after_node": "GeometryNodeInputSceneTime"},
-          { "identifier": "FunctionNodeInputRotation", "before_node": "FunctionNodeInputString"}
+          {
+            "identifier": "GeometryNodeToolMousePosition",
+            "before_node": "GeometryNodeObjectInfo"
+          },
+          {
+            "identifier": "GeometryNodeViewportTransform",
+            "after_node": "GeometryNodeInputSceneTime"
+          },
+          {
+            "identifier": "FunctionNodeInputRotation",
+            "before_node": "FunctionNodeInputString"
+          }
         ]
       },
       "MATRIX": {
@@ -48,12 +66,12 @@
         "label": "Matrix",
         "color": "converter",
         "nodes": [
-          {"identifier": "FunctionNodeCombineMatrix"},
+          { "identifier": "FunctionNodeCombineMatrix" },
           { "identifier": "FunctionNodeCombineTransform" },
           { "identifier": "FunctionNodeInvertMatrix" },
           { "identifier": "FunctionNodeMatrixMultiply" },
           { "identifier": "FunctionNodeProjectPoint" },
-          {"identifier": "FunctionNodeSeparateMatrix"},
+          { "identifier": "FunctionNodeSeparateMatrix" },
           { "identifier": "FunctionNodeSeparateTransform" },
           { "identifier": "FunctionNodeTransformDirection" },
           { "identifier": "FunctionNodeTransformPoint" },
@@ -62,20 +80,33 @@
       },
       "POINT": {
         "nodes": [
-          { "identifier": "GeometryNodePointsToCurves", "before_node": "GeometryNodePointsToVertices"}
+          {
+            "identifier": "GeometryNodePointsToCurves",
+            "before_node": "GeometryNodePointsToVertices"
+          }
         ]
       },
       "UTILITIES": {
         "nodes": [
-          { "identifier": "GeometryNodeMenuSwitch", "after_node": "ShaderNodeMath"}
+          {
+            "identifier": "GeometryNodeMenuSwitch",
+            "after_node": "ShaderNodeMath"
+          }
         ]
       },
       "INSTANCE": {
         "nodes": [
-          {"identifier": "GeometryNodeSetInstanceTransform", "after_node": "GeometryNodeScaleInstances"},
-          { "identifier": "GeometryNodeInstanceTransform", "after_node": "GeometryNodeInputInstanceScale", "color": "input"}
+          {
+            "identifier": "GeometryNodeSetInstanceTransform",
+            "after_node": "GeometryNodeScaleInstances"
+          },
+          {
+            "identifier": "GeometryNodeInstanceTransform",
+            "after_node": "GeometryNodeInputInstanceScale",
+            "color": "input"
+          }
         ]
-      },
+      }
     }
   }
 }
