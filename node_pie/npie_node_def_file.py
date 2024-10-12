@@ -69,13 +69,14 @@ class NodeCategory:
     idname: str = ""
     poll_conditions: list[PollCondition] = field(default_factory=list)
 
-    def poll(self, context: Context):
-        if not self.poll_conditions:
-            return True
-        for condition in self.poll_conditions:
-            if condition.evaluate(context):
-                return True
-        return False
+    poll = NodeItem.poll
+    # def poll(self, context: Context):
+    #     if not self.poll_conditions:
+    #         return True
+    #     for condition in self.poll_conditions:
+    #         if condition.evaluate(context):
+    #             return True
+    #     return False
 
     def items(self, context) -> list[NodeItem]:
         return self.nodes
@@ -84,6 +85,9 @@ class NodeCategory:
 @dataclass
 class Separator:
     label: str = ""
+    poll_conditions: list[PollCondition] = field(default_factory=list)
+
+    poll = NodeItem.poll
 
 
 @dataclass
@@ -276,7 +280,10 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         items = []
         for node in cat["nodes"]:
             if node.get("separator"):
-                items.append(Separator(label=node.get("label", "")))
+                conditions = []
+                for condition in node.get("poll_conditions", {}):
+                    conditions.append(PollCondition(**condition))
+                items.append(Separator(label=node.get("label", ""), poll_conditions=conditions))
                 continue
             if node.get("operator"):
                 items.append(

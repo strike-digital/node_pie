@@ -121,7 +121,6 @@
       "icon": "OUTLINER_DATA_CURVE",
       "nodes": [
         { "separator": true, "label": "Operations" },
-        { "identifier": "GeometryNodeCurveLength" },
         { "identifier": "GeometryNodeCurveToMesh" },
         { "identifier": "GeometryNodeCurveToPoints" },
         { "identifier": "GeometryNodeDeformCurvesOnSurface" },
@@ -133,6 +132,7 @@
         { "identifier": "GeometryNodeSubdivideCurve" },
         { "identifier": "GeometryNodeTrimCurve" },
         { "separator": true, "label": "Read" },
+        { "identifier": "GeometryNodeCurveLength", "color": "input" },
         {
           "identifier": "GeometryNodeInputCurveHandlePositions",
           "color": "input"
@@ -232,7 +232,7 @@
         { "identifier": "FunctionNodeInputString" },
         { "identifier": "ShaderNodeValue" },
         { "identifier": "FunctionNodeInputVector" },
-        { "separator": true, "label": "Data" },
+        { "separator": true, "label": "Read" },
         { "identifier": "GeometryNodeInputID" },
         { "identifier": "GeometryNodeInputIndex" },
         { "identifier": "GeometryNodeInputNamedAttribute" },

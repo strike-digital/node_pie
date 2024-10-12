@@ -4,7 +4,9 @@
   "additions": {
     "categories": {
       "ATTRIBUTE": {
-        "nodes": [{ "identifier": "GeometryNodeBlurAttribute", "after_node": "top"}]
+        "nodes": [
+          { "identifier": "GeometryNodeBlurAttribute", "after_node": "top" }
+        ]
       },
       "INPUT": {
         "nodes": [
@@ -12,7 +14,10 @@
             "identifier": "GeometryNodeInputImage",
             "after_node": "FunctionNodeInputColor"
           },
-          { "identifier": "GeometryNodeImageInfo" }
+          {
+            "identifier": "GeometryNodeImageInfo",
+            "before_node": "GeometryNodeIsViewport"
+          }
         ]
       },
       "CURVE": {

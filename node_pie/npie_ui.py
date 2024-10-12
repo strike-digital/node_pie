@@ -462,9 +462,9 @@ class NPIE_MT_node_pie(Menu):
                 draw_operator_bg(text="Node Groups", icon="NODE")
                 col.menu(NPIE_MT_node_groups.__name__, text=" ")
 
+                # Also draw assets
                 draw_operator_bg(text="Assets", icon="ASSET_MANAGER")
                 col.menu("NODE_MT_node_add_root_catalogs", text=" ")
-                # bl_ui.node_add_menu.draw_root_assets(col)
 
         def draw_category(layout: UILayout, category: NodeCategory, header="", remove: str = ""):
             """Draw all node items in this category"""
@@ -484,6 +484,8 @@ class NPIE_MT_node_pie(Menu):
             for i, node in enumerate(nodeitems):
                 # Draw separators
                 if isinstance(node, Separator):
+                    if not node.poll(context):
+                        continue
                     if node.label and prefs.npie_separator_headings:
                         if i:
                             col.separator(factor=0.5)
