@@ -46,6 +46,11 @@
           { "identifier": "FunctionNodeTransformPoint" },
           { "identifier": "FunctionNodeTransposeMatrix" }
         ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          { "identifier": "GeometryNodeMenuSwitch", "after_node": "ShaderNodeMath"}
+        ]
       }
     }
   }

@@ -7,6 +7,7 @@ import bpy
 import nodeitems_utils
 from bpy.types import Context, Menu, NodeSocket, UILayout
 
+from .npie_btypes import BMenu
 from .npie_constants import IS_4_0, POPULARITY_FILE
 from .npie_helpers import get_prefs, inv_lerp, lerp
 from .npie_node_def_file import (
@@ -134,7 +135,8 @@ def get_tick_icon(enabled, show_box=False) -> str:
     return "CHECKMARK" if enabled else "BLANK1"
 
 
-def get_all_node_data():
+def get_node_popularity_data():
+    """Load the popularity file"""
     if not POPULARITY_FILE.exists():
         with open(POPULARITY_FILE, "w") as f:
             pass
@@ -215,10 +217,9 @@ def get_node_groups(context):
     return node_groups
 
 
+@BMenu("Node Groups")
 class NPIE_MT_node_groups(Menu):
     """Show a list of node groups that you can add"""
-
-    bl_label = "Node Groups"
 
     def draw(self, context):
         tree_type = context.space_data.tree_type
@@ -234,10 +235,9 @@ class NPIE_MT_node_groups(Menu):
             op.group_name = ng.name
 
 
+@BMenu("Node Pie")
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
-
-    bl_label = "Node Pie"
 
     from_socket: NodeSocket = None
     to_sockets: list[NodeSocket] = []
@@ -294,7 +294,7 @@ class NPIE_MT_node_pie(Menu):
                         all_nodes[name] = node
 
         # Get the count of times each node has been used
-        node_count_data = get_all_node_data()["node_trees"].get(tree_type, {})
+        node_count_data = get_node_popularity_data()["node_trees"].get(tree_type, {})
         all_node_counts = {}
         for node_name in all_nodes:
             all_node_counts[node_name] = node_count_data.get(node_name, {}).get("count", 0)

@@ -38,7 +38,7 @@
         "nodes": [
           {
             "identifier": "GeometryNodeIndexSwitch",
-            "before_node": "GeometryNodeSwitch"
+            "after_node": "FunctionNodeFloatToInt"
           }
         ]
       },

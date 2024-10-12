@@ -11,7 +11,7 @@ def context_menu_draw(self, context):
         return
     layout: UILayout = self.layout
     layout.separator()
-    layout.label(text="Node Pie Utiltities:", icon="NODE")
+    layout.label(text="Node Pie Utilities:", icon="NODE")
     op = layout.operator("node_pie.open_definition_file", text="Open example definition file")
     op.example = True
 
