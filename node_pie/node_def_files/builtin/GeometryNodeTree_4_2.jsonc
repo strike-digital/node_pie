@@ -1,5 +1,6 @@
 // This is a versioning file that only specifies the new nodes in 4.2, compared to the previous version.
 // This version added a lot of matrix nodes which requires the layout to be rearranged a lot
+// It also added some more tool nodes that need polls
 {
   "blender_version": [4, 2, 0],
   "removals": {
@@ -102,6 +103,7 @@
       },
       "UTILITIES": {
         "nodes": [
+          // Create a new "Switch" section
           {"separator": true, "label": "Switch", "after_node":"bottom"},
           {"identifier": "GeometryNodeIndexSwitch"},
           {

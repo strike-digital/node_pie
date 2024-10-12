@@ -1,0 +1,57 @@
+// This is a versioning file that only specifies the new nodes in 4.3, compared to the previous version.
+{
+  "blender_version": [4, 3, 0],
+  "removals": {
+  },
+  "additions": {
+    "layout": {
+    },
+    "categories": {
+      "INPUT": {
+        "nodes": [
+          {"identifier": "GeometryNodeInputNamedLayerSelection", "before_node": "GeometryNodeObjectInfo"},
+          {"identifier": "GeometryNodeWarning", "after_node": "FunctionNodeInputVector"}
+        ]
+      },
+      "CURVE": {
+        "nodes": [
+          {"identifier": "GeometryNodeCurvesToGreasePencil", "before_node": "GeometryNodeCurveToMesh"},
+          { "identifier": "GeometryNodeMergeLayers", "after_node": "GeometryNodeFilletCurve" },
+          {"identifier": "GeometryNodeGreasePencilToCurves", "after_node": "GeometryNodeFilletCurve"}
+        ]
+      },
+      "GEOMETRY": {
+        "nodes": [
+          { "identifier": "GeometryNodeSetGeometryName", "before_node": "GeometryNodeSetID" }
+        ]
+      },
+      "MATRIX": {
+        "nodes": [
+          { "identifier": "FunctionNodeMatrixDeterminant", "after_node": "FunctionNodeCombineTransform" }
+        ]
+      },
+      "TEXTURE": {
+        "nodes": [
+          { "identifier": "ShaderNodeTexGabor", "before_node": "ShaderNodeTexGradient" }
+        ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          { "identifier": "FunctionNodeIntegerMath", "after_node": "FunctionNodeFloatToInt" },
+          { "identifier": "FunctionNodeHashValue", "after_node": "FunctionNodeFloatToInt" }
+        ]
+      },
+      "ZONE": {
+        "nodes": [
+          {
+            "label": "For Each Element Zone",
+            "identifier": "ForEachElementZone",
+            "before_node": "SimulationZone",
+            "operator": "node.add_foreach_geometry_element_zone",
+            "settings": { "use_transform": true }
+          }
+        ]
+      }
+    }
+  }
+}

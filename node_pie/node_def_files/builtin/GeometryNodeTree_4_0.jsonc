@@ -157,11 +157,13 @@
         "nodes": [
           {
             "label": "Simulation Zone",
+            "identifier": "SimulationZone",
             "operator": "node.add_simulation_zone",
             "settings": { "use_transform": true }
           },
           {
             "label": "Repeat Zone",
+            "identifier": "RepeatZone",
             "operator": "node.add_repeat_zone",
             "settings": { "use_transform": true }
           }
