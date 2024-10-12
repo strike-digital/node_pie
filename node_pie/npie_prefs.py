@@ -128,6 +128,11 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         subtype="PIXEL",
     )
 
+    # custom_node_def_directory: StringProperty(
+    #     name="Custom node definition file directory.",
+    #     description="A folder for user created definition files. This is used so that"
+    # )
+
     def draw(self, context):
         layout = self.layout
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
