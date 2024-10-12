@@ -39,7 +39,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     npie_max_size: FloatProperty(
         name="Max size",
-        default=2,
+        default=1.7,
         description="The size of the most popular nodes",
     )
 
