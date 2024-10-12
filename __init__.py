@@ -14,8 +14,8 @@
 bl_info = {
     "name": "Node Pie 1.2.34",
     "author": "Andrew Stevenson",
-    "description": "An addon that adds a pie menu containing all nodes for each node editor",
-    "blender": (3, 0, 0),
+    "description": "Add nodes quickly with a pie menu",
+    "blender": (4, 2, 0),
     "version": (1, 2, 34),
     "location": "Node editor > Shortcut",
     "doc_url": "https://github.com/strike-digital/node_pie/wiki",
