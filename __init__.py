@@ -20,17 +20,17 @@ bl_info = {
     "location": "Node editor > Shortcut",
     "doc_url": "https://github.com/strike-digital/node_pie/wiki",
     "tracker_url": "https://github.com/strike-digital/node_pie/issues",
-    "category": "Node"
+    "category": "Node",
 }
 
-from . import auto_load
+from .node_pie import npie_btypes
 
-auto_load.init()
+npie_btypes.configure("node_pie", auto_register=True)
 
 
 def register():
-    auto_load.register()
+    npie_btypes.register()
 
 
 def unregister():
-    auto_load.unregister()
+    npie_btypes.unregister()

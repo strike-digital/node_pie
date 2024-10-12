@@ -1,6 +1,7 @@
 import bpy
 from bpy.props import BoolProperty, FloatProperty
 from bpy.types import KeyMap, KeyMapItem, UILayout
+from .npie_btypes import BRegister
 
 from .. import __package__ as base_package
 from .npie_helpers import get_prefs
@@ -15,6 +16,7 @@ from .operators.op_insert_node_pie import NPIE_OT_insert_node_pie
 from .operators.op_show_info import InfoSnippets
 
 
+@BRegister()
 class NodePiePrefs(bpy.types.AddonPreferences):
     """Node pie"""
 
