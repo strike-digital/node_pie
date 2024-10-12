@@ -21,6 +21,16 @@
       "bottom": [["UV"]]
     },
     "categories": {
+      "COLOR": {
+        "nodes": [
+          { "identifier": "ShaderNodeBlackbody", "before_node": "FunctionNodeCompare" }
+        ]
+      },
+      "GEOMETRY": {
+        "nodes": [
+          { "identifier": "GeometryNodeBake", "before_node": "GeometryNodeBoundBox"}
+        ]
+      },
       "ROTATION": {
         "nodes": [
           {"identifier": "FunctionNodeAlignRotationToVector", "before_node": "FunctionNodeAxisAngleToRotation"}
@@ -29,7 +39,8 @@
       "INPUT": {
         "nodes": [
           { "identifier": "GeometryNodeToolMousePosition", "before_node": "GeometryNodeObjectInfo"},
-          {"identifier": "GeometryNodeViewportTransform", "after_node": "GeometryNodeInputSceneTime"}
+          {"identifier": "GeometryNodeViewportTransform", "after_node": "GeometryNodeInputSceneTime"},
+          { "identifier": "FunctionNodeInputRotation", "before_node": "FunctionNodeInputString"}
         ]
       },
       "MATRIX": {
@@ -37,21 +48,34 @@
         "label": "Matrix",
         "color": "converter",
         "nodes": [
+          {"identifier": "FunctionNodeCombineMatrix"},
           { "identifier": "FunctionNodeCombineTransform" },
           { "identifier": "FunctionNodeInvertMatrix" },
           { "identifier": "FunctionNodeMatrixMultiply" },
           { "identifier": "FunctionNodeProjectPoint" },
+          {"identifier": "FunctionNodeSeparateMatrix"},
           { "identifier": "FunctionNodeSeparateTransform" },
           { "identifier": "FunctionNodeTransformDirection" },
           { "identifier": "FunctionNodeTransformPoint" },
           { "identifier": "FunctionNodeTransposeMatrix" }
         ]
       },
+      "POINT": {
+        "nodes": [
+          { "identifier": "GeometryNodePointsToCurves", "before_node": "GeometryNodePointsToVertices"}
+        ]
+      },
       "UTILITIES": {
         "nodes": [
           { "identifier": "GeometryNodeMenuSwitch", "after_node": "ShaderNodeMath"}
         ]
-      }
+      },
+      "INSTANCE": {
+        "nodes": [
+          {"identifier": "GeometryNodeSetInstanceTransform", "after_node": "GeometryNodeScaleInstances"},
+          { "identifier": "GeometryNodeInstanceTransform", "after_node": "GeometryNodeInputInstanceScale", "color": "input"}
+        ]
+      },
     }
   }
 }
