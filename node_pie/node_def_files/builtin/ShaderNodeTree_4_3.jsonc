@@ -1,0 +1,12 @@
+{
+  "blender_version": [4, 3, 0],
+  "additions": {
+    "categories": {
+      "TEXTURE": {
+        "nodes": [
+          { "identifier": "ShaderNodeTexGabor", "before_node": "ShaderNodeTexGradient" }
+        ]
+      }
+    }
+  }
+}
