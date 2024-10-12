@@ -1,15 +1,38 @@
+import copy
+import importlib
 import inspect
+import pkgutil
+import typing
+from collections import OrderedDict
 from dataclasses import dataclass
 from enum import Enum
 from functools import wraps
-from typing import TYPE_CHECKING, Any, Callable, Literal, TypeVar, Union
+from pathlib import Path
+from types import ModuleType
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Generic,
+    Iterator,
+    Literal,
+    MutableMapping,
+    ParamSpec,
+    Self,
+    TypeVar,
+    Union,
+)
 
 import bpy
 from bpy.props import (
     BoolProperty,
+    BoolVectorProperty,
+    CollectionProperty,
+    EnumProperty,
     FloatProperty,
     FloatVectorProperty,
     IntProperty,
+    IntVectorProperty,
     PointerProperty,
     StringProperty,
 )
@@ -20,6 +43,7 @@ from bpy.types import (
     Event,
     Material,
     Menu,
+    Node,
     NodeTree,
     Object,
     Operator,
@@ -27,10 +51,12 @@ from bpy.types import (
     PropertyGroup,
     UILayout,
     bpy_prop_collection,
+    bpy_struct,
 )
 from mathutils import Vector
 
-"""A module containing helpers to make defining blender types easier (panels, operators etc.)"""
+"""A module containing helpers to make defining blender types easier (panels, operators etc.)
+Optionally also allows for automatically registering decorated classes, in the correct order."""
 
 __all__ = [
     "BMenu",
@@ -41,22 +67,70 @@ __all__ = [
     "FunctionToOperator",
     "CustomProperty",
     "configure",
+    "register",
+    "unregister",
 ]
-to_register = []
 T = TypeVar("T")
+KT = TypeVar("KT")
+VT = TypeVar("VT")
 
 
 # CONFIG
 class Config:
     addon_string: str = ""
+    register: bool = False
+
+    all_modules: list[ModuleType] = []
+    register_list: list[bpy_struct] = []
 
 
-def configure(addon_string: str = ""):
+def configure(addon_string: str = "", auto_register: bool = False):
     """Configure btypes settings for this addon, should usually be called in the root init file.
+    This must be called in the root init file.
     Make sure it is called before auto_load.init() in order for the configuration to apply before registration.
 
-    addon_string: The name of the addon. Used to set the subpath of operators e.g. `bpy.ops.addon_string.op`"""
+    addon_string: The name of the addon. Used to set the subpath of operators e.g. `bpy.ops.addon_string.op`
+    auto_register: Whether to automatically register classes created using btypes decorators."""
     Config.addon_string = addon_string
+    Config.register = auto_register
+    if auto_register:
+        Config.all_modules = _get_modules()
+
+
+def _get_modules() -> list[ModuleType]:
+    """Get the list of modules in the addon using btypes"""
+
+    def get_module_names(path: Path, root: str = ""):
+        """Recursively get a list of all module names in a path"""
+        module_names = []
+        for _, module_name, is_pkg in pkgutil.iter_modules([path]):
+            if is_pkg:
+                sub_path = path / module_name
+                sub_root = root + module_name + "."
+                module_names.extend(get_module_names(sub_path, sub_root))
+            else:
+                module_names.append(root + module_name)
+        return module_names
+
+    # Get the file that configure() was called from
+    file = Path(inspect.stack()[2].filename).parent
+    module_names = sorted(get_module_names(file))
+
+    # Get the base package. This includes bl_ext.repo in 4.2 and above
+    split = 3 if __package__.startswith("bl_ext.") else 1
+    base_package = ".".join(__package__.split(".")[:split])
+
+    all_modules = []
+    for name in module_names:
+        # Ignore self
+        if base_package + "." + name == __name__:
+            continue
+        # Import all files in module to load them.
+        all_modules.append(importlib.import_module("." + name, package=base_package))
+
+    # observe custom __reg_order__ parameter
+    all_modules.sort(key=lambda m: getattr(m, "__reg_order__", 100))
+    return all_modules
 
 
 # UTILS
@@ -110,10 +184,10 @@ class Cursor(Enum):
 
     @classmethod
     def set_location(cls, location: tuple):
-        bpy.context.window.cursor_warp(location[0], location[1])
+        bpy.context.window.cursor_warp(int(location[0]), int(location[1]))
 
 
-class ExecContext(Enum):
+class ExecContext:
     """Operator execution contexts"""
 
     INVOKE = "INVOKE_DEFAULT"
@@ -132,6 +206,22 @@ class ExecContext(Enum):
     EXEC_REGION_PREVIEW = "EXEC_REGION_PREVIEW"
     EXEC_AREA = "EXEC_AREA"
     EXEC_SCREEN = "EXEC_SCREEN"
+
+
+class BDict(OrderedDict, MutableMapping[str, VT]):
+    """Used to mimic the behavior of the built in Collection Properties in Blender, which act as a
+    mix of dictionaries and lists."""
+
+    def get(*args, **kwargs) -> VT:
+        return super().get(*args, **kwargs)
+
+    def __iter__(self) -> Iterator[VT]:
+        return iter(self.values())
+
+    def __getitem__(self, __key: str) -> VT:
+        if isinstance(__key, int):
+            return list(self.values())[__key]
+        return super().__getitem__(__key)
 
 
 def _unwrap_method(func: classmethod):
@@ -218,6 +308,14 @@ class BPoll:
 
 
 # TYPES
+class BRegister:
+    """A decorator used to register a class with `btypes`, without using a specific btypes decorator."""
+
+    def __call__(self, cls: T) -> T:
+        Config.register_list.append(cls)
+        return cls
+
+
 @dataclass
 class BMenu:
     """
@@ -274,6 +372,7 @@ class BMenu:
 
         Wrapped.__doc__ = panel_description
         Wrapped.__name__ = cls.__name__
+        Config.register_list.append(Wrapped)
         return Wrapped
 
 
@@ -382,7 +481,7 @@ class BPanel:
         options = {
             "DEFAULT_CLOSED": self.default_closed,
             "HIDE_HEADER": not self.show_header,
-            "HEADER_BUTTON_EXPAND": self.header_button_expand,
+            "HEADER_LAYOUT_EXPAND": self.header_button_expand,
         }
 
         options = {k for k, v in options.items() if v}
@@ -416,86 +515,8 @@ class BPanel:
 
         Wrapped.__doc__ = panel_description
         Wrapped.__name__ = cls.__name__
+        Config.register_list.append(Wrapped)
         return Wrapped
-
-
-PropertyGroupClass = TypeVar("PropertyGroupClass", bound=PropertyGroup)
-
-
-class BPropertyGroupBase(PropertyGroup):
-
-    @property
-    def parent(self):
-        """Get the parent instance of this property group"""
-        parts = self.path_from_id().split(".")[:-1]
-        parent = self.id_data
-        for part in parts:
-            # Special case for collections that require indices to access
-            if "[" in part:
-                subparts = part.split("[")
-                index = subparts[1][:-1]
-                if index.replace("-", "").isdigit():
-                    index = int(index)
-                elif index.startswith("\"") or index.startswith("'"):
-                    index = index[1:-1]
-                parent = getattr(parent, subparts[0])[index]
-                continue
-            parent = getattr(parent, part)
-        return parent
-
-    def copy_settings_to(self, other: PropertyGroup, recursive=False):
-        for name in self.keys():
-            attr = getattr(self, name)
-
-            # Special case for collection properties
-            if issubclass(type(attr), bpy_prop_collection):
-                if not recursive:
-                    continue
-                other_collection = getattr(other, name)
-                for item in attr:
-                    other_item = other_collection.add()
-                    BPropertyGroupBase.copy_settings_to(item, other_item, recursive=recursive)
-                continue
-
-            # Copy attribute
-            try:
-                setattr(other, name, getattr(self, name))
-            except AttributeError as e:
-                print(e)
-                pass
-
-
-class BPropertyGroup:
-    type = BPropertyGroupBase
-
-    def __init__(self, id_type: ID, name: str):
-        self.id_type = id_type
-        self.name = name
-
-    def __call__(self, cls: PropertyGroupClass) -> PropertyGroupClass:
-        self.cls = cls
-        global property_groups
-        property_groups.append(self)
-
-        @wraps(cls, updated=())
-        class Wrapped(cls, BPropertyGroupBase):
-            pass
-
-        self.wrapped_cls = Wrapped
-        return self.wrapped_cls
-
-    def _register(self):
-        try:
-            bpy.utils.register_class(self.wrapped_cls)
-        except ValueError:
-            pass
-        setattr(self.id_type, self.name, PointerProperty(type=self.wrapped_cls))
-
-    def _unregister(self):
-        delattr(self.id_type, self.name)
-
-
-property_groups: list[BPropertyGroup] = []
 
 
 @dataclass
@@ -522,7 +543,7 @@ def CustomProperty(type: T, description: str) -> T:
 OperatorClass = TypeVar("OperatorClass", bound=Operator)
 
 
-class BOperatorBase(Operator):
+class BOperatorBase(Operator, Generic[OperatorClass]):
     """The base operator class used by the @BOperator decorator."""
 
     bl_idname: str
@@ -577,14 +598,13 @@ class BOperatorBase(Operator):
 
         # Execute
         if exec_context:
-            exec_context = enum_value(exec_context)
             return op(exec_context, **kwargs)
         else:
             return op(**kwargs)
 
     @classmethod
     def draw_button(
-        cls: OperatorClass,
+        cls,
         layout: UILayout,
         text=None,
         icon="NONE",
@@ -597,8 +617,9 @@ class BOperatorBase(Operator):
         **kwargs,
     ) -> OperatorClass:
         """Draw this operator as a button in a provided layout.
-        All extra keyword arguments are set as arguments for the operator."""
-        layout.operator_context = enum_value(exec_context)
+        All extra keyword arguments are set as arguments for the operator.
+        The operator object is also returned, so for type hinting set the attributes on that."""
+        layout.operator_context = exec_context
         op = layout.operator(
             cls.bl_idname,
             text=text if isinstance(text, str) else cls.bl_label,
@@ -732,6 +753,7 @@ class BOperator:
         undo (bool): Whether to push an undo step after the operator is executed.
         undo_grouped (bool): Whether to group multiple consecutive executions of the operator into one undo step.
         internal (bool): Whether the operator is only used internally and should not be shown in menu search
+        modal_priority (bool): Handle events before other modal operators without this option.
             (doesn't affect the operator search accessible when developer extras is enabled).
         wrap_cursor (bool): Whether to wrap the cursor to the other side of the region when it goes outside of it.
         wrap_cursor_x (bool): Only wrap the cursor in the horizontal (x) direction.
@@ -750,6 +772,7 @@ class BOperator:
     undo: bool = False
     undo_grouped: bool = False
     internal: bool = False
+    modal_priority: bool = False
     wrap_cursor: bool = False
     wrap_cursor_x: bool = False
     wrap_cursor_y: bool = False
@@ -763,7 +786,8 @@ class BOperator:
     else:
         type = Operator
 
-    def __call__(decorator, cls: OperatorClass) -> Union[OperatorClass, BOperatorBase]:
+    # The amount of time put into these type hints is not funny. And it looks so simple smh.
+    def __call__(decorator, cls: T) -> Union[T, BOperatorBase[T]]:
         """This takes the decorated class and populate's the bl_ attributes with either the supplied values,
         or a best guess based on the other values"""
 
@@ -795,6 +819,7 @@ class BOperator:
             "REGISTER": decorator.register,
             "UNDO": decorator.undo,
             "UNDO_GROUPED": decorator.undo_grouped,
+            "MODAL_PRIORITY": decorator.modal_priority,
             "GRAB_CURSOR": decorator.wrap_cursor,
             "GRAB_CURSOR_X": decorator.wrap_cursor_x,
             "GRAB_CURSOR_Y": decorator.wrap_cursor_y,
@@ -829,7 +854,7 @@ class BOperator:
 
         Wrapped.__doc__ = op_description
         Wrapped.__name__ = cls.__name__
-
+        Config.register_list.append(Wrapped)
         return Wrapped
 
 
@@ -921,21 +946,383 @@ class FunctionToOperator:
             CustomOperator.__annotations__[name] = prop
 
         # CustomOperator.__name__ = function.__name__
-        to_register.append(CustomOperator)
+        Config.register_list.append(CustomOperator)
         return function
 
 
-def register():
-    for op in to_register:
-        bpy.utils.register_class(op)
+# ------------------------------------------------------------------
+# PROPERTIES
+# ------------------------------------------------------------------
 
-    # property_groups.sort(key=get_depth, reverse=True)
+
+"""
+This is my attempt at a method of defining Blender properties while maintaining useful type hinting.
+I have no idea if it's worth it, or if it's massive overkill, but it does make me feel better.
+
+Some notes:
+    - properties need to be defined using the "=" sign rather than the ":" sign
+      (this is because type hints aren't propagated through function calls)
+"""
+
+
+BpyParams = ParamSpec("BpyParams")  # The Blender property ParamSpec
+BpyReturn = TypeVar("BpyReturn")  # The return type of the Blender property
+DecoratedParams = ParamSpec("DecoratedParams")  # The decorated function ParamSpec
+DecoratedReturn = TypeVar("DecoratedReturn")  # The return type of the decorated function
+
+
+def override_prop_return(bpy_property: Callable[BpyParams, BpyReturn]):
+    """This is some type magic that lets the decorated function inherit the type signature of another function.
+    It's pretty mind bending: https://github.com/python/mypy/issues/10574#issuecomment-1902246197.
+    I modified it to allow you to override the return type, allowing creating wrapper functions
+    that type hint a different return type to reality."""
+
+    def decorator(wrapper: Callable[DecoratedParams, DecoratedReturn]) -> Callable[BpyParams, DecoratedReturn]:
+
+        def decorated(*args: BpyParams.args, **kwargs: BpyParams.kwargs) -> DecoratedReturn:
+            return bpy_property(*args, **kwargs)
+
+        return decorated
+
+    return decorator
+
+
+class BProperty:
+    """
+    Used to interact with properties at runtime, for example drawing a property using the syntax:
+    ```
+    MyClass.my_prop.draw(layout, data, ...)
+    ```
+    """
+
+    def __init__(self, name: str):
+        self._name = name
+
+    def __repr__(self):
+        return f"BProperty('{self._name}')"
+
+    def draw(self, layout: UILayout, data, *args, **kwargs):
+        layout.prop(data, self._name, *args, **kwargs)
+
+
+@override_prop_return(StringProperty)
+def BStringProperty(*args, **kwargs) -> Union[str, BProperty]:
+    return StringProperty(*args, **kwargs)
+
+
+@override_prop_return(EnumProperty)
+def BEnumProperty(*args, **kwargs) -> Union[str, BProperty]:
+    return EnumProperty(*args, **kwargs)
+
+
+@override_prop_return(IntProperty)
+def BIntProperty(*args, **kwargs) -> Union[int, BProperty]:
+    return IntProperty(*args, **kwargs)
+
+
+@override_prop_return(IntVectorProperty)
+def BIntVectorProperty(*args, **kwargs) -> Union[list[int], BProperty]:
+    return IntVectorProperty(*args, **kwargs)
+
+
+@override_prop_return(BoolProperty)
+def BBoolProperty(*args, **kwargs) -> Union[bool, BProperty]:
+    return BoolProperty(*args, **kwargs)
+
+
+@override_prop_return(BoolVectorProperty)
+def BBoolVectorProperty(*args, **kwargs) -> Union[list[bool], BProperty]:
+    return BoolVectorProperty(*args, **kwargs)
+
+
+@override_prop_return(FloatProperty)
+def BFloatProperty(*args, **kwargs) -> Union[float, BProperty]:
+    return FloatProperty(*args, **kwargs)
+
+
+@override_prop_return(FloatVectorProperty)
+def BFloatVectorProperty(*args, **kwargs) -> Union[list[float], BProperty]:
+    return FloatVectorProperty(*args, **kwargs)
+
+
+@override_prop_return(CollectionProperty)
+def BCollectionProperty(*args, **kwargs) -> Union[bpy.types.bpy_prop_collection, BProperty]:
+    return CollectionProperty(*args, **kwargs)
+
+
+# @override_prop_return(PointerProperty)
+# def BPointerProperty(*args, **kwargs) -> Union[BProperty]:
+#     return PointerProperty(*args, **kwargs)
+# Since the PointerProperty return type hint is dependent on its input arguments,
+# I implemented this one manually without using the decorator
+# I can't be bothered to add a docstring for it.
+def BPointerProperty(
+    type: T,
+    name: str = "",
+    description: str = "",
+    translation_context: str = "*",
+    options: set = {"ANIMATABLE"},
+    override: set = set(),
+    poll: Callable[[Self, Context], bool] = None,
+    update: Callable[[Self, Context], None] = None,
+) -> Union[T, BProperty]:
+    return PointerProperty(
+        type=type,
+        name=name,
+        description=description,
+        translation_context=translation_context,
+        options=options,
+        override=override,
+        poll=poll,
+        update=update,
+    )
+
+
+PropertyGroupClass = TypeVar("PropertyGroupClass", bound=PropertyGroup)
+
+
+class BPropertyGroupBase(PropertyGroup):
+
+    @property
+    def parent(self):
+        """Get the parent instance of this property group"""
+        try:
+            path = self.path_from_id()
+        except ValueError:
+            # The object has been removed
+            return None
+        parts = path.split(".")[:-1]
+        parent = self.id_data
+        for part in parts:
+            # Special case for collections that require indices to access
+            if "[" in part:
+                subparts = part.split("[")
+                index = subparts[1][:-1]
+                if index.replace("-", "").isdigit():
+                    index = int(index)
+                elif index.startswith('"') or index.startswith("'"):
+                    index = index[1:-1]
+                parent = getattr(parent, subparts[0])[index]
+                continue
+            parent = getattr(parent, part)
+        return parent
+
+    def copy_settings_to(self, other: PropertyGroup, recursive=False):
+        """Copy the attributes of this property group to another one."""
+        for name in self.keys():
+            attr = getattr(self, name)
+
+            # Special case for collection properties
+            if recursive and issubclass(type(attr), bpy_prop_collection):
+                other_collection = getattr(other, name)
+                for item in attr:
+                    other_item = other_collection.add()
+                    BPropertyGroupBase.copy_settings_to(item, other_item, recursive=recursive)
+                continue
+
+            # Copy attribute
+            try:
+                setattr(other, name, getattr(self, name))
+            except AttributeError as e:
+                print(e)
+                pass
+
+
+class BPropertyGroup:
+    """
+    A decorator for extending the PropertyGroup type.
+
+    Args:
+        id_type: An ID type to register this group to (equivalent of setting a `PointerProperty` on that type).
+        name: The name to set the attribute on the ID type to be.
+    """
+
+    type = BPropertyGroupBase
+
+    def __init__(self, id_type: ID = None, name: str = ""):
+        self.id_type = id_type
+        self.name = name
+
+    @staticmethod
+    def resolve_property_group_props(wrapped_cls):
+        """Convert the BProperty syntax to Blender annotations.
+        This is a separate method so it can be used by all class that can hold properties.
+
+        Returns:
+            wrapped_cls: The class that will be registered
+            return_cls: The class to be returned by the decorator"""
+        # Here we need two versions of the class:
+        # One that is registered with all of the properties as annotations
+        # One that has actual values for the properties that can be used as an api, e.g. for drawing the property
+        # This is necessary because if we just change out the value in the original class, the blender property is
+        # overridden by the new value.
+        return_cls = copy.copy(wrapped_cls)
+
+        for name, value in inspect.getmembers(wrapped_cls, lambda x: hasattr(x, "keywords") and hasattr(x, "function")):
+            # Convert properties created with the = sign to annotations for registration
+            wrapped_cls.__annotations__[name] = value
+            # Set the value of the returned class to be a custom class so that it can be used to draw the property
+            # Using the syntax
+            # MyClass.my_prop.draw(...)
+            setattr(return_cls, name, BProperty(name))
+
+        Config.register_list.append(wrapped_cls)
+        return wrapped_cls, return_cls
+
+    def __call__(self, cls: PropertyGroupClass) -> PropertyGroupClass:
+        self.cls = cls
+        property_groups.append(self)
+
+        @wraps(cls, updated=())
+        class Wrapped(cls, BPropertyGroupBase):
+            pass
+
+        self.wrapped_cls, return_cls = self.resolve_property_group_props(Wrapped)
+
+        return return_cls
+
+    def _register(self):
+        # Set Blender pointer property
+        if self.id_type:
+            setattr(self.id_type, self.name, PointerProperty(type=self.wrapped_cls))
+
+    def _unregister(self):
+        if self.id_type:
+            delattr(self.id_type, self.name)
+
+
+property_groups: list[BPropertyGroup] = []
+
+
+# -----------------------------------------------------------------
+# NODE TREES
+# -----------------------------------------------------------------
+
+
+class BNodeTreeBase(NodeTree):
+    pass
+
+
+@dataclass
+class BNodeTree:
+    idname: str = ""
+    label: str = ""
+    icon: str = ""
+
+    if TYPE_CHECKING:
+        type = BNodeTreeBase
+        "Inherit from this to get proper auto complete for the extra attributes and functions"
+    else:
+        type = NodeTree
+
+    def __call__(decorator, cls: T) -> Union[T, BNodeTreeBase]:
+        idname = decorator.idname or cls.__name__
+        label = decorator.label or idname
+        icon = decorator.icon or "X"
+
+        @wraps(cls, updated=())
+        class Wrapped(BNodeTreeBase, cls, NodeTree):
+            bl_idname = idname
+            bl_label = label
+            bl_icon = icon
+
+        _, return_cls = BPropertyGroup.resolve_property_group_props(Wrapped)
+
+        # Config.register_list.append(Wrapped)
+        return return_cls
+
+
+class BNodeBase(Node):
+    pass
+
+
+@dataclass
+class BNode:
+    idname: str = ""
+    label: str = ""
+    icon: str = ""
+
+    if TYPE_CHECKING:
+        type = BNodeBase
+        "Inherit from this to get proper auto complete for the extra attributes and functions"
+    else:
+        type = Node
+
+    def __call__(decorator, cls: T) -> Union[T, BNodeBase]:
+        idname = decorator.idname or cls.__name__
+        label = decorator.label or idname
+        icon = decorator.icon or "X"
+
+        @wraps(cls, updated=())
+        class Wrapped(BNodeBase, cls, Node):
+            bl_idname = idname
+            bl_label = label
+            bl_icon = icon
+
+        Config.register_list.append(Wrapped)
+        return Wrapped
+
+
+def _get_dependencies():
+    """
+    Get a dictionary of each class and the classes that it depends on.
+    Currently this takes into account property groups, and their Pointer and Collection properties.
+    """
+
+    # Get the direct children of each class
+    children = {}
+    for cls in Config.register_list:
+        if issubclass(cls, PropertyGroup):
+            children[cls] = set()
+            for name, value in typing.get_type_hints(cls, {}, {}).items():
+                if not isinstance(value, bpy.props._PropertyDeferred):
+                    continue
+                child = value.keywords.get("type")
+                if child is None:
+                    continue
+                children[cls].add(child)
+
+    dependencies = {}
+
+    def get_deps(cls):
+        """Recursively get the classes that have the given class as a child"""
+        deps = {c for c, child_list in children.items() if cls in child_list}
+        for dep in deps:
+            deps = deps.union(get_deps(dep))
+        return deps
+
+    for cls in Config.register_list:
+        dependencies[cls] = get_deps(cls)
+
+    return dependencies
+
+
+def register():
+    if Config.register:
+        # Sort classes so that they can register in the correct order without errors
+        dependencies = _get_dependencies()
+        Config.register_list.sort(key=lambda cls: len(dependencies[cls]), reverse=True)
+
+        for cls in Config.register_list:
+            bpy.utils.register_class(cls)
+
     for pgroup in property_groups:
         pgroup._register()
 
+    if Config.register:
+        for module in Config.all_modules:
+            if hasattr(module, "register"):
+                module.register()
+
 
 def unregister():
-    for op in to_register:
-        bpy.utils.unregister_class(op)
     for pgroup in property_groups:
         pgroup._unregister()
+
+    if Config.register:
+        for cls in Config.register_list:
+            bpy.utils.unregister_class(cls)
+
+        for module in Config.all_modules:
+            if hasattr(module, "unregister"):
+                module.unregister()
