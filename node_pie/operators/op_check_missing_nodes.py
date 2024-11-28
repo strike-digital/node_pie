@@ -25,8 +25,9 @@ EXCLUDED_NODES = {
 }
 
 
-@BOperator()
+@BOperator(label="Check for missing nodes")
 class NPIE_OT_check_missing_nodes(BOperator.type):
+    """Check for any nodes that aren't included in the node pie for this node tree type, and add them to the tree."""
 
     def execute(self, context):
         node_tree: NodeTree = context.space_data.edit_tree
