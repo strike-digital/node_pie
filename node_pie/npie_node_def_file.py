@@ -214,7 +214,12 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
                 break
         else:
             # Auto generate if not blender render engine
-            if context.scene.render.engine not in {"BLENDER_EEVEE", "BLENDER_EEVEE_NEXT", "CYCLES", "BLENDER_WORKBENCH"}:
+            if context.scene.render.engine not in {
+                "BLENDER_EEVEE",
+                "BLENDER_EEVEE_NEXT",
+                "CYCLES",
+                "BLENDER_WORKBENCH",
+            }:
                 return {}, {}
 
     def get_def_files(dir: Path) -> Path:

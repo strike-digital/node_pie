@@ -11,11 +11,11 @@
     "ShaderNodeBsdfPrincipled": {
       "inputs": [
         "NodeSocketFloatWavelength",
-        "NodeSocketFloat",
-        "NodeSocketColor",
         "NodeSocketFloatDistance",
+        "NodeSocketFloatFactor",
         "NodeSocketVector",
-        "NodeSocketFloatFactor"
+        "NodeSocketColor",
+        "NodeSocketFloat"
       ],
       "outputs": [
         "NodeSocketShader"
