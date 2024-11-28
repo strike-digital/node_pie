@@ -27,6 +27,16 @@
         { "identifier": "ShaderNodeRGB" },
         { "identifier": "ShaderNodeTangent" },
         { "identifier": "ShaderNodeTexCoord" },
+        {
+          "identifier": "ShaderNodeUVAlongStroke",
+          "poll_conditions": [
+            {
+              "context_path": "space_data.shader_type",
+              "operand": "equals",
+              "value": "LINESTYLE"
+            }
+          ]
+        },
         { "identifier": "ShaderNodeUVMap" },
         { "identifier": "ShaderNodeValue" },
         { "identifier": "ShaderNodeVolumeInfo" },
