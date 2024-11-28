@@ -4,6 +4,15 @@
     "nodes": ["CompositorNodeSplitViewer"]
   },
   "additions": {
-    "nodes": [{ "identifier": "CompositorNodeSplit" }]
+    "categories": {
+      "CONVERTOR": {
+        "nodes": [
+          {
+            "identifier": "CompositorNodeSplit",
+            "before_node": "CompositorNodeSwitch"
+          }
+        ]
+      }
+    }
   }
 }
