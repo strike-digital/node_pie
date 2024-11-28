@@ -26,6 +26,10 @@
           {
             "identifier": "GeometryNodeWarning",
             "after_node": "FunctionNodeInputVector"
+          },
+          {
+            "identifier": "GeometryNodeToolActiveElement",
+            "after_node": "GeometryNodeTool3DCursor"
           }
         ]
       },
@@ -58,6 +62,14 @@
           {
             "identifier": "FunctionNodeMatrixDeterminant",
             "after_node": "FunctionNodeCombineTransform"
+          }
+        ]
+      },
+      "ROTATION": {
+        "nodes": [
+          {
+            "identifier": "FunctionNodeAxesToRotation",
+            "before_node": "FunctionNodeAxisAngleToRotation"
           }
         ]
       },
