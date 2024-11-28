@@ -31,6 +31,8 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
 
     def execute(self, context):
         node_tree: NodeTree = context.space_data.edit_tree
+
+        # Get a list of nodes already in the pie menu
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
         nodes: set[str] = set()
         for cat in categories.values():
@@ -38,8 +40,8 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
                 if isinstance(node, Separator):
                     continue
                 nodes.add(node.idname)
-                # print(node.idname)
 
+        # Get a list of node types for this node tree
         bpy_nodes: set[str] = set()
         for bpy_type in dir(bpy.types):
             bpy_type = getattr(bpy.types, bpy_type)
@@ -54,6 +56,7 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
             node_tree.nodes.remove(node)
             bpy_nodes.add(bpy_type.bl_rna.identifier)
 
+        # Add missing nodes
         print("Missing nodes:")
         unused_nodes = bpy_nodes - nodes
         position = region_to_view(context.area, self.mouse_region)
@@ -62,5 +65,3 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
             node.location = position
             position.x += node.width + 20
             print(node_type)
-
-        print(len(nodes), len(bpy_nodes))

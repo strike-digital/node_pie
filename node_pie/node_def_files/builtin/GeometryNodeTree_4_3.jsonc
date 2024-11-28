@@ -2,44 +2,83 @@
 // Lots of misc nodes added, plus a new zone.
 {
   "blender_version": [4, 3, 0],
-  "removals": {
-  },
+  "removals": {},
   "additions": {
     "layout": {
+      "right": [["GIZMO"]]
     },
     "categories": {
+      "GIZMO": {
+        "label": "Gizmo",
+        "color": "layout",
+        "nodes": [
+          { "identifier": "GeometryNodeGizmoDial" },
+          { "identifier": "GeometryNodeGizmoLinear" },
+          { "identifier": "GeometryNodeGizmoTransform" }
+        ]
+      },
       "INPUT": {
         "nodes": [
-          {"identifier": "GeometryNodeInputNamedLayerSelection", "before_node": "GeometryNodeObjectInfo"},
-          {"identifier": "GeometryNodeWarning", "after_node": "FunctionNodeInputVector"}
+          {
+            "identifier": "GeometryNodeInputNamedLayerSelection",
+            "before_node": "GeometryNodeObjectInfo"
+          },
+          {
+            "identifier": "GeometryNodeWarning",
+            "after_node": "FunctionNodeInputVector"
+          }
         ]
       },
       "CURVE": {
         "nodes": [
-          {"identifier": "GeometryNodeCurvesToGreasePencil", "before_node": "GeometryNodeCurveToMesh"},
-          { "identifier": "GeometryNodeMergeLayers", "after_node": "GeometryNodeFilletCurve" },
-          {"identifier": "GeometryNodeGreasePencilToCurves", "after_node": "GeometryNodeFilletCurve"}
+          {
+            "identifier": "GeometryNodeCurvesToGreasePencil",
+            "before_node": "GeometryNodeCurveToMesh"
+          },
+          {
+            "identifier": "GeometryNodeMergeLayers",
+            "after_node": "GeometryNodeFilletCurve"
+          },
+          {
+            "identifier": "GeometryNodeGreasePencilToCurves",
+            "after_node": "GeometryNodeFilletCurve"
+          }
         ]
       },
       "GEOMETRY": {
         "nodes": [
-          { "identifier": "GeometryNodeSetGeometryName", "before_node": "GeometryNodeSetID" }
+          {
+            "identifier": "GeometryNodeSetGeometryName",
+            "before_node": "GeometryNodeSetID"
+          }
         ]
       },
       "MATRIX": {
         "nodes": [
-          { "identifier": "FunctionNodeMatrixDeterminant", "after_node": "FunctionNodeCombineTransform" }
+          {
+            "identifier": "FunctionNodeMatrixDeterminant",
+            "after_node": "FunctionNodeCombineTransform"
+          }
         ]
       },
       "TEXTURE": {
         "nodes": [
-          { "identifier": "ShaderNodeTexGabor", "before_node": "ShaderNodeTexGradient" }
+          {
+            "identifier": "ShaderNodeTexGabor",
+            "before_node": "ShaderNodeTexGradient"
+          }
         ]
       },
       "UTILITIES": {
         "nodes": [
-          { "identifier": "FunctionNodeIntegerMath", "after_node": "FunctionNodeFloatToInt" },
-          { "identifier": "FunctionNodeHashValue", "after_node": "FunctionNodeFloatToInt" }
+          {
+            "identifier": "FunctionNodeIntegerMath",
+            "after_node": "FunctionNodeFloatToInt"
+          },
+          {
+            "identifier": "FunctionNodeHashValue",
+            "after_node": "FunctionNodeFloatToInt"
+          }
         ]
       },
       "ZONE": {
