@@ -8,6 +8,15 @@
     "top": [["VECTOR"]],
     "bottom": [["COLOR"]]
   },
+  "poll_types": {
+    "is_not_world": [
+      {
+        "context_path": "space_data.shader_type",
+        "operand": "not_equals",
+        "value": "WORLD"
+      }
+    ]
+  },
   "categories": {
     "INPUT": {
       "label": "Input",
@@ -74,7 +83,11 @@
         { "identifier": "ShaderNodeBsdfTransparent" },
         { "identifier": "ShaderNodeVolumeAbsorption" },
         { "identifier": "ShaderNodeVolumeScatter" },
-        { "separator": true, "label": "Cycles" },
+        {
+          "separator": true,
+          "label": "Cycles",
+          "poll_type": "is_not_world"
+        },
         { "identifier": "ShaderNodeBsdfAnisotropic" },
         { "identifier": "ShaderNodeBsdfToon" },
         { "identifier": "ShaderNodeBsdfHair" },

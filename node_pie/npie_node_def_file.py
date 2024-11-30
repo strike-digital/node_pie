@@ -15,7 +15,7 @@ class PollCondition:
     """Represents a condition that can be evaluated to determine whether to show a node or not."""
 
     def __init__(self, context_path: str, operand: str, value: Any = None):
-        supported_operands = {"bool", "equals", "in"}
+        supported_operands = {"bool", "equals", "in", "not_equals"}
         if operand not in supported_operands:
             raise ValueError(f"Operand for item {self} '{operand}' is not in {supported_operands}")
 
@@ -29,6 +29,8 @@ class PollCondition:
         if self.operand == "bool" and bool(result):
             return True
         elif self.operand == "equals" and self.value == result:
+            return True
+        elif self.operand == "not_equals" and self.value != result:
             return True
         elif self.operand == "in" and self.value in result:
             return True
@@ -271,6 +273,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         merge_configs(data, new_data.get("additions", {}), new_data.get("removals", {}))
 
     layout = data["layout"]
+    poll_types = data.get("poll_types", {})
 
     # Get all node definition classes so that the labels can be auto generated
     bl_node_types = {n.bl_idname: n for n in bpy.types.Node.__subclasses__() if hasattr(n, "bl_idname")}
@@ -284,11 +287,17 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     for cat_idname, cat in data["categories"].items():
         items = []
         for node in cat["nodes"]:
+
+            # Create poll conditions
+            poll_conditions = []
+            if poll_type := node.get("poll_type"):
+                conditions = node.get("poll_conditions", [])
+                node["poll_conditions"] = poll_types[poll_type] + conditions
+            for condition in node.get("poll_conditions", []):
+                poll_conditions.append(PollCondition(**condition))
+
             if node.get("separator"):
-                conditions = []
-                for condition in node.get("poll_conditions", {}):
-                    conditions.append(PollCondition(**condition))
-                items.append(Separator(label=node.get("label", ""), poll_conditions=conditions))
+                items.append(Separator(label=node.get("label", ""), poll_conditions=poll_conditions))
                 continue
             if node.get("operator"):
                 items.append(
@@ -315,8 +324,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             item = NodeItem(label, idname, color=node.get("color", ""), description=description)
             item.settings = node.get("settings", {})
             item.variants: dict[str, dict] = node.get("variants", {})
-            for condition in node.get("poll_conditions", {}):
-                item.poll_conditions.append(PollCondition(**condition))
+            item.poll_conditions = poll_conditions
 
             for name, variant in item.variants.items():
                 if name != "separator":

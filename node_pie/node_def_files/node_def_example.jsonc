@@ -17,6 +17,14 @@
     "top": [],
     "bottom": []
   },
+  // These are preset poll conditions that get prepended to the conditions of any items that they are applied to
+  "poll_types": {
+    "poll_type_name": [
+      {
+        // condition 1 etc.
+      }
+    ]
+  },
   // Categories are the different visual groups of nodes in the node tree.
   // It doesn't matter what order they are defined in here, since they are laid out above
   "categories": {
@@ -63,6 +71,8 @@
             // This sets the value of the first node input to 5
             "My other variant": { "inputs[0].default_value": 5 }
           },
+          // Apply preset poll conditions
+          "poll_type": "poll_type_name",
           // Poll conditions allow node items to only be displayed conditionally, depending on the context.
           // They also work on entire categories.
           "poll_conditions": [
