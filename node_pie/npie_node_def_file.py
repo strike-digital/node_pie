@@ -106,6 +106,7 @@ def create_defaults(data: dict):
     data["layout"] = data.get("layout", default_layout)
     default_layout.update(data["layout"])
     data["layout"] = default_layout
+    data["poll_types"] = data.get("poll_types", {})
     data["categories"] = data.get("categories", {})
     return data
 
@@ -165,6 +166,10 @@ def merge_configs(base: dict, additions: dict, removals: dict = {}):
                     orig_columns.append([new_row])
                 else:
                     orig_columns[i].append(new_row)
+
+    # Merge poll types
+    poll_types: dict = base["poll_types"]
+    poll_types.update(additions["poll_types"])
 
     # Merge in the new nodes
     for orig_cat_name, orig_cat in base["categories"].items():
