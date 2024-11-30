@@ -12,17 +12,6 @@
           { "identifier": "ShaderNodeBsdfSheen", "before_node": "ShaderNodeSubsurfaceScattering" },
           { "identifier": "ShaderNodeBsdfMetallic", "before_node": "ShaderNodeMixShader" },
           { "identifier": "ShaderNodeBsdfRayPortal", "after_node": "ShaderNodeBsdfHairPrincipled" },
-          {
-            "identifier": "ShaderNodeBackground",
-            "after_node": "ShaderNodeAddShader",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.shader_type",
-                "operand": "equals",
-                "value": "WORLD"
-              }
-            ]
-          }
         ]
       }
     }

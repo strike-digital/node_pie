@@ -15,6 +15,15 @@
     "layout": {
       "right": [["ROTATION"], [], ["VOLUME", "ZONE"]]
     },
+    "poll_types": {
+      "is_tool": [
+        {
+          "context_path": "space_data.geometry_nodes_type",
+          "operand": "equals",
+          "value": "TOOL"
+        }
+      ]
+    },
     "categories": {
       "INPUT": {
         "nodes": [
@@ -26,46 +35,19 @@
             "separator": true,
             "label": "Tool",
             "after_node": "bottom",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "GeometryNodeTool3DCursor",
-            // "before_node": "GeometryNodeCollectionInfo",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "GeometryNodeToolFaceSet",
-            // "before_node": "GeometryNodeInputID",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "GeometryNodeToolSelection",
-            // "after_node": "GeometryNodeInputRadius",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           }
         ]
       },
@@ -93,24 +75,12 @@
         "nodes": [
           {
             "identifier": "GeometryNodeToolSetSelection",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "GeometryNodeToolSetFaceSet",
             "before_node": "GeometryNodeSetID",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           }
         ]
       },

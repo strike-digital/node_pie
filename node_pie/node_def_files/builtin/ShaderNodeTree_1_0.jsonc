@@ -9,6 +9,13 @@
     "bottom": [["COLOR"]]
   },
   "poll_types": {
+    "is_world": [
+      {
+        "context_path": "space_data.shader_type",
+        "operand": "equals",
+        "value": "WORLD"
+      }
+    ],
     "is_not_world": [
       {
         "context_path": "space_data.shader_type",
@@ -24,6 +31,7 @@
       "nodes": [
         { "identifier": "ShaderNodeAmbientOcclusion" },
         { "identifier": "ShaderNodeAttribute" },
+        { "identifier": "ShaderNodeBackground", "poll_type": "is_world" },
         { "identifier": "ShaderNodeCameraData" },
         { "identifier": "ShaderNodeVertexColor" },
         { "identifier": "ShaderNodeHairInfo" },
@@ -72,16 +80,16 @@
         { "identifier": "ShaderNodeAddShader" },
         { "identifier": "ShaderNodeBsdfDiffuse", "poll_type": "is_not_world" },
         { "identifier": "ShaderNodeEmission" },
-        { "identifier": "ShaderNodeBsdfGlass", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfGlossy", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeHoldout", "poll_type": "is_not_world"  },
+        { "identifier": "ShaderNodeBsdfGlass", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfGlossy", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeHoldout", "poll_type": "is_not_world" },
         { "identifier": "ShaderNodeMixShader" },
-        { "identifier": "ShaderNodeBsdfPrincipled", "poll_type": "is_not_world"  },
+        { "identifier": "ShaderNodeBsdfPrincipled", "poll_type": "is_not_world" },
         { "identifier": "ShaderNodeVolumePrincipled" },
-        { "identifier": "ShaderNodeBsdfRefraction", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeSubsurfaceScattering", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfTranslucent", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfTransparent", "poll_type": "is_not_world"  },
+        { "identifier": "ShaderNodeBsdfRefraction", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeSubsurfaceScattering", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfTranslucent", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfTransparent", "poll_type": "is_not_world" },
         { "identifier": "ShaderNodeVolumeAbsorption" },
         { "identifier": "ShaderNodeVolumeScatter" },
         {
@@ -89,13 +97,13 @@
           "label": "Cycles",
           "poll_type": "is_not_world"
         },
-        { "identifier": "ShaderNodeBsdfAnisotropic", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfToon", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfHair", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfHairPrincipled", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeBsdfVelvet", "poll_type": "is_not_world"  },
-        { "separator": true, "label": "Eevee", "poll_type": "is_not_world"  },
-        { "identifier": "ShaderNodeEeveeSpecular", "poll_type": "is_not_world"  }
+        { "identifier": "ShaderNodeBsdfAnisotropic", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfToon", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfHair", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfHairPrincipled", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeBsdfVelvet", "poll_type": "is_not_world" },
+        { "separator": true, "label": "Eevee", "poll_type": "is_not_world" },
+        { "identifier": "ShaderNodeEeveeSpecular", "poll_type": "is_not_world" }
       ]
     },
     "TEXTURE": {

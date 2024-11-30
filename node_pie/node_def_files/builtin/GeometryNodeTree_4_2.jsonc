@@ -6,13 +6,15 @@
   "removals": {
     "layout": {
       "left": [[], [], ["UTILITIES", "INSTANCE", "POINT"]],
-      "right": [
-        ["INPUT", "COLOR", "ROTATION"],
-        ["UV"]
-      ],
+      "right": [["INPUT", "COLOR", "ROTATION"], ["UV"]],
       "top": [["ATTRIBUTE"]]
     },
-    "nodes": ["FunctionNodeAlignEulerToVector", "SepRotation", "GeometryNodeIndexSwitch", "GeometryNodeSwitch"]
+    "nodes": [
+      "FunctionNodeAlignEulerToVector",
+      "SepRotation",
+      "GeometryNodeIndexSwitch",
+      "GeometryNodeSwitch"
+    ]
   },
   "additions": {
     "layout": {
@@ -51,24 +53,12 @@
           {
             "identifier": "GeometryNodeToolMousePosition",
             "after_node": "GeometryNodeToolFaceSet",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "GeometryNodeViewportTransform",
             "after_node": "bottom",
-            "poll_conditions": [
-              {
-                "context_path": "space_data.geometry_nodes_type",
-                "operand": "equals",
-                "value": "TOOL"
-              }
-            ]
+            "poll_type": "is_tool"
           },
           {
             "identifier": "FunctionNodeInputRotation",
@@ -104,12 +94,10 @@
       "UTILITIES": {
         "nodes": [
           // Create a new "Switch" section
-          {"separator": true, "label": "Switch", "after_node":"bottom"},
-          {"identifier": "GeometryNodeIndexSwitch"},
-          {
-            "identifier": "GeometryNodeMenuSwitch"
-          },
-          {"identifier": "GeometryNodeSwitch"}
+          { "separator": true, "label": "Switch", "after_node": "bottom" },
+          { "identifier": "GeometryNodeIndexSwitch" },
+          { "identifier": "GeometryNodeMenuSwitch" },
+          { "identifier": "GeometryNodeSwitch" }
         ]
       },
       "INSTANCE": {
