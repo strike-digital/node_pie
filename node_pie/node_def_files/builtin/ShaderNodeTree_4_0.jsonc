@@ -22,7 +22,8 @@
         "nodes": [
           {
             "identifier": "ShaderNodeBsdfAnisotropic",
-            "after_node": "ShaderNodeBsdfGlass"
+            "after_node": "ShaderNodeBsdfGlass",
+            "poll_type": "is_not_world"
           }
         ]
       }

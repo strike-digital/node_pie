@@ -3,15 +3,13 @@
   "additions": {
     "categories": {
       "TEXTURE": {
-        "nodes": [
-          { "identifier": "ShaderNodeTexGabor", "before_node": "ShaderNodeTexGradient" }
-        ]
+        "nodes": [{ "identifier": "ShaderNodeTexGabor", "before_node": "ShaderNodeTexGradient" }]
       },
       "SHADER": {
         "nodes": [
-          { "identifier": "ShaderNodeBsdfSheen", "before_node": "ShaderNodeSubsurfaceScattering" },
-          { "identifier": "ShaderNodeBsdfMetallic", "before_node": "ShaderNodeMixShader" },
-          { "identifier": "ShaderNodeBsdfRayPortal", "after_node": "ShaderNodeBsdfHairPrincipled" },
+          { "identifier": "ShaderNodeBsdfSheen", "before_node": "ShaderNodeSubsurfaceScattering", "poll_type": "is_not_world"  },
+          { "identifier": "ShaderNodeBsdfMetallic", "before_node": "ShaderNodeMixShader", "poll_type": "is_not_world"  },
+          { "identifier": "ShaderNodeBsdfRayPortal", "after_node": "ShaderNodeBsdfHairPrincipled", "poll_type": "is_not_world"  }
         ]
       }
     }
