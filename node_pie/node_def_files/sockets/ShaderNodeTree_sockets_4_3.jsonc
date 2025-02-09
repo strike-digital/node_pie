@@ -1,0 +1,100 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    4,
+    3
+  ],
+  "nodes": {
+    "ShaderNodeBackground": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeUVAlongStroke": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeBsdfMetallic": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeVolumePrincipled": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketFloatColorTemperature"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfSheen": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfRayPortal": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeTexGabor": {
+      "inputs": [
+        "NodeSocketVectorDirection",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloat",
+        "NodeSocketFloatAngle",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeGamma": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "ShaderNodeBlackbody": {
+      "inputs": [
+        "NodeSocketFloatColorTemperature"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    }
+  }
+}
