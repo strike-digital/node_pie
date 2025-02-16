@@ -29,6 +29,8 @@ npie_btypes.configure("node_pie", auto_register=True)
 
 
 def register():
+    if bpy.app.background:
+        return 
     npie_btypes.register()
 
 
