@@ -1,5 +1,3 @@
-
-
 if __name__ == "__main__":
     import requests
     import subprocess
@@ -229,6 +227,8 @@ if __name__ == "__main__":
             )
             release.upload_asset(str(out_path))
             webbrowser.open(release.html_url)
+            webbrowser.open(out_path.parent)
+            webbrowser.open("https://extensions.blender.org/add-ons/nodepie/manage/versions/new/")
             print("FINISHED!")
 
         else:

@@ -132,7 +132,7 @@
         { "identifier": "GeometryNodeSubdivideCurve" },
         { "identifier": "GeometryNodeTrimCurve" },
         { "separator": true, "label": "Read" },
-        { "identifier": "GeometryNodeCurveLength", "color": "input" },
+        { "identifier": "GeometryNodeCurveLength", "color": "geometry" },
         {
           "identifier": "GeometryNodeInputCurveHandlePositions",
           "color": "input"

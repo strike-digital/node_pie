@@ -12,11 +12,11 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name": "Node Pie 1.2.38",
+    "name": "Node Pie 1.2.39",
     "author": "Andrew Stevenson",
     "description": "Add nodes quickly with a pie menu",
     "blender": (4, 2, 0),
-    "version": (1, 2, 38),
+    "version": (1, 2, 39),
     "location": "Node editor > Shortcut",
     "doc_url": "https://github.com/strike-digital/node_pie/wiki",
     "tracker_url": "https://github.com/strike-digital/node_pie/issues",
