@@ -23,7 +23,9 @@ It also works in all Blender Node editors, and even in custom node editors creat
 <img src="images/Node Pie serpens.jpg" width=450>
 
 # Installation
-You can install Node Pie by downloading this repostory as a zip file, and then installing it like any other addon.
+For automatic updates, install the addon from the Blender extensions platform, either from within Blender or from the website (Only for Blender 4.2 and above): https://extensions.blender.org/add-ons/nodepie/
+
+You can install also download the latest release here: https://github.com/strike-digital/node_pie/releases/latest
 
 <!-- todo -->
 <!-- Redo layout -->
