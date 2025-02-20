@@ -11,6 +11,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 import bpy
+import sys
+if bpy.app.background:
+    sys.exit(0)
 
 bl_info = {
     "name": "Node Pie 1.2.40",
@@ -30,8 +33,6 @@ npie_btypes.configure("node_pie", auto_register=True)
 
 
 def register():
-    if bpy.app.background:
-        return 
     npie_btypes.register()
 
 
