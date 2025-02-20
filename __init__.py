@@ -13,7 +13,6 @@
 import bpy
 import sys
 if bpy.app.background:
-    print(f"'{__name__}' skipped in background mode.")
     sys.exit(0)
 
 bl_info = {
