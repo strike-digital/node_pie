@@ -24,16 +24,17 @@ bl_info = {
     "category": "Node",
 }
 
-from .node_pie import npie_btypes
 
-npie_btypes.configure("node_pie", auto_register=True)
+if not bpy.app.background:
+    from .node_pie import npie_btypes
 
+    npie_btypes.configure("node_pie", auto_register=True)
 
-def register():
-    if bpy.app.background:
-        return 
-    npie_btypes.register()
+    def register():
+        npie_btypes.register()
 
+    def unregister():
+        npie_btypes.unregister()
 
-def unregister():
-    npie_btypes.unregister()
+else:
+    register = unregister = lambda: None
