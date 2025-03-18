@@ -271,6 +271,8 @@ class NPIE_MT_node_pie(Menu):
     def draw_menu(self, context: Context):
         layout: UILayout = self.layout
 
+        # Add a search button for each letter of the alphabet.
+        # This simulates type to search present in other menus.
         col = layout.column(align=True)
         col.scale_y = 0.00001
         for letter in list(ascii_uppercase):
