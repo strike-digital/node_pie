@@ -1,0 +1,26 @@
+// This is a versioning file that only specifies the new nodes in 4.4, compared to the previous version.
+// Lots of misc nodes added, plus a new zone.
+{
+  "blender_version": [4, 4, 0],
+  "removals": {"layout": {
+    "right": [["GIZMO"]]
+  }},
+  "additions": {
+    "layout": {
+      "left": [[], ["GIZMO"]]
+    },
+    "categories": {
+      "INPUT": {
+        "nodes": [
+          { "identifier": "GeometryNodeInputObject", "after_node": "GeometryNodeInputMaterial" },
+          { "identifier": "GeometryNodeInputCollection", "before_node": "FunctionNodeInputColor" }
+        ]
+      },
+      "TEXT": {
+        "nodes": [
+          { "identifier": "FunctionNodeFindInString", "before_node": "GeometryNodeStringJoin" }
+        ]
+      }
+    }
+  }
+}
