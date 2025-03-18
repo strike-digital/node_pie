@@ -2,6 +2,7 @@ import json
 import random
 import traceback
 from collections import OrderedDict
+from string import ascii_uppercase
 
 import bpy
 import nodeitems_utils
@@ -268,7 +269,14 @@ class NPIE_MT_node_pie(Menu):
                     print(line)
 
     def draw_menu(self, context: Context):
-        layout = self.layout
+        layout: UILayout = self.layout
+
+        col = layout.column(align=True)
+        col.scale_y = 0.00001
+        for letter in list(ascii_uppercase):
+            op = col.operator("wm.search_single_menu", text=letter)
+            op.menu_idname = "NODE_MT_add"
+            op.initial_query = letter
 
         pie = layout.menu_pie()
         prefs = get_prefs(context)
@@ -518,20 +526,21 @@ class NPIE_MT_node_pie(Menu):
 
         if has_node_file:
 
-            def draw_area(area: list, layout=None):
+            def draw_area(area: list, layout=None, add_search_dummies: bool = False):
                 if layout:
                     row = layout.row()
                 else:
                     row = pie.row()
                 if not area:
                     return row.column()
+
                 for col in area:
                     column = row.column()
                     for cat in col:
                         draw_category(column, categories[cat])
                 return column
 
-            draw_area(cat_layout["left"])
+            draw_area(cat_layout["left"], add_search_dummies=True)
             draw_area(cat_layout["right"])
             col = pie.column()
             if tree_type in {"GeometryNodeTree", "ShaderNodeTree", "CompositorNodeTree"}:
