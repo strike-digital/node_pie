@@ -7,13 +7,13 @@ out vec4 fragColor;
 
 void main() {
 
-    vec4 color = color;
+    vec4 main_color = color;
     // Gradient going from 0 at edges to 1 in middle
-    color.a *= 1 - abs(frag_uvs.y - .5f) * 2;
+    main_color.a *= 1 - abs(frag_uvs.y - .5f) * 2;
     // Antialias
-    color.a = color.a / fwidth(color.a);
+    main_color.a = main_color.a / fwidth(main_color.a);
 
     // color = vec4(color.a, color.a, color.a, 1);
-    fragColor = color;
+    fragColor = main_color;
     // fragColor = blender_srgb_to_framebuffer_space(color);
 }
