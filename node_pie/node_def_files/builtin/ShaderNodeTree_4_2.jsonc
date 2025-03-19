@@ -1,0 +1,12 @@
+{
+  "blender_version": [4, 2, 0],
+  "additions": {
+    "categories": {
+      "SHADER": {
+        "nodes": [
+          { "identifier": "ShaderNodeBsdfSheen", "before_node": "ShaderNodeSubsurfaceScattering", "poll_type": "is_not_world"  }
+        ]
+      }
+    }
+  }
+}
