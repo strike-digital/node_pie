@@ -1,9 +1,12 @@
 // This is a versioning file that only specifies the new nodes in 4.4, compared to the previous version.
-// Lots of misc nodes added, plus a new zone.
+// Tons of new nodes, including new import and grease pencil categories.
 {
   "blender_version": [4, 5, 0],
   "removals": {
-    "layout": { "left": [["LAYOUT"], ["GIZMO"]] }
+    "layout": { "left": [["LAYOUT"], ["GIZMO"]] },
+    "categories": {
+      "CURVE": { "nodes": [{ "identifier": "GeometryNodeGreasePencilToCurves" }] }
+    }
   },
   "additions": {
     "layout": { "left": [["GIZMO", "LAYOUT"], ["IMPORT"]], "bottom": [["GREASE_PENCIL"]] },
@@ -26,6 +29,7 @@
         "color": "geometry",
         "icon": "OUTLINER_OB_GREASEPENCIL",
         "nodes": [
+          { "identifier": "GeometryNodeGreasePencilToCurves" },
           { "identifier": "GeometryNodeSetGreasePencilColor" },
           { "identifier": "GeometryNodeSetGreasePencilDepth" },
           { "identifier": "GeometryNodeSetGreasePencilSoftness" }
