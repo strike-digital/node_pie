@@ -1,0 +1,65 @@
+// This is a versioning file that only specifies the new nodes in 4.4, compared to the previous version.
+// Lots of misc nodes added, plus a new zone.
+{
+  "blender_version": [4, 5, 0],
+  "removals": {
+    "layout": { "left": [["LAYOUT"], ["GIZMO"]] }
+  },
+  "additions": {
+    "layout": { "left": [["GIZMO", "LAYOUT"], ["IMPORT"]], "bottom": [["GREASE_PENCIL"]] },
+    "categories": {
+      "IMPORT": {
+        "label": "Import",
+        "color": "input",
+        "icon": "IMPORT",
+        "nodes": [
+          { "identifier": "GeometryNodeImportCSV" },
+          { "identifier": "GeometryNodeImportOBJ" },
+          { "identifier": "GeometryNodeImportPLY" },
+          { "identifier": "GeometryNodeImportSTL" },
+          { "identifier": "GeometryNodeImportText" },
+          { "identifier": "GeometryNodeImportVDB" }
+        ]
+      },
+      "GREASE_PENCIL": {
+        "label": "Grease Pencil",
+        "color": "geometry",
+        "icon": "OUTLINER_OB_GREASEPENCIL",
+        "nodes": [
+          { "identifier": "GeometryNodeSetGreasePencilColor" },
+          { "identifier": "GeometryNodeSetGreasePencilDepth" },
+          { "identifier": "GeometryNodeSetGreasePencilSoftness" }
+        ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          { "identifier": "FunctionNodeBitMath", "before_node": "FunctionNodeBooleanMath" },
+          { "identifier": "GeometryNodeFieldVariance", "after_node": "GeometryNodeFieldOnDomain" },
+          { "identifier": "GeometryNodeFieldMinAndMax", "after_node": "GeometryNodeFieldOnDomain" },
+          { "identifier": "GeometryNodeFieldAverage", "after_node": "GeometryNodeFieldOnDomain" }
+        ]
+      },
+      "INPUT": {
+        "nodes": [{ "identifier": "GeometryNodeCameraInfo", "before_node": "GeometryNodeCollectionInfo" }]
+      },
+      "TEXT": {
+        "nodes": [
+          { "identifier": "FunctionNodeMatchString", "before_node": "FunctionNodeStringLength" },
+          { "identifier": "FunctionNodeFormatString", "after_node": "FunctionNodeFindInString" }
+        ]
+      },
+      "INSTANCE": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeInputInstanceBounds",
+            "before_node": "GeometryNodeInputInstanceRotation",
+            "color": "input"
+          }
+        ]
+      },
+      "MESH": {
+        "nodes": [{ "identifier": "GeometryNodeSetMeshNormal", "before_node": "GeometryNodeSetShadeSmooth" }]
+      }
+    }
+  }
+}
