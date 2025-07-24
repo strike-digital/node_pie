@@ -159,7 +159,7 @@ all_variants_menus: list[Menu] = []
 
 
 def unregister_variants_menus():
-    """Unregister all currently registered vairants menus.
+    """Unregister all currently registered variants menus.
     Necessary to avoid errors being printed when the same menu is re-registered."""
     for menu in all_variants_menus:
         try:

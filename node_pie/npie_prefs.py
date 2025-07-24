@@ -58,7 +58,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
     npie_color_size: FloatProperty(
         name="Color bar size",
         default=0.02,
-        description="Having this value too low can cause the colors to disapear.",
+        description="Having this value too low can cause the colors to disappear.",
         subtype="FACTOR",
         min=0,
         max=1,
@@ -140,7 +140,6 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         # layout = draw_enabled_button(layout, self, "node_pie_enabled")
         prefs = get_prefs(context)
         layout = layout.grid_flow(row_major=True, even_columns=True)
-        # layout.label(text="hahah")
         fac = 0.515
 
         col = draw_section(layout, "General")
