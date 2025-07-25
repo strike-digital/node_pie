@@ -249,7 +249,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         with open(f, "r") as file:
             fdata = json.load(file, cls=JSONWithCommentsDecoder)
 
-            # REMOVE
+            # TODO: REMOVE
             if fdata.get("apply_after", False):
                 return [9, 9, 9]
 
@@ -280,10 +280,13 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("enable", True):
             continue
 
-        if new_data.get("reset_layout", False):
-            # TODO: Remove!
-            print("resetting")
+        # check for resetting
+        # Happens if there is a major change to nodes in an update
+        reset_all = new_data.get("reset_all", False)
+        if new_data.get("reset_layout", False) or reset_all:
             data["layout"] = {"left": [], "right": [], "top": [], "bottom": []}
+        if reset_all:
+            data["categories"] = {}
 
         merge_configs(data, new_data.get("additions", {}), new_data.get("removals", {}))
 

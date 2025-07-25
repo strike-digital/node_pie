@@ -22,6 +22,9 @@ EXCLUDED_NODES = {
     "ShaderNodeOutputWorld",
     "ShaderNodeGroup",
     "CompositorNodeGroup",
+    "CompositorNode",
+    "ShaderNode",
+    "GeometryNode",
 }
 
 
@@ -47,21 +50,34 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
             bpy_type = getattr(bpy.types, bpy_type)
             if not isclass(bpy_type) or not issubclass(bpy_type, bpy.types.Node):
                 continue
-            if bpy_type.bl_rna.identifier in EXCLUDED_NODES:
+            identifier = bpy_type.bl_rna.identifier
+            if identifier in EXCLUDED_NODES:
+                continue
+            if "legacy" in bpy_type.bl_rna.name.lower():
+                if identifier in nodes:
+                    print("LEGACY: ", identifier)
                 continue
             try:
-                node = node_tree.nodes.new(bpy_type.bl_rna.identifier)
+                node = node_tree.nodes.new(identifier)
             except RuntimeError:
                 continue
             node_tree.nodes.remove(node)
-            bpy_nodes.add(bpy_type.bl_rna.identifier)
+            bpy_nodes.add(identifier)
 
         # Add missing nodes
         print("Missing nodes:")
         unused_nodes = bpy_nodes - nodes
+        unused_nodes = sorted(unused_nodes)
         position = region_to_view(context.area, self.mouse_region)
         for node_type in unused_nodes:
             node = node_tree.nodes.new(node_type)
             node.location = position
             position.x += node.width + 20
+            print(node_type)
+
+        extra_nodes = sorted(nodes - bpy_nodes)
+        if not extra_nodes:
+            return
+        print("UNUSED NODES:")
+        for node_type in extra_nodes:
             print(node_type)
