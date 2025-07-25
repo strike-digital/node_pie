@@ -72,10 +72,10 @@
       "color": "converter",
       "nodes": [
         { "identifier": "CompositorNodePremulKey" },
-        { "identifier": "CompositorNodeConvertColorSpace" },
         { "identifier": "CompositorNodeValToRGB" },
         { "identifier": "CompositorNodeCombineColor" },
         { "identifier": "CompositorNodeCombineXYZ" },
+        { "identifier": "CompositorNodeConvertColorSpace" },
         { "identifier": "CompositorNodeIDMask" },
         {
           "identifier": "CompositorNodeMath",

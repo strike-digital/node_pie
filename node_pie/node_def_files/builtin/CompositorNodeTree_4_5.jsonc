@@ -1,0 +1,129 @@
+{
+  "blender_version": [4, 5, 0],
+  // "reset_all": true,
+  "removals": {
+    "layout": {
+      "top": [["COLOR"]],
+      "right": [["OUTPUT"]]
+    },
+    "categories": {
+      "MATTE": {
+        "nodes": [{ "identifier": "CompositorNodeCryptomatte" }]
+      },
+      "INPUT": {
+        "nodes": [{ "identifier": "CompositorNodeValue" }]
+      },
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "CompositorNodeValToRGB" },
+          { "identifier": "CompositorNodeMath" },
+          { "identifier": "CompositorNodeCombineXYZ" },
+          { "identifier": "CompositorNodeSeparateXYZ" }
+        ]
+      },
+      "COLOR": {
+        "nodes": [{ "identifier": "CompositorNodeMixRGB" }, { "identifier": "CompositorNodeCurveRGB" }]
+      },
+      "VECTOR": {
+        "nodes": [{ "identifier": "CompositorNodeMapValue" }, { "identifier": "CompositorNodeCurveVec" }]
+      }
+    }
+  },
+  "additions": {
+    "layout": {"top": [["TEXTURE"]], "right": [["COLOR"], ["OUTPUT"]]},
+    "categories": {
+      "TEXTURE": {
+        "label": "Texture",
+        "color": "texture",
+        "nodes": [
+          { "identifier": "ShaderNodeTexBrick" },
+          { "identifier": "ShaderNodeTexChecker" },
+          { "identifier": "ShaderNodeTexGabor" },
+          { "identifier": "ShaderNodeTexGradient" },
+          { "identifier": "ShaderNodeTexMagic" },
+          { "identifier": "ShaderNodeTexNoise" },
+          { "identifier": "ShaderNodeTexVoronoi" },
+          { "identifier": "ShaderNodeTexWave" },
+          { "identifier": "ShaderNodeTexWhiteNoise" }
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          { "identifier": "ShaderNodeValue" },
+          { "identifier": "CompositorNodeImageCoordinates", "after_node": "CompositorNodeImage" },
+          { "identifier": "CompositorNodeImageInfo", "after_node": "CompositorNodeImageCoordinates" }
+        ]
+      },
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "ShaderNodeBlackbody", "after_node": "CompositorNodePremulKey" },
+          { "identifier": "ShaderNodeClamp", "after_node": "ShaderNodeBlackbody" },
+          { "identifier": "ShaderNodeCombineXYZ", "after_node": "CompositorNodeCombineColor" },
+          { "identifier": "ShaderNodeSeparateXYZ", "after_node": "CompositorNodeSeparateColor" },
+          { "identifier": "ShaderNodeValToRGB", "before_node": "CompositorNodeCombineColor" },
+          {"identifier": "ShaderNodeFloatCurve", "after_node": "CompositorNodeConvertColorSpace"},
+          {
+            "identifier": "ShaderNodeMath",
+            "after_node": "CompositorNodeIDMask",
+            "variants": {
+              "Negate": {
+                "operation": "MULTIPLY",
+                "show_options": false,
+                "label": "Negate",
+                "inputs[1].hide": true,
+                "inputs[1].default_value": -1
+              },
+              "One Minus": {
+                "operation": "SUBTRACT",
+                "show_options": false,
+                "label": "One Minus",
+                "inputs[0].hide": true,
+                "inputs[0].default_value": 1
+              },
+              "One Over": {
+                "operation": "DIVIDE",
+                "show_options": false,
+                "label": "One Over",
+                "inputs[0].hide": true,
+                "inputs[0].default_value": 1
+              },
+              "separator": true,
+              "Multiply": { "operation": "MULTIPLY" },
+              "Divide": { "operation": "DIVIDE" },
+              "Subtract": { "operation": "SUBTRACT" },
+              "Modulo": { "operation": "MODULO" },
+              "Absolute": { "operation": "ABSOLUTE" },
+              "Power": { "operation": "POWER" },
+              "Sine": { "operation": "SINE" },
+              "Cosine": { "operation": "COSINE" }
+            }
+          },
+          { "identifier": "ShaderNodeMapRange", "before_node": "ShaderNodeMath" },
+          {"identifier": "ShaderNodeMix", "after_node": "ShaderNodeMapRange"},
+          { "identifier": "CompositorNodeRelativeToPixel", "before_node": "CompositorNodeRGBToBW" }
+        ]
+      },
+      "COLOR": {
+        "nodes": [
+          {
+            "identifier": "ShaderNodeMix",
+            "settings": { "data_type": "RGBA" },
+            "before_node": "CompositorNodePosterize",
+            "variants": {
+              "Add": { "blend_type": "ADD" },
+              "Subtract": { "blend_type": "SUBTRACT" },
+              "Multiply": { "blend_type": "MULTIPLY" },
+              "Divide": { "blend_type": "DIVIDE" },
+              "Overlay": { "blend_type": "OVERLAY" },
+              "Linear Light": { "blend_type": "LINEAR_LIGHT" }
+            }
+          },
+          { "identifier": "ShaderNodeRGBCurve", "after_node": "CompositorNodeInvert"}
+        ]
+      },
+      "VECTOR": {
+        "nodes": [{ "identifier": "ShaderNodeVectorCurve" }, { "identifier": "ShaderNodeVectorRotate" }]
+      }
+    }
+  }
+}
