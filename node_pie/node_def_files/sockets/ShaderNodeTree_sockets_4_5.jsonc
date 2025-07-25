@@ -1,0 +1,28 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    4,
+    5
+  ],
+  "nodes": {
+    "ShaderNodeMix": {
+      "inputs": [
+        "NodeSocketVectorFactor",
+        "NodeSocketRotation",
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketRotation",
+        "NodeSocketVector",
+        "NodeSocketColor"
+      ]
+    }
+  }
+}

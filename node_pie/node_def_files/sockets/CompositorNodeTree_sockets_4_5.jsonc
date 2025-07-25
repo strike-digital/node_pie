@@ -1,0 +1,475 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    4,
+    5
+  ],
+  "nodes": {
+    "CompositorNodeBokehImage": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatAngle",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeMask": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketBool",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeTime": {
+      "inputs": [
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeTrackPos": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVectorVelocity2D"
+      ]
+    },
+    "CompositorNodeComposite": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": []
+    },
+    "CompositorNodeViewer": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": []
+    },
+    "CompositorNodeAlphaOver": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeColorBalance": {
+      "inputs": [
+        "NodeSocketFloatColorTemperature",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeColorCorrection": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeInvert": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeTonemap": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeZcombine": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeIDMask": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeSplit": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeSwitch": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeAntiAliasing": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBilateralblur": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBlur": {
+      "inputs": [
+        "NodeSocketVector2D",
+        "NodeSocketColor",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBokehBlur": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDenoise": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketVector",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDespeckle": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDilateErode": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeDBlur": {
+      "inputs": [
+        "NodeSocketVectorFactor2D",
+        "NodeSocketInt",
+        "NodeSocketFloatAngle",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeGlare": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketFloatAngle",
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeInpaint": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeKuwahara": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodePixelate": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeSunBeams": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketVectorFactor2D",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeVecBlur": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVectorVelocity4D",
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBoxMask": {
+      "inputs": [
+        "NodeSocketFloatAngle",
+        "NodeSocketVectorFactor2D",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeChannelMatte": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeChromaMatte": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketColor",
+        "NodeSocketFloatAngle"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeColorMatte": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeColorSpill": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDiffMatte": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDistanceMatte": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeEllipseMask": {
+      "inputs": [
+        "NodeSocketFloatAngle",
+        "NodeSocketVectorFactor2D",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeKeying": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeKeyingScreen": {
+      "inputs": [
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeLumaMatte": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeCornerPin": {
+      "inputs": [
+        "NodeSocketColor",
+        "NodeSocketVectorFactor2D"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeCrop": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDisplace": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketVectorTranslation2D"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeFlip": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeLensdist": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodePlaneTrackDeform": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeStabilize": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    }
+  }
+}
