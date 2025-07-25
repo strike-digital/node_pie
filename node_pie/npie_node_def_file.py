@@ -248,6 +248,11 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     def sort(f):
         with open(f, "r") as file:
             fdata = json.load(file, cls=JSONWithCommentsDecoder)
+
+            # REMOVE
+            if fdata.get("apply_after", False):
+                return [9, 9, 9]
+
             return fdata.get("blender_version", [0, 0, 0])
 
     files.sort(key=sort)
@@ -272,8 +277,13 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
         with open(file, "r") as f:
             new_data = json.load(f, cls=JSONWithCommentsDecoder)
 
-        if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version:
+        if tuple(new_data.get("blender_version", [0, 0, 0])) > bpy.app.version or not new_data.get("enable", True):
             continue
+
+        if new_data.get("reset_layout", False):
+            # TODO: Remove!
+            print("resetting")
+            data["layout"] = {"left": [], "right": [], "top": [], "bottom": []}
 
         merge_configs(data, new_data.get("additions", {}), new_data.get("removals", {}))
 

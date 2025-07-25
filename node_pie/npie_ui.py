@@ -319,6 +319,16 @@ class NPIE_MT_node_pie(Menu):
             fac = inv_lerp(counts.index(index), 0, max(len(counts) - 1, 1))
             return lerp(fac, prefs.npie_normal_size, prefs.npie_normal_size * prefs.npie_max_size)
 
+        def get_color_prop_name(color_name: str):
+            theme = context.preferences.themes[0].node_editor
+            if hasattr(theme, color_name + "_node"):
+                return color_name + "_node"
+            elif hasattr(theme, color_name + "_zone"):
+                return color_name + "_zone"
+            elif hasattr(theme, color_name):
+                return color_name
+            return color_name
+
         def draw_add_operator(
             layout: UILayout,
             text: str,
@@ -361,7 +371,7 @@ class NPIE_MT_node_pie(Menu):
             row.scale_y = scale
 
             sub = split.row(align=True)
-            sub.prop(context.preferences.themes[0].node_editor, color_name + "_node", text="")
+            sub.prop(context.preferences.themes[0].node_editor, get_color_prop_name(color_name), text="")
             sub.scale_x = 0.03
 
             # draw the button
