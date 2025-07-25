@@ -1,0 +1,12 @@
+{
+  "blender_version": [4, 5, 0],
+  "additions": {
+    "categories": {
+      "SHADER": {
+        "nodes": [
+          { "identifier": "ShaderNodeVolumeCoefficients", "after_node": "ShaderNodeVolumeAbsorption", "poll_type": "is_not_world" },
+        ]
+      }
+    }
+  }
+}
