@@ -30,7 +30,7 @@
     }
   },
   "additions": {
-    "layout": {"top": [["TEXTURE"]], "right": [["COLOR"], ["OUTPUT"]]},
+    "layout": { "top": [["TEXTURE"]], "right": [["COLOR"], ["OUTPUT"]] },
     "categories": {
       "TEXTURE": {
         "label": "Texture",
@@ -61,7 +61,7 @@
           { "identifier": "ShaderNodeCombineXYZ", "after_node": "CompositorNodeCombineColor" },
           { "identifier": "ShaderNodeSeparateXYZ", "after_node": "CompositorNodeSeparateColor" },
           { "identifier": "ShaderNodeValToRGB", "before_node": "CompositorNodeCombineColor" },
-          {"identifier": "ShaderNodeFloatCurve", "after_node": "CompositorNodeConvertColorSpace"},
+          { "identifier": "ShaderNodeFloatCurve", "after_node": "CompositorNodeConvertColorSpace" },
           {
             "identifier": "ShaderNodeMath",
             "after_node": "CompositorNodeIDMask",
@@ -99,7 +99,7 @@
             }
           },
           { "identifier": "ShaderNodeMapRange", "before_node": "ShaderNodeMath" },
-          {"identifier": "ShaderNodeMix", "after_node": "ShaderNodeMapRange"},
+          { "identifier": "ShaderNodeMix", "after_node": "ShaderNodeMath" },
           { "identifier": "CompositorNodeRelativeToPixel", "before_node": "CompositorNodeRGBToBW" }
         ]
       },
@@ -118,11 +118,15 @@
               "Linear Light": { "blend_type": "LINEAR_LIGHT" }
             }
           },
-          { "identifier": "ShaderNodeRGBCurve", "after_node": "CompositorNodeInvert"}
+          { "identifier": "ShaderNodeRGBCurve", "after_node": "CompositorNodeInvert" }
         ]
       },
       "VECTOR": {
-        "nodes": [{ "identifier": "ShaderNodeVectorCurve" }, {"identifier": "ShaderNodeVectorMath"}, { "identifier": "ShaderNodeVectorRotate" }]
+        "nodes": [
+          { "identifier": "ShaderNodeVectorCurve" },
+          { "identifier": "ShaderNodeVectorMath" },
+          { "identifier": "ShaderNodeVectorRotate" }
+        ]
       }
     }
   }
