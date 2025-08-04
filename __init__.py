@@ -13,11 +13,11 @@
 import bpy
 
 bl_info = {
-    "name": "Node Pie 1.2.45",
+    "name": "Node Pie 1.2.46",
     "author": "Andrew Stevenson",
     "description": "Add nodes quickly with a pie menu",
     "blender": (4, 2, 0),
-    "version": (1, 2, 45),
+    "version": (1, 2, 46),
     "location": "Node editor > Shortcut",
     "doc_url": "https://github.com/strike-digital/node_pie/wiki",
     "tracker_url": "https://github.com/strike-digital/node_pie/issues",
