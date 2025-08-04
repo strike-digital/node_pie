@@ -3,13 +3,30 @@
 {
   "blender_version": [4, 5, 0],
   "removals": {
-    "layout": { "left": [["LAYOUT"], ["GIZMO"]] },
+    // "layout": { "left": [["LAYOUT"], ["GIZMO"]] },
     "categories": {
       "CURVE": { "nodes": [{ "identifier": "GeometryNodeGreasePencilToCurves" }] }
     }
   },
+  "reset_layout": true,
   "additions": {
-    "layout": { "left": [["GIZMO", "LAYOUT"], ["IMPORT"]], "bottom": [["GREASE_PENCIL"]] },
+    // Re-create layout from scratch to allow for 4 columns per side instead of 3
+    "layout": {
+      "top": [["ATTRIBUTE"]],
+      "left": [
+        ["INSTANCE", "MATERIAL", "POINT", "GREASE_PENCIL", "VOLUME"],
+        ["CURVE"],
+        ["MESH"],
+        ["UV", "UTILITIES", "MATRIX"]
+      ],
+      "right": [
+        ["INPUT", "COLOR"],
+        ["GEOMETRY", "TEXTURE"],
+        ["PRIMITIVES_MESH", "TEXT", "ROTATION"],
+        ["PRIMITIVES_CURVE", "IMPORT", "ZONE", "GIZMO", "LAYOUT"]
+      ],
+      "bottom": [["VECTOR"]]
+    },
     "categories": {
       "IMPORT": {
         "label": "Import",
