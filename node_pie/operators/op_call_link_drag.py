@@ -7,7 +7,7 @@ from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
 
 from ..npie_btypes import BOperator
-from ..npie_constants import IS_4_0
+from ..npie_constants import IS_4_0, IS_4_5
 from ..npie_drawing import draw_line
 from ..npie_helpers import Rectangle, get_node_location, get_prefs
 from ..npie_ui import NPIE_MT_node_pie
@@ -48,7 +48,10 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     bboxes = {}
 
     # inputs
-    inputs = [i for i in node.inputs if not i.hide and i.enabled]
+    if IS_4_5:
+        inputs = [i for i in node.inputs if i.is_icon_visible]
+    else:
+        inputs = [i for i in node.inputs if not i.hide and i.enabled]
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
     min_offset = V((18, 11)) * dpifac()
     max_offset_x = node.width * dpifac()
