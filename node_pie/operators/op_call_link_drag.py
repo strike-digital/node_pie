@@ -1,11 +1,14 @@
+from itertools import chain
+
 import bpy
 import gpu
 from bpy.props import BoolProperty, IntProperty
 from bpy.types import Area, Context, Event, Node, NodeSocket
+from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
 
-from ..bl_types import get_socket_location
+from ..bl_types import get_socket_location_ctypes
 from ..npie_btypes import BOperator
 from ..npie_constants import IS_4_0, IS_4_5
 from ..npie_drawing import draw_line
@@ -34,22 +37,102 @@ def dpifac():
     return prefs.dpi * prefs.pixel_size / 72
 
 
-def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket, Rectangle]]:
-    """Get the bounding boxes of all inputs and outputs for the given node.
-    There is no built in way to do this so it's mostly arbitrary numbers that look about right.
-    This doesn't account for nodes with panels, as they are not currently accessible with the api"""
-    if not node:
-        return
+# def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket, Rectangle]]:
+#     """Get the bounding boxes of all inputs and outputs for the given node.
+#     There is no built in way to do this so it's mostly arbitrary numbers that look about right.
+#     This doesn't account for nodes with panels, as they are not currently accessible with the api"""
+#     if not node:
+#         return
 
-    not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
-    exclude_nodes = {"ShaderNodeBsdfPrincipled", "FunctionNodeCombineMatrix"}
+#     not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
+#     exclude_nodes = {"ShaderNodeBsdfPrincipled", "FunctionNodeCombineMatrix"}
 
-    if node.bl_idname in exclude_nodes:
+#     if node.bl_idname in exclude_nodes:
+#         return ({}, {})
+
+#     location = get_node_location(node)
+#     positions = {}
+#     bboxes = {}
+
+#     # inputs
+#     if IS_4_5:
+#         inputs = [i for i in node.inputs if i.is_icon_visible]
+#     else:
+#         inputs = [i for i in node.inputs if not i.hide and i.enabled]
+#     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
+#     min_offset = V((18, 11)) * dpifac()
+#     max_offset_x = node.width * dpifac()
+
+#     if node.type == "REROUTE":
+#         pos = location * dpifac()
+#         positions[node.outputs[0]] = pos
+#         size = V((20, 20))
+#         bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
+#         return positions, bboxes
+
+#     for i, input in enumerate(list(inputs)[::-1]):
+#         pos = bottom.copy()
+#         min_offset_y = 0
+#         if i == 0:
+#             pos.y -= 5
+#         if (
+#             input.type in {"VECTOR", "ROTATION"}
+#             and not input.hide_value
+#             and not input.is_linked
+#             and input.name not in not_vectors
+#         ):
+#             pos.y += 82
+#             min_offset_y = 65
+#         else:
+#             pos.y += get_prefs(bpy.context).npie_socket_separation
+#         bottom = pos
+#         pos = pos * dpifac()
+#         positions[input] = pos
+
+#         min_co = pos - V((min_offset.x, min_offset.y + min_offset_y))
+#         max_co = pos + V((max_offset_x, min_offset.y))
+#         bboxes[input] = Rectangle(min_co, max_co)
+
+#     # Outputs
+#     top = V((location.x + node.width, location.y))
+#     outputs = [o for o in node.outputs if not o.hide and o.enabled]
+
+#     for i, output in enumerate(list(outputs)[::]):
+#         pos = top.copy()
+#         if i == 0:
+#             pos.y -= 35
+#         else:
+#             pos.y -= 22
+#         top = pos
+#         pos = pos * dpifac()
+#         positions[output] = pos
+
+#         min_co = pos - V((max_offset_x, min_offset.y))
+#         max_co = pos + V((min_offset.x, min_offset.y))
+#         bboxes[output] = Rectangle(min_co, max_co)
+#     return positions, bboxes
+
+NOT_VECTOR_SOCKETS = {"Subsurface Radius"}  # Who decided to make this one socket different smh
+EXClUDED_NODES = {"ShaderNodeBsdfPrincipled", "FunctionNodeCombineMatrix"}  # Node panels mess these up
+
+
+def get_socket_positions(node: Node) -> dict[NodeSocket, V]:
+    positions = {}
+
+    # Use ctypes to get the internal location of the node socket.
+    # PROBABLY NOT A GOOD IDEA!
+    if IS_4_5:
+        for socket in chain(node.inputs, node.outputs):
+            if not socket.is_icon_visible:
+                continue
+            positions[socket] = get_socket_location_ctypes(socket)
+        return positions
+
+    if node.bl_idname in EXClUDED_NODES:
         return ({}, {})
 
     location = get_node_location(node)
     positions = {}
-    bboxes = {}
 
     # inputs
     if IS_4_5:
@@ -57,38 +140,28 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     else:
         inputs = [i for i in node.inputs if not i.hide and i.enabled]
     bottom = V((location.x, location.y - node.dimensions.y / dpifac()))
-    min_offset = V((18, 11)) * dpifac()
-    max_offset_x = node.width * dpifac()
 
     if node.type == "REROUTE":
         pos = location * dpifac()
         positions[node.outputs[0]] = pos
-        size = V((20, 20))
-        bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
-        return positions, bboxes
+        return positions
 
     for i, input in enumerate(list(inputs)[::-1]):
         pos = bottom.copy()
-        min_offset_y = 0
         if i == 0:
             pos.y -= 5
         if (
             input.type in {"VECTOR", "ROTATION"}
             and not input.hide_value
             and not input.is_linked
-            and input.name not in not_vectors
+            and input.name not in NOT_VECTOR_SOCKETS
         ):
             pos.y += 82
-            min_offset_y = 65
         else:
             pos.y += get_prefs(bpy.context).npie_socket_separation
         bottom = pos
-        positions[input] = pos * dpifac()
         pos = pos * dpifac()
-
-        min_co = pos - V((min_offset.x, min_offset.y + min_offset_y))
-        max_co = pos + V((max_offset_x, min_offset.y))
-        bboxes[input] = Rectangle(min_co, max_co)
+        positions[input] = pos
 
     # Outputs
     top = V((location.x + node.width, location.y))
@@ -101,23 +174,72 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
         else:
             pos.y -= 22
         top = pos
-        positions[output] = pos * dpifac()
         pos = pos * dpifac()
+        positions[output] = pos
+
+    return positions
+
+
+def get_socket_bboxes(positions: dict[NodeSocket, V]) -> tuple[dict[NodeSocket, V], dict[NodeSocket, Rectangle]]:
+    """Get the bounding boxes of all inputs and outputs for the given node.
+    There is no built in way to do this so it's mostly arbitrary numbers that look about right.
+    This doesn't account for nodes with panels, as they are not currently accessible with the api"""
+
+    if not positions:
+        return {}
+
+    bboxes = {}
+
+    input_positions = {socket: value for socket, value in positions.items() if not socket.is_output}
+    output_positions = {socket: value for socket, value in positions.items() if socket.is_output}
+
+    # Account for sockets that are aligned, these need a bounding box with half the width
+    paired_sockets = set()
+    for in_socket, in_pos in input_positions.items():
+        for out_socket, out_pos in output_positions.items():
+            if abs(in_pos.y - out_pos.y) < 1:
+                paired_sockets.add(in_socket)
+                paired_sockets.add(out_socket)
+
+    node = list(positions)[0].node
+    min_offset = V((18, 11)) * dpifac()
+
+    if node.type == "REROUTE":
+        pos = location * dpifac()
+        size = V((20, 20))
+        bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
+        return bboxes
+
+    for socket, pos in dict(list(input_positions.items())[::-1]).items():
+        min_offset_y = 0
+        max_offset_x = node.width * dpifac()
+        if (
+            socket.type in {"VECTOR", "ROTATION"}
+            and not socket.hide_value
+            and not socket.is_linked
+            and socket.name not in NOT_VECTOR_SOCKETS
+        ):
+            min_offset_y = 65
+
+        if socket in paired_sockets:
+            max_offset_x /= 2
+
+        min_co = pos - V((min_offset.x, min_offset.y + min_offset_y))
+        max_co = pos + V((max_offset_x, min_offset.y))
+        bboxes[socket] = Rectangle(min_co, max_co)
+
+    # Outputs
+
+    for socket, pos in output_positions.items():
+        max_offset_x = node.width * dpifac()
+        if socket in paired_sockets:
+            max_offset_x /= 2
 
         min_co = pos - V((max_offset_x, min_offset.y))
         max_co = pos + V((min_offset.x, min_offset.y))
-        bboxes[output] = Rectangle(min_co, max_co)
+        bboxes[socket] = Rectangle(min_co, max_co)
 
-    return positions, bboxes
-
-
-def get_socket_locations(node: Node) -> dict[NodeSocket, V]:
-    positions = {}
-    for socket in node.inputs:
-        if not socket.is_icon_visible:
-            continue
-        positions[socket] = get_socket_location(socket)
-    return positions
+    return bboxes
 
 
 if IS_4_0:
@@ -130,14 +252,14 @@ def draw_debug_lines():
     """Draw a circle around the sockets of the active node, and also the last location that the node pie was activated"""
     node = bpy.context.active_node
     if node:
-        positions, bboxes = get_socket_bboxes(node)
-        positions = get_socket_locations(node)
-        # for socket, bbox in bboxes.items():
-        #     batch = batch_for_shader(shader, "LINES", {"pos": bbox.as_lines()})
-        #     shader.bind()
-        #     line_colour = (1, 0, 1, 0.9)
-        #     shader.uniform_float("color", line_colour)
-        #     batch.draw(shader)
+        positions = get_socket_positions(node)
+        bboxes = get_socket_bboxes(positions)
+        for socket, bbox in bboxes.items():
+            batch = batch_for_shader(shader, "LINES", {"pos": bbox.as_lines()})
+            shader.bind()
+            line_colour = (1, 0, 1, 0.9)
+            shader.uniform_float("color", line_colour)
+            batch.draw(shader)
         for socket, pos in positions.items():
             draw_circle_2d(pos, (1, 0, 1, 1), 5 * dpifac())
     if location:
@@ -199,7 +321,8 @@ class NPIE_OT_call_link_drag(BOperator.type):
         for node in context.space_data.edit_tree.nodes:
             if node.hide:
                 continue
-            positions, bboxes = get_socket_bboxes(node)
+            positions = get_socket_positions(node)
+            bboxes = get_socket_bboxes(positions)
             for socket, bbox in bboxes.items():
                 if bbox.isinside(mouse_pos) and socket.bl_idname != "NodeSocketVirtual":
                     self.socket = socket

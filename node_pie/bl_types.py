@@ -1,8 +1,9 @@
 import ctypes
+
 from bpy.types import NodeSocket
 from mathutils import Vector as V
-from .npie_constants import IS_4_0, IS_WINDOWS
 
+from .npie_constants import IS_4_0, IS_WINDOWS
 
 # Most of this is shamelessly stolen from VoronoiLinker
 # Which seems to be the product of brilliant Schizophrenia
@@ -84,7 +85,7 @@ class BNodeSocket(StructBase):
 StructBase._init_structs()
 
 
-def get_socket_location(socket: NodeSocket) -> V:
-    return (
-        V(BNodeSocket.GetFields(socket).runtime.contents.location[:]) if socket.is_icon_visible else V((0, 0))
-    )
+def get_socket_location_ctypes(socket: NodeSocket) -> V:
+    if not socket.is_icon_visible:
+        return V((0, 0))
+    return V(BNodeSocket.GetFields(socket).runtime.contents.location[:])
