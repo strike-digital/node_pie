@@ -42,6 +42,10 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
         return
 
     not_vectors = {"Subsurface Radius"}  # Who decided to make this one socket different smh
+    exclude_nodes = {"ShaderNodeBsdfPrincipled", "FunctionNodeCombineMatrix"}
+
+    if node.bl_idname in exclude_nodes:
+        return ({}, {})
 
     location = get_node_location(node)
     positions = {}
