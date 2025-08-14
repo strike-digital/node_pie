@@ -2,10 +2,10 @@ import bpy
 import gpu
 from bpy.props import BoolProperty, IntProperty
 from bpy.types import Area, Context, Event, Node, NodeSocket
-from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
 
+from ..bl_types import get_socket_location
 from ..npie_btypes import BOperator
 from ..npie_constants import IS_4_0, IS_4_5
 from ..npie_drawing import draw_line
@@ -111,6 +111,15 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
     return positions, bboxes
 
 
+def get_socket_locations(node: Node) -> dict[NodeSocket, V]:
+    positions = {}
+    for socket in node.inputs:
+        if not socket.is_icon_visible:
+            continue
+        positions[socket] = get_socket_location(socket)
+    return positions
+
+
 if IS_4_0:
     shader: gpu.types.GPUShader = gpu.shader.from_builtin("UNIFORM_COLOR")
 else:
@@ -122,12 +131,13 @@ def draw_debug_lines():
     node = bpy.context.active_node
     if node:
         positions, bboxes = get_socket_bboxes(node)
-        for socket, bbox in bboxes.items():
-            batch = batch_for_shader(shader, "LINES", {"pos": bbox.as_lines()})
-            shader.bind()
-            line_colour = (1, 0, 1, 0.9)
-            shader.uniform_float("color", line_colour)
-            batch.draw(shader)
+        positions = get_socket_locations(node)
+        # for socket, bbox in bboxes.items():
+        #     batch = batch_for_shader(shader, "LINES", {"pos": bbox.as_lines()})
+        #     shader.bind()
+        #     line_colour = (1, 0, 1, 0.9)
+        #     shader.uniform_float("color", line_colour)
+        #     batch.draw(shader)
         for socket, pos in positions.items():
             draw_circle_2d(pos, (1, 0, 1, 1), 5 * dpifac())
     if location:
