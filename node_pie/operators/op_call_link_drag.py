@@ -129,7 +129,7 @@ def get_socket_positions(node: Node) -> dict[NodeSocket, V]:
         return positions
 
     if node.bl_idname in EXClUDED_NODES:
-        return ({}, {})
+        return {}
 
     location = get_node_location(node)
     positions = {}
