@@ -68,7 +68,12 @@ def get_socket_bboxes(node: Node) -> tuple[dict[NodeSocket, V], dict[NodeSocket,
         min_offset_y = 0
         if i == 0:
             pos.y -= 5
-        if input.type in {"VECTOR", "ROTATION"} and not input.hide_value and not input.is_linked and input.name not in not_vectors:
+        if (
+            input.type in {"VECTOR", "ROTATION"}
+            and not input.hide_value
+            and not input.is_linked
+            and input.name not in not_vectors
+        ):
             pos.y += 82
             min_offset_y = 65
         else:
