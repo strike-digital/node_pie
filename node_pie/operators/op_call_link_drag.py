@@ -118,11 +118,17 @@ EXClUDED_NODES = {"ShaderNodeBsdfPrincipled", "FunctionNodeCombineMatrix"}  # No
 
 def get_socket_positions(node: Node) -> dict[NodeSocket, V]:
     positions = {}
+    location = get_node_location(node)
 
     # Use ctypes to get the internal location of the node socket.
     # PROBABLY NOT A GOOD IDEA!
     if IS_4_5:
         for socket in chain(node.inputs, node.outputs):
+            # Had some issues with reroutes detecting incorrectly on some computers
+            # if node.type == "REROUTE":
+            #     pos = location * dpifac()
+            #     positions[node.outputs[0]] = pos
+            #     continue
             if not socket.is_icon_visible:
                 continue
             positions[socket] = get_socket_location_ctypes(socket)
@@ -131,7 +137,6 @@ def get_socket_positions(node: Node) -> dict[NodeSocket, V]:
     if node.bl_idname in EXClUDED_NODES:
         return {}
 
-    location = get_node_location(node)
     positions = {}
 
     # inputs
@@ -201,11 +206,11 @@ def get_socket_bboxes(positions: dict[NodeSocket, V]) -> tuple[dict[NodeSocket, 
                 paired_sockets.add(in_socket)
                 paired_sockets.add(out_socket)
 
-    node = list(positions)[0].node
+    node: Node = list(positions)[0].node
     min_offset = V((18, 11)) * dpifac()
 
     if node.type == "REROUTE":
-        pos = location * dpifac()
+        pos = node.location * dpifac()
         size = V((20, 20))
         bboxes[node.outputs[0]] = Rectangle(pos - size, pos + size)
         return bboxes
