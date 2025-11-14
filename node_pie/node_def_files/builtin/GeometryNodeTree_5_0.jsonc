@@ -1,0 +1,144 @@
+// This is a versioning file that only specifies the new nodes in 4.0, compared to the base file.
+// Adds the new nodes, and also replaces the simulation category with one for all zones.
+// New tool specific nodes are also added, with poll conditions so that they only show up in the correct context.
+{
+  "blender_version": [5, 0, 0],
+  "removals": {
+    "layout": {
+      // "right": [[], ["VOLUME"], ["SIMULATION"]]
+    },
+    "categories": {
+      // "SIMULATION": {}
+    }
+  },
+  "additions": {
+    "layout": {
+      // "right": [["ROTATION"], [], ["VOLUME", "ZONE"]]
+    },
+    "poll_types": {
+      "is_tool": [
+        {
+          "context_path": "space_data.node_tree_sub_type",
+          "operand": "equals",
+          "value": "TOOL"
+        }
+      ]
+    }
+    // "categories": {
+    //   "INPUT": {
+    //     "nodes": [
+    //       {
+    //         "identifier": "GeometryNodeInputEdgeSmooth",
+    //         "after_node": "GeometryNodeInputIndex"
+    //       },
+    //       {
+    //         "separator": true,
+    //         "label": "Tool",
+    //         "after_node": "bottom",
+    //         "poll_type": "is_tool"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeTool3DCursor",
+    //         "poll_type": "is_tool"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeToolFaceSet",
+    //         "poll_type": "is_tool"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeToolSelection",
+    //         "poll_type": "is_tool"
+    //       }
+    //     ]
+    //   },
+    //   "ROTATION": {
+    //     "label": "Rotation",
+    //     "color": "converter",
+    //     "icon": "CON_ROTLIKE",
+    //     "nodes": [
+    //       { "identifier": "FunctionNodeAxisAngleToRotation" },
+    //       { "identifier": "FunctionNodeEulerToRotation" },
+    //       { "identifier": "FunctionNodeInvertRotation" },
+    //       {
+    //         "identifier": "ShaderNodeMix",
+    //         "label": "Mix Rotation",
+    //         "settings": { "data_type": "ROTATION" }
+    //       },
+    //       { "identifier": "FunctionNodeQuaternionToRotation" },
+    //       { "identifier": "FunctionNodeRotateVector" },
+    //       { "identifier": "FunctionNodeRotationToAxisAngle" },
+    //       { "identifier": "FunctionNodeRotationToEuler" },
+    //       { "identifier": "FunctionNodeRotationToQuaternion" }
+    //     ]
+    //   },
+    //   "GEOMETRY": {
+    //     "nodes": [
+    //       {
+    //         "identifier": "GeometryNodeToolSetSelection",
+    //         "poll_type": "is_tool"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeToolSetFaceSet",
+    //         "before_node": "GeometryNodeSetID",
+    //         "poll_type": "is_tool"
+    //       }
+    //     ]
+    //   },
+    //   "MESH": {
+    //     "nodes": [
+    //       {
+    //         "identifier": "GeometryNodeMeshToSDFVolume",
+    //         "after_node": "GeometryNodeMeshToVolume"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeInputEdgeSmooth",
+    //         "before_node": "GeometryNodeInputMeshFaceIsPlanar",
+    //         "color": "input"
+    //       },
+    //       {
+    //         "identifier": "GeometryNodeCornersOfEdge",
+    //         "color": "input",
+    //         "before_node": "GeometryNodeCornersOfFace"
+    //       }
+    //     ]
+    //   },
+    //   "POINT": {
+    //     "nodes": [
+    //       {
+    //         "identifier": "GeometryNodePointsToSDFVolume",
+    //         "after_node": "GeometryNodePointsToVolume"
+    //       }
+    //     ]
+    //   },
+    //   "VOLUME": {
+    //     "nodes": [
+    //       { "separator": true },
+    //       { "identifier": "GeometryNodeInputSignedDistance" },
+    //       { "identifier": "GeometryNodeSampleVolume" },
+    //       { "identifier": "GeometryNodeSDFVolumeSphere" },
+    //       { "identifier": "GeometryNodeOffsetSDFVolume" },
+    //       { "identifier": "GeometryNodeMeanFilterSDFVolume" }
+    //     ]
+    //   },
+    //   "ZONE": {
+    //     "label": "Zones",
+    //     "color": "layout",
+    //     "icon": "PHYSICS",
+    //     "nodes": [
+    //       {
+    //         "label": "Simulation Zone",
+    //         "identifier": "SimulationZone",
+    //         "operator": "node.add_simulation_zone",
+    //         "settings": { "use_transform": true }
+    //       },
+    //       {
+    //         "label": "Repeat Zone",
+    //         "identifier": "RepeatZone",
+    //         "operator": "node.add_repeat_zone",
+    //         "settings": { "use_transform": true }
+    //       }
+    //     ]
+    //   }
+    // }
+  }
+}
