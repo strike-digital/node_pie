@@ -5,7 +5,7 @@
   "blender_version": [5, 0, 0],
   "removals": {
     "layout": {
-      // "right": [[], ["BUNDLE"], []]
+      "left": [["INSTANCE", "MATERIAL", "POINT", "GREASE_PENCIL", "VOLUME"], [], []]
     },
     "categories": {
       "ZONE": {}
@@ -13,7 +13,8 @@
   },
   "additions": {
     "layout": {
-      "right": [[], ["BUNDLE"], []]
+      "left": [["VOLUME", "INSTANCE"], ["GREASE_PENCIL"], []],
+      "right": [[], ["BUNDLE"], ["MATERIAL"], ["POINT"]]
       // "right": [["ROTATION"], [], ["VOLUME", "ZONE"]]
     },
     "poll_types": {
@@ -55,6 +56,38 @@
       },
       "VECTOR": {
         "nodes": [{ "identifier": "ShaderNodeRadialTiling", "before_node": "ShaderNodeVectorCurve" }]
+      },
+      "VOLUME": {
+        "nodes": [
+          { "identifier": "GeometryNodeDistributePointsInGrid" },
+          { "identifier": "GeometryNodeFieldToGrid" },
+          { "identifier": "GeometryNodeGetNamedGrid" },
+          { "identifier": "GeometryNodeGridAdvect" },
+          { "identifier": "GeometryNodeGridCurl" },
+          { "identifier": "GeometryNodeGridDivergence" },
+          { "identifier": "GeometryNodeGridGradient" },
+          { "identifier": "GeometryNodeGridInfo" },
+          { "identifier": "GeometryNodeGridLaplacian" },
+          { "identifier": "GeometryNodeGridPrune" },
+          { "identifier": "GeometryNodeGridToMesh" },
+          { "identifier": "GeometryNodeGridVoxelize" },
+          { "identifier": "GeometryNodeInputVoxelIndex" },
+          { "identifier": "GeometryNodeMeshToDensityGrid" },
+          { "identifier": "GeometryNodeMeshToSDFGrid" },
+          { "identifier": "GeometryNodePointsToSDFGrid" },
+          { "identifier": "GeometryNodeSDFGridBoolean" },
+          { "identifier": "GeometryNodeSDFGridFillet" },
+          { "identifier": "GeometryNodeSDFGridLaplacian" },
+          { "identifier": "GeometryNodeSDFGridMean" },
+          { "identifier": "GeometryNodeSDFGridMeanCurvature" },
+          { "identifier": "GeometryNodeSDFGridMedian" },
+          { "identifier": "GeometryNodeSDFGridOffset" },
+          { "identifier": "GeometryNodeSampleGrid" },
+          { "identifier": "GeometryNodeSampleGridIndex" },
+          { "identifier": "GeometryNodeSetGridBackground" },
+          { "identifier": "GeometryNodeSetGridTransform" },
+          { "identifier": "GeometryNodeStoreNamedGrid" }
+        ]
       },
       "ZONE": {
         "label": "Zones",
