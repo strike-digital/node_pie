@@ -3,7 +3,7 @@ from itertools import chain
 import bpy
 import gpu
 from bpy.props import BoolProperty, IntProperty
-from bpy.types import Area, Context, Event, Node, NodeSocket
+from bpy.types import Area, Context, Event, Node, NodeSocket, Region
 from gpu_extras.batch import batch_for_shader
 from gpu_extras.presets import draw_circle_2d
 from mathutils import Vector as V
@@ -19,15 +19,25 @@ location = None
 hitbox_size = 10  # The radius in which to register a socket click
 
 
+def get_window_region(area: Area) -> Region:
+    """Get the main region of an area. This is needed as the index is not stable between blender versions."""
+    for region in area.regions:
+        if region.type == "WINDOW":
+            break
+    else:
+        raise ValueError(f"No region of correct type (WINDOW) available in {[r.type for r in area.regions]}")
+    return region
+
+
 def view_to_region(area: Area, coords: V) -> V:
     """Convert 2d editor to screen space coordinates"""
-    coords = area.regions[3].view2d.view_to_region(coords[0], coords[1], clip=False)
+    coords = get_window_region(area).view2d.view_to_region(coords[0], coords[1], clip=False)
     return V(coords)
 
 
 def region_to_view(area: Area, coords: V) -> V:
     """Convert screen space to 2d editor coordinates"""
-    coords = area.regions[3].view2d.region_to_view(coords[0], coords[1])
+    coords = get_window_region(area).view2d.region_to_view(coords[0], coords[1])
     return V(coords)
 
 
