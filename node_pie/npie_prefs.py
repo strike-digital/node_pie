@@ -1,9 +1,9 @@
 import bpy
 from bpy.props import BoolProperty, FloatProperty
 from bpy.types import KeyMap, KeyMapItem, UILayout
-from .npie_btypes import BRegister
 
 from .. import __package__ as base_package
+from .npie_btypes import BRegister
 from .npie_helpers import get_prefs
 from .npie_keymap import get_keymap, get_operator_keymap_items
 from .npie_ui import draw_inline_prop, draw_section
@@ -72,7 +72,7 @@ class NodePiePrefs(bpy.types.AddonPreferences):
 
     npie_separator_headings: BoolProperty(
         name="Subcategory labels",
-        default=True,
+        default=False,
         description="Draw the headings of subcategories or just a gap",
     )
 

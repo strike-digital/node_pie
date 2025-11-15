@@ -59,19 +59,16 @@
       },
       "VOLUME": {
         "nodes": [
+          { "identifier": "GeometryNodeGridAdvect" },
           { "identifier": "GeometryNodeDistributePointsInGrid" },
           { "identifier": "GeometryNodeFieldToGrid" },
           { "identifier": "GeometryNodeGetNamedGrid" },
-          { "identifier": "GeometryNodeGridAdvect" },
           { "identifier": "GeometryNodeGridCurl" },
           { "identifier": "GeometryNodeGridDivergence" },
           { "identifier": "GeometryNodeGridGradient" },
-          { "identifier": "GeometryNodeGridInfo" },
           { "identifier": "GeometryNodeGridLaplacian" },
           { "identifier": "GeometryNodeGridPrune" },
           { "identifier": "GeometryNodeGridToMesh" },
-          { "identifier": "GeometryNodeGridVoxelize" },
-          { "identifier": "GeometryNodeInputVoxelIndex" },
           { "identifier": "GeometryNodeMeshToDensityGrid" },
           { "identifier": "GeometryNodeMeshToSDFGrid" },
           { "identifier": "GeometryNodePointsToSDFGrid" },
@@ -86,7 +83,11 @@
           { "identifier": "GeometryNodeSampleGridIndex" },
           { "identifier": "GeometryNodeSetGridBackground" },
           { "identifier": "GeometryNodeSetGridTransform" },
-          { "identifier": "GeometryNodeStoreNamedGrid" }
+          { "identifier": "GeometryNodeStoreNamedGrid" },
+          { "identifier": "GeometryNodeGridVoxelize" },
+          { "separator": true },
+          { "identifier": "GeometryNodeGridInfo", "color": "input" },
+          { "identifier": "GeometryNodeInputVoxelIndex", "color": "input" }
         ]
       },
       "ZONE": {
