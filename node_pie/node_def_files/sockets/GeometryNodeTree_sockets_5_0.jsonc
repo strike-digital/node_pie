@@ -1,0 +1,229 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    5,
+    0
+  ],
+  "nodes": {
+    "GeometryNodeRemoveAttribute": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeFillCurve": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeFilletCurve": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketBool",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeResampleCurve": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketBool",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeSetCurveNormal": {
+      "inputs": [
+        "NodeSocketVectorXYZ",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeBake": {
+      "inputs": [
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketVirtual"
+      ]
+    },
+    "GeometryNodeMergeByDistance": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketFloatDistance",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeTransform": {
+      "inputs": [
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketVectorXYZ",
+        "NodeSocketVectorTranslation",
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeRaycast": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketColor",
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketFloat",
+        "NodeSocketInt",
+        "NodeSocketBool",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketInt",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ]
+    },
+    "GeometryNodeMeshToVolume": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketFloatDistance",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeScaleElements": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketVectorTranslation"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeSubdivisionSurface": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeTriangulate": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodeDistributePointsInVolume": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketFloat",
+        "NodeSocketGeometry",
+        "NodeSocketInt",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "GeometryNodePointsToVolume": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketFloatDistance",
+        "NodeSocketMenu",
+        "NodeSocketGeometry"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    },
+    "FunctionNodeMatchString": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu"
+      ],
+      "outputs": [
+        "NodeSocketBool"
+      ]
+    },
+    "GeometryNodeUVPackIslands": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketVector",
+        "NodeSocketMenu",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "GeometryNodeUVUnwrap": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "GeometryNodeVolumeToMesh": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketMenu",
+        "NodeSocketFloat",
+        "NodeSocketGeometry",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": [
+        "NodeSocketGeometry"
+      ]
+    }
+  }
+}

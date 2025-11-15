@@ -303,7 +303,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
             print(f"NodePie: Couldn't get type '{t}', error: '{e}'")
             continue
         types.add(t)
-        
+
     types = {getattr(bpy.types, t) for t in dir(bpy.types)}
     for t in types:
         if isclass(t) and issubclass(t, bpy.types.Node):

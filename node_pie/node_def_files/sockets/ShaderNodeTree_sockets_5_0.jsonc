@@ -1,0 +1,46 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    5,
+    0
+  ],
+  "nodes": {
+    "ShaderNodeBsdfGlass": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatWavelength",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBsdfMetallic": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatWavelength",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeVolumeCoefficients": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketVector",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "blender_version": [5, 0, 0],
+  "removals": {
+    "nodes": ["ShaderNodeTexPointDensity"]
+  }
+  // "additions": {
+  //   "categories": {
+  //     "SHADER": {
+  //       "nodes": [
+  //         {
+  //           "identifier": "ShaderNodeVolumeCoefficients",
+  //           "after_node": "ShaderNodeVolumeAbsorption",
+  //           "poll_type": "is_not_world"
+  //         }
+  //       ]
+  //     }
+  //   }
+  // }
+}
