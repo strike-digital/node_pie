@@ -9,7 +9,7 @@ import nodeitems_utils
 from bpy.types import Context, Menu, NodeSocket, UILayout
 
 from .npie_btypes import BMenu
-from .npie_constants import IS_4_0, POPULARITY_FILE
+from .npie_constants import IS_4_0, IS_5_0, POPULARITY_FILE
 from .npie_helpers import get_prefs, inv_lerp, lerp
 from .npie_node_def_file import (
     NodeCategory,
@@ -321,6 +321,8 @@ class NPIE_MT_node_pie(Menu):
 
         def get_color_prop_name(color_name: str):
             theme = context.preferences.themes[0].node_editor
+            if IS_5_0 and color_name == "layout":
+                color_name = "frame"
             if hasattr(theme, color_name + "_node"):
                 return color_name + "_node"
             elif hasattr(theme, color_name + "_zone"):

@@ -5,6 +5,7 @@ import bpy
 
 IS_4_0 = bpy.app.version >= (4, 0, 0)
 IS_4_5 = bpy.app.version >= (4, 5, 0)
+IS_5_0 = bpy.app.version >= (5, 0, 0)
 IS_MACOS = platform.system() == "Darwin"
 IS_WINDOWS = platform.system() == "Windows"
 
