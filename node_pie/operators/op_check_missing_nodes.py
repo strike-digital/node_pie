@@ -28,6 +28,7 @@ EXCLUDED_NODES = {
     "ShaderNodeGroup",
     "CompositorNodeGroup",
     "CompositorNode",
+    "CompositorNodeCurveRGB",
     "ShaderNode",
     "GeometryNode",
 }

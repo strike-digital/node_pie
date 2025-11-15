@@ -1,19 +1,33 @@
 {
   "blender_version": [5, 0, 0],
   "removals": {
-    "nodes": ["CompositorNodeTexture", "CompositorNodeComposite", "CompositorNodeSunBeams", "CompositorNodeMapRange", "CompositorNodeGamma"]
+    "nodes": [
+      "CompositorNodeTexture",
+      "CompositorNodeComposite",
+      "CompositorNodeSunBeams",
+      "CompositorNodeMapRange",
+      "CompositorNodeGamma"
+    ]
+  },
+  "additions": {
+    "categories": {
+      "COLOR": {
+        "nodes": [
+          { "identifier": "ShaderNodeGamma", "before_node": "CompositorNodeHueCorrect"}
+        ]
+      },
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "CompositorNodeConvertToDisplay", "after_node": "CompositorNodeConvertColorSpace" },
+          { "identifier": "GeometryNodeMenuSwitch", "before_node": "ShaderNodeMix" }
+        ]
+      },
+      "FILTER": {
+        "nodes": [{ "identifier": "CompositorNodeConvolve", "before_node": "CompositorNodeDefocus" }]
+      },
+      "LAYOUT": {
+        "nodes": [{ "identifier": "NodeEnableOutput", "before_node": "NodeFrame" }]
+      }
+    }
   }
-  // "additions": {
-  //   "categories": {
-  //     "SHADER": {
-  //       "nodes": [
-  //         {
-  //           "identifier": "ShaderNodeVolumeCoefficients",
-  //           "after_node": "ShaderNodeVolumeAbsorption",
-  //           "poll_type": "is_not_world"
-  //         }
-  //       ]
-  //     }
-  //   }
-  // }
 }
