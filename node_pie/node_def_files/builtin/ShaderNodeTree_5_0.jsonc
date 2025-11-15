@@ -1,19 +1,58 @@
 {
   "blender_version": [5, 0, 0],
   "removals": {
+    "layout": {"left": [["LAYOUT"]]},
     "nodes": ["ShaderNodeTexPointDensity"]
+  },
+  "additions": {
+    "layout": {
+      "left": [["ZONE", "LAYOUT"]]
+    },
+    "categories": {
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "NodeCombineBundle", "before_node": "ShaderNodeCombineColor"},
+          { "identifier": "NodeSeparateBundle", "after_node": "NodeCombineBundle"},
+          {
+            "identifier": "GeometryNodeMenuSwitch",
+            "after_node": "ShaderNodeMath"
+          },
+        ]
+      },
+      "VECTOR": {
+        "nodes": [
+          { "identifier": "ShaderNodeRadialTiling", "before_node": "ShaderNodeVectorCurve"}
+        ]
+      },
+      "ZONE": {
+        "label": "Zones",
+        "color": "layout",
+        "icon": "PHYSICS",
+        "nodes": [
+          {
+            "label": "Closure",
+            "identifier": "ClosureZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "NodeClosureInput",
+              "output_node_type": "NodeClosureOutput",
+              "add_default_geometry_link": false
+            }
+          },
+          {
+            "label": "Repeat",
+            "identifier": "RepeatZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "GeometryNodeRepeatInput",
+              "output_node_type": "GeometryNodeRepeatOutput",
+              "add_default_geometry_link": false
+            }
+          }
+        ]
+      }
+    }
   }
-  // "additions": {
-  //   "categories": {
-  //     "SHADER": {
-  //       "nodes": [
-  //         {
-  //           "identifier": "ShaderNodeVolumeCoefficients",
-  //           "after_node": "ShaderNodeVolumeAbsorption",
-  //           "poll_type": "is_not_world"
-  //         }
-  //       ]
-  //     }
-  //   }
-  // }
 }

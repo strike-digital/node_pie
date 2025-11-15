@@ -217,7 +217,29 @@
         { "identifier": "ShaderNodeClamp" },
         { "identifier": "ShaderNodeValToRGB", "color": "converter" },
         { "identifier": "ShaderNodeCombineColor" },
+        { "identifier": "ShaderNodeSeparateColor" },
         { "identifier": "ShaderNodeCombineXYZ", "color": "converter" },
+        {
+          "identifier": "ShaderNodeSeparateXYZ",
+          "color": "converter",
+          "variants": {
+            "X": {
+              "outputs[1].hide": true,
+              "outputs[2].hide": true,
+              "label": "Get X"
+            },
+            "Y": {
+              "outputs[0].hide": true,
+              "outputs[2].hide": true,
+              "label": "Get Y"
+            },
+            "Z": {
+              "outputs[0].hide": true,
+              "outputs[1].hide": true,
+              "label": "Get Z"
+            }
+          }
+        },
         { "identifier": "ShaderNodeFloatCurve" },
         { "identifier": "ShaderNodeMapRange" },
         {
@@ -257,28 +279,6 @@
         },
         { "identifier": "ShaderNodeMix" },
         { "identifier": "ShaderNodeRGBToBW" },
-        { "identifier": "ShaderNodeSeparateColor" },
-        {
-          "identifier": "ShaderNodeSeparateXYZ",
-          "color": "converter",
-          "variants": {
-            "X": {
-              "outputs[1].hide": true,
-              "outputs[2].hide": true,
-              "label": "Get X"
-            },
-            "Y": {
-              "outputs[0].hide": true,
-              "outputs[2].hide": true,
-              "label": "Get Y"
-            },
-            "Z": {
-              "outputs[0].hide": true,
-              "outputs[1].hide": true,
-              "label": "Get Z"
-            }
-          }
-        },
 
         { "identifier": "ShaderNodeWavelength" },
         { "separator": true, "label": "Eevee" },
