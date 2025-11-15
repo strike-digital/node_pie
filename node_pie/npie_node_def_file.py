@@ -1,6 +1,5 @@
 import json
 from dataclasses import dataclass, field
-from inspect import isclass
 from pathlib import Path
 from typing import Any
 
@@ -46,6 +45,7 @@ class NodeItem:
     settings: dict = field(default_factory=dict)
     variants: dict = field(default_factory=dict)
     poll_conditions: list[PollCondition] = field(default_factory=list)
+    max_len: int = 100
     color: str = ""
     description: str = ""
     category = None
@@ -335,7 +335,13 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
                 not_found.append(idname)
                 continue
             description = bl_node.bl_rna.description if bl_node else ""
-            item = NodeItem(label, idname, color=node.get("color", ""), description=description)
+            item = NodeItem(
+                label,
+                idname,
+                color=node.get("color", ""),
+                description=description,
+                max_len=node.get("max_len", 100),
+            )
             item.settings = node.get("settings", {})
             item.variants: dict[str, dict] = node.get("variants", {})
             item.poll_conditions = poll_conditions

@@ -337,7 +337,7 @@ class NPIE_MT_node_pie(Menu):
             color_name: str,
             node_item: NodeItem = None,
             group_name="",
-            max_len=200,
+            max_len=100,
             op="",
             params={},
         ):
