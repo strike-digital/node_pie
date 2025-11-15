@@ -8,7 +8,7 @@
       // "right": [[], ["VOLUME"], ["SIMULATION"]]
     },
     "categories": {
-      // "SIMULATION": {}
+      "ZONE": {}
     }
   },
   "additions": {
@@ -23,122 +23,48 @@
           "value": "TOOL"
         }
       ]
+    },
+    "categories": {
+      "ZONE": {
+        "label": "Zones",
+        "color": "layout",
+        "icon": "PHYSICS",
+        "nodes": [
+          {
+            "label": "For Each Element Zone",
+            "identifier": "ForEachElementZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "GeometryNodeForeachGeometryElementInput",
+              "output_node_type": "GeometryNodeForeachGeometryElementOutput",
+              "add_default_geometry_link": false
+            }
+          },
+          {
+            "label": "Repeat Zone",
+            "identifier": "RepeatZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "GeometryNodeRepeatInput",
+              "output_node_type": "GeometryNodeRepeatOutput",
+              "add_default_geometry_link": true
+            }
+          },
+          {
+            "label": "Simulation Zone",
+            "identifier": "SimulationZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "GeometryNodeSimulationInput",
+              "output_node_type": "GeometryNodeSimulationOutput",
+              "add_default_geometry_link": true
+            }
+          }
+        ]
+      }
     }
-    // "categories": {
-    //   "INPUT": {
-    //     "nodes": [
-    //       {
-    //         "identifier": "GeometryNodeInputEdgeSmooth",
-    //         "after_node": "GeometryNodeInputIndex"
-    //       },
-    //       {
-    //         "separator": true,
-    //         "label": "Tool",
-    //         "after_node": "bottom",
-    //         "poll_type": "is_tool"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeTool3DCursor",
-    //         "poll_type": "is_tool"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeToolFaceSet",
-    //         "poll_type": "is_tool"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeToolSelection",
-    //         "poll_type": "is_tool"
-    //       }
-    //     ]
-    //   },
-    //   "ROTATION": {
-    //     "label": "Rotation",
-    //     "color": "converter",
-    //     "icon": "CON_ROTLIKE",
-    //     "nodes": [
-    //       { "identifier": "FunctionNodeAxisAngleToRotation" },
-    //       { "identifier": "FunctionNodeEulerToRotation" },
-    //       { "identifier": "FunctionNodeInvertRotation" },
-    //       {
-    //         "identifier": "ShaderNodeMix",
-    //         "label": "Mix Rotation",
-    //         "settings": { "data_type": "ROTATION" }
-    //       },
-    //       { "identifier": "FunctionNodeQuaternionToRotation" },
-    //       { "identifier": "FunctionNodeRotateVector" },
-    //       { "identifier": "FunctionNodeRotationToAxisAngle" },
-    //       { "identifier": "FunctionNodeRotationToEuler" },
-    //       { "identifier": "FunctionNodeRotationToQuaternion" }
-    //     ]
-    //   },
-    //   "GEOMETRY": {
-    //     "nodes": [
-    //       {
-    //         "identifier": "GeometryNodeToolSetSelection",
-    //         "poll_type": "is_tool"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeToolSetFaceSet",
-    //         "before_node": "GeometryNodeSetID",
-    //         "poll_type": "is_tool"
-    //       }
-    //     ]
-    //   },
-    //   "MESH": {
-    //     "nodes": [
-    //       {
-    //         "identifier": "GeometryNodeMeshToSDFVolume",
-    //         "after_node": "GeometryNodeMeshToVolume"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeInputEdgeSmooth",
-    //         "before_node": "GeometryNodeInputMeshFaceIsPlanar",
-    //         "color": "input"
-    //       },
-    //       {
-    //         "identifier": "GeometryNodeCornersOfEdge",
-    //         "color": "input",
-    //         "before_node": "GeometryNodeCornersOfFace"
-    //       }
-    //     ]
-    //   },
-    //   "POINT": {
-    //     "nodes": [
-    //       {
-    //         "identifier": "GeometryNodePointsToSDFVolume",
-    //         "after_node": "GeometryNodePointsToVolume"
-    //       }
-    //     ]
-    //   },
-    //   "VOLUME": {
-    //     "nodes": [
-    //       { "separator": true },
-    //       { "identifier": "GeometryNodeInputSignedDistance" },
-    //       { "identifier": "GeometryNodeSampleVolume" },
-    //       { "identifier": "GeometryNodeSDFVolumeSphere" },
-    //       { "identifier": "GeometryNodeOffsetSDFVolume" },
-    //       { "identifier": "GeometryNodeMeanFilterSDFVolume" }
-    //     ]
-    //   },
-    //   "ZONE": {
-    //     "label": "Zones",
-    //     "color": "layout",
-    //     "icon": "PHYSICS",
-    //     "nodes": [
-    //       {
-    //         "label": "Simulation Zone",
-    //         "identifier": "SimulationZone",
-    //         "operator": "node.add_simulation_zone",
-    //         "settings": { "use_transform": true }
-    //       },
-    //       {
-    //         "label": "Repeat Zone",
-    //         "identifier": "RepeatZone",
-    //         "operator": "node.add_repeat_zone",
-    //         "settings": { "use_transform": true }
-    //       }
-    //     ]
-    //   }
-    // }
   }
 }
