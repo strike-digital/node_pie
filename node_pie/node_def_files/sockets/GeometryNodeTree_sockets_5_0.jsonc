@@ -10,19 +10,28 @@
   "nodes": {
     "GeometryNodeRemoveAttribute": {
       "inputs": [
+        "NodeSocketGeometry",
         "NodeSocketString",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
       ]
     },
+    "ShaderNodeGamma": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
     "GeometryNodeFillCurve": {
       "inputs": [
-        "NodeSocketMenu",
         "NodeSocketGeometry",
-        "NodeSocketInt"
+        "NodeSocketInt",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -30,11 +39,11 @@
     },
     "GeometryNodeFilletCurve": {
       "inputs": [
-        "NodeSocketMenu",
         "NodeSocketGeometry",
         "NodeSocketInt",
-        "NodeSocketBool",
-        "NodeSocketFloatDistance"
+        "NodeSocketMenu",
+        "NodeSocketFloatDistance",
+        "NodeSocketBool"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -42,11 +51,11 @@
     },
     "GeometryNodeResampleCurve": {
       "inputs": [
-        "NodeSocketMenu",
         "NodeSocketGeometry",
         "NodeSocketInt",
-        "NodeSocketBool",
-        "NodeSocketFloatDistance"
+        "NodeSocketMenu",
+        "NodeSocketFloatDistance",
+        "NodeSocketBool"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -54,10 +63,10 @@
     },
     "GeometryNodeSetCurveNormal": {
       "inputs": [
-        "NodeSocketVectorXYZ",
+        "NodeSocketGeometry",
         "NodeSocketBool",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketVectorXYZ",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -73,10 +82,10 @@
     },
     "GeometryNodeMergeByDistance": {
       "inputs": [
+        "NodeSocketGeometry",
         "NodeSocketBool",
         "NodeSocketFloatDistance",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -84,12 +93,12 @@
     },
     "GeometryNodeTransform": {
       "inputs": [
-        "NodeSocketRotation",
-        "NodeSocketMenu",
         "NodeSocketGeometry",
+        "NodeSocketMatrix",
         "NodeSocketVectorXYZ",
+        "NodeSocketMenu",
         "NodeSocketVectorTranslation",
-        "NodeSocketMatrix"
+        "NodeSocketRotation"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -97,29 +106,29 @@
     },
     "GeometryNodeRaycast": {
       "inputs": [
-        "NodeSocketVector",
-        "NodeSocketColor",
-        "NodeSocketMenu",
         "NodeSocketGeometry",
+        "NodeSocketVector",
         "NodeSocketFloat",
+        "NodeSocketColor",
         "NodeSocketInt",
-        "NodeSocketBool",
-        "NodeSocketFloatDistance"
+        "NodeSocketMenu",
+        "NodeSocketFloatDistance",
+        "NodeSocketBool"
       ],
       "outputs": [
         "NodeSocketVector",
         "NodeSocketFloat",
+        "NodeSocketColor",
         "NodeSocketInt",
-        "NodeSocketBool",
-        "NodeSocketColor"
+        "NodeSocketBool"
       ]
     },
     "GeometryNodeMeshToVolume": {
       "inputs": [
-        "NodeSocketFloat",
+        "NodeSocketGeometry",
         "NodeSocketFloatDistance",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketFloat",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -127,10 +136,10 @@
     },
     "GeometryNodeScaleElements": {
       "inputs": [
-        "NodeSocketVector",
-        "NodeSocketMenu",
         "NodeSocketGeometry",
+        "NodeSocketVector",
         "NodeSocketFloat",
+        "NodeSocketMenu",
         "NodeSocketBool",
         "NodeSocketVectorTranslation"
       ],
@@ -140,10 +149,10 @@
     },
     "GeometryNodeSubdivisionSurface": {
       "inputs": [
-        "NodeSocketFloatFactor",
-        "NodeSocketMenu",
         "NodeSocketGeometry",
         "NodeSocketInt",
+        "NodeSocketMenu",
+        "NodeSocketFloatFactor",
         "NodeSocketBool"
       ],
       "outputs": [
@@ -152,21 +161,30 @@
     },
     "GeometryNodeTriangulate": {
       "inputs": [
+        "NodeSocketGeometry",
         "NodeSocketBool",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
       ]
     },
-    "GeometryNodeDistributePointsInVolume": {
+    "GeometryNodeUVTangent": {
       "inputs": [
         "NodeSocketMenu",
-        "NodeSocketFloat",
+        "NodeSocketVectorXYZ2D"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "GeometryNodeDistributePointsInVolume": {
+      "inputs": [
         "NodeSocketGeometry",
+        "NodeSocketFloat",
         "NodeSocketInt",
-        "NodeSocketVectorXYZ"
+        "NodeSocketVectorXYZ",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -174,10 +192,10 @@
     },
     "GeometryNodePointsToVolume": {
       "inputs": [
-        "NodeSocketFloat",
+        "NodeSocketGeometry",
         "NodeSocketFloatDistance",
-        "NodeSocketMenu",
-        "NodeSocketGeometry"
+        "NodeSocketFloat",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketGeometry"
@@ -185,19 +203,37 @@
     },
     "FunctionNodeMatchString": {
       "inputs": [
-        "NodeSocketString",
-        "NodeSocketMenu"
+        "NodeSocketMenu",
+        "NodeSocketString"
       ],
       "outputs": [
         "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeStringToValue": {
+      "inputs": [
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketFloat"
+      ]
+    },
+    "NodeEvaluateClosure": {
+      "inputs": [
+        "NodeSocketClosure",
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketVirtual"
       ]
     },
     "GeometryNodeUVPackIslands": {
       "inputs": [
         "NodeSocketBool",
         "NodeSocketVector",
-        "NodeSocketMenu",
-        "NodeSocketFloat"
+        "NodeSocketFloat",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketVector"
@@ -206,23 +242,92 @@
     "GeometryNodeUVUnwrap": {
       "inputs": [
         "NodeSocketBool",
-        "NodeSocketMenu",
-        "NodeSocketFloat"
+        "NodeSocketFloat",
+        "NodeSocketMenu"
       ],
       "outputs": [
         "NodeSocketVector"
       ]
     },
-    "GeometryNodeVolumeToMesh": {
+    "ShaderNodeRadialTiling": {
       "inputs": [
         "NodeSocketFloatFactor",
-        "NodeSocketMenu",
-        "NodeSocketFloat",
+        "NodeSocketVector2D",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketVector",
+        "NodeSocketFloat"
+      ]
+    },
+    "GeometryNodeVolumeToMesh": {
+      "inputs": [
         "NodeSocketGeometry",
+        "NodeSocketFloat",
+        "NodeSocketFloatFactor",
+        "NodeSocketMenu",
         "NodeSocketFloatDistance"
       ],
       "outputs": [
         "NodeSocketGeometry"
+      ]
+    },
+    "NodeEnableOutput": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketVector",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketMatrix",
+        "NodeSocketColor",
+        "NodeSocketInt",
+        "NodeSocketString",
+        "NodeSocketMenu",
+        "NodeSocketCollection",
+        "NodeSocketBool",
+        "NodeSocketObject",
+        "NodeSocketMaterial",
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketGeometry",
+        "NodeSocketVector",
+        "NodeSocketImage",
+        "NodeSocketFloat",
+        "NodeSocketMatrix",
+        "NodeSocketColor",
+        "NodeSocketInt",
+        "NodeSocketString",
+        "NodeSocketMenu",
+        "NodeSocketCollection",
+        "NodeSocketBool",
+        "NodeSocketObject",
+        "NodeSocketMaterial",
+        "NodeSocketRotation"
+      ]
+    },
+    "NodeCombineBundle": {
+      "inputs": [
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketBundle"
+      ]
+    },
+    "NodeJoinBundle": {
+      "inputs": [
+        "NodeSocketBundle"
+      ],
+      "outputs": [
+        "NodeSocketBundle"
+      ]
+    },
+    "NodeSeparateBundle": {
+      "inputs": [
+        "NodeSocketBundle"
+      ],
+      "outputs": [
+        "NodeSocketVirtual"
       ]
     }
   }

@@ -344,12 +344,12 @@
         },
         { "separator": true, "label": "Topology" },
         { "identifier": "GeometryNodeCornersOfFace", "color": "input" },
-        { "identifier": "GeometryNodeVertexOfCorner", "color": "input" },
-        { "identifier": "GeometryNodeOffsetCornerInFace", "color": "input" },
-        { "identifier": "GeometryNodeFaceOfCorner", "color": "input" },
+        { "identifier": "GeometryNodeCornersOfVertex", "color": "input" },
         { "identifier": "GeometryNodeEdgesOfVertex", "color": "input" },
         { "identifier": "GeometryNodeEdgesOfCorner", "color": "input" },
-        { "identifier": "GeometryNodeCornersOfVertex", "color": "input" },
+        { "identifier": "GeometryNodeFaceOfCorner", "color": "input" },
+        { "identifier": "GeometryNodeOffsetCornerInFace", "color": "input" },
+        { "identifier": "GeometryNodeVertexOfCorner", "color": "input" },
         { "separator": true, "label": "Write" },
         { "identifier": "GeometryNodeSetShadeSmooth" }
       ]

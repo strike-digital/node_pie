@@ -2,6 +2,7 @@ from inspect import isclass
 
 import bpy
 from bpy.types import NodeTree
+from ..npie_helpers import get_all_node_types
 
 from ..npie_btypes import BOperator
 from ..npie_node_def_file import Separator, load_custom_nodes_info
@@ -66,7 +67,19 @@ class NPIE_OT_check_missing_nodes(BOperator.type):
 
         # Add missing nodes
         print("Missing nodes:")
+        bl_node_types = get_all_node_types()
         unused_nodes = bpy_nodes - nodes
+
+        def sort_node(idname: str):
+            bl_node = bl_node_types.get(idname)
+            if bl_node:
+                label = bl_node.bl_rna.name if bl_node.bl_rna.name != "Node" else bl_node.bl_label
+            else:
+                label = ""
+                print("haha", idname)
+            return label
+
+        # unused_nodes = sorted(unused_nodes, key=sort_node)
         unused_nodes = sorted(unused_nodes)
         position = region_to_view(context.area, self.mouse_region)
         for node_type in unused_nodes:

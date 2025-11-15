@@ -1,6 +1,9 @@
+from inspect import isclass
 import json
 import re
 from typing import TYPE_CHECKING
+
+import bpy
 
 from bpy.types import AddonPreferences, Context, Node, NodeTree
 from mathutils import Vector as V
@@ -62,6 +65,25 @@ def map_range(val, from_min=0, from_max=1, to_min=0, to_max=2):
     """Map a value from one input range to another. Works in the same way as the map range node in blender.
     succinct formula from: https://stackoverflow.com/a/45389903"""
     return (val - from_min) / (from_max - from_min) * (to_max - to_min) + to_min
+
+
+def get_all_node_types() -> dict[str, Node]:
+    """Return a list of all node types in this Blender session"""
+    bl_node_types = {n.bl_idname: n for n in bpy.types.Node.__subclasses__() if hasattr(n, "bl_idname")}
+    types = set()
+    for t in dir(bpy.types):
+        try:
+            t = getattr(bpy.types, t)
+        except Exception as e:
+            print(f"NodePie: Couldn't get type '{t}', error: '{e}'")
+            continue
+        types.add(t)
+
+    types = {getattr(bpy.types, t) for t in dir(bpy.types)}
+    for t in types:
+        if isclass(t) and issubclass(t, bpy.types.Node):
+            bl_node_types[t.bl_rna.identifier] = t
+    return bl_node_types
 
 
 class JSONWithCommentsDecoder(json.JSONDecoder):

@@ -24,12 +24,16 @@
             "before_node": "GeometryNodeObjectInfo"
           },
           {
-            "identifier": "GeometryNodeWarning",
-            "after_node": "FunctionNodeInputVector"
-          },
-          {
             "identifier": "GeometryNodeToolActiveElement",
             "after_node": "GeometryNodeTool3DCursor"
+          }
+        ]
+      },
+      "LAYOUT": {
+        "nodes": [
+          {
+            "identifier": "GeometryNodeWarning",
+            // "after_node": "FunctionNodeInputVector"
           }
         ]
       },

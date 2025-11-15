@@ -5,7 +5,7 @@
   "blender_version": [5, 0, 0],
   "removals": {
     "layout": {
-      // "right": [[], ["VOLUME"], ["SIMULATION"]]
+      // "right": [[], ["BUNDLE"], []]
     },
     "categories": {
       "ZONE": {}
@@ -13,6 +13,7 @@
   },
   "additions": {
     "layout": {
+      "right": [[], ["BUNDLE"], []]
       // "right": [["ROTATION"], [], ["VOLUME", "ZONE"]]
     },
     "poll_types": {
@@ -25,20 +26,35 @@
       ]
     },
     "categories": {
-      "COLOR": {
+      "BUNDLE": {
+        "label": "Bundle",
+        "color": "converter",
+        "icon": "LIGHTPROBE_SPHERE",
         "nodes": [
-          { "identifier": "ShaderNodeGamma", "before_node": "ShaderNodeMix", "color": "color"}
+          { "identifier": "NodeCombineBundle" },
+          { "identifier": "NodeJoinBundle" },
+          { "identifier": "NodeSeparateBundle" }
         ]
+      },
+      "COLOR": {
+        "nodes": [{ "identifier": "ShaderNodeGamma", "before_node": "ShaderNodeMix", "color": "color" }]
+      },
+      "LAYOUT": {
+        "nodes": [{ "identifier": "NodeEnableOutput", "before_node": "NodeFrame" }]
+      },
+      "MESH": {
+        "nodes": [
+          { "identifier": "GeometryNodeUVTangent", "before_node": "GeometryNodeVertexOfCorner", "color": "input" }
+        ]
+      },
+      "TEXT": {
+        "nodes": [{ "identifier": "FunctionNodeStringToValue", "after_node": "FunctionNodeStringLength" }]
       },
       "UTILITIES": {
-        "nodes": [
-          {"identifier": "NodeEvaluateClosure", "after_node": "GeometryNodeFieldAtIndex"}
-        ]
+        "nodes": [{ "identifier": "NodeEvaluateClosure", "after_node": "GeometryNodeFieldAtIndex" }]
       },
       "VECTOR": {
-        "nodes": [
-          {"identifier": "ShaderNodeRadialTiling", "before_node": "ShaderNodeVectorCurve"}
-        ]
+        "nodes": [{ "identifier": "ShaderNodeRadialTiling", "before_node": "ShaderNodeVectorCurve" }]
       },
       "ZONE": {
         "label": "Zones",

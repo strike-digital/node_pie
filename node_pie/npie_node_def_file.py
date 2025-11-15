@@ -8,7 +8,7 @@ import bpy
 from bpy.types import Context
 
 from .npie_constants import NODE_DEF_BUILTIN, NODE_DEF_USER
-from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files
+from .npie_helpers import JSONWithCommentsDecoder, get_all_def_files, get_all_node_types
 
 
 class PollCondition:
@@ -294,20 +294,7 @@ def load_custom_nodes_info(tree_identifier: str, context) -> tuple[dict[str, Nod
     poll_types = data.get("poll_types", {})
 
     # Get all node definition classes so that the labels can be auto generated
-    bl_node_types = {n.bl_idname: n for n in bpy.types.Node.__subclasses__() if hasattr(n, "bl_idname")}
-    types = set()
-    for t in dir(bpy.types):
-        try:
-            t = getattr(bpy.types, t)
-        except RuntimeError as e:
-            print(f"NodePie: Couldn't get type '{t}', error: '{e}'")
-            continue
-        types.add(t)
-
-    types = {getattr(bpy.types, t) for t in dir(bpy.types)}
-    for t in types:
-        if isclass(t) and issubclass(t, bpy.types.Node):
-            bl_node_types[t.bl_rna.identifier] = t
+    bl_node_types = get_all_node_types()
 
     not_found = []
 
