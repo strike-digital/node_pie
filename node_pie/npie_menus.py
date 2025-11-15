@@ -1,5 +1,6 @@
 import bpy
 from bpy.types import UILayout
+from .operators.op_alphabetise_nodes import NPIE_OT_alphabetise_nodes
 
 from .npie_btypes import BMenu
 from .npie_helpers import get_all_def_files, get_prefs
@@ -26,6 +27,7 @@ class NPIE_MT_node_pie_utilities(BMenu.type):
         layout.operator("node_pie.copy_nodes_as_json")
         NPIE_OT_generate_socket_types_file.draw_button(layout)
         NPIE_OT_check_missing_nodes.draw_button(layout)
+        NPIE_OT_alphabetise_nodes.draw_button(layout)
 
 
 def context_menu_draw(self, context):

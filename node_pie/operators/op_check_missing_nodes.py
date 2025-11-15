@@ -2,13 +2,15 @@ from inspect import isclass
 
 import bpy
 from bpy.types import NodeTree
-from ..npie_helpers import get_all_node_types
 
 from ..npie_btypes import BOperator
+from ..npie_helpers import get_all_node_types
 from ..npie_node_def_file import Separator, load_custom_nodes_info
 from .op_call_link_drag import region_to_view
 
 EXCLUDED_NODES = {
+    "FunctionNodeAlignEulerToVector",
+    "FunctionNodeRotateEuler",
     "GeometryNodeRepeatInput",
     "GeometryNodeForeachGeometryElementInput",
     "GeometryNodeForeachGeometryElementOutput",
@@ -17,6 +19,8 @@ EXCLUDED_NODES = {
     "GeometryNodeRepeatOutput",
     "GeometryNodeViewer",
     "GeometryNodeGroup",
+    "NodeClosureInput",
+    "NodeClosureOutput",
     "NodeGroupInput",
     "NodeGroupOutput",
     "ShaderNodeOutputLineStyle",
