@@ -32,7 +32,7 @@
       "LAYOUT": {
         "nodes": [
           {
-            "identifier": "GeometryNodeWarning",
+            "identifier": "GeometryNodeWarning"
             // "after_node": "FunctionNodeInputVector"
           }
         ]
