@@ -25,13 +25,39 @@
       ]
     },
     "categories": {
+      "COLOR": {
+        "nodes": [
+          { "identifier": "ShaderNodeGamma", "before_node": "ShaderNodeMix", "color": "color"}
+        ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          {"identifier": "NodeEvaluateClosure", "after_node": "GeometryNodeFieldAtIndex"}
+        ]
+      },
+      "VECTOR": {
+        "nodes": [
+          {"identifier": "ShaderNodeRadialTiling", "before_node": "ShaderNodeVectorCurve"}
+        ]
+      },
       "ZONE": {
         "label": "Zones",
         "color": "layout",
         "icon": "PHYSICS",
         "nodes": [
           {
-            "label": "For Each Element Zone",
+            "label": "Closure",
+            "identifier": "ClosureZone",
+            "operator": "node.add_zone",
+            "settings": {
+              "use_transform": true,
+              "input_node_type": "NodeClosureInput",
+              "output_node_type": "NodeClosureOutput",
+              "add_default_geometry_link": false
+            }
+          },
+          {
+            "label": "For Each Element",
             "identifier": "ForEachElementZone",
             "operator": "node.add_zone",
             "settings": {
@@ -42,7 +68,7 @@
             }
           },
           {
-            "label": "Repeat Zone",
+            "label": "Repeat",
             "identifier": "RepeatZone",
             "operator": "node.add_zone",
             "settings": {
@@ -53,7 +79,7 @@
             }
           },
           {
-            "label": "Simulation Zone",
+            "label": "Simulation",
             "identifier": "SimulationZone",
             "operator": "node.add_zone",
             "settings": {

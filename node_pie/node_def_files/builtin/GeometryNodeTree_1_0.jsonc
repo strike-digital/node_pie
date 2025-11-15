@@ -527,6 +527,20 @@
             }
           }
         },
+        {
+          "identifier": "ShaderNodeMix",
+          "label": "Mix Vector",
+          "settings": { "data_type": "VECTOR" }
+        },
+        {
+          "identifier": "FunctionNodeCompare",
+          "settings": { "data_type": "VECTOR" },
+          "variants": {
+            "Less Than": { "operation": "LESS_THAN" },
+            "Equal": { "operation": "EQUAL" },
+            "Not Equal": { "operation": "NOT_EQUAL" }
+          }
+        },
         { "identifier": "ShaderNodeVectorCurve" },
         {
           "identifier": "ShaderNodeVectorMath",
@@ -563,20 +577,6 @@
             "Absolute": { "operation": "ABSOLUTE" },
             "Distance": { "operation": "DISTANCE" },
             "Length": { "operation": "LENGTH" }
-          }
-        },
-        {
-          "identifier": "ShaderNodeMix",
-          "label": "Mix Vector",
-          "settings": { "data_type": "VECTOR" }
-        },
-        {
-          "identifier": "FunctionNodeCompare",
-          "settings": { "data_type": "VECTOR" },
-          "variants": {
-            "Less Than": { "operation": "LESS_THAN" },
-            "Equal": { "operation": "EQUAL" },
-            "Not Equal": { "operation": "NOT_EQUAL" }
           }
         },
         { "identifier": "ShaderNodeVectorRotate" }
