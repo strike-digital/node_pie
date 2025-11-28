@@ -22,7 +22,7 @@
         ]
       },
       "COLOR": {
-        "nodes": [{ "identifier": "CompositorNodeMixRGB" }, { "identifier": "CompositorNodeCurveRGB" }]
+        "nodes": [{ "identifier": "CompositorNodeMixRGB" }]
       },
       "VECTOR": {
         "nodes": [{ "identifier": "CompositorNodeMapValue" }, { "identifier": "CompositorNodeCurveVec" }]
@@ -118,7 +118,6 @@
               "Linear Light": { "blend_type": "LINEAR_LIGHT" }
             }
           },
-          { "identifier": "ShaderNodeRGBCurve", "after_node": "CompositorNodeInvert" }
         ]
       },
       "VECTOR": {
