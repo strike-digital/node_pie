@@ -1,7 +1,33 @@
 {
   "blender_version": [5, 1, 0],
   "additions": {
+    // "layout": {"left": [[], ["MATH", "UTILITIES"]]},
     "categories": {
+      // "MATH": {
+      //   "label": "Math",
+      //   "color": "converter",
+      //   "icon": "CON_TRANSLIKE",
+      //   "nodes": [
+      //     { "identifier": "ShaderNodeClamp" },
+      //     { "identifier": "ShaderNodeFloatCurve" },
+      //     { "identifier": "ShaderNodeMapRange" },
+      //     { "identifier": "ShaderNodeMath" },
+      //     { "identifier": "ShaderNodeMix" }
+      //   ]
+      // },
+      // "UTILITIES": {
+      //   "label": "Utilities",
+      //   "color": "converter",
+      //   "icon": "",
+      //   "nodes": [
+      //     { "identifier": "NodeEvaluateClosure" },
+      //     { "identifier": "NodeCombineBundle" },
+      //     { "identifier": "NodeSeparateBundle" },
+      //     { "identifier": "NodeJoinBundle" },
+      //     { "identifier": "GeometryNodeMenuSwitch" },
+      //     { "identifier": "ShaderNodeScript" }
+      //   ]
+      // },
       "INPUT": {
         "nodes": [
           { "identifier": "ShaderNodeRaycast", "before_node": "ShaderNodePointInfo" }
