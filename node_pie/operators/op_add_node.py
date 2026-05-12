@@ -9,6 +9,20 @@ from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
 from ..npie_node_info import ALL_TYPES, COMPARE_TYPES, EXCLUSIVE_SOCKETS, SWITCH_TYPES
 from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
 
+CAPTURE_ATTRIBUTE_SOCKETS = {
+    "INT": "INT",
+    "FLOAT_VECTOR": "VECTOR",
+    "FLOAT_COLOR": "RGBA",
+    "BOOLEAN": "BOOLEAN",
+}
+
+
+def set_capture_attribute_data_type(node: Node, data_type: str):
+    socket_type = CAPTURE_ATTRIBUTE_SOCKETS[data_type]
+    node.capture_items.clear()
+    item = node.capture_items.new(socket_type, "Attribute")
+    item.data_type = data_type
+
 
 def set_node_settings(socket: NodeSocket, node: Node, ui: bool = True):
     """Set a nodes settings so that the correct type of socket is visible.
@@ -115,6 +129,14 @@ class NPIE_OT_add_node(BOperator.type):
         # Set the settings for the node
         settings = eval(self.settings)
         for name, value in settings.items():
+            if (
+                node.bl_idname == "GeometryNodeCaptureAttribute"
+                and bpy.app.version >= (4, 2)
+                and name == "data_type"
+                and value in CAPTURE_ATTRIBUTE_SOCKETS
+            ):
+                set_capture_attribute_data_type(node, value)
+                continue
             name = "node." + name
             attr = ".".join(name.split(".")[:-1])
             name = name.split(".")[-1]
