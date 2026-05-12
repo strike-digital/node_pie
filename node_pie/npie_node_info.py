@@ -50,6 +50,13 @@ ALL_TYPES = add_socket_names(ALL_TYPES)
 EXCLUSIVE_SOCKETS = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image", "Texture"}
 EXCLUSIVE_SOCKETS = {"NodeSocket" + s for s in EXCLUSIVE_SOCKETS}
 
+# Convert between standard data type identifiers and the specific socket types used for capture attribute node
+CAPTURE_ATTRIBUTE_SOCKETS = {
+    "INT": "INT",
+    "FLOAT_VECTOR": "VECTOR",
+    "FLOAT_COLOR": "RGBA",
+    "BOOLEAN": "BOOLEAN",
+}
 
 def is_socket_to_node_valid(from_socket_type: str, from_socket_is_output: bool, to_node: NodeItem, socket_data: dict):
     """Check if the given socket type has any valid connections to the given node."""
@@ -78,3 +85,4 @@ def get_node_socket_info(tree_type: str, max_bl_version=bpy.app.version):
             all_socket_data.update(data["nodes"])
 
     return all_socket_data
+

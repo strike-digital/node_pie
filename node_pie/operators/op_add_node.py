@@ -5,19 +5,19 @@ import bpy
 from bpy.types import Node, NodeSocket, NodeTree
 
 from ..npie_btypes import BOperator
-from ..npie_constants import POPULARITY_FILE, POPULARITY_FILE_VERSION
-from ..npie_node_info import ALL_TYPES, COMPARE_TYPES, EXCLUSIVE_SOCKETS, SWITCH_TYPES
+from ..npie_constants import IS_4_2, POPULARITY_FILE, POPULARITY_FILE_VERSION
+from ..npie_node_info import (
+    ALL_TYPES,
+    CAPTURE_ATTRIBUTE_SOCKETS,
+    COMPARE_TYPES,
+    EXCLUSIVE_SOCKETS,
+    SWITCH_TYPES,
+)
 from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
-
-CAPTURE_ATTRIBUTE_SOCKETS = {
-    "INT": "INT",
-    "FLOAT_VECTOR": "VECTOR",
-    "FLOAT_COLOR": "RGBA",
-    "BOOLEAN": "BOOLEAN",
-}
 
 
 def set_capture_attribute_data_type(node: Node, data_type: str):
+    """The capture attribute node has variable sockets, so a new one needs to be added to set it's type."""
     socket_type = CAPTURE_ATTRIBUTE_SOCKETS[data_type]
     node.capture_items.clear()
     item = node.capture_items.new(socket_type, "Attribute")
@@ -131,7 +131,7 @@ class NPIE_OT_add_node(BOperator.type):
         for name, value in settings.items():
             if (
                 node.bl_idname == "GeometryNodeCaptureAttribute"
-                and bpy.app.version >= (4, 2)
+                and IS_4_2
                 and name == "data_type"
                 and value in CAPTURE_ATTRIBUTE_SOCKETS
             ):
