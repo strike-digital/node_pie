@@ -1,4 +1,5 @@
 from bpy.types import UILayout
+from .operators.op_copy_nodes_as_json import NPIE_OT_copy_nodes_as_json
 from .operators.op_copy_type_to_selected_nodes import NPIE_OT_copy_type_to_selected_nodes
 
 from .npie_btypes import BPanel
@@ -25,3 +26,4 @@ class NPIE_PT_node_info(BPanel.type):
         row = layout.row(align=True)
         row.prop(node_props, "type")
         NPIE_OT_copy_type_to_selected_nodes.draw_button(row, "", icon="COPYDOWN")
+        NPIE_OT_copy_nodes_as_json.draw_button(layout, icon="COPYDOWN")

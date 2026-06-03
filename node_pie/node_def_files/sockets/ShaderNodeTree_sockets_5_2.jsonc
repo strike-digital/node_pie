@@ -1,0 +1,116 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    5,
+    2
+  ],
+  "nodes": {
+    "FunctionNodeInputBool": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeInputInt": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketInt"
+      ]
+    },
+    "FunctionNodeInputMenu": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketMenu"
+      ]
+    },
+    "FunctionNodeInputVector": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "ShaderNodeRaycast": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketVirtual"
+      ]
+    },
+    "GeometryNodeInputSceneTime": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "ShaderNodeBsdfPrincipled": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketColor",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatDistance",
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketFloatWavelength"
+      ],
+      "outputs": [
+        "NodeSocketShader"
+      ]
+    },
+    "ShaderNodeBump": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketFloat",
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatPixel"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "NodeEvaluateClosure": {
+      "inputs": [
+        "NodeSocketClosure",
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketVirtual"
+      ]
+    },
+    "NodeImplicitConversion": {
+      "inputs": [
+        "NodeSocketShader",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketColor",
+        "NodeSocketInt",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketShader",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketColor",
+        "NodeSocketInt",
+        "NodeSocketFloat",
+        "NodeSocketVector"
+      ]
+    },
+    "NodeJoinBundle": {
+      "inputs": [
+        "NodeSocketBundle"
+      ],
+      "outputs": [
+        "NodeSocketBundle"
+      ]
+    }
+  }
+}

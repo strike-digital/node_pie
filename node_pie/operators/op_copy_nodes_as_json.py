@@ -20,7 +20,7 @@ class NPIE_OT_copy_nodes_as_json(BOperator.type):
         category = ""
         for node in context.selected_nodes:
             npie_settings = node.node_pie
-            if not npie_settings.type:
+            if not npie_settings.type or self.event.ctrl:
                 data_item = {"identifier": node.bl_idname}
             else:
                 categories = NpieCache.categories

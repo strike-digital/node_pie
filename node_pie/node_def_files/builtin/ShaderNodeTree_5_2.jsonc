@@ -1,0 +1,34 @@
+{
+  "blender_version": [5, 1, 0],
+  "removals": {
+    "categories": {
+      "INPUT": {
+        "nodes": [{ "identifier": "ShaderNodeRGB" }, { "identifier": "ShaderNodeValue" }]
+      }
+    }
+  },
+  "additions": {
+    // "layout": {"left": [[], ["MATH", "UTILITIES"]]},
+    "categories": {
+      "INPUT": {
+        "nodes": [
+          { "identifier": "FunctionNodeInputVector", "after_node": "top" },
+          { "identifier": "ShaderNodeValue", "after_node": "top" },
+          { "identifier": "FunctionNodeInputMenu", "after_node": "top" },
+          { "identifier": "FunctionNodeInputInt", "after_node": "top" },
+          { "identifier": "ShaderNodeRGB", "after_node": "top" },
+          { "identifier": "FunctionNodeInputBool", "after_node": "top" },
+          { "separator": true, "after_node": "FunctionNodeInputVector" },
+          { "identifier": "GeometryNodeInputSceneTime", "before_node": "ShaderNodeTangent" }
+        ]
+      },
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "NodeEvaluateClosure", "before_node": "NodeSeparateBundle" },
+          { "identifier": "NodeImplicitConversion", "before_node": "NodeSeparateBundle" },
+          { "identifier": "NodeJoinBundle", "before_node": "NodeSeparateBundle" }
+        ]
+      }
+    }
+  }
+}
