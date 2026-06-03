@@ -16,7 +16,8 @@ class NPIE_OT_copy_nodes_as_json(BOperator.type):
         return True
 
     def execute(self, context):
-        items = []
+        node_items = []
+        category = ""
         for node in context.selected_nodes:
             npie_settings = node.node_pie
             if not npie_settings.type:
@@ -24,15 +25,25 @@ class NPIE_OT_copy_nodes_as_json(BOperator.type):
             else:
                 categories = NpieCache.categories
                 cat = categories[node.node_pie.type]
-                nodes = [n.identifier for n in cat.nodes if isinstance(n, NodeItem)]
+                category = cat
+                nodes = [n for n in cat.nodes if isinstance(n, NodeItem)]
                 for n in nodes:
-                    if node.bl_idname < n:
+                    if node.name < n.label:
+                        # print(n, node.name)
                         break
-                data_item = {"identifier": node.bl_idname, "before_node": n}
+                data_item = {"identifier": node.bl_idname, "before_node": n.idname}
 
-            items.append(str(data_item).replace("'", '"'))
-            # items.append(json.dumps(data_item, indent=2))
-        items = ",\n".join(items)
+            node_items.append(str(data_item).replace("'", '"'))
+
+        items = ",\n".join(node_items)
+        if self.event.shift and category:
+            items = f"""
+            "{category.idname}": {{
+                "nodes": [
+            {items}
+            ]
+            }},
+            """.replace("            ", "")
         print(items)
         context.window_manager.clipboard = items
         print()

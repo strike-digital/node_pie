@@ -65,7 +65,7 @@
       },
       "TEXT": {
         "nodes": [
-          { "identifier": "FunctionNodeMatchString", "before_node": "FunctionNodeStringLength" },
+          { "identifier": "FunctionNodeMatchString", "after_node": "GeometryNodeStringJoin" },
           { "identifier": "FunctionNodeFormatString", "after_node": "FunctionNodeFindInString" }
         ]
       },

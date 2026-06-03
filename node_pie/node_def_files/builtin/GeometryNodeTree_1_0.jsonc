@@ -390,9 +390,9 @@
         { "identifier": "GeometryNodeStringToCurves", "color": "geometry" },
         { "separator": true },
         { "identifier": "GeometryNodeStringJoin", "color": "converter" },
-        { "identifier": "FunctionNodeReplaceString" },
         { "identifier": "FunctionNodeSliceString" },
         { "identifier": "FunctionNodeInputSpecialCharacters" },
+        { "identifier": "FunctionNodeReplaceString" },
         { "identifier": "FunctionNodeStringLength" },
         { "identifier": "FunctionNodeValueToString" }
       ]

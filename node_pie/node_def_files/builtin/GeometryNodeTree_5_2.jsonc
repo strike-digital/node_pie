@@ -2,14 +2,90 @@
 // Lots of misc nodes added, plus a new zone.
 {
   "blender_version": [5, 2, 0],
-  // "removals": {"layout": {
-  //   "right": [["GIZMO"]]
-  // }},
+  "removals": {
+    "layout": {
+      "top": [["ATTRIBUTE"]],
+      "left": [[], [], [], ["UV"]]
+    }
+  },
   "additions": {
-    // "layout": {
-    //   "left": [[], ["GIZMO"]]
-    // },
+    "layout": {
+      "top": [["LIST", "ATTRIBUTE"]],
+      "bottom": [["UV"]]
+    },
     "categories": {
+      "LIST": {
+        "label": "List",
+        "color": "converter",
+        "icon": "LINENUMBERS_ON",
+        "nodes": [
+          { "identifier": "GeometryNodeClosureToList" },
+          { "identifier": "GeometryNodeFieldToList" },
+          { "identifier": "GeometryNodeFilterList" },
+          { "identifier": "GeometryNodeListGetItem" },
+          { "identifier": "GeometryNodeListLength" },
+          { "identifier": "GeometryNodeSortList" }
+        ]
+      },
+      "ATTRIBUTE": {
+        "nodes": [
+          { "identifier": "GeometryNodeGetAttributeNames", "after_node": "GeometryNodeAttributeDomainSize" },
+          { "identifier": "GeometryNodeRenameAttribute", "before_node": "GeometryNodeStoreNamedAttribute" }
+        ]
+      },
+      "BUNDLE": {
+        "nodes": [
+          { "identifier": "GeometryNodeSetGeometryBundle", "after_node": "top", "color": "geometry" },
+          { "identifier": "GeometryNodeGetGeometryBundle", "after_node": "top", "color": "geometry" },
+          { "identifier": "NodeGetNestedBundlePaths", "after_node": "NodeCombineBundle" }
+        ]
+      },
+      "CURVE": {
+        "nodes": [
+          { "identifier": "GeometryNodeSetNURBSOrder", "before_node": "GeometryNodeSubdivideCurve" },
+          { "identifier": "GeometryNodeSetNURBSWeight", "before_node": "GeometryNodeSubdivideCurve" }
+        ]
+      },
+      "GEOMETRY": {
+        "nodes": [
+          { "identifier": "GeometryNodeGetGeometryComponent", "before_node": "GeometryNodeJoinGeometry" },
+          { "identifier": "GeometryNodeMergePoints", "before_node": "GeometryNodeMergeByDistance" },
+          { "identifier": "GeometryNodeTransferAttributes", "before_node": "GeometryNodeTransform" }
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          { "identifier": "FunctionNodeInputIntVector", "before_node": "GeometryNodeInputMaterial" },
+          { "identifier": "FunctionNodeInputMenu", "before_node": "GeometryNodeInputObject" },
+          { "identifier": "GeometryNodeCollectionChildren", "after_node": "GeometryNodeCollectionInfo" },
+          { "identifier": "GeometryNodeInputFont", "before_node": "GeometryNodeInputImage" },
+          { "identifier": "GeometryNodeInputInstanceReference", "after_node": "GeometryNodeInputIndex" }
+        ]
+      },
+      "MESH": {
+        "nodes": [{ "identifier": "GeometryNodeMeshBevel", "before_node": "GeometryNodeMeshBoolean" }]
+      },
+      "TEXT": {
+        "nodes": [
+          { "identifier": "FunctionNodeReverseString", "before_node": "FunctionNodeStringLength" },
+          { "identifier": "FunctionNodeSetStringCase", "before_node": "FunctionNodeStringLength" },
+          { "identifier": "FunctionNodeSplitString", "after_node": "FunctionNodeSetStringCase" },
+          { "identifier": "FunctionNodeTrimString", "before_node": "FunctionNodeValueToString" }
+        ]
+      },
+      "UTILITIES": {
+        "nodes": [
+          { "identifier": "GeometryNodeClusterByConnected", "before_node": "GeometryNodeFieldAtIndex" },
+          { "identifier": "GeometryNodeClusterByDistance", "before_node": "GeometryNodeFieldAtIndex" },
+          {
+            "identifier": "GeometryNodeSampleSoundFrequencies",
+            "after_node": "GeometryNodeFieldVariance",
+            "label": "Sample Sound"
+          },
+          { "identifier": "GeometryNodeTagFilter", "before_node": "GeometryNodeSwitch" },
+          { "identifier": "NodeImplicitConversion", "before_node": "GeometryNodeSampleSoundFrequencies" }
+        ]
+      }
     }
   }
 }

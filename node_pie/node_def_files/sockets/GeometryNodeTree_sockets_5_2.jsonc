@@ -22,10 +22,10 @@
     },
     "FunctionNodeCompare": {
       "inputs": [
-        "NodeSocketFloat",
-        "NodeSocketInt",
-        "NodeSocketColor",
         "NodeSocketString",
+        "NodeSocketColor",
+        "NodeSocketInt",
+        "NodeSocketFloat",
         "NodeSocketVector"
       ],
       "outputs": [
@@ -37,16 +37,16 @@
         "NodeSocketObject"
       ],
       "outputs": [
+        "NodeSocketVector2D",
         "NodeSocketFloat",
         "NodeSocketBool",
-        "NodeSocketVector2D",
         "NodeSocketMatrix"
       ]
     },
     "GeometryNodeBoneInfo": {
       "inputs": [
-        "NodeSocketString",
-        "NodeSocketObject"
+        "NodeSocketObject",
+        "NodeSocketString"
       ],
       "outputs": [
         "NodeSocketFloat",
@@ -65,12 +65,12 @@
     },
     "FunctionNodeStringToValue": {
       "inputs": [
-        "NodeSocketString",
-        "NodeSocketInt"
+        "NodeSocketInt",
+        "NodeSocketString"
       ],
       "outputs": [
-        "NodeSocketFloat",
-        "NodeSocketInt"
+        "NodeSocketInt",
+        "NodeSocketFloat"
       ]
     }
   }
