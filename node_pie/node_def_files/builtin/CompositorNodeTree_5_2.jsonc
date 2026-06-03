@@ -1,0 +1,106 @@
+{
+  "blender_version": [5, 2, 0],
+  "removals": {
+    "layout": {
+      "left": [["LAYOUT", "DISTORT"], ["CONVERTOR", "VECTOR"]],
+      "right": [["COLOR"], ["OUTPUT"]]
+    },
+    "categories": {
+      "INPUT": {
+        "nodes": [{ "identifier": "ShaderNodeRGB" }, { "identifier": "ShaderNodeValue" }]
+      },
+      "CONVERTOR": {
+        "nodes": [{ "identifier": "CompositorNodeSwitch" }]
+      }
+    }
+  },
+  "additions": {
+    "layout": {
+      "top": [[]],
+      "left": [[], ["DISTORT", "COLOR", "VECTOR"], ["CONVERTOR", "STRING"]],
+      "right": [["ROTATION"], ["MATRIX", "OUTPUT", "LAYOUT"]]
+    },
+    "categories": {
+      "CONVERTOR": {
+        "nodes": [
+          { "identifier": "GeometryNodeSwitch", "before_node": "CompositorNodeSwitchView" },
+          { "identifier": "NodeImplicitConversion", "before_node": "ShaderNodeMapRange" }
+        ]
+      },
+      "INPUT": {
+        "nodes": [
+          { "identifier": "ShaderNodeValue", "after_node": "top" },
+          { "identifier": "FunctionNodeInputString", "after_node": "top" },
+          { "identifier": "FunctionNodeInputRotation", "after_node": "top" },
+          { "identifier": "GeometryNodeInputObject", "after_node": "top" },
+          { "identifier": "FunctionNodeInputMenu", "after_node": "top" },
+          { "identifier": "FunctionNodeInputIntVector", "after_node": "top" },
+          { "identifier": "GeometryNodeInputFont", "after_node": "top" },
+          { "identifier": "CompositorNodeRGB", "after_node": "top" },
+          { "separator": true, "after_node": "ShaderNodeValue" },
+          { "identifier": "CompositorNodeBlankImage", "before_node": "CompositorNodeBokehImage" },
+          { "identifier": "GeometryNodeInputActiveCamera", "before_node": "CompositorNodeBlankImage" },
+          { "identifier": "GeometryNodeCameraInfo", "after_node": "CompositorNodeBokehImage" },
+          { "identifier": "GeometryNodeObjectInfo", "after_node": "CompositorNodeMovieClip" }
+        ]
+      },
+      "LAYOUT": {
+        "nodes": [{ "identifier": "GeometryNodeWarning", "before_node": "NodeReroute" }]
+      },
+      "MATRIX": {
+        "label": "Matrix",
+        "color": "converter",
+        "icon": "MESH_GRID",
+        "nodes": [
+          { "identifier": "FunctionNodeCombineMatrix" },
+          { "identifier": "FunctionNodeInvertMatrix" },
+          { "identifier": "FunctionNodeMatrixDeterminant" },
+          { "identifier": "FunctionNodeMatrixMultiply" },
+          { "identifier": "FunctionNodeProjectPoint" },
+          { "identifier": "FunctionNodeSeparateMatrix" },
+          { "identifier": "FunctionNodeTransformDirection" },
+          { "identifier": "FunctionNodeTransformPoint" },
+          { "identifier": "FunctionNodeTransposeMatrix" }
+        ]
+      },
+      "ROTATION": {
+        "label": "Rotation",
+        "color": "converter",
+        "icon": "CON_ROTLIKE",
+        "nodes": [
+          { "identifier": "FunctionNodeAlignRotationToVector" },
+          { "identifier": "FunctionNodeAxesToRotation" },
+          { "identifier": "FunctionNodeAxisAngleToRotation" },
+          { "identifier": "FunctionNodeEulerToRotation" },
+          { "identifier": "FunctionNodeInvertRotation" },
+          { "identifier": "FunctionNodeQuaternionToRotation" },
+          { "identifier": "FunctionNodeRotateRotation" },
+          { "identifier": "FunctionNodeRotateVector" },
+          { "identifier": "FunctionNodeRotationToAxisAngle" },
+          { "identifier": "FunctionNodeRotationToEuler" },
+          { "identifier": "FunctionNodeRotationToQuaternion" }
+        ]
+      },
+      "STRING": {
+        "label": "String",
+        "color": "converter",
+        "icon": "SMALL_CAPS",
+        "nodes": [
+          { "identifier": "FunctionNodeInputSpecialCharacters", "color": "input" },
+          { "identifier": "CompositorNodeStringToImage", "color": "input" },
+          { "identifier": "FunctionNodeFindInString" },
+          { "identifier": "FunctionNodeFormatString" },
+          { "identifier": "FunctionNodeMatchString" },
+          { "identifier": "FunctionNodeReplaceString" },
+          { "identifier": "FunctionNodeReverseString" },
+          { "identifier": "FunctionNodeSetStringCase" },
+          { "identifier": "FunctionNodeSliceString" },
+          { "identifier": "FunctionNodeStringLength" },
+          { "identifier": "FunctionNodeStringToValue" },
+          { "identifier": "FunctionNodeTrimString" },
+          { "identifier": "FunctionNodeValueToString" }
+        ]
+      }
+    }
+  }
+}

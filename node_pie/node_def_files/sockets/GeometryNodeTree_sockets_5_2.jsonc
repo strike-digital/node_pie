@@ -3,75 +3,214 @@
 // It contains all of the new and updated nodes in this blender version.
 // It can be auto generated using the 'generate socket types file' operator
 {
-  "bl_version": [
-    5,
-    2
-  ],
+  "bl_version": [5, 2],
   "nodes": {
     "GeometryNodeCaptureAttribute": {
-      "inputs": [
-        "NodeSocketGeometry",
-        "NodeSocketBool",
-        "NodeSocketVirtual"
-      ],
-      "outputs": [
-        "NodeSocketGeometry",
-        "NodeSocketBool",
-        "NodeSocketVirtual"
-      ]
+      "inputs": ["NodeSocketGeometry", "NodeSocketBool", "NodeSocketVirtual"],
+      "outputs": ["NodeSocketGeometry", "NodeSocketBool", "NodeSocketVirtual"]
+    },
+    "GeometryNodeGetAttributeNames": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketBool", "NodeSocketMenu"],
+      "outputs": ["NodeSocketString"]
+    },
+    "GeometryNodeRenameAttribute": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketBool", "NodeSocketString", "NodeSocketMenu"],
+      "outputs": ["NodeSocketGeometry"]
     },
     "FunctionNodeCompare": {
-      "inputs": [
-        "NodeSocketString",
-        "NodeSocketColor",
-        "NodeSocketInt",
-        "NodeSocketFloat",
-        "NodeSocketVector"
-      ],
-      "outputs": [
-        "NodeSocketBool"
-      ]
+      "inputs": ["NodeSocketString", "NodeSocketColor", "NodeSocketInt", "NodeSocketFloat", "NodeSocketVector"],
+      "outputs": ["NodeSocketBool"]
+    },
+    "GeometryNodeSetNURBSOrder": {
+      "inputs": ["NodeSocketInt", "NodeSocketGeometry", "NodeSocketBool"],
+      "outputs": ["NodeSocketGeometry"]
+    },
+    "GeometryNodeSetNURBSWeight": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketFloat", "NodeSocketBool"],
+      "outputs": ["NodeSocketGeometry"]
+    },
+    "GeometryNodeGetGeometryComponent": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketBool", "NodeSocketMenu"],
+      "outputs": ["NodeSocketGeometry", "NodeSocketBool"]
+    },
+    "GeometryNodeMergePoints": {
+      "inputs": ["NodeSocketInt", "NodeSocketGeometry", "NodeSocketBool"],
+      "outputs": ["NodeSocketGeometry"]
+    },
+    "GeometryNodeTransferAttributes": {
+      "inputs": ["NodeSocketString", "NodeSocketBool", "NodeSocketMenu", "NodeSocketGeometry", "NodeSocketInt"],
+      "outputs": ["NodeSocketGeometry", "NodeSocketString"]
+    },
+    "GeometryNodeInputFont": {
+      "inputs": [],
+      "outputs": ["NodeSocketFont"]
+    },
+    "FunctionNodeInputIntVector": {
+      "inputs": [],
+      "outputs": ["NodeSocketIntVector3D"]
+    },
+    "FunctionNodeInputMenu": {
+      "inputs": [],
+      "outputs": ["NodeSocketMenu"]
+    },
+    "GeometryNodeInputInstanceReference": {
+      "inputs": [],
+      "outputs": ["NodeSocketInt"]
     },
     "GeometryNodeCameraInfo": {
-      "inputs": [
-        "NodeSocketObject"
-      ],
-      "outputs": [
-        "NodeSocketVector2D",
-        "NodeSocketFloat",
-        "NodeSocketBool",
-        "NodeSocketMatrix"
-      ]
+      "inputs": ["NodeSocketObject"],
+      "outputs": ["NodeSocketVector2D", "NodeSocketFloat", "NodeSocketBool", "NodeSocketMatrix"]
+    },
+    "GeometryNodeCollectionChildren": {
+      "inputs": ["NodeSocketBool", "NodeSocketCollection"],
+      "outputs": ["NodeSocketObject", "NodeSocketCollection"]
     },
     "GeometryNodeBoneInfo": {
+      "inputs": ["NodeSocketObject", "NodeSocketString"],
+      "outputs": ["NodeSocketFloat", "NodeSocketBool", "NodeSocketMatrix"]
+    },
+    "GeometryNodeMeshBevel": {
       "inputs": [
-        "NodeSocketObject",
-        "NodeSocketString"
-      ],
-      "outputs": [
-        "NodeSocketFloat",
         "NodeSocketBool",
-        "NodeSocketMatrix"
-      ]
+        "NodeSocketMenu",
+        "NodeSocketGeometry",
+        "NodeSocketFloatFactor",
+        "NodeSocketInt",
+        "NodeSocketFloatDistance"
+      ],
+      "outputs": ["NodeSocketGeometry", "NodeSocketBool"]
     },
     "FunctionNodeFindInString": {
-      "inputs": [
-        "NodeSocketString",
-        "NodeSocketMenu"
-      ],
-      "outputs": [
-        "NodeSocketInt"
-      ]
+      "inputs": ["NodeSocketString", "NodeSocketMenu"],
+      "outputs": ["NodeSocketInt"]
+    },
+    "FunctionNodeReverseString": {
+      "inputs": ["NodeSocketString"],
+      "outputs": ["NodeSocketString"]
+    },
+    "FunctionNodeSetStringCase": {
+      "inputs": ["NodeSocketString", "NodeSocketMenu"],
+      "outputs": ["NodeSocketString"]
+    },
+    "FunctionNodeSplitString": {
+      "inputs": ["NodeSocketString"],
+      "outputs": ["NodeSocketString"]
     },
     "FunctionNodeStringToValue": {
+      "inputs": ["NodeSocketInt", "NodeSocketString"],
+      "outputs": ["NodeSocketInt", "NodeSocketFloat"]
+    },
+    "FunctionNodeTrimString": {
+      "inputs": ["NodeSocketBool", "NodeSocketString"],
+      "outputs": ["NodeSocketString"]
+    },
+    "GeometryNodeClusterByConnected": {
+      "inputs": ["NodeSocketFloatDistance", "NodeSocketBool", "NodeSocketVector"],
+      "outputs": ["NodeSocketInt"]
+    },
+    "GeometryNodeClusterByDistance": {
+      "inputs": ["NodeSocketInt", "NodeSocketFloatDistance", "NodeSocketBool", "NodeSocketVector"],
+      "outputs": ["NodeSocketInt"]
+    },
+    "NodeImplicitConversion": {
       "inputs": [
+        "NodeSocketString",
+        "NodeSocketImage",
+        "NodeSocketMaterial",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketObject",
+        "NodeSocketGeometry",
+        "NodeSocketColor",
+        "NodeSocketMatrix",
         "NodeSocketInt",
-        "NodeSocketString"
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketCollection",
+        "NodeSocketRotation"
       ],
       "outputs": [
+        "NodeSocketString",
+        "NodeSocketImage",
+        "NodeSocketMaterial",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketObject",
+        "NodeSocketGeometry",
+        "NodeSocketColor",
+        "NodeSocketMatrix",
         "NodeSocketInt",
-        "NodeSocketFloat"
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketCollection",
+        "NodeSocketRotation"
       ]
+    },
+    "GeometryNodeSampleSoundFrequencies": {
+      "inputs": [
+        "NodeSocketFloatTimeAbsolute",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketInt",
+        "NodeSocketFloatFrequency",
+        "NodeSocketSound"
+      ],
+      "outputs": ["NodeSocketFloat"]
+    },
+    "GeometryNodeTagFilter": {
+      "inputs": ["NodeSocketString"],
+      "outputs": ["NodeSocketBool"]
+    },
+    "GeometryNodeGetGeometryBundle": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketBool"],
+      "outputs": ["NodeSocketGeometry", "NodeSocketBundle"]
+    },
+    "GeometryNodeSetGeometryBundle": {
+      "inputs": ["NodeSocketGeometry", "NodeSocketBundle"],
+      "outputs": ["NodeSocketGeometry"]
+    },
+    "NodeGetNestedBundlePaths": {
+      "inputs": ["NodeSocketString", "NodeSocketMenu", "NodeSocketBundle"],
+      "outputs": ["NodeSocketString"]
+    },
+    "GeometryNodeClosureToList": {
+      "inputs": ["NodeSocketInt", "NodeSocketClosure"],
+      "outputs": ["NodeSocketVirtual"]
+    },
+    "GeometryNodeFieldToList": {
+      "inputs": ["NodeSocketInt", "NodeSocketVirtual"],
+      "outputs": ["NodeSocketVirtual"]
+    },
+    "GeometryNodeFilterList": {
+      "inputs": ["NodeSocketFloat", "NodeSocketBool"],
+      "outputs": ["NodeSocketFloat"]
+    },
+    "GeometryNodeListGetItem": {
+      "inputs": ["NodeSocketInt", "NodeSocketFloat"],
+      "outputs": ["NodeSocketFloat"]
+    },
+    "GeometryNodeListLength": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketImage",
+        "NodeSocketMaterial",
+        "NodeSocketBool",
+        "NodeSocketMenu",
+        "NodeSocketObject",
+        "NodeSocketGeometry",
+        "NodeSocketColor",
+        "NodeSocketMatrix",
+        "NodeSocketInt",
+        "NodeSocketFloat",
+        "NodeSocketVector",
+        "NodeSocketCollection",
+        "NodeSocketRotation"
+      ],
+      "outputs": ["NodeSocketInt"]
+    },
+    "GeometryNodeSortList": {
+      "inputs": ["NodeSocketInt", "NodeSocketFloat", "NodeSocketBool"],
+      "outputs": ["NodeSocketFloat"]
     }
   }
 }

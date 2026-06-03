@@ -111,7 +111,7 @@ class JSONWithCommentsDecoder(json.JSONDecoder):
 
     def decode(self, s: str):
         # Remove comments
-        s = "\n".join(l if not l.lstrip().startswith("//") else "" for l in s.split("\n"))
+        s = "\n".join(line if not line.lstrip().startswith("//") else "" for line in s.split("\n"))
         # Remove trailing commas
         s = self.match_trailing_commas.sub("", s)
         return super().decode(s)

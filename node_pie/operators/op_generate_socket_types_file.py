@@ -9,7 +9,7 @@ from bpy.types import Context, NodeTree
 from ..npie_btypes import BOperator
 from ..npie_constants import NODE_DEF_SOCKETS
 from ..npie_node_def_file import NodeItem, load_custom_nodes_info
-from ..npie_node_info import ALL_TYPES, get_node_socket_info
+from ..npie_node_info import ALL_TYPES, COMPOSITOR_TYPES, get_node_socket_info
 from . import op_add_node
 from .op_call_link_drag import NPIE_OT_call_link_drag
 
@@ -40,7 +40,7 @@ def generate_node_socket_info(context: Context, tree_type: str, directory: Path)
         node_data = {}
         inputs = set()
         outputs = set()
-        for socket_type in ALL_TYPES:
+        for socket_type in (COMPOSITOR_TYPES if tree_type == "CompositorNodeTree" else ALL_TYPES):
             op_add_node.set_node_settings(DummySocket(socket_type, True), node, ui=False)
             for socket in node.inputs:
                 inputs.add(socket.bl_idname)

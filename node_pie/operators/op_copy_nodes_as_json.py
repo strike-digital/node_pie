@@ -18,7 +18,7 @@ class NPIE_OT_copy_nodes_as_json(BOperator.type):
     def execute(self, context):
         node_items = []
         category = ""
-        for node in context.selected_nodes:
+        for node in sorted(context.selected_nodes, key=lambda n: n.location.x):
             npie_settings = node.node_pie
             if not npie_settings.type or self.event.ctrl:
                 data_item = {"identifier": node.bl_idname}

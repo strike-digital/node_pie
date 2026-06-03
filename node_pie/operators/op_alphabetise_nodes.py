@@ -1,4 +1,4 @@
-from bpy.types import Node, NodeTree
+from bpy.types import Node
 
 from ..npie_btypes import BOperator
 
@@ -8,7 +8,6 @@ class NPIE_OT_alphabetise_nodes(BOperator.type):
     """Arrange the selected nodes in alphabetical order"""
 
     def execute(self, context):
-        node_tree: NodeTree = context.space_data.edit_tree
         selected_nodes: list[Node] = context.selected_nodes
 
         pos = [min(n.location.x for n in selected_nodes), min(n.location.y for n in selected_nodes)]

@@ -1,0 +1,682 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    5,
+    2
+  ],
+  "nodes": {
+    "GeometryNodeInputFont": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketFont"
+      ]
+    },
+    "FunctionNodeInputIntVector": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketIntVector3D"
+      ]
+    },
+    "FunctionNodeInputMenu": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketMenu"
+      ]
+    },
+    "GeometryNodeInputObject": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketObject"
+      ]
+    },
+    "FunctionNodeInputRotation": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeInputString": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "GeometryNodeInputActiveCamera": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketObject"
+      ]
+    },
+    "CompositorNodeBlankImage": {
+      "inputs": [
+        "NodeSocketIntVectorPixel2D",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "GeometryNodeCameraInfo": {
+      "inputs": [
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketFloat",
+        "NodeSocketVector2D"
+      ]
+    },
+    "CompositorNodeImageCoordinates": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketIntVector2D",
+        "NodeSocketVector2D"
+      ]
+    },
+    "CompositorNodeImageInfo": {
+      "inputs": [
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketIntVector2D",
+        "NodeSocketVector2D"
+      ]
+    },
+    "CompositorNodeMask": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketInt",
+        "NodeSocketMenu",
+        "NodeSocketIntPixel",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "GeometryNodeObjectInfo": {
+      "inputs": [
+        "NodeSocketObject",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketVector",
+        "NodeSocketMatrix",
+        "NodeSocketGeometry",
+        "NodeSocketRotation"
+      ]
+    },
+    "NodeImplicitConversion": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ]
+    },
+    "GeometryNodeMenuSwitch": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketVirtual",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ]
+    },
+    "GeometryNodeIndexSwitch": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketVirtual",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ]
+    },
+    "GeometryNodeSwitch": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ]
+    },
+    "CompositorNodeBilateralblur": {
+      "inputs": [
+        "NodeSocketIntPixel",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBlur": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketVectorPixel2D",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeBokehBlur": {
+      "inputs": [
+        "NodeSocketBool",
+        "NodeSocketFloatPixel",
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeDilateErode": {
+      "inputs": [
+        "NodeSocketFloatPixel",
+        "NodeSocketMenu",
+        "NodeSocketIntPixel",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodeInpaint": {
+      "inputs": [
+        "NodeSocketIntPixel",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeKuwahara": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketInt",
+        "NodeSocketColor",
+        "NodeSocketMenu",
+        "NodeSocketFloatPixel",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeMaskToSDF": {
+      "inputs": [
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketIntVector2D",
+        "NodeSocketFloat"
+      ]
+    },
+    "CompositorNodePixelate": {
+      "inputs": [
+        "NodeSocketIntPixel",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeKeying": {
+      "inputs": [
+        "NodeSocketFloatFactor",
+        "NodeSocketMenu",
+        "NodeSocketIntPixel",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeCrop": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketIntPixel",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeStabilize": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketMenu",
+        "NodeSocketBool",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeTransform": {
+      "inputs": [
+        "NodeSocketFloatAngle",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketMenu",
+        "NodeSocketFloatPixel"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "CompositorNodeTranslate": {
+      "inputs": [
+        "NodeSocketMenu",
+        "NodeSocketFloatPixel",
+        "NodeSocketColor"
+      ],
+      "outputs": [
+        "NodeSocketColor"
+      ]
+    },
+    "NodeEnableOutput": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketVector",
+        "NodeSocketString",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketRotation",
+        "NodeSocketMenu",
+        "NodeSocketMatrix",
+        "NodeSocketBool",
+        "NodeSocketObject"
+      ]
+    },
+    "GeometryNodeWarning": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeCombineMatrix": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeInvertMatrix": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix",
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeMatrixDeterminant": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "FunctionNodeMatrixMultiply": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeProjectPoint": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeSeparateMatrix": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "FunctionNodeTransformDirection": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeTransformPoint": {
+      "inputs": [
+        "NodeSocketMatrix",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketVectorXYZ"
+      ]
+    },
+    "FunctionNodeTransposeMatrix": {
+      "inputs": [
+        "NodeSocketMatrix"
+      ],
+      "outputs": [
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeAlignRotationToVector": {
+      "inputs": [
+        "NodeSocketRotation",
+        "NodeSocketFloatFactor",
+        "NodeSocketVectorXYZ"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeAxesToRotation": {
+      "inputs": [
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeAxisAngleToRotation": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketFloatAngle"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeEulerToRotation": {
+      "inputs": [
+        "NodeSocketVectorEuler"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeInvertRotation": {
+      "inputs": [
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeQuaternionToRotation": {
+      "inputs": [
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeRotateRotation": {
+      "inputs": [
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketRotation"
+      ]
+    },
+    "FunctionNodeRotateVector": {
+      "inputs": [
+        "NodeSocketVector",
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketVector"
+      ]
+    },
+    "FunctionNodeRotationToAxisAngle": {
+      "inputs": [
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketVector",
+        "NodeSocketFloatAngle"
+      ]
+    },
+    "FunctionNodeRotationToEuler": {
+      "inputs": [
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketVectorEuler"
+      ]
+    },
+    "FunctionNodeRotationToQuaternion": {
+      "inputs": [
+        "NodeSocketRotation"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "FunctionNodeInputSpecialCharacters": {
+      "inputs": [],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "CompositorNodeStringToImage": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketFont",
+        "NodeSocketMenu",
+        "NodeSocketFloatPixel",
+        "NodeSocketBool",
+        "NodeSocketIntPixel"
+      ],
+      "outputs": [
+        "NodeSocketFloat"
+      ]
+    },
+    "FunctionNodeFindInString": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu"
+      ],
+      "outputs": [
+        "NodeSocketInt"
+      ]
+    },
+    "FunctionNodeFormatString": {
+      "inputs": [
+        "NodeSocketVirtual",
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeMatchString": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu"
+      ],
+      "outputs": [
+        "NodeSocketBool"
+      ]
+    },
+    "FunctionNodeReplaceString": {
+      "inputs": [
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeReverseString": {
+      "inputs": [
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeSetStringCase": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeSliceString": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeStringLength": {
+      "inputs": [
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketInt"
+      ]
+    },
+    "FunctionNodeStringToValue": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketString"
+      ],
+      "outputs": [
+        "NodeSocketInt",
+        "NodeSocketFloat"
+      ]
+    },
+    "FunctionNodeTrimString": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketBool"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    },
+    "FunctionNodeValueToString": {
+      "inputs": [
+        "NodeSocketInt",
+        "NodeSocketFloat"
+      ],
+      "outputs": [
+        "NodeSocketString"
+      ]
+    }
+  }
+}

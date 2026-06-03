@@ -43,9 +43,17 @@ ALL_TYPES = {k: [v] for k, v in ALL_TYPES.items()}
 ALL_TYPES["Vector"].append("FLOAT_VECTOR")
 ALL_TYPES["Color"].append("FLOAT_COLOR")
 
+# Compositor doesn't have these sockets for some reason
+COMPOSITOR_TYPES = ALL_TYPES.copy()
+del COMPOSITOR_TYPES["Collection"]
+del COMPOSITOR_TYPES["Image"]
+del COMPOSITOR_TYPES["Geometry"]
+del COMPOSITOR_TYPES["Material"]
+
 SWITCH_TYPES = add_socket_names(SWITCH_TYPES)
 COMPARE_TYPES = add_socket_names(COMPARE_TYPES)
 ALL_TYPES = add_socket_names(ALL_TYPES)
+COMPOSITOR_TYPES = add_socket_names(COMPOSITOR_TYPES)
 
 EXCLUSIVE_SOCKETS = {"Material", "Object", "Collection", "Geometry", "Shader", "String", "Image", "Texture"}
 EXCLUSIVE_SOCKETS = {"NodeSocket" + s for s in EXCLUSIVE_SOCKETS}
@@ -85,4 +93,3 @@ def get_node_socket_info(tree_type: str, max_bl_version=bpy.app.version):
             all_socket_data.update(data["nodes"])
 
     return all_socket_data
-

@@ -34,14 +34,14 @@
     },
     "ShaderNodeRaycast": {
       "inputs": [
-        "NodeSocketFloat",
+        "NodeSocketVirtual",
         "NodeSocketVector",
-        "NodeSocketVirtual"
+        "NodeSocketFloat"
       ],
       "outputs": [
-        "NodeSocketFloat",
+        "NodeSocketVirtual",
         "NodeSocketVector",
-        "NodeSocketVirtual"
+        "NodeSocketFloat"
       ]
     },
     "GeometryNodeInputSceneTime": {
@@ -52,13 +52,13 @@
     },
     "ShaderNodeBsdfPrincipled": {
       "inputs": [
-        "NodeSocketBool",
-        "NodeSocketColor",
-        "NodeSocketFloatFactor",
-        "NodeSocketFloatDistance",
-        "NodeSocketFloat",
         "NodeSocketVector",
-        "NodeSocketFloatWavelength"
+        "NodeSocketFloatFactor",
+        "NodeSocketFloatWavelength",
+        "NodeSocketFloat",
+        "NodeSocketColor",
+        "NodeSocketBool",
+        "NodeSocketFloatDistance"
       ],
       "outputs": [
         "NodeSocketShader"
@@ -67,9 +67,9 @@
     "ShaderNodeBump": {
       "inputs": [
         "NodeSocketVector",
-        "NodeSocketFloat",
         "NodeSocketFloatFactor",
-        "NodeSocketFloatPixel"
+        "NodeSocketFloatPixel",
+        "NodeSocketFloat"
       ],
       "outputs": [
         "NodeSocketVector"
@@ -77,8 +77,8 @@
     },
     "NodeEvaluateClosure": {
       "inputs": [
-        "NodeSocketClosure",
-        "NodeSocketVirtual"
+        "NodeSocketVirtual",
+        "NodeSocketClosure"
       ],
       "outputs": [
         "NodeSocketVirtual"
@@ -87,21 +87,21 @@
     "NodeImplicitConversion": {
       "inputs": [
         "NodeSocketShader",
-        "NodeSocketBool",
-        "NodeSocketMenu",
-        "NodeSocketColor",
+        "NodeSocketVector",
         "NodeSocketInt",
         "NodeSocketFloat",
-        "NodeSocketVector"
+        "NodeSocketColor",
+        "NodeSocketMenu",
+        "NodeSocketBool"
       ],
       "outputs": [
         "NodeSocketShader",
-        "NodeSocketBool",
-        "NodeSocketMenu",
-        "NodeSocketColor",
+        "NodeSocketVector",
         "NodeSocketInt",
         "NodeSocketFloat",
-        "NodeSocketVector"
+        "NodeSocketColor",
+        "NodeSocketMenu",
+        "NodeSocketBool"
       ]
     },
     "NodeJoinBundle": {

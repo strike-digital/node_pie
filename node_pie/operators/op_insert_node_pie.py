@@ -36,7 +36,7 @@ class NPIE_OT_insert_node_pie(BOperator.type):
                 for new_node in new_nodes[::-1]:
                     new_node = nodes[new_node]
                     from_socket = new_node.inputs[0].links[0].from_socket
-                    to_sockets = [l.to_socket for l in new_node.outputs[0].links]
+                    to_sockets = [link.to_socket for link in new_node.outputs[0].links]
 
                     for s in to_sockets:
                         node_tree.links.new(from_socket, s)
