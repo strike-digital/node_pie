@@ -1,6 +1,7 @@
 import bpy
 from bpy.props import BoolProperty, FloatProperty
 from bpy.types import KeyMap, KeyMapItem, UILayout
+from .npie_panels import NPIE_PT_node_info
 
 from .. import __package__ as base_package
 from .npie_btypes import BRegister
@@ -88,10 +89,17 @@ class NodePiePrefs(bpy.types.AddonPreferences):
         description="Draw icons for categories",
     )
 
+    def dev_extras_update(self, context):
+        if self.npie_dev_extras:
+            bpy.utils.register_class(NPIE_PT_node_info)
+        else:
+            bpy.utils.unregister_class(NPIE_PT_node_info)
+
     npie_dev_extras: BoolProperty(
         name="Show dev extras",
         default=False,
         description="Show some operators in the right click menu to make creating custom definition files easier.",
+        update=dev_extras_update,
     )
 
     npie_use_link_dragging: BoolProperty(

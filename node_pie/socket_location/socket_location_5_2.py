@@ -103,6 +103,5 @@ StructBase._init_structs()
 def get_socket_location_ctypes(socket: NodeSocket) -> V:
     if not socket.is_icon_visible:
         return V((0, 0))
-    print(BNodeSocket.GetFields(socket).runtime.contents.location[:])
 
     return V(BNodeSocket.GetFields(socket).runtime.contents.location[:])

@@ -1,6 +1,6 @@
 import bpy
 from bpy.types import Context, Event, NodeTree
-from ..npie_ui import NPIE_MT_node_pie
+from ..npie_helpers import NpieCache
 from ..npie_btypes import BOperator
 
 
@@ -43,8 +43,8 @@ class NPIE_OT_insert_node_pie(BOperator.type):
                     nodes.remove(new_node)
 
                 # Call the node pie
-                NPIE_MT_node_pie.from_socket = from_socket
-                NPIE_MT_node_pie.to_sockets = to_sockets
+                NpieCache.from_socket = from_socket
+                NpieCache.to_sockets = to_sockets
                 bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)
 
             self.cursor.reset_icon()

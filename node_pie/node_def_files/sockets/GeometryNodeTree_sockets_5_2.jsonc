@@ -1,0 +1,77 @@
+// This is a list of the socket types of all nodes
+// used for telling whether a node is valid during link drag.
+// It contains all of the new and updated nodes in this blender version.
+// It can be auto generated using the 'generate socket types file' operator
+{
+  "bl_version": [
+    5,
+    2
+  ],
+  "nodes": {
+    "GeometryNodeCaptureAttribute": {
+      "inputs": [
+        "NodeSocketGeometry",
+        "NodeSocketBool",
+        "NodeSocketVirtual"
+      ],
+      "outputs": [
+        "NodeSocketGeometry",
+        "NodeSocketBool",
+        "NodeSocketVirtual"
+      ]
+    },
+    "FunctionNodeCompare": {
+      "inputs": [
+        "NodeSocketFloat",
+        "NodeSocketInt",
+        "NodeSocketColor",
+        "NodeSocketString",
+        "NodeSocketVector"
+      ],
+      "outputs": [
+        "NodeSocketBool"
+      ]
+    },
+    "GeometryNodeCameraInfo": {
+      "inputs": [
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketVector2D",
+        "NodeSocketMatrix"
+      ]
+    },
+    "GeometryNodeBoneInfo": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketObject"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketBool",
+        "NodeSocketMatrix"
+      ]
+    },
+    "FunctionNodeFindInString": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketMenu"
+      ],
+      "outputs": [
+        "NodeSocketInt"
+      ]
+    },
+    "FunctionNodeStringToValue": {
+      "inputs": [
+        "NodeSocketString",
+        "NodeSocketInt"
+      ],
+      "outputs": [
+        "NodeSocketFloat",
+        "NodeSocketInt"
+      ]
+    }
+  }
+}

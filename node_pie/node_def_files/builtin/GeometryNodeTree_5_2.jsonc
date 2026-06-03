@@ -1,0 +1,15 @@
+// This is a versioning file that only specifies the new nodes in 5.2, compared to the previous version.
+// Lots of misc nodes added, plus a new zone.
+{
+  "blender_version": [5, 2, 0],
+  // "removals": {"layout": {
+  //   "right": [["GIZMO"]]
+  // }},
+  "additions": {
+    // "layout": {
+    //   "left": [[], ["GIZMO"]]
+    // },
+    "categories": {
+    }
+  }
+}

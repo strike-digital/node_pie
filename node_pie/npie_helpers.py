@@ -1,20 +1,36 @@
-from inspect import isclass
 import json
 import re
+from dataclasses import dataclass, field
+from inspect import isclass
 from typing import TYPE_CHECKING
 
 import bpy
-
-from bpy.types import AddonPreferences, Context, Node, NodeTree
+from bpy.types import AddonPreferences, Context, Node, NodeSocket, NodeTree
 from mathutils import Vector as V
 
 from .. import __package__ as base_package
 from .npie_constants import NODE_DEF_DIR, NODE_DEF_EXAMPLE_PREFIX
 
 if TYPE_CHECKING:
+    from .npie_node_def_file import NodeCategory
     from .npie_prefs import NodePiePrefs
 else:
     NodePiePrefs = AddonPreferences
+    NodeCategory = object
+
+
+@dataclass
+class NpieCache:
+    """A cursed global storage object to store data that is used in multiple places"""
+
+    from_socket: NodeSocket = None
+    to_sockets: list[NodeSocket] = field(default_factory=list)
+
+    categories: dict[str, NodeCategory] = field(default_factory=dict)
+    layout: dict = field(default_factory=dict)
+
+
+NpieCache = NpieCache()
 
 
 def get_node_location(node: Node) -> V:

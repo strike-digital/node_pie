@@ -409,6 +409,7 @@ class BPanel:
         default_closed (bool): Whether to draw this panel closed by default before it is opened.
         header_button_expand (bool): Whether to allow buttons drawn in the header to expand to take up the full width,
             or to draw them as squares instead (which is the default).
+        auto_register (bool): Whether to automatically register this panel.
     """
 
     space_type: Literal[
@@ -459,6 +460,7 @@ class BPanel:
     show_header: bool = True
     default_closed: bool = False
     header_button_expand: bool = False
+    auto_register: bool = True
 
     type = Panel
 
@@ -515,7 +517,8 @@ class BPanel:
 
         Wrapped.__doc__ = panel_description
         Wrapped.__name__ = cls.__name__
-        Config.register_list.append(Wrapped)
+        if self.auto_register:
+            Config.register_list.append(Wrapped)
         return Wrapped
 
 

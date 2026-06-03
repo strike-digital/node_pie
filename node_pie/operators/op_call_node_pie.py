@@ -1,4 +1,5 @@
 import bpy
+from ..npie_helpers import NpieCache
 
 from ..npie_btypes import BOperator
 from ..npie_node_def_file import NodeItem, load_custom_nodes_info
@@ -22,6 +23,7 @@ class NPIE_OT_call_node_pie(BOperator.type):
 
         # The variants menus can't be registered in a draw function, so add them here beforehand
         categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
+
         has_node_file = categories != {}
         if has_node_file:
             for cat_name, category in categories.items():
@@ -30,7 +32,7 @@ class NPIE_OT_call_node_pie(BOperator.type):
                         get_variants_menu(node)
 
         if self.reset_args:
-            NPIE_MT_node_pie.from_socket = None
-            NPIE_MT_node_pie.to_socket = []
+            NpieCache.from_socket = None
+            NpieCache.to_socket = []
 
         bpy.ops.wm.call_menu_pie("INVOKE_DEFAULT", name=NPIE_MT_node_pie.__name__)

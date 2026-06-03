@@ -6,17 +6,16 @@ from string import ascii_uppercase
 
 import bpy
 import nodeitems_utils
-from bpy.types import Context, Menu, NodeSocket, UILayout
+from bpy.types import Context, Menu, UILayout
 
 from .npie_btypes import BMenu
 from .npie_constants import IS_4_0, IS_5_0, POPULARITY_FILE
-from .npie_helpers import get_prefs, inv_lerp, lerp
+from .npie_helpers import NpieCache, get_prefs, inv_lerp, lerp
 from .npie_node_def_file import (
     NodeCategory,
     NodeItem,
     NodeOperator,
     Separator,
-    load_custom_nodes_info,
 )
 from .npie_node_info import get_node_socket_info, is_socket_to_node_valid
 
@@ -240,9 +239,6 @@ class NPIE_MT_node_groups(Menu):
 class NPIE_MT_node_pie(Menu):
     """The node pie menu"""
 
-    from_socket: NodeSocket = None
-    to_sockets: list[NodeSocket] = []
-
     @classmethod
     def poll(cls, context):
         prefs = get_prefs(context)
@@ -286,11 +282,11 @@ class NPIE_MT_node_pie(Menu):
 
         socket_data = None
         # sockets_file = NODE_DEF_SOCKETS / f"{tree_type}_sockets.jsonc"
-        if prefs.npie_link_drag_disable_invalid and self.from_socket:  # and sockets_file.exists():
+        if prefs.npie_link_drag_disable_invalid and NpieCache.from_socket:  # and sockets_file.exists():
             socket_data = get_node_socket_info(tree_type)
             # socket_data = json.loads(sockets_file.read_text(), cls=JSONWithCommentsDecoder)
 
-        categories, cat_layout = load_custom_nodes_info(context.area.spaces.active.tree_type, context)
+        categories, cat_layout = NpieCache.categories, NpieCache.layout
         has_node_file = categories != {}
 
         if not has_node_file:
@@ -360,8 +356,8 @@ class NPIE_MT_node_pie(Menu):
             split = row.split(factor=prefs.npie_color_size, align=True)
             if socket_data and isinstance(node_item, NodeItem):
                 split.active = is_socket_to_node_valid(
-                    self.from_socket.bl_idname,
-                    self.from_socket.is_output,
+                    NpieCache.from_socket.bl_idname,
+                    NpieCache.from_socket.is_output,
                     node_item,
                     socket_data,
                 )

@@ -12,8 +12,7 @@ from ..socket_location import get_socket_location
 from ..npie_btypes import BOperator
 from ..npie_constants import IS_4_0, IS_4_5
 from ..npie_drawing import draw_line
-from ..npie_helpers import Rectangle, get_node_location, get_prefs
-from ..npie_ui import NPIE_MT_node_pie
+from ..npie_helpers import NpieCache, Rectangle, get_node_location, get_prefs
 
 location = None
 hitbox_size = 10  # The radius in which to register a socket click
@@ -356,8 +355,8 @@ class NPIE_OT_call_link_drag(BOperator.type):
             handlers.append(self.handler)
             return self.start_modal()
         else:
-            NPIE_MT_node_pie.from_socket = self.socket
-            NPIE_MT_node_pie.to_sockets = []
+            NpieCache.from_socket = self.socket
+            NpieCache.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT")
         return self.FINISHED
 
@@ -374,8 +373,8 @@ class NPIE_OT_call_link_drag(BOperator.type):
             return self.finish()
 
         elif event.value == "RELEASE" and event.type not in {"CTRL", "ALT", "OSKEY", "SHIFT"}:
-            NPIE_MT_node_pie.from_socket = self.socket
-            NPIE_MT_node_pie.to_sockets = []
+            NpieCache.from_socket = self.socket
+            NpieCache.to_sockets = []
             bpy.ops.node_pie.call_node_pie("INVOKE_DEFAULT", reset_args=False)
             return self.finish()
 

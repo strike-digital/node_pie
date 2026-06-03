@@ -3,6 +3,7 @@ from typing import OrderedDict
 
 import bpy
 from bpy.types import Node, NodeSocket, NodeTree
+from ..npie_helpers import NpieCache
 
 from ..npie_btypes import BOperator
 from ..npie_constants import IS_4_2, POPULARITY_FILE, POPULARITY_FILE_VERSION
@@ -13,7 +14,7 @@ from ..npie_node_info import (
     EXCLUSIVE_SOCKETS,
     SWITCH_TYPES,
 )
-from ..npie_ui import NPIE_MT_node_pie, get_popularity_id
+from ..npie_ui import get_popularity_id
 
 
 def set_capture_attribute_data_type(node: Node, data_type: str):
@@ -123,7 +124,7 @@ class NPIE_OT_add_node(BOperator.type):
             node.node_tree = bpy.data.node_groups[self.group_name]
 
         # If being added by dragging from a socket
-        if socket := NPIE_MT_node_pie.from_socket:
+        if socket := NpieCache.from_socket:
             set_node_settings(socket, node)
 
         # Set the settings for the node
@@ -143,11 +144,11 @@ class NPIE_OT_add_node(BOperator.type):
             setattr(eval(attr), name, value)
 
         # If being added by dragging from a socket
-        if socket := NPIE_MT_node_pie.from_socket:
+        if socket := NpieCache.from_socket:
             handle_node_linking(socket, node)
 
         # If being added by dragging from a socket
-        if sockets := NPIE_MT_node_pie.to_sockets:
+        if sockets := NpieCache.to_sockets:
             for socket in sockets:
                 handle_node_linking(socket, node)
 
