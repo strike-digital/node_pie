@@ -1,12 +1,13 @@
+import ast
 import json
 from typing import OrderedDict
 
 import bpy
 from bpy.types import Node, NodeSocket, NodeTree
-from ..npie_helpers import NpieCache
 
 from ..npie_btypes import BOperator
 from ..npie_constants import IS_4_2, POPULARITY_FILE, POPULARITY_FILE_VERSION
+from ..npie_helpers import NpieCache
 from ..npie_node_info import (
     ALL_TYPES,
     CAPTURE_ATTRIBUTE_SOCKETS,
@@ -128,7 +129,7 @@ class NPIE_OT_add_node(BOperator.type):
             set_node_settings(socket, node)
 
         # Set the settings for the node
-        settings = eval(self.settings)
+        settings = ast.literal_eval(self.settings)
         for name, value in settings.items():
             if (
                 node.bl_idname == "GeometryNodeCaptureAttribute"
@@ -138,10 +139,23 @@ class NPIE_OT_add_node(BOperator.type):
             ):
                 set_capture_attribute_data_type(node, value)
                 continue
-            name = "node." + name
-            attr = ".".join(name.split(".")[:-1])
+
+            # Evaluate the attribute path from a string, including indices
+            parts = name.split(".")[:-1]
+            attr = node
+            for part in parts:
+                idx = None
+                # If has index, separate that and access it after the attribute
+                if idx := part.find("["):
+                    new_part = part[:idx]
+                    attr = getattr(attr, new_part)
+                    attr = attr[int(part[idx + 1 : -1])]
+                # Else just get the attribute
+                else:
+                    attr = getattr(attr, part)
+
             name = name.split(".")[-1]
-            setattr(eval(attr), name, value)
+            setattr(attr, name, value)
 
         # If being added by dragging from a socket
         if socket := NpieCache.from_socket:
