@@ -28,8 +28,12 @@ class PollCondition:
         self.value = value
 
     def evaluate(self, context: Context):
-        attr_path = f"context.{self.context_path}"
-        result = eval(attr_path)
+
+        parts = self.context_path.split(".")
+        result = context
+        for part in parts:
+            result = getattr(result, part)
+
         if self.operand == "bool" and bool(result):
             return True
         elif self.operand == "equals" and self.value == result:
