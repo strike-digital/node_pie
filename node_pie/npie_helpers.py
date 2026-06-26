@@ -95,7 +95,15 @@ def get_all_node_types() -> dict[str, Node]:
             continue
         types.add(t)
 
-    types = {getattr(bpy.types, t) for t in dir(bpy.types)}
+    types = set()
+    for t in dir(bpy.types):
+        try:
+            t = getattr(bpy.types, t)
+        except Exception as e:
+            print(f"NodePie: Couldn't get type '{t}', error: '{e}'")
+            continue
+        types.add(t)
+
     for t in types:
         if isclass(t) and issubclass(t, bpy.types.Node):
             bl_node_types[t.bl_rna.identifier] = t
