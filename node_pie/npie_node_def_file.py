@@ -7,7 +7,12 @@ import bpy
 from bpy.types import Context
 
 from .npie_constants import NODE_DEF_BUILTIN, NODE_DEF_USER
-from .npie_helpers import JSONWithCommentsDecoder, NpieCache, get_all_def_files, get_all_node_types
+from .npie_helpers import (
+    JSONWithCommentsDecoder,
+    NpieCache,
+    get_all_def_files,
+    get_all_node_types,
+)
 
 
 class PollCondition:
